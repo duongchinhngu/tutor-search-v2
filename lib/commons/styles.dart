@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tutor_search_system/commons/colors.dart';
 
 const boxShadowStyle = BoxShadow(
   color: Colors.grey,
@@ -8,7 +9,14 @@ const boxShadowStyle = BoxShadow(
 const headerStyle = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.bold,
-  color: head
+  color: textGreyColor,
 );
-const textStyle = [];
-const titleStyle = [];
+const textStyle = TextStyle(
+  fontSize: 13,
+  color: textGreyColor,
+);
+const titleStyle = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+  color: textGreyColor,
+);
