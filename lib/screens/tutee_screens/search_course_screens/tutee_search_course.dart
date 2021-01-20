@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/course_filter_popup.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_home_screen.dart';
 
 class TuteeSearchCourseScreen extends StatefulWidget {
   @override
@@ -16,7 +18,7 @@ class _TuteeSearchCourseScreenState extends State<TuteeSearchCourseScreen> {
     return Scaffold(
         body: Container(
       color: mainColor,
-      height: 230,
+      height: 220,
       width: double.infinity,
       child: Column(
         children: <Widget>[
@@ -24,7 +26,7 @@ class _TuteeSearchCourseScreenState extends State<TuteeSearchCourseScreen> {
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.only(left: 20, right: 120, top: 30),
             child: Text(
-              'Hey, What would you like to learn today?',
+              'Hey! What would you like to learn today?',
               style: GoogleFonts.kaushanScript(
                 textStyle: TextStyle(
                   color: Colors.white,
@@ -38,18 +40,24 @@ class _TuteeSearchCourseScreenState extends State<TuteeSearchCourseScreen> {
           Row(
             children: <Widget>[
               SearchBox(),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 15,
+              GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  PageRouteBuilder(
+                    opaque: false,
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        CourseFilterPopup(),
+                  ),
                 ),
-                child: InkWell(
-                  onTap: (){},
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    top: 15,
+                  ),
                   child: Image.asset(
                     'assets/images/ic_filter-horizontal-512.png',
-                      height: 35,
-                      width: 35,
-                      color: Colors.white,
-                  )
+                    height: 23,
+                    width: 23,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
@@ -73,13 +81,13 @@ class SearchBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.bottomLeft,
-      height: 40,
-      width: 280,
+      alignment: Alignment.bottomRight,
+      height: 30,
+      width: 300,
       margin: EdgeInsets.only(
         top: 15,
         left: 20,
-        right: 10,
+        right: 5,
       ),
       padding: EdgeInsets.only(
         left: 15,
@@ -89,9 +97,10 @@ class SearchBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextField(
+        textAlign: TextAlign.start,
         onChanged: onChanged,
         decoration: InputDecoration(
-          alignLabelWithHint: true,
+          contentPadding: const EdgeInsets.only(bottom: 11),
           icon: Icon(
             Icons.search,
           ),

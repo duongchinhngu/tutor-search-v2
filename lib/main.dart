@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/screens/common_ui/tutee_wrapper.dart';
 
 void main() => runApp(MyApp());
@@ -12,7 +11,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: mainColor,
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
       )
     );
     return MaterialApp(
