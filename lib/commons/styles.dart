@@ -12,11 +12,15 @@ const headerStyle = TextStyle(
   color: textGreyColor,
 );
 const textStyle = TextStyle(
-  fontSize: 13,
+  fontSize: textFontSize,
   color: textGreyColor,
 );
 const titleStyle = TextStyle(
-  fontSize: 16,
+  fontSize: titleFontSize,
   fontWeight: FontWeight.bold,
   color: textGreyColor,
 );
+
+const titleFontSize = 14.0;
+const textFontSize = 12.0;
+const headerFontSize = 18.0;
