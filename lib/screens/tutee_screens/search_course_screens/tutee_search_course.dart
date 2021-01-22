@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/course_filter_popup.dart';
-import 'package:tutor_search_system/screens/tutee_screens/tutee_home_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 
 class TuteeSearchCourseScreen extends StatefulWidget {
   @override

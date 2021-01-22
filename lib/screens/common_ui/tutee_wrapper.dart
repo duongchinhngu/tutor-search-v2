@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/screens/tutee_screens/tutee_home_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/tutee_search_course.dart';
 
 class MyBottomAppBar extends StatefulWidget {
