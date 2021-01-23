@@ -42,8 +42,27 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Center(
-        child: Text('data'),
+      body: Container(
+        child: ListView.separated(
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(
+                'sneakerhead',
+                style: titleStyle,
+              ),
+              subtitle: Text(
+                'jordan 4 royalty',
+                style: textStyle,
+              ),
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                size: 10,
+              ),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) => Divider(),
+          itemCount: 10,
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: mainColor,
@@ -54,8 +73,8 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             'See Results',
             style: TextStyle(
               color: backgroundColor,
-              fontSize: 16,
-              fontWeight: FontWeight.w200,
+              fontSize: titleFontSize,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),

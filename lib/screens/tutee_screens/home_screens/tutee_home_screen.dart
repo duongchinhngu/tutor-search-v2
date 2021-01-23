@@ -72,6 +72,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                                 height: 95,
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
                                     shape: BoxShape.circle,
                                     color: Colors.white),
                                 child: FlutterLogo(),
@@ -239,6 +243,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                                 height: 95,
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
                                     shape: BoxShape.circle,
                                     color: Colors.white),
                                 child: FlutterLogo(),
@@ -406,6 +414,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                                 height: 95,
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
                                     shape: BoxShape.circle,
                                     color: Colors.white),
                                 child: FlutterLogo(),
@@ -573,6 +585,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                                 height: 95,
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
                                     shape: BoxShape.circle,
                                     color: Colors.white),
                                 child: FlutterLogo(),
@@ -740,6 +756,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                                 height: 95,
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
                                     shape: BoxShape.circle,
                                     color: Colors.white),
                                 child: FlutterLogo(),
@@ -907,6 +927,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                                 height: 95,
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
                                     shape: BoxShape.circle,
                                     color: Colors.white),
                                 child: FlutterLogo(),
@@ -1074,6 +1098,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                                 height: 95,
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
                                     shape: BoxShape.circle,
                                     color: Colors.white),
                                 child: FlutterLogo(),
@@ -1241,6 +1269,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                                 height: 95,
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
                                     shape: BoxShape.circle,
                                     color: Colors.white),
                                 child: FlutterLogo(),
@@ -1408,6 +1440,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                                 height: 95,
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
                                     shape: BoxShape.circle,
                                     color: Colors.white),
                                 child: FlutterLogo(),
@@ -1575,6 +1611,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                                 height: 95,
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
                                     shape: BoxShape.circle,
                                     color: Colors.white),
                                 child: FlutterLogo(),
