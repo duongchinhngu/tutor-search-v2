@@ -21,6 +21,6 @@ const titleStyle = TextStyle(
   color: textGreyColor,
 );
 
-const titleFontSize = 14.0;
-const textFontSize = 12.0;
+const titleFontSize = 15.0;
+const textFontSize = 13.0;
 const headerFontSize = 18.0;
