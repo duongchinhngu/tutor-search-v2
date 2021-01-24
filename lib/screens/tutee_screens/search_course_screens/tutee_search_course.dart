@@ -163,39 +163,7 @@ class _ClassHorizontalListState extends State<ClassHorizontalList> {
                       scrollDirection: Axis.horizontal,
                       itemCount: state.classes.length,
                       itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                // set selected class UI
-                                _selectedIndex = index;
-                              });
-                            },
-                            child: Container(
-                              width: 120,
-                              height: 50,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    state.classes[index].name,
-                                    style: TextStyle(
-                                      color: _selectedIndex == index
-                                          ? mainColor
-                                          : textGreyColor,
-                                      fontSize: textFontSize,
-                                    ),
-                                  ),
-                                  Divider(
-                                    indent: 20,
-                                    endIndent: 20,
-                                    color: _selectedIndex == index
-                                        ? mainColor
-                                        : Colors.transparent,
-                                    thickness: 1,
-                                  ),
-                                ],
-                              ),
-                            ));
+                        return buildGestureDetector(index, state);
                       },
                     ),
                   ),
@@ -213,5 +181,41 @@ class _ClassHorizontalListState extends State<ClassHorizontalList> {
         }
       }),
     );
+  }
+
+  GestureDetector buildGestureDetector(int index, ClassesLoadedState state) {
+    return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              // set selected class UI
+                              _selectedIndex = index;
+                            });
+                          },
+                          child: Container(
+                            width: 110,
+                            height: 50,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  state.classes[index].name,
+                                  style: TextStyle(
+                                    color: _selectedIndex == index
+                                        ? mainColor
+                                        : textGreyColor,
+                                    fontSize: titleFontSize,
+                                  ),
+                                ),
+                                Divider(
+                                  indent: 15,
+                                  endIndent: 15,
+                                  color: _selectedIndex == index
+                                      ? mainColor
+                                      : Colors.transparent,
+                                  thickness: 1,
+                                ),
+                              ],
+                            ),
+                          ));
   }
 }

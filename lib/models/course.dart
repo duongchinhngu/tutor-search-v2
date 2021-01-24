@@ -1,31 +1,29 @@
-import 'dart:ffi';
-
 class Course {
   final int id;
   final String name;
-  final String time;
+  final String studyTime;
   final String studyForm;
-  final Float studyFee;
+  final double studyFee;
   final String daysInWeek;
-  final DateTime beginDate;
-  final DateTime endDate;
+  final String beginDate;
+  final String endDate;
   final String description;
   final String status;
   final int subjectId;
   final int createdBy;
   final int confirmBy;
-  final DateTime createdDate;
-  final DateTime confirmedDate;
+  final String createdDate;
+  final String confirmedDate;
 
-  Course({this.id, this.name, this.time, this.studyForm, this.studyFee, this.daysInWeek, this.beginDate, this.endDate, this.description, this.status, this.subjectId, this.createdBy, this.confirmBy, this.createdDate, this.confirmedDate});
+  Course({this.id, this.name, this.studyTime, this.studyForm, this.studyFee, this.daysInWeek, this.beginDate, this.endDate, this.description, this.status, this.subjectId, this.createdBy, this.confirmBy, this.createdDate, this.confirmedDate});
 
   factory Course.fromJson(Map<String, dynamic> json) {
     return Course(
       id: json['id'],
       name: json['name'],
-      time: json['time'],
+      studyTime: json['studyTime'],
       studyForm: json['studyForm'],
-      studyFee: json['studyFee'],
+      studyFee: json['studyFee'].toDouble(),
       daysInWeek: json['daysInWeek'],
       beginDate: json['beginDate'],
       endDate: json['endDate'],

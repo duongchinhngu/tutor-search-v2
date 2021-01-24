@@ -4,9 +4,20 @@ abstract class CourseState {}
 
 class CourseLoadingState extends CourseState {}
 
+class CourseLoadFailedState extends CourseState {
+  final String errorMessage;
+
+  CourseLoadFailedState(this.errorMessage);
+}
+
 class CourseLoadedState {
   final Course course;
 
   CourseLoadedState(this.course);
+}
 
+class CourseListLoadedState extends CourseState{
+  final List<Course> courses;
+
+  CourseListLoadedState(this.courses);
 }

@@ -20,7 +20,6 @@ const titleStyle = TextStyle(
   fontWeight: FontWeight.bold,
   color: textGreyColor,
 );
-
-const titleFontSize = 15.0;
-const textFontSize = 13.0;
+const titleFontSize = 16.0;
+const textFontSize = 14.0;
 const headerFontSize = 18.0;
