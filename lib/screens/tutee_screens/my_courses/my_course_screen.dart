@@ -7,6 +7,7 @@ import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 
 class MyCourseScreen extends StatefulWidget {
@@ -52,33 +53,6 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
             CourseListView(
               currentStatus: _selectedStatus,
             ),
-            // BlocProvider(
-            //   create: (context) => CourseCubit(CourseRepository()),
-            //   child: BlocBuilder<CourseCubit, CourseState>(
-            //     builder: (context, state) {
-            //       //
-            //       final courseCubit = context.watch<CourseCubit>();
-            //       courseCubit.getAllCourse();
-            //       //
-            //       if (state is CourseLoadingState) {
-            //         return buildLoadingIndicator();
-            //       } else if (state is CourseLoadFailedState) {
-            //         return Center(
-            //           child: Text(state.errorMessage),
-            //         );
-            //       } else if (state is CourseListLoadedState) {
-            //         return Container(
-            //           child: ListView.builder(
-            //             itemCount: state.courses.length,
-            //             itemBuilder: (context, index) {
-            //               return buildCourseStatusCard(index, status)
-            //             },
-            //           ),
-            //         );
-            //       }
-            //     },
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -151,7 +125,18 @@ class _CourseListViewState extends State<CourseListView> {
               child: ListView.builder(
                 itemCount: state.courses.length,
                 itemBuilder: (context, index) {
-                  return CourseCard(state.courses[index]);
+                  return InkWell(
+                    onTap: () {
+                      //navigate to course detail screen
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => CourseDetailScreen(
+                              courseId: state.courses[index].id,
+                            )),
+                      );
+                    },
+                    child: CourseCard(state.courses[index]),
+                  );
                 },
               ),
             );

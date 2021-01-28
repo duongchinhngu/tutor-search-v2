@@ -28,4 +28,13 @@ class CourseRepository {
       throw Exception('Failed to fetch courses by status');
     }
   }
+  //fetch courses by courseId
+  Future<Course> fetchCourseByCourseId(http.Client client, int id) async {
+    final response = await http.get('$COURSE_API/$id');
+    if (response.statusCode == 200) {
+      return Course.fromJson(json.decode(response.body));
+    }else{
+      throw Exception('Failed to fetch course by course id');
+    }
+  }
 }

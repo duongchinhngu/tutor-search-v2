@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 class ClassCubit extends Cubit<ClassState> {
   final ClassRepository _repository;
   ClassCubit(this._repository) : super(ClassLoadingState());
-  
 
   Future getAllClasses() async {
     try {

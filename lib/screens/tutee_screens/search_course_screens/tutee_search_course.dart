@@ -5,11 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/cubits/class_cubit.dart';
-import 'package:tutor_search_system/repositories/class_repository.dart';
+import 'package:tutor_search_system/cubits/subject_cubit.dart';
+import 'package:tutor_search_system/models/subject.dart';
+import 'package:tutor_search_system/repositories/Subject_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/course_filter_popup.dart';
-import 'package:tutor_search_system/states/class_state.dart';
+import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_items/course_filter_popup.dart';
+import 'package:tutor_search_system/states/subject_state.dart';
 
 class TuteeSearchCourseScreen extends StatefulWidget {
   @override
@@ -111,7 +112,7 @@ class SearchBox extends StatelessWidget {
         textAlign: TextAlign.start,
         onChanged: onChanged,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(bottom: 15),
+          contentPadding: const EdgeInsets.only(bottom: 13),
           icon: Icon(
             Icons.search,
           ),
@@ -134,36 +135,37 @@ class ClassHorizontalList extends StatefulWidget {
 }
 
 class _ClassHorizontalListState extends State<ClassHorizontalList> {
-  //seslected index for class
+  //seslected index for subject
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ClassCubit(ClassRepository()),
+      create: (context) => SubjectCubit(SubjectRepository()),
       child:
           // ignore: missing_return
-          BlocBuilder<ClassCubit, ClassState>(builder: (context, state) {
-        //call category cubit and get all classes
-        final classCubit = context.watch<ClassCubit>();
-        classCubit.getAllClasses();
-        //render proper UI for each Class state
-        if (state is ClassLoadingState) {
+          BlocBuilder<SubjectCubit, SubjectState>(builder: (context, state) {
+        //call subject cubit and get all subjects
+        final subjectCubit = context.watch<SubjectCubit>();
+        subjectCubit.getAllSubjects();
+        //render proper UI for each Subjects state
+        if (state is SubjectLoadingState) {
           return buildLoadingIndicator();
-        } else if (state is ClassesLoadedState) {
-          //load all classes and then load courses by class id
+        } else if (state is SubjectListLoadedState) {
+          //load all subjects and then load courses by subjects id
           return Expanded(
             child: Container(
               color: backgroundColor,
               child: Column(
                 children: <Widget>[
-                  //list all available categories
+                  //list all available subjects
                   Container(
                     height: 60,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: state.classes.length,
+                      itemCount: state.subjects.length,
                       itemBuilder: (context, index) {
-                        return buildGestureDetector(index, state);
+                        return buildGestureDetector(
+                            index, state.subjects[index]);
                       },
                     ),
                   ),
@@ -174,7 +176,7 @@ class _ClassHorizontalListState extends State<ClassHorizontalList> {
               ),
             ),
           );
-        } else if (state is ClassesLoadFailedState) {
+        } else if (state is SubjectLoadFailedState) {
           return Center(
             child: Text(state.errorMessage),
           );
@@ -183,39 +185,35 @@ class _ClassHorizontalListState extends State<ClassHorizontalList> {
     );
   }
 
-  GestureDetector buildGestureDetector(int index, ClassesLoadedState state) {
+  GestureDetector buildGestureDetector(int index, Subject subject) {
     return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              // set selected class UI
-                              _selectedIndex = index;
-                            });
-                          },
-                          child: Container(
-                            width: 110,
-                            height: 50,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  state.classes[index].name,
-                                  style: TextStyle(
-                                    color: _selectedIndex == index
-                                        ? mainColor
-                                        : textGreyColor,
-                                    fontSize: titleFontSize,
-                                  ),
-                                ),
-                                Divider(
-                                  indent: 15,
-                                  endIndent: 15,
-                                  color: _selectedIndex == index
-                                      ? mainColor
-                                      : Colors.transparent,
-                                  thickness: 1,
-                                ),
-                              ],
-                            ),
-                          ));
+        onTap: () {
+          setState(() {
+            // set selected class UI
+            _selectedIndex = index;
+          });
+        },
+        child: Container(
+          width: 110,
+          height: 50,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                subject.name,
+                style: TextStyle(
+                  color: _selectedIndex == index ? mainColor : textGreyColor,
+                  fontSize: titleFontSize,
+                ),
+              ),
+              Divider(
+                indent: 15,
+                endIndent: 15,
+                color: _selectedIndex == index ? mainColor : Colors.transparent,
+                thickness: 1,
+              ),
+            ],
+          ),
+        ));
   }
 }
