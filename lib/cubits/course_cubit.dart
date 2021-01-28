@@ -25,4 +25,13 @@ class CourseCubit extends Cubit<CourseState> {
       emit(CourseLoadFailedState('$e'));
     }
   }
+  //get course by course Id
+  Future getCoursesByCourseId(int id) async {
+    try {
+      Course course = await _repository.fetchCourseByCourseId(http.Client(), id);
+      emit(CourseLoadedState(course));
+    } catch (e) {
+      emit(CourseLoadFailedState('$e'));
+    }
+  }
 }

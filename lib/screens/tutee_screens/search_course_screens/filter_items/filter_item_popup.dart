@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/course_filter_popup.dart';
+import '../filter_models/filter_item.dart';
 
 class CourseFilterItemPopup extends StatefulWidget {
   final FilterItem filterItem;
@@ -25,20 +25,6 @@ class _CourseFilterItemPopupState extends State<CourseFilterItemPopup> {
           style: titleStyle,
         ),
         centerTitle: true,
-        actions: <Widget>[
-          FlatButton(
-            textColor: textGreyColor,
-            onPressed: () {},
-            child: Text(
-              'Apply',
-              style: TextStyle(
-                fontSize: textFontSize,
-                color: textGreyColor,
-              ),
-            ),
-            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-          ),
-        ],
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -56,7 +42,7 @@ class _CourseFilterItemPopupState extends State<CourseFilterItemPopup> {
             return ListTile(
               leading: Visibility(
                 visible: widget.filterItem.subItems[index].isChecked,
-                              child: Icon(
+                child: Icon(
                   Icons.check,
                   color: mainColor,
                   size: 15,
@@ -73,8 +59,28 @@ class _CourseFilterItemPopupState extends State<CourseFilterItemPopup> {
               ),
               onTap: () {
                 setState(() {
+                  if (widget.filterItem.subItems[index].isChecked) {
+                    widget.filterItem.subTitle = widget.filterItem.subTitle
+                        .replaceFirst(
+                            widget.filterItem.subItems[index].name + ', ', '')
+                        .replaceFirst(
+                            widget.filterItem.subItems[index].name + ',', '')
+                        .replaceFirst(
+                            ', ' + widget.filterItem.subItems[index].name, '');
+                  } else {
+                    if (widget.filterItem.subTitle != '') {
+                      widget.filterItem.subTitle = widget.filterItem.subTitle +
+                          ', ' +
+                          widget.filterItem.subItems[index].name;
+                    } else {
+                      widget.filterItem.subTitle +=
+                          widget.filterItem.subItems[index].name;
+                    }
+                  }
+                  //
                   widget.filterItem.subItems[index].isChecked =
                       !widget.filterItem.subItems[index].isChecked;
+                  //
                 });
               },
             );

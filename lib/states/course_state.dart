@@ -10,7 +10,7 @@ class CourseLoadFailedState extends CourseState {
   CourseLoadFailedState(this.errorMessage);
 }
 
-class CourseLoadedState {
+class CourseLoadedState extends CourseState {
   final Course course;
 
   CourseLoadedState(this.course);
