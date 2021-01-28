@@ -21,7 +21,8 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.1"
+
+    version: "2.4.1
   bloc:
     dependency: "direct main"
     description:
@@ -42,7 +43,9 @@ packages:
       name: calendart
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "1.0.7"
+
   charcode:
     dependency: transitive
     description:
@@ -77,7 +80,7 @@ packages:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -164,7 +167,9 @@ packages:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "1.1.8"
+
   nested:
     dependency: transitive
     description:
@@ -220,6 +225,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "1.9.0"
   petitparser:
     dependency: transitive
@@ -255,6 +261,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "4.3.2+2"
   quiver:
     dependency: transitive
@@ -337,6 +344,7 @@ packages:
       name: xdg_directories
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "0.1.0"
   xml:
     dependency: transitive
@@ -345,6 +353,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.6.1"
+
 sdks:
   dart: ">=2.7.0 <3.0.0"
   flutter: ">=1.17.0 <2.0.0"
