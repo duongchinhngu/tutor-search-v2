@@ -131,14 +131,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                         style: titleStyle,
                       ),
                     ),
-                    ListTile(
-                      leading: Icon(
-                        Icons.school,
-                        // color: mainColor,
-                      ),
-                      title: Text(
-                        state.course.studyForm,
-                      ),
+                    Divider(
+                      thickness: 1,
+                      indent: 30,
+                      endIndent: 30,
                     ),
                     ListTile(
                       leading: Icon(
@@ -147,15 +143,188 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       ),
                       title: Text(
                         state.course.studyForm,
+                        style: TextStyle(
+                          fontSize: titleFontSize,
+                          color: textGreyColor,
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 1,
+                      indent: 30,
+                      endIndent: 30,
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.access_time,
+                        // color: mainColor,
+                      ),
+                      title: Text(
+                        state.course.studyTime,
+                        style: TextStyle(
+                          fontSize: titleFontSize,
+                          color: textGreyColor,
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 1,
+                      indent: 30,
+                      endIndent: 30,
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.calendar_today,
+                        // color: mainColor,
+                      ),
+                      title: Text(
+                        state.course.daysInWeek,
+                        style: TextStyle(
+                          fontSize: titleFontSize,
+                          color: textGreyColor,
+                        ),
+                      ),
+                      // title: Row(
+                      //   children: <Widget>[
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 40,
+                      //         width: 40,
+                      //         decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //         ),
+                      //         child: Text('Mon'),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 40,
+                      //         width: 40,
+                      //         decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //         ),
+                      //         child: Text('Tue'),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 40,
+                      //         width: 40,
+                      //         decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //         ),
+                      //         child: Text('Wed'),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 40,
+                      //         width: 40,
+                      //         decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //         ),
+                      //         child: Text('Thu'),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 40,
+                      //         width: 40,
+                      //         decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //         ),
+                      //         child: Text('Fri'),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Container(
+                      //         alignment: Alignment.center,
+                      //         height: 40,
+                      //         width: 40,
+                      //         decoration: BoxDecoration(
+                      //             shape: BoxShape.circle,
+                      //             border: Border.all(
+                      //               width: 1,
+                      //               color: textGreyColor,
+                      //             )),
+                      //         child: Text(
+                      //           'Sat',
+                      //           style: textStyle,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 40,
+                      //         width: 40,
+                      //         decoration: BoxDecoration(
+                      //             shape: BoxShape.circle,
+                      //             border: Border.all(width: 1)),
+                      //         child: Text('Sun'),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                    ),
+                    Divider(
+                      thickness: 1,
+                      indent: 30,
+                      endIndent: 30,
+                    ),
+                    //begin and end date
+                    ListTile(
+                      leading: Icon(
+                        Icons.date_range,
+                        // color: mainColor,
+                      ),
+                      title: Text(
+                        state.course.beginDate + ' - ' + state.course.endDate,
+                        style: TextStyle(
+                          fontSize: titleFontSize,
+                          color: textGreyColor,
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 1,
+                      indent: 30,
+                      endIndent: 30,
+                    ),
+                    //price of the course
+                    ListTile(
+                      leading: Icon(
+                        Icons.monetization_on,
+                        // color: mainColor,
+                      ),
+                      title: Text(
+                        '\$' + state.course.studyFee.toString(),
+                        style: TextStyle(
+                          fontSize: titleFontSize,
+                          color: textGreyColor,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
+              floatingActionButton: buildFollowButton(),
             );
           }
         },
       ),
     );
   }
+
+  FloatingActionButton buildFollowButton() => FloatingActionButton.extended(
+        onPressed: () {},
+        label: Text(
+          'Follow',
+          style: TextStyle(
+            fontSize: titleFontSize,
+            color: textWhiteColor,
+          ),
+        ),
+        isExtended: true,
+        backgroundColor: mainColor,
+      );
 }
