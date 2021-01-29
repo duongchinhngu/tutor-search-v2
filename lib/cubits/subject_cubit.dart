@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:tutor_search_system/models/subject.dart';
-import 'package:tutor_search_system/repositories/Subject_repository.dart';
+import 'package:tutor_search_system/repositories/subject_repository.dart';
 import 'package:tutor_search_system/states/subject_state.dart';
 import 'package:http/http.dart' as http;
 
