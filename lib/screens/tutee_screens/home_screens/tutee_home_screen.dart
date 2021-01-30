@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 
 import 'package:tutor_search_system/cubits/course_cubit.dart';
+import 'package:tutor_search_system/main.dart';
 import 'package:tutor_search_system/models/course.dart';
 
 import 'package:tutor_search_system/repositories/course_repository.dart';
@@ -54,7 +56,17 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
           //load all course and then load courses by class id
           return Scaffold(
             appBar: AppBar(
-              title: Text("EasyEdu"),
+              backgroundColor: mainColor,
+              title: Text(
+                "EasyEdu",
+                style: GoogleFonts.kaushanScript(
+                  textStyle: TextStyle(
+                    color: textWhiteColor,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
             body: GridView.builder(
               itemCount: state.courses.length,
@@ -115,7 +127,7 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                         width: 200,
                         height: 100,
                         decoration: BoxDecoration(
-                          color: Colors.blue,
+                          color: mainColor,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(12),
                               topRight: Radius.circular(12)),

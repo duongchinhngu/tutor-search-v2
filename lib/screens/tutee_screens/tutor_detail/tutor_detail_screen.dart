@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tutor_search_system/commons/colors.dart';
 
 class TutorDetails extends StatefulWidget {
   @override
@@ -12,10 +13,15 @@ class _TutorDetailsState extends State<TutorDetails> {
       body: Stack(
         children: <Widget>[
           Container(
+            width: double.infinity,
+            height: 170,
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: mainColor,
             ),
             child: Container(),
+          ),
+          Row(
+            children: [],
           )
         ],
       ),
