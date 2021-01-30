@@ -27,7 +27,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
           'My Courses',
           style: GoogleFonts.kaushanScript(
             textStyle: TextStyle(
-              color: mainColor,
+              color: textWhiteColor,
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),
@@ -131,8 +131,8 @@ class _CourseListViewState extends State<CourseListView> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) => CourseDetailScreen(
-                              courseId: state.courses[index].id,
-                            )),
+                                  courseId: state.courses[index].id,
+                                )),
                       );
                     },
                     child: CourseCard(state.courses[index]),
@@ -169,7 +169,9 @@ Container CourseCard(Course course) {
               borderRadius: BorderRadius.circular(15),
               color: course.status == 'Accepted'
                   ? mainColor
-                  : (course.status == 'Denied') ? Colors.red : Colors.orange,
+                  : (course.status == 'Denied')
+                      ? Colors.red
+                      : Colors.orange,
               boxShadow: [
                 boxShadowStyle,
               ]),
