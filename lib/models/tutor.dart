@@ -8,7 +8,7 @@ class Tutor {
   final String address;
   final String status;
   final int roleId;
-  //
+  final String avatarImageLink;
   final String educationLevel;
   final String school;
   final int points;
@@ -25,6 +25,7 @@ class Tutor {
       this.address,
       this.status,
       this.roleId,
+      this.avatarImageLink,
       this.educationLevel,
       this.school,
       this.points,
@@ -42,6 +43,7 @@ class Tutor {
       address: json['address'],
       status: json['status'],
       roleId: json['roleId'],
+      avatarImageLink: json['avatarImageLink'],
       educationLevel: json['educationLevel'],
       school: json['school'],
       points: json['points'],

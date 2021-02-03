@@ -5,7 +5,9 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
+import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
@@ -81,6 +83,24 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       indent: 30,
                       endIndent: 30,
                     ),
+                    //course name
+                    buildCourseInformationListTile(
+                        state.course.classHasSubjectId.toString(),
+                        'Subject',
+                        Icons.subject),
+                    Divider(
+                      thickness: 1,
+                      indent: 30,
+                      endIndent: 30,
+                    ),
+                    //course name
+                    buildCourseInformationListTile(
+                        state.course.name, 'Class', Icons.grade),
+                    Divider(
+                      thickness: 1,
+                      indent: 30,
+                      endIndent: 30,
+                    ),
                     //school
                     buildCourseInformationListTile(
                         state.course.studyForm, 'Study Form', Icons.school),
@@ -90,7 +110,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       endIndent: 30,
                     ),
                     //study time
-                    buildCourseInformationListTile(state.course.studyTime,
+                    buildCourseInformationListTile(state.course.beginTime,
                         'Study Time', Icons.access_time),
                     Divider(
                       thickness: 1,
@@ -110,7 +130,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     ),
                     //begin and end date
                     buildCourseInformationListTile(
-                      state.course.beginDate + ' - ' + state.course.endDate,
+                      state.course.beginDate + ' to ' + state.course.endDate,
                       'Begin - End Date',
                       Icons.date_range,
                     ),
@@ -121,7 +141,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     ),
                     //price of the course
                     buildCourseInformationListTile(
-                      '\$' + state.course.studyFee.toString() + '/month',
+                      '\$' + state.course.studyFee.toString(),
                       'Study Fee',
                       Icons.monetization_on,
                     ),
@@ -136,10 +156,14 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       'Extra Information',
                       Icons.description,
                     ),
+                    //this widget for being nice only
+                    SizedBox(
+                      height: 80,
+                    )
                   ],
                 ),
               ),
-              floatingActionButton: buildFollowButton(),
+              floatingActionButton: buildFollowButton(state.course.id),
             );
           }
         },
@@ -178,17 +202,23 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
       ),
       subtitle: Text(
         content,
-        style: TextStyle(
-          fontSize: titleFontSize,
-          color: textGreyColor,
-        ),
+        style: title == 'Course Name'
+            ? titleStyle
+            : TextStyle(
+                fontSize: titleFontSize,
+                color: textGreyColor,
+              ),
       ),
     );
   }
 
 //follow floatin button
-  FloatingActionButton buildFollowButton() => FloatingActionButton.extended(
-        onPressed: () {},
+  FloatingActionButton buildFollowButton(int courseId) => FloatingActionButton.extended(
+        onPressed: () {
+          final EnrollmentRepository enrollmentRepository = EnrollmentRepository();
+          final enrollment = new Enrollment.modelConstructor(0, 1, courseId, 'Waiting for accept from tutor', 'Pending');
+          enrollmentRepository.postEnrollment(enrollment);
+        },
         label: Text(
           'Follow',
           style: TextStyle(
@@ -250,7 +280,8 @@ class TutorCard extends StatelessWidget {
                               child: CircleAvatar(
                                 radius: 50,
                                 backgroundImage: NetworkImage(
-                                    'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chris_Hemsworth_by_Gage_Skidmore_2_%28cropped%29.jpg'),
+                                  state.tutor.avatarImageLink,
+                                ),
                               ),
                             ),
                             Container(
@@ -259,7 +290,7 @@ class TutorCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                      //tutor name and dexcription column
+                      //tutor name and description column
                       Expanded(
                         flex: 6,
                         child: Column(
@@ -274,7 +305,7 @@ class TutorCard extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                'is an Australian actor. He first rose to prominence in Australia playing Kim Hyde in the Australian television series Home and Away (2004–07) before beginning a film career in Hollywood. Hemsworth is best known for playing Thor in eight Marvel Cinematic Universe films, beginning with Thor (2011) and appearing most recently in Avengers: Endgame (2019), which established him as one of the leading and highest-paid actors in the world.',
+                                state.tutor.description,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 3,
                                 softWrap: true,

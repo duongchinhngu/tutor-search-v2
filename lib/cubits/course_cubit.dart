@@ -16,20 +16,42 @@ class CourseCubit extends Cubit<CourseState> {
       emit(CourseLoadFailedState('$e'));
     }
   }
+
   //
-  Future getCoursesByFilter(String status) async {
+  Future getCoursesByFilter(String status, int subjectId) async {
     try {
-      List<Course> courses = await _repository.fetchCourseByFilter(http.Client(), status);
+      List<Course> courses = await _repository.fetchCourseByFilter(
+          http.Client(), status, subjectId);
       emit(CourseListLoadedState(courses));
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
     }
   }
+
   //get course by course Id
   Future getCoursesByCourseId(int id) async {
     try {
-      Course course = await _repository.fetchCourseByCourseId(http.Client(), id);
+      Course course =
+          await _repository.fetchCourseByCourseId(http.Client(), id);
       emit(CourseLoadedState(course));
+    } catch (e) {
+      emit(CourseLoadFailedState('$e'));
+    }
+  }
+
+  //get all course by tuteeId
+  //get course by course Id
+  Future getCoursesByEnrollmentStatus(int tuteeId, String status) async {
+    try {
+      List<Course> courses;
+      if (status == 'All') {
+        courses = await _repository.fetchCoursesByTuteeId(http.Client(), tuteeId);
+      } else {
+        courses = await _repository.fetchCoursesByEnrollmentStatus(
+            http.Client(), status, tuteeId);
+      }
+
+      emit(CourseListLoadedState(courses));
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
     }

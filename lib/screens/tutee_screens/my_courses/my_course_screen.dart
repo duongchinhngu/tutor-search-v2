@@ -27,7 +27,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
           'My Courses',
           style: GoogleFonts.kaushanScript(
             textStyle: TextStyle(
-              color: textWhiteColor,
+              color: mainColor,
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),
@@ -110,13 +110,7 @@ class _CourseListViewState extends State<CourseListView> {
         builder: (context, state) {
           //
           final courseCubit = context.watch<CourseCubit>();
-          if (widget.currentStatus == 'All') {
-            //get courses of current user
-            courseCubit.getAllCourse();
-          } else {
-            courseCubit.getCoursesByFilter(widget.currentStatus);
-          }
-
+          courseCubit.getCoursesByEnrollmentStatus(1, widget.currentStatus);
           //
           if (state is CourseLoadingState) {
             return buildLoadingIndicator();
@@ -169,9 +163,7 @@ Container CourseCard(Course course) {
               borderRadius: BorderRadius.circular(15),
               color: course.status == 'Accepted'
                   ? mainColor
-                  : (course.status == 'Denied')
-                      ? Colors.red
-                      : Colors.orange,
+                  : (course.status == 'Denied') ? Colors.red : Colors.orange,
               boxShadow: [
                 boxShadowStyle,
               ]),
@@ -192,23 +184,35 @@ Container CourseCard(Course course) {
           width: 324,
           padding: EdgeInsets.only(
             left: 15,
-            top: 15,
+            top: 10,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
+                flex: 4,
                 child: Text(
                   course.name,
                   style: titleStyle,
                 ),
               ),
               Expanded(
+                flex: 6,
                 child: Container(
                   child: Row(
                     children: <Widget>[
                       Expanded(
-                        flex: 7,
+                        child: Container(
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundImage: NetworkImage(
+                              'state.tutor.avatarImageLink',
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 5,
                         child: Container(
                           padding: EdgeInsetsDirectional.only(
                             start: 10,

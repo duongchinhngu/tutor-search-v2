@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:http/http.dart' as http;

@@ -5,11 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/subject_cubit.dart';
 import 'package:tutor_search_system/models/subject.dart';
+import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/subject_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_items/course_filter_popup.dart';
+import 'package:tutor_search_system/states/course_state.dart';
 import 'package:tutor_search_system/states/subject_state.dart';
 
 class TuteeSearchCourseScreen extends StatefulWidget {
@@ -136,7 +140,16 @@ class ClassHorizontalList extends StatefulWidget {
 
 class _ClassHorizontalListState extends State<ClassHorizontalList> {
   //seslected index for subject
-  int _selectedIndex = 0;
+  int _selectedIndex;
+  int _currentSubjectId;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = 0;
+    _currentSubjectId = 2;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -159,19 +172,20 @@ class _ClassHorizontalListState extends State<ClassHorizontalList> {
                 children: <Widget>[
                   //list all available subjects
                   Container(
-                    height: 60,
+                    height: 50,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: state.subjects.length,
                       itemBuilder: (context, index) {
-                        return buildGestureDetector(
+                        return buildSubjectsHorizontal(
                             index, state.subjects[index]);
                       },
                     ),
                   ),
-                  // //show clothes gridview by categories id
-                  // ProductGridView(
-                  //     categoryId: state.categories[_selectedIndex].id),
+                  // //show course gridview by subject id
+                  CourseGridView(
+                    subjectId: _currentSubjectId,
+                  ),
                 ],
               ),
             ),
@@ -185,19 +199,21 @@ class _ClassHorizontalListState extends State<ClassHorizontalList> {
     );
   }
 
-  GestureDetector buildGestureDetector(int index, Subject subject) {
+  GestureDetector buildSubjectsHorizontal(int index, Subject subject) {
     return GestureDetector(
         onTap: () {
           setState(() {
             // set selected class UI
             _selectedIndex = index;
+            //setstate current selected id
+            _currentSubjectId = subject.id;
           });
         },
         child: Container(
           width: 110,
           height: 50,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Text(
                 subject.name,
@@ -215,5 +231,53 @@ class _ClassHorizontalListState extends State<ClassHorizontalList> {
             ],
           ),
         ));
+  }
+}
+
+class CourseGridView extends StatefulWidget {
+  final int subjectId;
+
+  const CourseGridView({Key key, @required this.subjectId}) : super(key: key);
+  @override
+  _CourseGridViewState createState() => _CourseGridViewState();
+}
+
+class _CourseGridViewState extends State<CourseGridView> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => CourseCubit(CourseRepository()),
+      child: BlocBuilder<CourseCubit, CourseState>(
+        builder: (context, state) {
+          //
+          final courseCubit = context.watch<CourseCubit>();
+          courseCubit.getCoursesByFilter('Active', widget.subjectId);
+          //
+          //render proper UI for each Subjects state
+          if (state is CourseLoadingState) {
+            return buildLoadingIndicator();
+          } else if (state is CourseLoadFailedState) {
+            return Center(
+              child: Text(state.errorMessage),
+            );
+          } else if (state is CourseListLoadedState) {
+            return Expanded(
+              child: GridView.builder(
+                itemCount: state.courses.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 2 / 4,
+                ),
+                itemBuilder: (context, index) {
+                  return VerticalCourseCard(
+                    course: state.courses[index],
+                  );
+                },
+              ),
+            );
+          }
+        },
+      ),
+    );
   }
 }
