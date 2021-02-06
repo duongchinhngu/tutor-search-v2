@@ -27,7 +27,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
           'My Courses',
           style: GoogleFonts.kaushanScript(
             textStyle: TextStyle(
-              color: textWhiteColor,
+              color: mainColor,
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),
