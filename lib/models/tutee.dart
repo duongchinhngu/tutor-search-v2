@@ -1,15 +1,8 @@
-class Tutee {
-  final int id;
-  final String fullname;
-  final String gender;
-  final DateTime birthday;
-  final String email;
-  final String phone;
-  final String address;
-  final String status;
-  final int roleId;
+import 'person.dart';
 
-  Tutee({this.id, this.fullname, this.gender, this.birthday, this.email, this.phone, this.address, this.status, this.roleId});
+class Tutee extends Person {
+  Tutee({int id, String fullname, String gender, String birthday, String email, String phone, String address, String status, int roleId, String description, String avatarImageLink}) : super(id, fullname, gender, birthday, email, phone, address, status, roleId, description, avatarImageLink);
+
 
   factory Tutee.fromJson(Map<String, dynamic> json) {
     return Tutee(
@@ -20,6 +13,7 @@ class Tutee {
       email: json['email'],
       phone: json['phone'],
       address: json['address'],
+      avatarImageLink: json['avatarImageLink'],      
       status: json['status'],
       roleId: json['roleId'],
     );

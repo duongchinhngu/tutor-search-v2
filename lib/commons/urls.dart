@@ -25,3 +25,6 @@ const ALL_SUBJECT_API = "$SUBJECT_API/all";
 //enrollment api urls
 const ENROLLMENT_API = "$SERVER_NAME/enrollments";
 
+//account api urls
+const ACCOUNT_API = "$SERVER_NAME/accounts";
+

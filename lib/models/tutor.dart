@@ -1,36 +1,22 @@
-class Tutor {
-  final int id;
-  final String fullname;
-  final String gender;
-  final String birthday;
-  final String email;
-  final String phone;
-  final String address;
-  final String status;
-  final int roleId;
-  final String avatarImageLink;
+import 'person.dart';
+
+class Tutor extends Person {
+  // final int id;
+  // final String fullname;
+  // final String gender;
+  // final String birthday;
+  // final String email;
+  // final String phone;
+  // final String address;
+  // final String status;
+  // final int roleId;
+  // final String avatarImageLink;
   final String educationLevel;
   final String school;
   final int points;
   final int membershipId;
-  final String description;
 
-  Tutor(
-      {this.id,
-      this.fullname,
-      this.gender,
-      this.birthday,
-      this.email,
-      this.phone,
-      this.address,
-      this.status,
-      this.roleId,
-      this.avatarImageLink,
-      this.educationLevel,
-      this.school,
-      this.points,
-      this.membershipId,
-      this.description});
+  Tutor({int id, String fullname, String gender, String birthday, String email, String phone, String address, String status, int roleId, String description, String avatarImageLink, this.educationLevel, this.school, this.points, this.membershipId}) : super(id, fullname, gender, birthday, email, phone, address, status, roleId, description, avatarImageLink);
 
   factory Tutor.fromJson(Map<String, dynamic> json) {
     return Tutor(

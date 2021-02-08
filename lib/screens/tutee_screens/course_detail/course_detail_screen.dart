@@ -16,8 +16,10 @@ import 'package:tutor_search_system/states/tutor_state.dart';
 
 class CourseDetailScreen extends StatefulWidget {
   final int courseId;
+  final bool hasFollowButton;
 
-  const CourseDetailScreen({Key key, @required this.courseId})
+  const CourseDetailScreen(
+      {Key key, @required this.courseId, @required this.hasFollowButton})
       : super(key: key);
   @override
   _CourseDetailScreenState createState() => _CourseDetailScreenState();
@@ -163,7 +165,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                   ],
                 ),
               ),
-              floatingActionButton: buildFollowButton(state.course.id),
+              floatingActionButton: Visibility(
+                visible: widget.hasFollowButton,
+                child: buildFollowButton(state.course.id),
+              ),
             );
           }
         },
@@ -213,10 +218,13 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   }
 
 //follow floatin button
-  FloatingActionButton buildFollowButton(int courseId) => FloatingActionButton.extended(
+  FloatingActionButton buildFollowButton(int courseId) =>
+      FloatingActionButton.extended(
         onPressed: () {
-          final EnrollmentRepository enrollmentRepository = EnrollmentRepository();
-          final enrollment = new Enrollment.modelConstructor(0, 1, courseId, 'Waiting for accept from tutor', 'Pending');
+          final EnrollmentRepository enrollmentRepository =
+              EnrollmentRepository();
+          final enrollment = new Enrollment.modelConstructor(
+              0, 1, courseId, 'Waiting for accept from tutor', 'Pending');
           enrollmentRepository.postEnrollment(enrollment);
         },
         label: Text(

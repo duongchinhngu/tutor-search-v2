@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 
@@ -9,6 +10,7 @@ import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/login_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 
@@ -18,6 +20,9 @@ class TuteeHomeScreen extends StatefulWidget {
 }
 
 class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
+  //
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  //
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -46,6 +51,26 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                   ),
                 ),
               ),
+              actions: [
+                InkWell(
+                  onTap: () async {
+                    try {
+                      await googleSignIn.signOut().whenComplete(() {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                        );
+                      });
+                    } catch (error) {
+                      print('You are not allowed! $error');
+                    }
+                  },
+                  child: Center(
+                    child: Text('Sign out'),
+                  ),
+                ),
+              ],
             ),
             body: GridView.builder(
               itemCount: state.courses.length,
@@ -81,6 +106,7 @@ class VerticalCourseCard extends StatelessWidget {
           MaterialPageRoute(
               builder: (context) => CourseDetailScreen(
                     courseId: course.id,
+                    hasFollowButton: true,
                   )),
         );
       },

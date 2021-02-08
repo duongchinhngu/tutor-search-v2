@@ -11,6 +11,9 @@ import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_d
 import 'package:tutor_search_system/states/course_state.dart';
 
 class MyCourseScreen extends StatefulWidget {
+  final int tuteeId;
+
+  const MyCourseScreen({Key key,@required this.tuteeId}) : super(key: key);
   @override
   _MyCourseScreenState createState() => _MyCourseScreenState();
 }
@@ -52,6 +55,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
             ),
             CourseListView(
               currentStatus: _selectedStatus,
+              tuteeId: widget.tuteeId,
             ),
           ],
         ),
@@ -93,8 +97,9 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
 
 class CourseListView extends StatefulWidget {
   final String currentStatus;
+  final int tuteeId;
 
-  const CourseListView({Key key, @required this.currentStatus})
+  const CourseListView({Key key, @required this.currentStatus,@required this.tuteeId})
       : super(key: key);
   @override
   _CourseListViewState createState() => _CourseListViewState();
@@ -110,7 +115,7 @@ class _CourseListViewState extends State<CourseListView> {
         builder: (context, state) {
           //
           final courseCubit = context.watch<CourseCubit>();
-          courseCubit.getCoursesByEnrollmentStatus(1, widget.currentStatus);
+          courseCubit.getCoursesByEnrollmentStatus(widget.tuteeId, widget.currentStatus);
           //
           if (state is CourseLoadingState) {
             return buildLoadingIndicator();
@@ -126,6 +131,7 @@ class _CourseListViewState extends State<CourseListView> {
                         MaterialPageRoute(
                             builder: (context) => CourseDetailScreen(
                                   courseId: state.courses[index].id,
+                                  hasFollowButton: false,
                                 )),
                       );
                     },
@@ -163,7 +169,9 @@ Container CourseCard(Course course) {
               borderRadius: BorderRadius.circular(15),
               color: course.status == 'Accepted'
                   ? mainColor
-                  : (course.status == 'Denied') ? Colors.red : Colors.orange,
+                  : (course.status == 'Denied')
+                      ? Colors.red
+                      : Colors.orange,
               boxShadow: [
                 boxShadowStyle,
               ]),

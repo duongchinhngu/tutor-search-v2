@@ -13,4 +13,14 @@ class TutorRepository {
       throw Exception('Failed to fetch Tutor by Tutor id');
     }
   }
+
+   //fetch tutor by tutor email
+  Future<Tutor> fetchTutorByTutorEmail(http.Client client, String email) async {
+    final response = await http.get('$TUTOR_API/email/$email');
+    if (response.statusCode == 200) {
+      return Tutor.fromJson(json.decode(response.body));
+    }else{
+      throw Exception('Failed to fetch Tutor by Tutor email');
+    }
+  }
 }

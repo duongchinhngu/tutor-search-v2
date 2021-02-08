@@ -47,35 +47,7 @@ class _TuteeSearchCourseScreenState extends State<TuteeSearchCourseScreen> {
               ),
             ),
             //Search boxxxx
-            Container(
-              alignment: Alignment.topCenter,
-              height: 60,
-              child: Row(
-                children: <Widget>[
-                  SearchBox(),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                      PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            CourseFilterPopup(),
-                      ),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                        top: 15,
-                      ),
-                      child: Image.asset(
-                        'assets/images/ic_filter-horizontal-512.png',
-                        height: 23,
-                        width: 23,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            SearchBox(),
             //
             ClassHorizontalList(),
           ],
@@ -97,37 +69,68 @@ class SearchBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.bottomRight,
-      height: 30,
-      width: 300,
-      margin: EdgeInsets.only(
-        top: 15,
-        left: 20,
-        right: 5,
-      ),
-      padding: EdgeInsets.only(
-        left: 15,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: TextField(
-        textAlign: TextAlign.start,
-        onChanged: onChanged,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(bottom: 13),
-          icon: Icon(
-            Icons.search,
+      alignment: Alignment.topCenter,
+      height: 60,
+      child: Stack(
+        children: [
+          Container(
+            alignment: Alignment.bottomCenter,
+            height: 35,
+            width: 350,
+            margin: EdgeInsets.only(
+              top: 15,
+              left: 10,
+              right: 10,
+            ),
+            padding: EdgeInsets.only(
+              left: 15,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: TextField(
+              textAlign: TextAlign.start,
+              onChanged: onChanged,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.only(bottom: 13),
+                icon: Icon(
+                  Icons.search,
+                ),
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                hintText: 'course, tutor, etc',
+                hintStyle: TextStyle(
+                  color: Colors.grey[400],
+                  fontSize: textFontSize,
+                ),
+              ),
+            ),
           ),
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          hintText: 'course, tutor, etc',
-          hintStyle: TextStyle(
-            color: Colors.grey[400],
-            fontSize: textFontSize,
+          //filter logo
+          GestureDetector(
+            onTap: () => Navigator.of(context).push(
+              PageRouteBuilder(
+                opaque: false,
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    CourseFilterPopup(),
+              ),
+            ),
+            child: Container(
+              padding: const EdgeInsets.only(
+                top: 5,
+                right: 25,
+              ),
+              alignment: Alignment.centerRight,
+              child: Image.asset(
+                'assets/images/ic_filter-horizontal-512.png',
+                height: 23,
+                width: 23,
+                color: textGreyColor,
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
