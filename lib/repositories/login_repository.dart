@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -51,6 +50,11 @@ class LoginRepository {
   Future<Person> fetchPersonByEmail(String email) async {
     final account =
         await AccountRepository().fetchAccountByEmail(http.Client(), email);
+    //if account == null here means: account doesn't register yet
+    if (account == null) {
+      return null;
+    }
+    //
     int roleId = account.roleId;
     if (roleId == 3) {
       return await TutorRepository()
@@ -59,5 +63,6 @@ class LoginRepository {
       return await TuteeRepository()
           .fetchTuteeByTuteeEmail(http.Client(), account.email);
     }
+    return null;
   }
 }

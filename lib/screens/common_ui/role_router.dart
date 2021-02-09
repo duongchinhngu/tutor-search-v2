@@ -6,6 +6,7 @@ import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/splash_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/tutee_wrapper.dart';
+import 'package:tutor_search_system/screens/login_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_home_screen.dart';
 import 'package:tutor_search_system/states/login_state.dart';
 
@@ -33,7 +34,18 @@ class RoleRouter extends StatelessWidget {
               ),
             );
           } else if (state is SignInSucceededState) {
-            if (state.person is Tutor) {
+            if (state.person == null) {
+              //remove all screen stack and navigate
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                return Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(
+                      snackBarContent: "Invalid Email! Please try again!",
+                    ),
+                  ),
+                );
+              });
+            } else if (state.person is Tutor) {
               //remove all screen stack and navigate
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 return Navigator.of(context).pushReplacement(

@@ -221,7 +221,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
         ),
         centerTitle: true,
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             onPressed: () {
               resetFilter();
             },
@@ -229,7 +229,6 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
               'Reset',
               style: textStyle,
             ),
-            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
           ),
         ],
         leading: IconButton(
