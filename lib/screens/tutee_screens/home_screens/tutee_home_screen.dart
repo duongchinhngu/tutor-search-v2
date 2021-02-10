@@ -56,10 +56,12 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                   onTap: () async {
                     try {
                       await googleSignIn.signOut().whenComplete(() {
-                        Navigator.pushReplacement(
+                        //push without back
+                        Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                               builder: (context) => LoginScreen()),
+                          ModalRoute.withName("/Login"),
                         );
                       });
                     } catch (error) {

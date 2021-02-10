@@ -1,3 +1,4 @@
+import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,9 +12,6 @@ import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_d
 import 'package:tutor_search_system/states/course_state.dart';
 
 class MyCourseScreen extends StatefulWidget {
-  final int tuteeId;
-
-  const MyCourseScreen({Key key,@required this.tuteeId}) : super(key: key);
   @override
   _MyCourseScreenState createState() => _MyCourseScreenState();
 }
@@ -55,7 +53,6 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
             ),
             CourseListView(
               currentStatus: _selectedStatus,
-              tuteeId: widget.tuteeId,
             ),
           ],
         ),
@@ -97,9 +94,8 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
 
 class CourseListView extends StatefulWidget {
   final String currentStatus;
-  final int tuteeId;
 
-  const CourseListView({Key key, @required this.currentStatus,@required this.tuteeId})
+  const CourseListView({Key key, @required this.currentStatus})
       : super(key: key);
   @override
   _CourseListViewState createState() => _CourseListViewState();
@@ -115,7 +111,8 @@ class _CourseListViewState extends State<CourseListView> {
         builder: (context, state) {
           //
           final courseCubit = context.watch<CourseCubit>();
-          courseCubit.getCoursesByEnrollmentStatus(widget.tuteeId, widget.currentStatus);
+          courseCubit.getCoursesByEnrollmentStatus(
+              globals.tuteeId, widget.currentStatus);
           //
           if (state is CourseLoadingState) {
             return buildLoadingIndicator();

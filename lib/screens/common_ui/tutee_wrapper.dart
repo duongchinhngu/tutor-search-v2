@@ -3,12 +3,14 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/my_courses/my_course_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/tutee_search_course.dart';
+import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 
 class TuteeBottomNavigatorBar extends StatefulWidget {
-  final int tuteeId;
+  final selectedIndex;
 
-  const TuteeBottomNavigatorBar({Key key, @required this.tuteeId})
+  const TuteeBottomNavigatorBar({Key key, this.selectedIndex})
       : super(key: key);
+
   @override
   _TuteeBottomNavigatorBarState createState() =>
       _TuteeBottomNavigatorBarState();
@@ -23,17 +25,19 @@ class _TuteeBottomNavigatorBarState extends State<TuteeBottomNavigatorBar> {
     super.initState();
     screens = [
       TuteeHomeScreen(),
-      MyCourseScreen(
-        tuteeId: widget.tuteeId,
-      ),
+      MyCourseScreen(),
       TuteeSearchCourseScreen(),
       TuteeHomeScreen(),
       TuteeHomeScreen(),
     ];
+    if (widget.selectedIndex != null) {
+      _currentIndex = widget.selectedIndex;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print('this is global tuteeId: ' + globals.tuteeId.toString());
     return Scaffold(
       body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

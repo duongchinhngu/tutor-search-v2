@@ -28,57 +28,62 @@ class _LoginScreenState extends State<LoginScreen> {
     if (widget.snackBarContent != null) {
       WidgetsBinding.instance.addPostFrameCallback(
         (_) => ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: Duration(
-              seconds: 7,
-            ),
-            backgroundColor: backgroundColor,
-            behavior: SnackBarBehavior.fixed,
-            content: Stack(
-              children: [
-                Container(
-                  height: 70,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: Colors.red[300],
-                      boxShadow: [boxShadowStyle]),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(7),
-                      topRight: Radius.circular(7),
-                    ),
-                    color: backgroundColor,
-                  ),
-                  height: 65,
-                  child: ListTile(
-                    minLeadingWidth: 60,
-                    leading: Icon(
-                      Icons.error_outline,
-                      color: Colors.red[300],
-                      size: 30,
-                    ),
-                    title: Text(
-                      'Error',
-                      style: TextStyle(
-                        color: Colors.red[300],
-                        fontSize: titleFontSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      widget.snackBarContent,
-                      style: textStyle,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          buildLoginErrorSnackBar(),
         ),
       );
     }
+  }
+
+  // show when login error, invalid account email.
+  SnackBar buildLoginErrorSnackBar() {
+    return SnackBar(
+          duration: Duration(
+            seconds: 7,
+          ),
+          backgroundColor: backgroundColor,
+          behavior: SnackBarBehavior.floating,
+          content: Stack(
+            children: [
+              Container(
+                height: 70,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: Colors.red[300],
+                    boxShadow: [boxShadowStyle]),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(7),
+                    topRight: Radius.circular(7),
+                  ),
+                  color: backgroundColor,
+                ),
+                height: 65,
+                child: ListTile(
+                  minLeadingWidth: 60,
+                  leading: Icon(
+                    Icons.error_outline,
+                    color: Colors.red[300],
+                    size: 30,
+                  ),
+                  title: Text(
+                    'Error',
+                    style: TextStyle(
+                      color: Colors.red[300],
+                      fontSize: titleFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Text(
+                    widget.snackBarContent,
+                    style: textStyle,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
   }
 
   @override
@@ -134,14 +139,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         // }
 
                         await googleSignIn.signIn().whenComplete(() async {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => RoleRouter(
-                                userEmail: googleSignIn.currentUser.email,
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            return Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => RoleRouter(
+                                  userEmail: googleSignIn.currentUser.email,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          });
                         });
+
+                        //remove all screen stack and navigate
                       },
                       child: Container(
                         width: 263,

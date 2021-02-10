@@ -5,10 +5,10 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
-import 'package:tutor_search_system/models/enrollment.dart';
+import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
-import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/payment_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
@@ -167,7 +167,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               ),
               floatingActionButton: Visibility(
                 visible: widget.hasFollowButton,
-                child: buildFollowButton(state.course.id),
+                child: buildFollowButton(state.course),
               ),
             );
           }
@@ -218,14 +218,11 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   }
 
 //follow floatin button
-  FloatingActionButton buildFollowButton(int courseId) =>
+  FloatingActionButton buildFollowButton(Course course) =>
       FloatingActionButton.extended(
         onPressed: () {
-          final EnrollmentRepository enrollmentRepository =
-              EnrollmentRepository();
-          final enrollment = new Enrollment.modelConstructor(
-              0, 1, courseId, 'Waiting for accept from tutor', 'Pending');
-          enrollmentRepository.postEnrollment(enrollment);
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => PaymentScreen(course: course)));
         },
         label: Text(
           'Follow',

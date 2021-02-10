@@ -28,3 +28,9 @@ const ENROLLMENT_API = "$SERVER_NAME/enrollments";
 //account api urls
 const ACCOUNT_API = "$SERVER_NAME/accounts";
 
+//fee api urls
+const FEE_API = "$SERVER_NAME/fees";
+
+//Transaction api urls
+const TUTEE_TRANSACTION_API = "$SERVER_NAME/tutee-transactions";
+
