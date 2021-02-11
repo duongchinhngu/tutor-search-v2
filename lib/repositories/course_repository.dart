@@ -5,7 +5,7 @@ import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
 
 class CourseRepository {
-  //fetch all courses
+  //fetch all active course courses, fetch courses that isn't followed by this tutee
   Future<List<Course>> fetchAllCourses(http.Client client) async {
     final response = await http.get('$ALL_COURSE_API');
     if (response.statusCode == 200) {

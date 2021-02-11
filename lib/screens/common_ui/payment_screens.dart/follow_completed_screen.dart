@@ -107,7 +107,7 @@ class _FollowCompletedScreenState extends State<FollowCompletedScreen> {
                           left: 20,
                         ),
                         child: Text(
-                          'See My Course',
+                          'My Course',
                           style: TextStyle(
                             fontSize: titleFontSize,
                             color: textWhiteColor,

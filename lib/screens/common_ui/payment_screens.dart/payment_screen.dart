@@ -4,18 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/fee_cubit.dart';
-import 'package:tutor_search_system/cubits/transaction_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/models/tutee_transaction.dart';
-import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/fee_repository.dart';
-import 'package:tutor_search_system/repositories/transaction_repository.dart';
-import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/payment_processing.dart';
-import 'package:tutor_search_system/screens/common_ui/tutee_wrapper.dart';
 import 'package:tutor_search_system/states/fee_state.dart';
-import 'package:tutor_search_system/states/transaction_state.dart';
 
 double totalAmount;
 bool isEnableFAB = false;
@@ -180,11 +174,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               'Pending',
             );
             //
-            // final tuteeTransactionRepository = TransactionRepository();
-            // final enrollmentRepository = EnrollmentRepository();
-            // tuteeTransactionRepository.postTuteeTransaction(tuteeTransaction);
-            // enrollmentRepository.postEnrollment(enrollment);
-            // //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushReplacement(
                 MaterialPageRoute(

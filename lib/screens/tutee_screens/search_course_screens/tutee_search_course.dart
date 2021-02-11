@@ -251,6 +251,7 @@ class _CourseGridViewState extends State<CourseGridView> {
     return BlocProvider(
       create: (context) => CourseCubit(CourseRepository()),
       child: BlocBuilder<CourseCubit, CourseState>(
+        // ignore: missing_return
         builder: (context, state) {
           //
           final courseCubit = context.watch<CourseCubit>();

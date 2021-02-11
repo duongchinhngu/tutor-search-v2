@@ -5,7 +5,6 @@ import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/transaction_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/follow_completed_screen.dart';
-import 'package:tutor_search_system/screens/common_ui/tutee_wrapper.dart';
 
 import '../error_screen.dart';
 

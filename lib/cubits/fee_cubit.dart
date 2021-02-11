@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:tutor_search_system/models/fee.dart';
-import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/fee_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/states/fee_state.dart';

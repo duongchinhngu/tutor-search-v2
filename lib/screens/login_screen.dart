@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.red[900],
+                          color: Color(0xffA80C0C),
                         ),
                         child: Text(
                           'GOOGLE',
