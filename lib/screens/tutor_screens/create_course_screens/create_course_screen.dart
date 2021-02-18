@@ -1,8 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:intl/intl.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/cubits/class_cubit.dart';
+import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/repositories/class_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/states/class_state.dart';
+
+//this is default course (when tutor does not choose fields for new course)
+//default value of unchosen field is "No Select"
+Course course = Course.constructor(
+  0,
+  '',
+  'No select',
+  'No select',
+  'No select',
+  0,
+  '',
+  'No select',
+  'No select',
+  '',
+  'isDraft',
+  //this is hard code need to refactor
+  3,
+  //thi sis hard code
+  globals.tutorId,
+  1,
+  globals.defaultDatetime,
+  globals.defaultDatetime,
+);
+
+//course name field controller
+TextEditingController _courseNameController = TextEditingController();
+TextEditingController _courseFeeController = TextEditingController();
+TextEditingController _courseDescriptionController = TextEditingController();
+
+//date formatter
+final dateFormatter = new DateFormat('yyyy-MM-dd');
+//time formatter
+final timeFormatter = new DateFormat('HH:mm');
+
+//this is temporary variables for comparasion date time
+DateTime tmpBeginDate;
+DateTime tmpEndDate;
+DateTime tmpBeginTime;
+DateTime tmpEndTime;
+//
 
 class CreateCourseScreen extends StatefulWidget {
   @override
@@ -82,9 +130,15 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                     ),
                     title: TextFormField(
+                      controller: _courseNameController,
                       maxLength: 100,
                       textAlign: TextAlign.start,
-                      onChanged: null,
+                      onChanged: (context) {
+                        //set name = value of this textFormfield on change
+                        setState(() {
+                          course.name = _courseNameController.text;
+                        });
+                      },
                       decoration: InputDecoration(
                         labelText: 'Course name',
                         labelStyle: textStyle,
@@ -133,7 +187,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                     ),
                     subtitle: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        classSelector(context);
+                      },
                       child: Container(
                         height: 50,
                         width: 100,
@@ -257,11 +313,16 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                   child: Text(
                     'Study form',
-                    style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[500],
+                    ),
                   ),
                 ),
                 subtitle: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    studyFormSelector(context);
+                  },
                   child: Container(
                     height: 50,
                     width: 100,
@@ -280,10 +341,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          'No select',
+                          course.studyForm,
                           style: TextStyle(
                             fontSize: titleFontSize,
-                            color: textGreyColor,
+                            color: course.studyForm == 'No select'
+                                ? textGreyColor
+                                : mainColor,
                           ),
                         ),
                         Icon(
@@ -332,7 +395,52 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                     ),
                     subtitle: InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        // final DateTime pickedDatetime = await showDatePicker(
+                        //   context: context,
+                        //   initialDate: DateTime.now(),
+                        //   firstDate: DateTime.now(),
+                        //   //get this date but a year later
+                        //   lastDate: tmpEndDate != null
+                        //       ? tmpEndDate
+                        //       : DateTime.now().add(new Duration(
+                        //           days: 365,
+                        //         )),
+                        // );
+                        
+                        final range = await showDateRangePicker(
+                            context: context,
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now().add(
+                              new Duration(
+                                days: 365,
+                              ),
+                            ));
+
+                        if (range.start != null) {
+                          setState(() {
+                            course.beginDate =
+                                dateFormatter.format(range.start);
+                          });
+                        }
+
+                        if (range.end != null) {
+                          setState(() {
+                            course.endDate = dateFormatter.format(range.end);
+                          });
+                        }
+
+                        // if (pickedDatetime != null &&
+                        //     pickedDatetime != course.beginDate) {
+                        //   setState(() {
+                        //     //set begin date in default course
+                        //     course.beginDate =
+                        //         dateFormatter.format(pickedDatetime);
+                        //     // set begin date for comparasion begin date var
+                        //     tmpBeginDate = pickedDatetime;
+                        //   });
+                        // }
+                      },
                       child: Container(
                         height: 50,
                         width: 50,
@@ -354,7 +462,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              'No select',
+                              course.beginDate,
                               style: TextStyle(
                                 fontSize: titleFontSize,
                                 color: textGreyColor,
@@ -388,7 +496,32 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                     ),
                     subtitle: InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        final DateTime pickedDatetime = await showDatePicker(
+                          context: context,
+                          initialDate: tmpBeginDate != null
+                              ? tmpBeginDate
+                              : DateTime.now(),
+                          firstDate: tmpBeginDate != null
+                              ? tmpBeginDate
+                              : DateTime.now(),
+                          //get this date but a year later
+                          lastDate: DateTime.now().add(new Duration(
+                            days: 365,
+                          )),
+                        );
+
+                        if (pickedDatetime != null &&
+                            pickedDatetime != course.endDate) {
+                          setState(() {
+                            //
+                            course.endDate =
+                                dateFormatter.format(pickedDatetime);
+                            // set begin date for comparasion begin date var
+                            tmpEndDate = pickedDatetime;
+                          });
+                        }
+                      },
                       child: Container(
                         height: 50,
                         width: 100,
@@ -410,7 +543,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              'No select',
+                              course.endDate,
                               style: TextStyle(
                                 fontSize: titleFontSize,
                                 color: textGreyColor,
@@ -486,7 +619,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              'No select',
+                              course.beginTime,
                               style: TextStyle(
                                 fontSize: titleFontSize,
                                 color: textGreyColor,
@@ -542,7 +675,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              'No select',
+                              course.beginDate,
                               style: TextStyle(
                                 fontSize: titleFontSize,
                                 color: textGreyColor,
@@ -579,9 +712,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
               child: ListTile(
                 minLeadingWidth: 20,
                 title: Container(
-                  padding: EdgeInsets.only(
-                    top: 15
-                  ),
+                  padding: EdgeInsets.only(top: 15),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -596,7 +727,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         ),
                         child: Text(
                           'Days in week',
-                          style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                          style:
+                              TextStyle(fontSize: 13, color: Colors.grey[500]),
                         ),
                       ),
                     ],
@@ -623,7 +755,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     //   color: Colors.white,
                     // ),
                     child: Wrap(
-                      
                       runSpacing: 15,
                       spacing: 20,
                       children: [
@@ -664,9 +795,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                 ),
                 title: TextFormField(
+                  controller: _courseFeeController,
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.start,
-                  onChanged: null,
+                  onChanged: (context) {
+                    setState(() {
+                      course.studyFee = double.parse(_courseFeeController.text);
+                    });
+                  },
                   decoration: InputDecoration(
                     labelText: 'Study Fee',
                     labelStyle: textStyle,
@@ -720,7 +856,11 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   maxLines: null,
                   // minLines: 1,
                   textAlign: TextAlign.start,
-                  onChanged: null,
+                  onChanged: (context) {
+                    setState(() {
+                      course.description = _courseDescriptionController.text;
+                    });
+                  },
                   decoration: InputDecoration(
                     labelText: 'Description (optional)',
                     labelStyle: textStyle,
@@ -746,6 +886,115 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       ),
     );
   }
+
+//select study form;
+// this will be shown when press studyform
+  Future<dynamic> studyFormSelector(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return ListView(
+            children: [
+              // study online
+              ListTile(
+                leading: SizedBox(
+                  width: 50,
+                ),
+                title: Text(
+                  'Online',
+                  style: TextStyle(
+                    color: textGreyColor,
+                    fontSize: titleFontSize,
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    _selectStudyForm('Online');
+                  });
+                },
+              ),
+              //study at tutee home
+              ListTile(
+                leading: SizedBox(
+                  width: 50,
+                ),
+                title: Text(
+                  'Tutee Home',
+                  style: TextStyle(
+                    color: textGreyColor,
+                    fontSize: titleFontSize,
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    _selectStudyForm('Tutee Home');
+                  });
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  //select and set state of study form in default course
+  _selectStudyForm(String studyForm) {
+    Navigator.pop(context);
+    setState(() {
+      course.studyForm = studyForm;
+    });
+  }
+
+//load all classes by api
+  Future<dynamic> classSelector(BuildContext context) => showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 1000,
+          child: BlocProvider(
+            create: (context) => ClassCubit(ClassRepository()),
+            child: BlocBuilder<ClassCubit, ClassState>(
+              builder: (context, state) {
+                //
+                final classCubit = context.watch<ClassCubit>();
+                classCubit.getAllClasses();
+                //
+                if (state is ClassLoadingState) {
+                  return buildLoadingIndicator();
+                } else if (state is ClassesLoadFailedState) {
+                  return Center(
+                    child: Text(state.errorMessage),
+                  );
+                } else if (state is ClassListLoadedState) {
+                  return Container(
+                    child: ListView.separated(
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(),
+                      itemCount: state.classes.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          leading: SizedBox(
+                            width: 50,
+                          ),
+                          title: Text(
+                            state.classes[index].name,
+                            style: TextStyle(
+                              color: textGreyColor,
+                              fontSize: titleFontSize,
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {});
+                          },
+                        );
+                      },
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        );
+      });
 }
 
 class WeekDayButton extends StatelessWidget {

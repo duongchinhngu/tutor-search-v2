@@ -11,7 +11,7 @@ class ClassCubit extends Cubit<ClassState> {
   Future getAllClasses() async {
     try {
       List<Class> classes = await _repository.fetchAllClass(http.Client());
-      emit(ClassesLoadedState(classes));
+      emit(ClassListLoadedState(classes));
     } catch (e) {
       emit(ClassesLoadFailedState('$e'));
     }

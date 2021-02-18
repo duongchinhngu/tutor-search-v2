@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     //show error message like: "Invalid Account"
     if (widget.snackBarContent != null) {
       WidgetsBinding.instance.addPostFrameCallback(
-        (_) => ScaffoldMessenger.of(context).showSnackBar(
+        (_) => Scaffold.of(context).showSnackBar(
           buildLoginErrorSnackBar(),
         ),
       );
@@ -61,11 +61,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 height: 65,
                 child: ListTile(
-                  minLeadingWidth: 60,
-                  leading: Icon(
-                    Icons.error_outline,
-                    color: Colors.red[300],
-                    size: 30,
+                  leading: SizedBox(
+                    width: 60,
+                    child: Icon(
+                      Icons.error_outline,
+                      color: Colors.red[300],
+                      size: 30,
+                    ),
                   ),
                   title: Text(
                     'Error',
