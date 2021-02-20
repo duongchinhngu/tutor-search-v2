@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/follow_completed_screen.dart';
 import 'package:tutor_search_system/screens/login_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/subject_gird_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/tutor_create_course.dart';
 
 void main() async {
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.pontanoSansTextTheme(),
       ),
       // home: LoginScreen(),
-      home: CreateCourseWelcomeScreen(),
+      home: SubjectGridScreen(),
+      // home: FollowCompletedScreen(),
     );
   }
 }

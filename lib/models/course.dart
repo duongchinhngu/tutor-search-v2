@@ -1,3 +1,5 @@
+import 'package:tutor_search_system/commons/global_variables.dart' as globals;
+
 class Course {
   final int id;
   String name;
@@ -50,6 +52,41 @@ class Course {
       this.confirmBy,
       this.createdDate,
       this.confirmedDate);
+
+  void showAttributes(Course course) {
+    print('name: ' +
+        course.name +
+        '\nbegin time: ' +
+        globals.defaultDatetime +
+        'T' +
+        course.beginTime +
+        '\n Endtime: ' +
+        globals.defaultDatetime +
+        'T' +
+        course.endTime +
+        '\n studyForm: ' +
+        course.studyForm +
+        '\n study fee: ' +
+        course.studyFee.toString() +
+        '\n days inweek: ' +
+        course.daysInWeek +
+        '\n begin date: ' +
+        course.beginDate +
+        '\n end date: ' +
+        course.endDate +
+        '\n description: ' +
+        course.description +
+        '\n status: ' +
+        course.status +
+        '\n classhassubject id: ' +
+        course.classHasSubjectId.toString() +
+        '\n create by: ' +
+        course.createdBy.toString() +
+        '\n confirmBy: ' +
+        course.confirmBy.toString() +
+        '\n confirm date: ' +
+        course.confirmedDate + '\n Created date: ' + course.createdDate);
+  }
 
   factory Course.fromJson(Map<String, dynamic> json) {
     return Course(

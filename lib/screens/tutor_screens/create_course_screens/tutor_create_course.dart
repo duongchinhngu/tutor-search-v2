@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/subject_gird_screen.dart';
 
 class CreateCourseWelcomeScreen extends StatefulWidget {
   @override
@@ -70,8 +71,7 @@ class _CreateCourseWelcomeScreenState extends State<CreateCourseWelcomeScreen> {
                 // });
 
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => CreateCourseScreen()),
+                  MaterialPageRoute(builder: (context) => SubjectGridScreen()),
                 );
               },
               child: Container(

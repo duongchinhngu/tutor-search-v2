@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 
 class CourseRepository {
   //fetch all active course courses, fetch courses that isn't followed by this tutee
@@ -56,7 +57,8 @@ class CourseRepository {
   }
 
   //fetch courses by tuteeId, enrollment status
-  Future<List<Course>> fetchCoursesByTuteeId(http.Client client, int tuteeId) async {
+  Future<List<Course>> fetchCoursesByTuteeId(
+      http.Client client, int tuteeId) async {
     //wait for back end
     final response = await http.get('$COURSES_BY_TUTEEID_API/$tuteeId');
     //wait for back end
@@ -93,6 +95,43 @@ class CourseRepository {
           .toList();
     } else {
       throw Exception('Failed to fetch courses by filter');
+    }
+  }
+
+  //post course
+  Future postCourse(Course course) async {
+    final http.Response response = await http.post(COURSE_API,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'id': course.id,
+            'name': course.name,
+            'beginTime': globals.defaultDatetime + 'T' + course.beginTime,
+            'endTime': globals.defaultDatetime + 'T' + course.endTime,
+            'studyForm': course.studyForm,
+            'studyFee': course.studyFee,
+            'daysInWeek': course.daysInWeek,
+            'beginDate': course.beginDate,
+            'endDate': course.endDate,
+            'description': course.description,
+            'classHasSubjectId': course.classHasSubjectId,
+            'createdBy': course.createdBy,
+            'status': course.status,
+            'confirmedBy': course.confirmBy,
+            'createdDate': course.createdDate,
+            'confirmedDate': course.confirmedDate,
+          },
+        ));
+    if (response.statusCode == 201 ||
+        response.statusCode == 204 ||
+        response.statusCode == 404) {
+      return true;
+    } else {
+      print('this is: ' + response.body + response.statusCode.toString());
+      print(response.statusCode);
+      throw Exception('Faild to post Course');
     }
   }
 }

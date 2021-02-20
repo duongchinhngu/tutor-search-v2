@@ -51,110 +51,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           if (isEnableFAB) {
-            // //show lock
-            // showDialog(
-            //   context: context,
-            //   builder: (_) => WillPopScope(
-            //     // ignore: missing_return
-            //     onWillPop: () {
-            //       ScaffoldMessenger.of(context).showSnackBar(
-            //         new SnackBar(
-            //           duration: Duration(
-            //             seconds: 7,
-            //           ),
-            //           backgroundColor: backgroundColor,
-            //           behavior: SnackBarBehavior.floating,
-            //           content: Container(
-            //             decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.only(
-            //                 topLeft: Radius.circular(7),
-            //                 topRight: Radius.circular(7),
-            //               ),
-            //               color: backgroundColor,
-            //             ),
-            //             height: 50,
-            //             child: ListTile(
-            //               minLeadingWidth: 60,
-            //               leading: Icon(
-            //                 Icons.settings_backup_restore_outlined,
-            //                 color: mainColor,
-            //                 size: 35,
-            //               ),
-            //               title: Text(
-            //                 'Don\'t worry! Your submit is still completing..',
-            //                 style: titleStyle,
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       );
-            //       Navigator.of(context).pushReplacement(new MaterialPageRoute(
-            //           builder: (BuildContext context) =>
-            //               TuteeBottomNavigatorBar()));
-            //     },
-            //     child: BlocProvider(
-            //       create: (context) => TransactionCubit(
-            //         TransactionRepository(),
-            //         EnrollmentRepository(),
-            //       ),
-            //       child: AlertDialog(
-            //         elevation: 0.0,
-            //         backgroundColor: Colors.transparent,
-            //         content: Container(
-            //           height: double.infinity,
-            //           width: double.infinity,
-            //           alignment: Alignment.center,
-            //           child: BlocBuilder<TransactionCubit, TransactionState>(
-            //             // ignore: missing_return
-            //             builder: (context, state) {
-            //               //
-            //               final transactionCubit =
-            //                   context.watch<TransactionCubit>();
-            //               //init tuteeTransaction
-            //               final tuteeTransaction =
-            //                   TuteeTransaction.modelConstructor(
-            //                       0,
-            //                       '1900-01-01',
-            //                       widget.course.studyFee,
-            //                       totalAmount,
-            //                       '',
-            //                       'Successfull',
-            //                       globals.tuteeId,
-            //                       1);
-            //               //init enrollment
-            //               final enrollment = Enrollment.modelConstructor(
-            //                 0,
-            //                 globals.tuteeId,
-            //                 widget.course.id,
-            //                 'Waiting for acception from Tutor of this course',
-            //                 'Pending',
-            //               );
-            //               //
-            //               transactionCubit.completeFollowCourse(
-            //                   tuteeTransaction, enrollment);
-            //               //
-            //               if (state is InitialTransactionState) {
-            //                 return CircularProgressIndicator(
-            //                   backgroundColor: textWhiteColor,
-            //                 );
-            //               } else if (state is TransactionErrorState) {
-            //                 return Center(
-            //                   child: Text(state.errorMessage),
-            //                 );
-            //               } else if (state is TransactionCompletedState) {
-            //                 return Container(
-            //                   child: Text('Complteted!'),
-            //                 );
-            //               }
-            //             },
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            //   barrierDismissible: false,
-            // );
-            //
             //init tuteeTransaction
             final tuteeTransaction = TuteeTransaction.modelConstructor(
                 0,
@@ -184,7 +80,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
               );
             });
-          } else {}
+          }
         },
         isExtended: true,
         backgroundColor: Colors.transparent,

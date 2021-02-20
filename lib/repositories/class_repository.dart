@@ -13,8 +13,23 @@ class ClassRepository {
       return jsonResponse
           .map((classes) => new Class.fromJson(classes))
           .toList();
-    }else{
+    } else {
       throw Exception('Failed to fetch all classes');
+    }
+  }
+
+  //fetch classes by subject id
+  Future<List<Class>> fetchClassBySubjectId(
+      http.Client client, int subjectId) async {
+    final response = await http.get('$CLASS_BY_SUBJECT_ID_API$subjectId');
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((classes) => new Class.fromJson(classes))
+          .toList();
+    } else {
+      print('this is error body: ' + response.body);
+      throw Exception('Failed to fetch classes by class id');
     }
   }
 }

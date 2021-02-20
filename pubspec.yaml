@@ -33,8 +33,7 @@ dependencies:
   form_field_validator: ^1.0.1
   google_fonts: ^1.1.1
   google_sign_in: ^4.5.9
-  
-  
+  time_range_picker: ^1.1.1
 
 dev_dependencies:
   flutter_test:
