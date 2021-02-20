@@ -5,10 +5,9 @@ import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/splash_screen.dart';
-import 'package:tutor_search_system/screens/common_ui/tutee_wrapper.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 import 'package:tutor_search_system/screens/login_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/subject_gird_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_home_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_wrapper.dart';
 import 'package:tutor_search_system/states/login_state.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 
@@ -54,7 +53,7 @@ class RoleRouter extends StatelessWidget {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 return Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => SubjectGridScreen(),
+                    builder: (context) => TutorBottomNavigatorBar(),
                   ),
                 );
               });

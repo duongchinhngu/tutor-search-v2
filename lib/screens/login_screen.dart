@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/screens/common_ui/role_router.dart';
+import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,6 +19,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   //
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  //
+  //login repository
+  final loginRepository = LoginRepository();
   //
   @override
   void initState() {
@@ -37,55 +40,55 @@ class _LoginScreenState extends State<LoginScreen> {
   // show when login error, invalid account email.
   SnackBar buildLoginErrorSnackBar() {
     return SnackBar(
-          duration: Duration(
-            seconds: 7,
+      duration: Duration(
+        seconds: 7,
+      ),
+      backgroundColor: backgroundColor,
+      behavior: SnackBarBehavior.floating,
+      content: Stack(
+        children: [
+          Container(
+            height: 70,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7),
+                color: Colors.red[300],
+                boxShadow: [boxShadowStyle]),
           ),
-          backgroundColor: backgroundColor,
-          behavior: SnackBarBehavior.floating,
-          content: Stack(
-            children: [
-              Container(
-                height: 70,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    color: Colors.red[300],
-                    boxShadow: [boxShadowStyle]),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(7),
+                topRight: Radius.circular(7),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(7),
-                    topRight: Radius.circular(7),
-                  ),
-                  color: backgroundColor,
-                ),
-                height: 65,
-                child: ListTile(
-                  leading: SizedBox(
-                    width: 60,
-                    child: Icon(
-                      Icons.error_outline,
-                      color: Colors.red[300],
-                      size: 30,
-                    ),
-                  ),
-                  title: Text(
-                    'Error',
-                    style: TextStyle(
-                      color: Colors.red[300],
-                      fontSize: titleFontSize,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    widget.snackBarContent,
-                    style: textStyle,
-                  ),
+              color: backgroundColor,
+            ),
+            height: 65,
+            child: ListTile(
+              leading: SizedBox(
+                width: 60,
+                child: Icon(
+                  Icons.error_outline,
+                  color: Colors.red[300],
+                  size: 30,
                 ),
               ),
-            ],
+              title: Text(
+                'Error',
+                style: TextStyle(
+                  color: Colors.red[300],
+                  fontSize: titleFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                widget.snackBarContent,
+                style: textStyle,
+              ),
+            ),
           ),
-        );
+        ],
+      ),
+    );
   }
 
   @override
@@ -140,17 +143,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         //   return TuteeHomeScreen();
                         // }
 
-                        await googleSignIn.signIn().whenComplete(() async {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            return Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => RoleRouter(
-                                  userEmail: googleSignIn.currentUser.email,
-                                ),
-                              ),
-                            );
-                          });
-                        });
+                        // await googleSignIn.signIn().whenComplete(() async {
+                        //   WidgetsBinding.instance.addPostFrameCallback((_) {
+                        //     return Navigator.of(context).pushReplacement(
+                        //       MaterialPageRoute(
+                        //         builder: (context) => RoleRouter(
+                        //           userEmail: googleSignIn.currentUser.email,
+                        //         ),
+                        //       ),
+                        //     );
+                        //   });
+                        // });
+
+                        await loginRepository.handleGoogelSignIn(context);
 
                         //remove all screen stack and navigate
                       },

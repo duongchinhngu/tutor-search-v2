@@ -20,7 +20,6 @@ import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/payme
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
 import 'package:tutor_search_system/states/class_state.dart';
-
 import 'create_course_elements.dart';
 
 //this is default course (when tutor does not choose fields for new course)
@@ -88,73 +87,64 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   //
   @override
+  void dispose() {
+    //reset to default values
+    course = Course.constructor(
+      0,
+      // name
+      '',
+      //begintime
+      'No select',
+      // endtime
+      'No select',
+      //study form
+      'No select',
+      //study fee
+      null,
+      //days in week
+      '[]',
+      //begin date
+      'No select',
+      // end date
+      'No select',
+      //description
+      '',
+      //status
+      'isDraft',
+      //class has subject
+      //this is hard code need to refactor
+      0,
+      //thi sis hard code
+      //createdBy
+      globals.authorizedTutor.id,
+      // confirmBy
+      //this is fake manager id (confirmedBy); backend handles this field
+      0,
+      //createddate
+      globals.defaultDatetime,
+      //confirm date
+      //this is fake confirmedDate; backend handles this field
+      globals.defaultDatetime,
+    );
+
+    //
+    super.dispose();
+  }
+
+  //empty input fields
+  void resetInputFields() {
+    //empty input fields
+    _courseNameController.clear();
+    _courseFeeController.clear();
+    _courseDescriptionController.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: backgroundColor,
-        leading: IconButton(
-          icon: Icon(
-            Icons.close,
-            size: 25,
-            color: textGreyColor,
-          ),
-          onPressed: () {
-            selectedClassName = 'No select';
-            Navigator.of(context).pop();
-          },
-        ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              if (formkey.currentState.validate()) {
-                formkey.currentState.save();
-                course.showAttributes(course);
-                if (course.classHasSubjectId == 0 ||
-                    course.studyForm == 'No select' ||
-                    course.beginDate == 'No select' ||
-                    course.beginTime == 'No select' ||
-                    course.endTime == 'No select' ||
-                    course.daysInWeek == '[]') {
-                  showDialog(
-                      context: context,
-                      builder: (context) => buildAlertDialog(context));
-                } else {
-                  //set course status from 'isDraft' to 'Pending'
-                  course.status = 'Pending';
-                  //thi sis for test only
-                  //navigate to payment screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PaymentScreen(course: course),
-                    ),
-                  );
-                }
-              }
-            },
-            child: Container(
-              width: 100,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    width: 1,
-                    color: mainColor,
-                  )),
-              child: Text(
-                'Publish',
-                style: TextStyle(
-                  color: mainColor,
-                  fontSize: titleFontSize,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: buildCreateCourseAppBar(context),
       body: Container(
-        color: Colors.blueAccent,
+        color: mainColor,
         child: Form(
           key: formkey,
           child: ListView(
@@ -825,6 +815,75 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  AppBar buildCreateCourseAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: backgroundColor,
+      leading: IconButton(
+        icon: Icon(
+          Icons.close,
+          size: 25,
+          color: textGreyColor,
+        ),
+        onPressed: () {
+          selectedClassName = 'No select';
+          Navigator.of(context).pop();
+        },
+      ),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            if (formkey.currentState.validate()) {
+              formkey.currentState.save();
+              //show for test
+              course.showAttributes(course);
+              //
+              if (course.classHasSubjectId == 0 ||
+                  course.studyForm == 'No select' ||
+                  course.beginDate == 'No select' ||
+                  course.beginTime == 'No select' ||
+                  course.endTime == 'No select' ||
+                  course.daysInWeek == '[]' ||
+                  course.classHasSubjectId == 0) {
+                showDialog(
+                    context: context,
+                    builder: (context) => buildAlertDialog(context));
+              } else {
+                //set course status from 'isDraft' to 'Pending'
+                course.status = 'Pending';
+                //thi sis for test only
+                //navigate to payment screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PaymentScreen(course: course),
+                  ),
+                );
+              }
+            }
+          },
+          child: Container(
+            width: 100,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  width: 1,
+                  color: mainColor,
+                )),
+            child: Text(
+              'Publish',
+              style: TextStyle(
+                color: mainColor,
+                fontSize: titleFontSize,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

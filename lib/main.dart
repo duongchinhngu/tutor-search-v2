@@ -7,7 +7,7 @@ import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/resul
 import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/result_screens/follow_completed_screen.dart';
 import 'package:tutor_search_system/screens/login_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/subject_gird_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/tutor_create_course.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_welcome.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/models/tutee_transaction.dart';
@@ -59,6 +60,7 @@ class _TuteePaymentProccessingScreenState
             return Container();
           } else {
             return Container(
+              color: backgroundColor,
               child: SpinKitWave(
                 itemBuilder: (BuildContext context, int index) {
                   return DecoratedBox(
@@ -127,6 +129,7 @@ class _TutorPaymentProccessingScreenState
             return Container();
           } else {
             return Container(
+              color: backgroundColor,
               child: SpinKitWave(
                 itemBuilder: (BuildContext context, int index) {
                   return DecoratedBox(

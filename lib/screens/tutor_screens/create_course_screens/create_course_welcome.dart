@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/subject_gird_screen.dart';
 
 class CreateCourseWelcomeScreen extends StatefulWidget {
@@ -79,9 +78,9 @@ class _CreateCourseWelcomeScreenState extends State<CreateCourseWelcomeScreen> {
                 height: 50,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xffA80C0C),
-                    boxShadow: [boxShadowStyle]),
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xffA80C0C),
+                ),
                 child: Container(
                   child: Text(
                     'CREATE COURSE',

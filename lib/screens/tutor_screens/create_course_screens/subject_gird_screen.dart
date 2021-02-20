@@ -4,6 +4,7 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/subject_cubit.dart';
 import 'package:tutor_search_system/models/subject.dart';
+import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/repositories/subject_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_screen.dart';
@@ -22,14 +23,29 @@ class SubjectGridScreen extends StatefulWidget {
 class _SubjectGridScreenState extends State<SubjectGridScreen> {
   //thi sis for test only
   List<Subject> subjectlist = <Subject>[];
+  //login repo
+  final loginRepository = LoginRepository();
   //this is test
-  void onValueChange(){
+  //
+  //need to refactor
+  void onValueChange() {
     subjectlist = subjectlist.where((s) => s.name == s.name).toList();
   }
+
   //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: mainColor,
+        onPressed: () async {
+          //log out func here
+          // signout func
+          await loginRepository.handleSignOut(context);
+          //
+        },
+        child: Icon(Icons.power_settings_new_rounded),
+      ),
       body: Container(
         padding: EdgeInsets.symmetric(
           vertical: 40,

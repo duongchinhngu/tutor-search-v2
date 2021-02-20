@@ -31,12 +31,23 @@ class WeekDaysComponent extends StatefulWidget {
 }
 
 class _WeekDaysComponentState extends State<WeekDaysComponent> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   course.daysInWeek = selectedWeekdays.toString();
-  // }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    selectedWeekdays.clear();
+    //
+    weekdays = [
+      new Weekday('Mon', false),
+      new Weekday('Tues', false),
+      new Weekday('Wed', false),
+      new Weekday('Thu', false),
+      new Weekday('Fri', false),
+      new Weekday('Sat', false),
+      new Weekday('Sun', false),
+    ];
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

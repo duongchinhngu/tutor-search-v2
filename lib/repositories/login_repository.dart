@@ -1,29 +1,50 @@
+import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/models/person.dart';
 import 'package:tutor_search_system/repositories/account_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/role_router.dart';
+import 'package:tutor_search_system/screens/login_screen.dart';
 
 class LoginRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  // RawUser userFromFirebaseUser(User user) {
-  //   if (user != null) {
-  //     return RawUser(
-  //       id: int.parse(user.uid),
-  //       email: user.email,
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // }
+//sign in (login) by Google account
+//need to  refactor
+//add JWT heres
+  Future handleGoogelSignIn(BuildContext context) async {
+    await _googleSignIn.signIn().whenComplete(() async {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        return Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => RoleRouter(
+              userEmail: _googleSignIn.currentUser.email,
+            ),
+          ),
+        );
+      });
+    });
+  }
 
-  // Stream<RawUser> get user {
-  //   return _auth.authStateChanges().map(userFromFirebaseUser);
-  // }
+//sign out (log out)
+  Future handleSignOut(BuildContext context) async {
+    await _googleSignIn.signOut().whenComplete(() {
+      //set global tutor (tutee) is null
+      globals.authorizedTutor = null;
+      globals.authorizedTutee = null;
+      //push without back
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+        ModalRoute.withName("/Login"),
+      );
+    });
+  }
 
 //login by googole auth by firebase
   Future<GoogleSignInAccount> handleSignInGoogle() async {

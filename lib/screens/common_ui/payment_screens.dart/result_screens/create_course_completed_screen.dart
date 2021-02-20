@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_home_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/subject_gird_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_home/tutor_home_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_wrapper.dart';
 
 class CreateCourseCompletedScreen extends StatelessWidget {
   @override
@@ -71,7 +73,7 @@ class CreateCourseCompletedScreen extends StatelessWidget {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   return Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                        builder: (context) => TutorHomeScreen(
+                        builder: (context) => TutorBottomNavigatorBar(
                             // selectedIndex: 1,
                             )),
                     ModalRoute.withName('/Home'),
@@ -83,9 +85,9 @@ class CreateCourseCompletedScreen extends StatelessWidget {
                 height: 50,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: mainColor,
-                    boxShadow: [boxShadowStyle]),
+                  borderRadius: BorderRadius.circular(10),
+                  color: mainColor,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

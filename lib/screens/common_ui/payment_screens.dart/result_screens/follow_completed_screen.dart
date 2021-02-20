@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/screens/common_ui/tutee_wrapper.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 
 class FollowCompletedScreen extends StatefulWidget {
   @override
@@ -86,9 +86,9 @@ class _FollowCompletedScreenState extends State<FollowCompletedScreen> {
                 height: 50,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: mainColor,
-                    boxShadow: [boxShadowStyle]),
+                  borderRadius: BorderRadius.circular(10),
+                  color: mainColor,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
