@@ -5,13 +5,16 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/fee_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
-import 'package:tutor_search_system/models/enrollment.dart';
-import 'package:tutor_search_system/models/tutee_transaction.dart';
+import 'package:tutor_search_system/models/fee.dart';
+import 'payment_methods.dart' as payment_methods;
 import 'package:tutor_search_system/repositories/fee_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/payment_processing.dart';
 import 'package:tutor_search_system/states/fee_state.dart';
 
+//total amount
 double totalAmount;
+//global fee var
+Fee fee;
+//this variable for en/disable 'Pay now' button
 bool isEnableFAB = false;
 
 class PaymentScreen extends StatefulWidget {
@@ -48,96 +51,82 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
       ),
       body: buildPaymentBody(),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          if (isEnableFAB) {
-            //init tuteeTransaction
-            final tuteeTransaction = TuteeTransaction.modelConstructor(
-                0,
-                '1900-01-01',
-                widget.course.studyFee,
-                totalAmount,
-                '',
-                'Successfull',
-                globals.tuteeId,
-                1);
-            //init enrollment
-            final enrollment = Enrollment.modelConstructor(
-              0,
-              globals.tuteeId,
-              widget.course.id,
-              'Waiting for acception from Tutor of this course',
-              'Pending',
-            );
-            //
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              return Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => PaymentProccessingScreen(
-                    tuteeTransaction: tuteeTransaction,
-                    enrollment: enrollment,
-                  ),
-                ),
-              );
-            });
+      floatingActionButton: buildTotalPaymentFAB(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  //floating action button for payment
+  FloatingActionButton buildTotalPaymentFAB(BuildContext context) {
+    return FloatingActionButton.extended(
+      onPressed: () async {
+        //
+        if (isEnableFAB) {
+          if (globals.authorizedTutee != null) {
+            //post TuteeTransaction
+            payment_methods.completeTuteeTransaction(
+                context, widget.course, totalAmount);
+          } else if (globals.authorizedTutor != null) {
+            //post Tutor Transaction
+            payment_methods.completeTutorTransaction(
+                context, widget.course, totalAmount, fee);
           }
-        },
-        isExtended: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        label: Container(
-          margin: EdgeInsetsDirectional.only(
-            bottom: 30,
-          ),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: mainColor,
-              boxShadow: [boxShadowStyle]),
-          width: 341,
-          height: 88,
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                width: 140,
-                height: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Color(0xff10D624),
+        }
+      },
+      isExtended: true,
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
+      label: Container(
+        margin: EdgeInsetsDirectional.only(
+          bottom: 30,
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: mainColor,
+            boxShadow: [boxShadowStyle]),
+        width: 341,
+        height: 88,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              width: 140,
+              height: 50,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Color(0xff10D624),
+              ),
+              child: Text(
+                'Pay Now',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: titleFontSize,
                 ),
-                child: Text(
-                  'Pay Now',
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '\$$totalAmount',
                   style: TextStyle(
+                    fontSize: headerFontSize,
                     fontWeight: FontWeight.bold,
-                    fontSize: titleFontSize,
                   ),
                 ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '\$' + widget.course.studyFee.toString(),
-                    style: TextStyle(
-                      fontSize: headerFontSize,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'Total Amount',
-                    style: TextStyle(
-                        fontSize: textFontSize,
-                        color: Colors.white.withOpacity(0.7)),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                Text(
+                  'Total Amount',
+                  style: TextStyle(
+                      fontSize: textFontSize,
+                      color: Colors.white.withOpacity(0.7)),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -207,9 +196,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                   ),
                 ),
-                //transaction details content
-                TransactionDetailContent(
-                  course: widget.course,
+                //tutee transaction details content
+                Visibility(
+                  visible: globals.authorizedTutee != null,
+                  child: TuteeTransactionDetailContent(
+                    course: widget.course,
+                  ),
+                ),
+                //Tutor transaction detail content
+                Visibility(
+                  visible: globals.authorizedTutor != null,
+                  child: TutorTransactionDetailContent(),
                 ),
               ],
             ),
@@ -220,17 +217,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 }
 
-class TransactionDetailContent extends StatefulWidget {
+//this transaction detail UI for Tutee payment
+class TuteeTransactionDetailContent extends StatefulWidget {
   final Course course;
 
-  const TransactionDetailContent({Key key, @required this.course})
+  const TuteeTransactionDetailContent({Key key, @required this.course})
       : super(key: key);
   @override
-  _TransactionDetailContentState createState() =>
-      _TransactionDetailContentState();
+  _TuteeTransactionDetailContentState createState() =>
+      _TuteeTransactionDetailContentState();
 }
 
-class _TransactionDetailContentState extends State<TransactionDetailContent> {
+//transaction detail Ui for Tutor payment
+//show Feename; Fee amount; total amount
+class _TuteeTransactionDetailContentState
+    extends State<TuteeTransactionDetailContent> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -248,6 +249,7 @@ class _TransactionDetailContentState extends State<TransactionDetailContent> {
             isEnableFAB = true;
           } else {
             totalAmount = widget.course.studyFee;
+            isEnableFAB = false;
           }
           return Container(
             width: 341,
@@ -337,6 +339,125 @@ class _TransactionDetailContentState extends State<TransactionDetailContent> {
                   thickness: 1,
                   height: 0,
                 ),
+                Container(
+                  width: 341,
+                  height: 60,
+                  alignment: Alignment.center,
+                  child: ListTile(
+                    leading: Text(
+                      'Total Amount',
+                      style: TextStyle(color: Colors.grey[400]),
+                    ),
+                    trailing: Text(
+                      '\$' + totalAmount.toString(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                          fontSize: headerFontSize),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+//this transaction detail UI for Tutee payment
+class TutorTransactionDetailContent extends StatefulWidget {
+  @override
+  _TutorTransactionDetailContentState createState() =>
+      _TutorTransactionDetailContentState();
+}
+
+class _TutorTransactionDetailContentState
+    extends State<TutorTransactionDetailContent> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => FeeCubit(
+        FeeRepository(),
+      ),
+      child: BlocBuilder<FeeCubit, FeeState>(
+        builder: (context, state) {
+          //
+          final feeCubit = context.watch<FeeCubit>();
+          feeCubit.getFeeByFeeId(2);
+          //
+          if (state is FeeLoadedState) {
+            //set global fee to call method compleTutorTransaction
+            fee = state.fee;
+            //
+            totalAmount = state.fee.price;
+            isEnableFAB = true;
+          } else {
+            totalAmount = 0;
+            isEnableFAB = false;
+          }
+          return Container(
+            width: 341,
+            padding: EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 10,
+            ),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                boxShadow: [boxShadowStyle]),
+            child: Column(
+              children: [
+                Container(
+                  width: 341,
+                  height: 60,
+                  alignment: Alignment.center,
+                  child: ListTile(
+                    leading: Text(
+                      'Fee name',
+                      style: TextStyle(color: Colors.grey[400]),
+                    ),
+                    trailing: Text(
+                      state is FeeLoadedState ? state.fee.name : 'Loading..',
+                      style: textStyle,
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: Colors.grey[350],
+                  indent: 20,
+                  endIndent: 20,
+                  thickness: 1,
+                  height: 0,
+                ),
+                //Fee
+                //Extra fee that pay system
+                Container(
+                  width: 341,
+                  height: 60,
+                  alignment: Alignment.center,
+                  child: ListTile(
+                    leading: Text(
+                      'Fee',
+                      style: TextStyle(color: Colors.grey[400]),
+                    ),
+                    trailing: Text(
+                      state is FeeLoadedState
+                          ? '\$' + state.fee.price.toString()
+                          : 'Loading..',
+                      style: textStyle,
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: Colors.grey[350],
+                  indent: 20,
+                  endIndent: 20,
+                  thickness: 1,
+                  height: 0,
+                ),
+                //total amount
                 Container(
                   width: 341,
                   height: 60,

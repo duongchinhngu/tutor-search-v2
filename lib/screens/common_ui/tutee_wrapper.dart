@@ -37,7 +37,6 @@ class _TuteeBottomNavigatorBarState extends State<TuteeBottomNavigatorBar> {
 
   @override
   Widget build(BuildContext context) {
-    print('this is global tuteeId: ' + globals.tuteeId.toString());
     return Scaffold(
       body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

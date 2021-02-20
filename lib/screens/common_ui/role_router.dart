@@ -7,6 +7,7 @@ import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/splash_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/tutee_wrapper.dart';
 import 'package:tutor_search_system/screens/login_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/subject_gird_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_home_screen.dart';
 import 'package:tutor_search_system/states/login_state.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
@@ -47,17 +48,19 @@ class RoleRouter extends StatelessWidget {
                 );
               });
             } else if (state.person is Tutor) {
+              //set authorized Tutor
+              globals.authorizedTutor = state.person;
               //remove all screen stack and navigate
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 return Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => TutorHomeScreen(),
+                    builder: (context) => SubjectGridScreen(),
                   ),
                 );
               });
             } else if (state.person is Tutee) {
-              globals.tuteeId = state.person.id;
-
+              //set authorized tutee
+              globals.authorizedTutee = state.person;
               //remove all screen stack and navigate
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 return Navigator.of(context).pushReplacement(

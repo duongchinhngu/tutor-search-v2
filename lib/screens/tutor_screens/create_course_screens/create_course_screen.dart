@@ -16,7 +16,6 @@ import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
-import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/payment_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
@@ -54,7 +53,7 @@ Course course = Course.constructor(
   0,
   //thi sis hard code
   //createdBy
-  globals.tutorId,
+  globals.authorizedTutor.id,
   // confirmBy
   //this is fake manager id (confirmedBy); backend handles this field
   0,
@@ -123,9 +122,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   //set course status from 'isDraft' to 'Pending'
                   course.status = 'Pending';
                   //thi sis for test only
-                  final courseRepository = CourseRepository();
-                  // await courseRepository.postCourse(course);
-                  //pri
                   //navigate to payment screen
                   Navigator.push(
                     context,
@@ -307,30 +303,27 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                               TextStyle(fontSize: 13, color: Colors.grey[500]),
                         ),
                       ),
-                      subtitle: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          height: 50,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 1,
-                                offset: Offset(1, 1),
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            widget.selectedSubject.name,
-                            style: TextStyle(
-                                fontSize: titleFontSize,
-                                color: mainColor,
-                                fontWeight: FontWeight.bold),
-                          ),
+                      subtitle: Container(
+                        height: 50,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 1,
+                              offset: Offset(1, 1),
+                            ),
+                          ],
+                          color: Colors.white,
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          widget.selectedSubject.name,
+                          style: TextStyle(
+                              fontSize: titleFontSize,
+                              color: mainColor,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     )
@@ -1023,7 +1016,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                   course.classHasSubjectId = classHasSubject.id;
                                   selectedClassName = state.classes[index].name;
                                 });
-                                print('this is id of class subject: ' + course.classHasSubjectId.toString());
+                                print('this is id of class subject: ' +
+                                    course.classHasSubjectId.toString());
                               },
                             );
                           },

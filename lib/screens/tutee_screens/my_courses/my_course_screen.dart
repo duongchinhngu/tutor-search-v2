@@ -112,7 +112,7 @@ class _CourseListViewState extends State<CourseListView> {
           //
           final courseCubit = context.watch<CourseCubit>();
           courseCubit.getCoursesByEnrollmentStatus(
-              globals.tuteeId, widget.currentStatus);
+              globals.authorizedTutee.id, widget.currentStatus);
           //
           if (state is CourseLoadingState) {
             return buildLoadingIndicator();

@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     //show error message like: "Invalid Account"
     if (widget.snackBarContent != null) {
       WidgetsBinding.instance.addPostFrameCallback(
-        (_) => Scaffold.of(context).showSnackBar(
+        (_) => ScaffoldMessenger.of(context).showSnackBar(
           buildLoginErrorSnackBar(),
         ),
       );

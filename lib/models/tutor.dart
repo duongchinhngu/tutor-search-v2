@@ -16,7 +16,43 @@ class Tutor extends Person {
   final int points;
   final int membershipId;
 
-  Tutor({int id, String fullname, String gender, String birthday, String email, String phone, String address, String status, int roleId, String description, String avatarImageLink, this.educationLevel, this.school, this.points, this.membershipId}) : super(id, fullname, gender, birthday, email, phone, address, status, roleId, description, avatarImageLink);
+  Tutor(
+      {int id,
+      String fullname,
+      String gender,
+      String birthday,
+      String email,
+      String phone,
+      String address,
+      String status,
+      int roleId,
+      String description,
+      String avatarImageLink,
+      this.educationLevel,
+      this.school,
+      this.points,
+      this.membershipId})
+      : super(id, fullname, gender, birthday, email, phone, address, status,
+            roleId, description, avatarImageLink);
+
+  Tutor.constructor(
+      int id,
+      String fullname,
+      String gender,
+      String birthday,
+      String email,
+      String phone,
+      String address,
+      String status,
+      int roleId,
+      String description,
+      String avatarImageLink,
+      this.educationLevel,
+      this.school,
+      this.points,
+      this.membershipId)
+      : super(id, fullname, gender, birthday, email, phone, address, status,
+            roleId, description, avatarImageLink);
 
   factory Tutor.fromJson(Map<String, dynamic> json) {
     return Tutor(

@@ -1,13 +1,17 @@
 library my_prj.global;
+
 import 'package:intl/intl.dart';
+import 'package:tutor_search_system/models/tutee.dart';
+import 'package:tutor_search_system/models/tutor.dart';
 
 // tutee id for all page can access; this will be reseted when login succeed
-int tuteeId = 0;
-
+Tutee authorizedTutee;
+//
 //tutor id for all page can access;
 //  this will be reseted when tutor login succeeded
-int tutorId = 1;
-
+//authorized tutor
+Tutor authorizedTutor;
+//
 //filter keys for search course page
 
 //default datetime

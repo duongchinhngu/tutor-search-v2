@@ -34,6 +34,8 @@ const FEE_API = "$SERVER_NAME/fees";
 
 //Transaction api urls
 const TUTEE_TRANSACTION_API = "$SERVER_NAME/tutee-transactions";
+const TUTOR_TRANSACTION_API = "$SERVER_NAME/tutor-transactions";
+
 
 //class has subject api urls
 const CLASS_HAS_SUBJECT_API = "$SERVER_NAME/class-has-subject";
