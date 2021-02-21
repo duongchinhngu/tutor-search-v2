@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'create_course_elements.dart';
+import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/styles.dart';
 import 'create_course_screen.dart';
 
 //weekday class and contructor
@@ -210,3 +211,44 @@ class _WeekDaysComponentState extends State<WeekDaysComponent> {
     );
   }
 }
+
+//round weekday button
+class WeekDayButton extends StatefulWidget {
+  final String label;
+  final bool isSelected;
+
+  const WeekDayButton({Key key, @required this.label, this.isSelected}) : super(key: key);
+
+  @override
+  _WeekDayButtonState createState() => _WeekDayButtonState();
+}
+
+class _WeekDayButtonState extends State<WeekDayButton> {
+  //
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      width: 50,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: widget.isSelected ? mainColor : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              blurRadius: 1,
+              offset: Offset(0, 1),
+            ),
+          ]),
+      child: Text(
+        widget.label,
+        style: TextStyle(
+          fontSize: titleFontSize,
+          color: widget.isSelected ? Colors.white : textGreyColor,
+        ),
+      ),
+    );
+  }
+}
+

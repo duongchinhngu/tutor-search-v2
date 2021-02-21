@@ -24,25 +24,24 @@ import 'create_course_elements.dart';
 
 //this is default course (when tutor does not choose fields for new course)
 //default value of unchosen field is "No Select"
-// final c = Course.constructor(id, name, beginTime, endTime, studyForm, studyFee, daysInWeek, beginDate, endDate, description, status, classHasSubjectId, createdBy, confirmBy, createdDate, confirmedDate)
 Course course = Course.constructor(
   0,
   // name
   '',
   //begintime
-  'No select',
+  globals.DEFAULT_NO_SELECT,
   // endtime
-  'No select',
+  globals.DEFAULT_NO_SELECT,
   //study form
-  'No select',
+  globals.DEFAULT_NO_SELECT,
   //study fee
   null,
   //days in week
   '[]',
   //begin date
-  'No select',
+  globals.DEFAULT_NO_SELECT,
   // end date
-  'No select',
+  globals.DEFAULT_NO_SELECT,
   //description
   '',
   //status
@@ -64,7 +63,7 @@ Course course = Course.constructor(
 );
 
 //selectedClassName
-String selectedClassName = 'No select';
+String selectedClassName = globals.DEFAULT_NO_SELECT;
 
 //course name field controller
 TextEditingController _courseNameController = TextEditingController();
@@ -94,19 +93,19 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       // name
       '',
       //begintime
-      'No select',
+      globals.DEFAULT_NO_SELECT,
       // endtime
-      'No select',
+      globals.DEFAULT_NO_SELECT,
       //study form
-      'No select',
+      globals.DEFAULT_NO_SELECT,
       //study fee
       null,
       //days in week
       '[]',
       //begin date
-      'No select',
+      globals.DEFAULT_NO_SELECT,
       // end date
-      'No select',
+      globals.DEFAULT_NO_SELECT,
       //description
       '',
       //status
@@ -828,7 +827,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           color: textGreyColor,
         ),
         onPressed: () {
-          selectedClassName = 'No select';
+          selectedClassName = globals.DEFAULT_NO_SELECT;
           Navigator.of(context).pop();
         },
       ),
@@ -841,10 +840,10 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
               course.showAttributes(course);
               //
               if (course.classHasSubjectId == 0 ||
-                  course.studyForm == 'No select' ||
-                  course.beginDate == 'No select' ||
-                  course.beginTime == 'No select' ||
-                  course.endTime == 'No select' ||
+                  course.studyForm == globals.DEFAULT_NO_SELECT ||
+                  course.beginDate == globals.DEFAULT_NO_SELECT ||
+                  course.beginTime == globals.DEFAULT_NO_SELECT ||
+                  course.endTime == globals.DEFAULT_NO_SELECT ||
                   course.daysInWeek == '[]' ||
                   course.classHasSubjectId == 0) {
                 showDialog(

@@ -14,9 +14,12 @@ Tutor authorizedTutor;
 //
 //filter keys for search course page
 
+//
 //default datetime
-String defaultDatetime = '1990-01-01';
-
+const defaultDatetime = '1990-01-01';
+//default 'No select' variable
+const DEFAULT_NO_SELECT = 'No select'; 
+//
 //date formatter
 final dateFormatter = new DateFormat('yyyy-MM-dd');
 //time formatter
