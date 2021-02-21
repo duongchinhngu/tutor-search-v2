@@ -1,5 +1,4 @@
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +10,7 @@ import 'package:tutor_search_system/screens/common_ui/role_router.dart';
 import 'package:tutor_search_system/screens/login_screen.dart';
 
 class LoginRepository {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 //sign in (login) by Google account

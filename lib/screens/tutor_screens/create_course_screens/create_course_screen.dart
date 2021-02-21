@@ -529,7 +529,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   //select time range
                   final TimeRange timeRange = await timeRangeSelector(context);
                   //set tmpCourse begin and end time
-                  // setBeginAndEndTime(timeRange);
+                  setBeginAndEndTime(timeRange);
                 },
                 child: Container(
                   height: 210,
@@ -898,18 +898,18 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       strokeColor: mainColor,
       handlerColor: mainColor,
       selectedColor: Colors.red[900],
-      onEndChange: (end) {
-        setState(() {
-          course.endTime = globals.timeFormatter
-              .format(new DateTime(1990, 1, 1, end.hour, end.minute, 0));
-        });
-      },
-      onStartChange: (start) {
-        setState(() {
-          course.beginTime = globals.timeFormatter
-              .format(new DateTime(1990, 1, 1, start.hour, start.minute, 0));
-        });
-      },
+      // onEndChange: (end) {
+      //   setState(() {
+      //     course.endTime = globals.timeFormatter
+      //         .format(new DateTime(1990, 1, 1, end.hour, end.minute, 0));
+      //   });
+      // },
+      // onStartChange: (start) {
+      //   setState(() {
+      //     course.beginTime = globals.timeFormatter
+      //         .format(new DateTime(1990, 1, 1, start.hour, start.minute, 0));
+      //   });
+      // },
       backgroundWidget: Text(
         'Study Time',
         style: GoogleFonts.kaushanScript(
@@ -930,6 +930,26 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
         ClockLabel(angle: 180.0 * pi / 180, text: '6AM')
       ],
     );
+  }
+
+  //set end and begin time ui
+  void setBeginAndEndTime(TimeRange timeRange) {
+    //set start time if not null
+    if (timeRange.startTime != null) {
+      setState(() {
+        //set start time ui
+        course.beginTime = globals.timeFormatter.format(new DateTime(1990, 1, 1,
+            timeRange.startTime.hour, timeRange.startTime.minute, 0));
+      });
+    }
+    //set end time if not null
+    if (timeRange.endTime != null) {
+      setState(() {
+        //set entime UI
+        course.endTime = globals.timeFormatter.format(new DateTime(
+            1990, 1, 1, timeRange.endTime.hour, timeRange.endTime.minute, 0));
+      });
+    }
   }
 
   //get date range and get end and start date

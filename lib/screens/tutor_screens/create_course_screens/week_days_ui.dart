@@ -33,7 +33,7 @@ class WeekDaysComponent extends StatefulWidget {
 class _WeekDaysComponentState extends State<WeekDaysComponent> {
   @override
   void dispose() {
-    // TODO: implement dispose
+    // 
     selectedWeekdays.clear();
     //
     weekdays = [

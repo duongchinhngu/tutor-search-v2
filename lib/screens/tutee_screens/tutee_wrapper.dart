@@ -3,7 +3,6 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/my_courses/my_course_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/tutee_search_course.dart';
-import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 
 class TuteeBottomNavigatorBar extends StatefulWidget {
   final selectedIndex;
