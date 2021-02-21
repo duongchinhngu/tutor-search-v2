@@ -29,6 +29,27 @@ class LoginRepository {
         );
       });
     });
+
+    // });
+    // final GoogleSignInAccount account = await _googleSignIn.signIn();
+    // final GoogleSignInAuthentication _googleAuth = await account.authentication;
+    // final AuthCredential credential = GoogleAuthProvider.credential(
+    //   idToken: _googleAuth.idToken,
+    //   accessToken: _googleAuth.accessToken,
+    // );
+
+    // await _auth.signInWithCredential(credential).whenComplete(() {
+    //   User currentUser = _auth.currentUser;
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     return Navigator.of(context).pushReplacement(
+    //       MaterialPageRoute(
+    //         builder: (context) => RoleRouter(
+    //           userEmail: currentUser.email,
+    //         ),
+    //       ),
+    //     );
+    //   });
+    // });
   }
 
 //sign out (log out)
@@ -57,7 +78,6 @@ class LoginRepository {
       //   idToken: googleAuth.idToken,
       // );
       // UserCredential authResult = (await _auth.signInWithCredential(credential));
-
       // User currentUser =  _auth.currentUser;
       // String tokenResult = await currentUser.getIdToken();
 

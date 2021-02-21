@@ -126,7 +126,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       //this is fake confirmedDate; backend handles this field
       globals.defaultDatetime,
     );
-
+    resetInputFields();
     //
     super.dispose();
   }

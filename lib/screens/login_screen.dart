@@ -41,10 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
   SnackBar buildLoginErrorSnackBar() {
     return SnackBar(
       duration: Duration(
-        seconds: 7,
+        seconds: 15,
       ),
       backgroundColor: backgroundColor,
       behavior: SnackBarBehavior.floating,
+      elevation: 0.0,
       content: Stack(
         children: [
           Container(
