@@ -30,7 +30,7 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
           BlocBuilder<CourseCubit, CourseState>(builder: (context, state) {
         //call category cubit and get all course
         final classCubit = context.watch<CourseCubit>();
-        classCubit.getAllCourse();
+        classCubit.getTuteeHomeCourses();
         //render proper UI for each Course state
         if (state is CourseLoadingState) {
           return buildLoadingIndicator();

@@ -19,6 +19,20 @@ class CourseRepository {
     }
   }
 
+  //fecth all courses : status = active and not registered by this tuteeId
+  Future<List<Course>> fecthTuteeHomeCourses(http.Client client) async {
+    final tuteeId = globals.authorizedTutee.id;
+    final response = await http.get('$TUTEE_HOME_COURSES/$tuteeId');
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((courses) => new Course.fromJson(courses))
+          .toList();
+    } else {
+      throw Exception('Failed to fetch all courses');
+    }
+  }
+
   //fetch courses by status
   Future<List<Course>> fetchCourseByFilter(
       http.Client client, String status, int subjectId) async {

@@ -8,9 +8,12 @@ class CourseCubit extends Cubit<CourseState> {
   final CourseRepository _repository;
   CourseCubit(this._repository) : super(CourseLoadingState());
 
-  Future getAllCourse() async {
+  //get courses for tutee home screen;
+  //course status = active; not registered by this authorized tutee id
+  Future getTuteeHomeCourses() async {
     try {
-      List<Course> courses = await _repository.fetchAllCourses(http.Client());
+      List<Course> courses =
+          await _repository.fecthTuteeHomeCourses(http.Client());
       emit(CourseListLoadedState(courses));
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
@@ -45,7 +48,8 @@ class CourseCubit extends Cubit<CourseState> {
     try {
       List<Course> courses;
       if (status == 'All') {
-        courses = await _repository.fetchCoursesByTuteeId(http.Client(), tuteeId);
+        courses =
+            await _repository.fetchCoursesByTuteeId(http.Client(), tuteeId);
       } else {
         courses = await _repository.fetchCoursesByEnrollmentStatus(
             http.Client(), status, tuteeId);
