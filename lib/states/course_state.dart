@@ -17,7 +17,7 @@ class CourseLoadedState extends CourseState {
 }
 
 class CourseListLoadedState extends CourseState{
-  final List<Course> courses;
+  List<Course> courses;
 
   CourseListLoadedState(this.courses);
 }

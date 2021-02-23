@@ -6,6 +6,7 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/class.dart';
+import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
@@ -20,6 +21,7 @@ import 'course_filter_popup.dart';
 //number of filter item selected
 int numberOfSelected = 0;
 //
+String searchValue = '';
 
 class SearchCourseScreen extends StatefulWidget {
   @override
@@ -105,7 +107,7 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
 }
 
 //SEARCH BOX
-class SearchBox extends StatelessWidget {
+class SearchBox extends StatefulWidget {
   SearchBox({
     Key key,
     this.onChanged,
@@ -113,6 +115,11 @@ class SearchBox extends StatelessWidget {
 
   final ValueChanged onChanged;
 
+  @override
+  _SearchBoxState createState() => _SearchBoxState();
+}
+
+class _SearchBoxState extends State<SearchBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -133,7 +140,11 @@ class SearchBox extends StatelessWidget {
         ),
         child: TextField(
           textAlign: TextAlign.start,
-          onChanged: onChanged,
+          onChanged: (value) {
+            setState(() {
+              searchValue = value;
+            });
+          },
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.only(bottom: 13),
             icon: Icon(
@@ -141,7 +152,7 @@ class SearchBox extends StatelessWidget {
             ),
             enabledBorder: InputBorder.none,
             focusedBorder: InputBorder.none,
-            hintText: 'course, tutor, etc',
+            hintText: 'Search by course name',
             hintStyle: TextStyle(
               color: Colors.grey[400],
               fontSize: textFontSize,
@@ -153,8 +164,6 @@ class SearchBox extends StatelessWidget {
   }
 }
 
-//filter icon button
-
 //horizontal class list and course result below
 class SearchCourseBody extends StatefulWidget {
   final Subject subject;
@@ -164,6 +173,7 @@ class SearchCourseBody extends StatefulWidget {
   _SearchCourseBodyState createState() => _SearchCourseBodyState();
 }
 
+//Search Course body contain class horizontal list and course result
 class _SearchCourseBodyState extends State<SearchCourseBody> {
   @override
   void initState() {
@@ -226,6 +236,10 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                         if (state is CourseLoadingState) {
                           return buildLoadingIndicator();
                         } else if (state is CourseListLoadedState) {
+                          //set subjectList var = this state subject list
+                          state.courses = state.courses
+                              .where((s) => s.name.contains(searchValue))
+                              .toList();
                           //load all course and then load courses by class id
                           return Expanded(child: buildCourseGridView(state));
                         } else if (state is CourseLoadFailedState) {
