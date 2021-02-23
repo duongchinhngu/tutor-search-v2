@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
+import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/class.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
+import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/course_filter_variables.dart';
 import 'package:tutor_search_system/states/class_state.dart';
+import 'package:tutor_search_system/states/course_state.dart';
 import 'course_filter_popup.dart';
 
 //number of filter item selected
@@ -17,9 +22,6 @@ int numberOfSelected = 0;
 //
 
 class SearchCourseScreen extends StatefulWidget {
-  final Subject subject;
-
-  const SearchCourseScreen({Key key, @required this.subject}) : super(key: key);
   @override
   _SearchCourseScreenState createState() => _SearchCourseScreenState();
 }
@@ -91,7 +93,7 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
           children: [
             //horizontal class list
             SearchCourseBody(
-              subject: widget.subject,
+              subject: filterSubject,
             ),
             //
             // result of subject and class
@@ -208,10 +210,33 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                     ),
                   ),
                   // //show course gridview by subject id and class id
-                  // CourseGridView(
-                  //   subject: widget.subject,
-                  //   classes: state.classes[index]
-                  // ),
+                  BlocProvider(
+                    create: (context) => CourseCubit(CourseRepository()),
+                    child: BlocBuilder<CourseCubit, CourseState>(
+                      builder: (context, state) {
+                        //
+                        final courseCubit = context.watch<CourseCubit>();
+                        courseCubit.getUnregisteredCoursesBySubjectIdClassId(
+                            authorizedTutee.id,
+                            filterSubject.id,
+                            filterClass.id);
+                        // courseCubit.getTuteeHomeCourses();
+                        //
+                        //render proper UI for each Course state
+                        if (state is CourseLoadingState) {
+                          return buildLoadingIndicator();
+                        } else if (state is CourseListLoadedState) {
+                          //load all course and then load courses by class id
+                          return Expanded(child: buildCourseGridView(state));
+                        } else if (state is CourseLoadFailedState) {
+                          return Center(
+                            child: Text(state.errorMessage),
+                          );
+                        }
+                      },
+                    ),
+                  )
+                  // // buildCourseGridView(state),
                 ],
               ),
             ),

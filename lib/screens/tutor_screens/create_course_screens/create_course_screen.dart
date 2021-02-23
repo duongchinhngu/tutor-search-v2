@@ -829,7 +829,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           color: textGreyColor,
         ),
         onPressed: () {
-          selectedClassName = globals.DEFAULT_NO_SELECT;
+          setState(() {
+            selectedClassName = globals.DEFAULT_NO_SELECT;
+          });
           Navigator.of(context).pop();
         },
       ),

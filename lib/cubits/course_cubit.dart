@@ -31,6 +31,17 @@ class CourseCubit extends Cubit<CourseState> {
     }
   }
 
+  //get courses unregisterd by tuteeId; by subjectId and classId
+  Future getUnregisteredCoursesBySubjectIdClassId(int tuteeId, int subjectId, int classId) async {
+    try {
+      List<Course> courses = await _repository.fetchgetUnregisteredCoursesBySubjectIdClassId(
+          http.Client(), tuteeId, subjectId, classId);
+      emit(CourseListLoadedState(courses));
+    } catch (e) {
+      emit(CourseLoadFailedState('$e'));
+    }
+  }
+
   //get course by course Id
   Future getCoursesByCourseId(int id) async {
     try {

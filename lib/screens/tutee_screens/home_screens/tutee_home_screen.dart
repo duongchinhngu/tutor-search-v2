@@ -65,16 +65,7 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                 ),
               ],
             ),
-            body: GridView.builder(
-              itemCount: state.courses.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 2 / 4,
-              ),
-              itemBuilder: (context, index) => VerticalCourseCard(
-                course: state.courses[index],
-              ),
-            ),
+            body: buildCourseGridView(state),
           );
         } else if (state is CourseLoadFailedState) {
           return Center(
@@ -86,6 +77,23 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
   }
 }
 
+//course inn gridview UI style
+Container buildCourseGridView(CourseListLoadedState state) {
+  return Container(
+    child: GridView.builder(
+      itemCount: state.courses.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 2 / 4,
+      ),
+      itemBuilder: (context, index) => VerticalCourseCard(
+        course: state.courses[index],
+      ),
+    ),
+  );
+}
+
+//Course Card
 class VerticalCourseCard extends StatelessWidget {
   final Course course;
 
@@ -115,17 +123,10 @@ class VerticalCourseCard extends StatelessWidget {
               topRight: Radius.circular(12),
             ),
             boxShadow: [
-              // BoxShadow(
-              //   color: Colors.grey.withOpacity(0.02),
-              //   spreadRadius: 5,
-              //   blurRadius: 7,
-              //   offset: Offset(0, 3), // changes position of shadow
-              // ),
               boxShadowStyle,
             ],
           ),
           width: 60,
-          // height: 300,
           child: Column(
             children: [
               Expanded(

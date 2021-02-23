@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/subject_gird_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/subject_grid_screen.dart';
 
 class CreateCourseWelcomeScreen extends StatefulWidget {
   @override

@@ -233,7 +233,6 @@ class SubjectGridCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => SearchCourseScreen(
-                subject: subject,
               ),
             ),
           );

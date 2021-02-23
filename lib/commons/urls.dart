@@ -16,6 +16,7 @@ const CLASS_BY_SUBJECT_ID_API = "$CLASS_API/classes-by-subject/";
 const COURSE_API = "$SERVER_NAME/courses";
 const ALL_COURSE_API = "$COURSE_API/all";
 const FILTER_COURSE_API = "$COURSE_API/filter/filter?";
+const UNREGISTERD_COURSE_BY_SUBJECT_CLASS_API = "$COURSE_API/tutee/subject/class/result?";
 const COURSES_BY_TUTEEID_API = "$COURSE_API/courses-by-tutee-id";
 const COURSES_BY_ENROLLMENT_STATUS_API = "$COURSE_API/courses-by-enrollment-status/courses?";
 const TUTEE_HOME_COURSES = '$COURSE_API/tutee-home';

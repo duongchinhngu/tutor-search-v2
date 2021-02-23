@@ -60,6 +60,35 @@ class CourseRepository {
     }
   }
 
+  //fetch courses unregistered by tuteeId; by subjectId and classId
+  Future<List<Course>> fetchgetUnregisteredCoursesBySubjectIdClassId(
+      http.Client client, int tuteeId, int subjectId, int classId) async {
+    //host url
+    String url = UNREGISTERD_COURSE_BY_SUBJECT_CLASS_API;
+    //query parameters
+    Map<String, String> queryParams = {
+      'tuteeId': tuteeId.toString(),
+      'subjectId': subjectId.toString(),
+      'classId': classId.toString(),
+    };
+    //transform to queryTring
+    String queryString = Uri(queryParameters: queryParams).query;
+    url += queryString;
+    print('this is query url: ' + url);
+    //merge to url
+
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((courses) => new Course.fromJson(courses))
+          .toList();
+    } else {
+      print('error body: ' + response.body);
+      throw Exception('Failed to fetch courses by filter');
+    }
+  }
+
   //fetch courses by courseId
   Future<Course> fetchCourseByCourseId(http.Client client, int id) async {
     final response = await http.get('$COURSE_API/$id');
