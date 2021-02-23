@@ -1,11 +1,10 @@
-import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:tutor_search_system/commons/common_functions.dart' as converter;
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
@@ -16,6 +15,7 @@ import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/payment_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
@@ -526,7 +526,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
               GestureDetector(
                 onTap: () async {
                   //select time range
-                  final TimeRange timeRange = await timeRangeSelector(context);
+                  final TimeRange timeRange =
+                      await timeRangeSelector(context, 'Study time');
                   //set tmpCourse begin and end time
                   setBeginAndEndTime(timeRange);
                 },
@@ -817,6 +818,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     );
   }
 
+//app bar
   AppBar buildCreateCourseAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundColor,
@@ -886,82 +888,25 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     );
   }
 
-//show modal and choose begin and end time
-  timeRangeSelector(BuildContext context) {
-    showTimeRangePicker(
-      context: context,
-      padding: 30,
-      interval: Duration(minutes: 10),
-      strokeWidth: 10,
-      handlerRadius: 10,
-      strokeColor: mainColor,
-      handlerColor: mainColor,
-      selectedColor: Colors.red[900],
-      // onEndChange: (end) {
-      //   setState(() {
-      //     course.endTime = globals.timeFormatter
-      //         .format(new DateTime(1990, 1, 1, end.hour, end.minute, 0));
-      //   });
-      // },
-      // onStartChange: (start) {
-      //   setState(() {
-      //     course.beginTime = globals.timeFormatter
-      //         .format(new DateTime(1990, 1, 1, start.hour, start.minute, 0));
-      //   });
-      // },
-      backgroundWidget: Text(
-        'Study Time',
-        style: GoogleFonts.kaushanScript(
-          textStyle: TextStyle(
-            color: mainColor,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      ticks: 12,
-      ticksColor: Colors.white,
-      snap: true,
-      labels: [
-        ClockLabel(angle: 270.0 * pi / 180, text: '12AM'),
-        ClockLabel(angle: 00.0, text: '6PM'),
-        ClockLabel(angle: 90.0 * pi / 180, text: 'Midnight'),
-        ClockLabel(angle: 180.0 * pi / 180, text: '6AM')
-      ],
-    );
-  }
-
   //set end and begin time ui
   void setBeginAndEndTime(TimeRange timeRange) {
     //set start time if not null
     if (timeRange.startTime != null) {
       setState(() {
         //set start time ui
-        course.beginTime = globals.timeFormatter.format(new DateTime(1990, 1, 1,
-            timeRange.startTime.hour, timeRange.startTime.minute, 0));
+        course.beginTime =
+            converter.convertTimeOfDayToString(timeRange.startTime);
+        // globals.timeFormatter.format(new DateTime(1990, 1, 1,
+        // timeRange.startTime.hour, timeRange.startTime.minute, 0);
       });
     }
     //set end time if not null
     if (timeRange.endTime != null) {
       setState(() {
         //set entime UI
-        course.endTime = globals.timeFormatter.format(new DateTime(
-            1990, 1, 1, timeRange.endTime.hour, timeRange.endTime.minute, 0));
+        course.endTime = converter.convertTimeOfDayToString(timeRange.endTime);
       });
     }
-  }
-
-  //get date range and get end and start date
-  Future<DateTimeRange> dateRangeSelector(BuildContext context) {
-    return showDateRangePicker(
-      context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(
-        new Duration(
-          days: 365,
-        ),
-      ),
-    );
   }
 
   //setstate for tmpcourse end and begin date
@@ -969,14 +914,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     //set tmpCourse.beginDate = start date
     if (range.start != null) {
       setState(() {
-        course.beginDate = globals.dateFormatter.format(range.start);
+        course.beginDate = converter.convertDayTimeToString(range.start);
       });
     }
 
     //set tmpCourse.endDate = end date
     if (range.end != null) {
       setState(() {
-        course.endDate = globals.dateFormatter.format(range.end);
+        course.endDate = converter.convertDayTimeToString(range.end);
       });
     }
   }

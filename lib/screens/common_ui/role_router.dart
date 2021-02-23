@@ -6,7 +6,7 @@ import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/splash_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
-import 'package:tutor_search_system/screens/login_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_wrapper.dart';
 import 'package:tutor_search_system/states/login_state.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;

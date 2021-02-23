@@ -8,6 +8,7 @@ import 'package:tutor_search_system/cubits/tutor_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/payment_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
@@ -59,14 +60,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                   ),
                 ),
                 centerTitle: true,
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: textGreyColor,
-                    size: 15,
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
+                leading: buildDefaultBackButton(context),
               ),
               body: Container(
                 color: backgroundColor,

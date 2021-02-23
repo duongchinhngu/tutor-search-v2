@@ -7,7 +7,7 @@ import 'package:tutor_search_system/repositories/account_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/role_router.dart';
-import 'package:tutor_search_system/screens/login_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
 
 class LoginRepository {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
