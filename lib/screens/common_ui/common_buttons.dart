@@ -24,3 +24,15 @@ IconButton buildDefaultCloseButton(BuildContext context) {
         onPressed: () => Navigator.pop(context),
       );
   }
+
+//default close button with ontap function is customized var
+IconButton buildDefaultCloseButtonWithFucntion(BuildContext context, Function onTap) {
+    return IconButton(
+        icon: Icon(
+          Icons.close,
+          color: textGreyColor,
+          size: 20,
+        ),
+        onPressed: onTap,
+      );
+  }

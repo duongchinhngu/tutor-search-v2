@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:http/http.dart' as http;
-import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/course_filter_variables.dart';
+import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 
 class CourseCubit extends Cubit<CourseState> {

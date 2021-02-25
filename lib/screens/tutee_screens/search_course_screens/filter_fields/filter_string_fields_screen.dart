@@ -32,7 +32,7 @@ class _FilterForStringFieldScreenState
   //apply all filter selections
   void apply() {
     //contain all selected items
-    var selectedItems = [];
+    List<String> selectedItems = [];
     //add selected items to list to return
     for (var item in widget.filterItems) {
       if (item.isSelected) {

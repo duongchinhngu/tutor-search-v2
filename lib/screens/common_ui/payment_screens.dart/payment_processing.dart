@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/models/tutee_transaction.dart';
@@ -9,6 +10,8 @@ import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/transaction_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/result_screens/follow_completed_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_screen.dart';
 import '../error_screen.dart';
 import 'result_screens/create_course_completed_screen.dart';
 
@@ -119,6 +122,10 @@ class _TutorPaymentProccessingScreenState
           return ErrorScreen();
         } else {
           if (snapshot.hasData == true) {
+            //set No select value fot Class
+            selectedClassName = DEFAULT_NO_SELECT;
+            filter.resetFilterVariables();
+            //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(

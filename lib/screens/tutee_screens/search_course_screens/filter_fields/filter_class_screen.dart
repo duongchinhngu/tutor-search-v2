@@ -7,7 +7,7 @@ import 'package:tutor_search_system/repositories/class_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/states/class_state.dart';
-import '../course_filter_variables.dart';
+import '../filter_models/course_filter_variables.dart';
 
 class FilterClassSelectorScreen extends StatefulWidget {
   @override

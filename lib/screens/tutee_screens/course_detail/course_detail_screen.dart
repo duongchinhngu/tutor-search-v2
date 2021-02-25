@@ -106,8 +106,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       endIndent: 30,
                     ),
                     //study time
-                    buildCourseInformationListTile(state.course.beginTime,
-                        'Study Time', Icons.access_time),
+                    buildCourseInformationListTile(
+                        state.course.beginTime + ' - ' + state.course.endTime,
+                        'Study Time',
+                        Icons.access_time),
                     Divider(
                       thickness: 1,
                       indent: 30,
@@ -182,13 +184,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
         decoration: BoxDecoration(
           color: backgroundColor,
           shape: BoxShape.circle,
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.grey,
-          //     blurRadius: 1.5,
-          //     offset: Offset(0, 0.05),
-          //   ),
-          // ],
         ),
         child: Icon(
           icon,

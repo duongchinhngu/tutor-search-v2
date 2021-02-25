@@ -3,7 +3,7 @@ import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_fields/filter_class_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_fields/filter_string_fields_screen.dart';
-import './course_filter_variables.dart';
+import 'filter_models/course_filter_variables.dart';
 import 'package:tutor_search_system/commons/common_functions.dart' as converter;
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
@@ -83,7 +83,31 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
               false,
             ),
             Divider(),
-            // study fee
+            //study form
+            buildFilterFieldListTitle(
+              filter.filterStudyForm != null,
+              'Study Form',
+              filter.filterStudyForm != null ? filter.filterStudyForm : '',
+              () async {
+                //navigator to new page from right to left
+                Route route = CupertinoPageRoute(
+                  builder: (context) => FilterForStringFieldScreen(
+                    filterItems: filter_items.studyForms,
+                    header: 'Study Form',
+                    isMultipleSelectable: false,
+                  ),
+                );
+                //
+                final selectedValue = await Navigator.push(context, route);
+                //set filter variable
+                setState(() {
+                  filter.filterStudyForm = selectedValue;
+                });
+              },
+              true,
+            ),
+            Divider(),
+            //study fee
             buildFilterFieldListTitle(
               filter.filterStudyFee != null,
               'Study Fee',
@@ -108,14 +132,11 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 //set filter variable = new object
                 setState(() {
                   if (selectedValue == feeRangeContent1) {
-                    filter.filterStudyFee =
-                        FilterStudyFee(0, 25);
+                    filter.filterStudyFee = FilterStudyFee(0, 25);
                   } else if (selectedValue == feeRangeContent2) {
-                    filter.filterStudyFee =
-                        FilterStudyFee(25, 50);
+                    filter.filterStudyFee = FilterStudyFee(25, 50);
                   } else if (selectedValue == feeRangeContent3) {
-                    filter.filterStudyFee =
-                        FilterStudyFee(50, double.infinity);
+                    filter.filterStudyFee = FilterStudyFee(50, double.infinity);
                   }
                 });
               },
@@ -127,7 +148,10 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
               filter.filterWeekdays.isNotEmpty,
               'Weekday',
               filter.filterWeekdays.isNotEmpty
-                  ? filter.filterWeekdays.toString()
+                  ? filter.filterWeekdays
+                      .toString()
+                      .replaceFirst('[', '')
+                      .replaceFirst(']', '')
                   : '',
               () async {
                 //navigator to new page from right to left
@@ -158,8 +182,8 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                   ? converter.convertDayTimeToString(
                           filter.filterDateRange.start) +
                       '       to      ' +
-                      converter.convertDayTimeToString(
-                          filter.filterDateRange.end)
+                      converter
+                          .convertDayTimeToString(filter.filterDateRange.end)
                   : '',
               () async {
                 //choose time range
@@ -174,9 +198,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             buildFilterFieldListTitle(
               filter.filterClass != null,
               'Class',
-              filter.filterClass != null
-                  ? filter.filterClass.name
-                  : '',
+              filter.filterClass != null ? filter.filterClass.name : '',
               () async {
                 //navigator to new page from right to left
                 Route route = CupertinoPageRoute(
@@ -198,9 +220,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             buildFilterFieldListTitle(
               filter.filterGender != null,
               'Gender',
-              filter.filterGender != null
-                  ? filter.filterGender
-                  : '',
+              filter.filterGender != null ? filter.filterGender : '',
               () async {
                 //navigator to new page from right to left
                 Route route = CupertinoPageRoute(
@@ -342,6 +362,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
   InkWell buildApplyFAB() {
     return InkWell(
       onTap: () {
+        print('this is weekdays filter: ' + filter.filterWeekdays.toString());
         Navigator.pop(context, filter.countSelectedFilterItems());
       },
       child: BottomAppBar(

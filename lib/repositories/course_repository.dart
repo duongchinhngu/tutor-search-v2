@@ -5,7 +5,7 @@ import 'package:tutor_search_system/commons/common_functions.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
-import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/course_filter_variables.dart';
+import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart';
 
 class CourseRepository {
   //fetch all active course courses, fetch courses that isn't followed by this tutee
@@ -62,6 +62,8 @@ class CourseRepository {
       if (filter.filterGender != null) 'tutorGender': filter.filterGender,
       if (filter.filterEducationLevel != null)
         'educationLevel': filter.filterEducationLevel,
+      if (filter.filterStudyForm != null)
+        'studyForm': filter.filterStudyForm,
     };
     //transform to queryTring
     String queryString = Uri(queryParameters: queryParams).query;
