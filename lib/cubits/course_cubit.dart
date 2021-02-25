@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/course_filter_variables.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 
 class CourseCubit extends Cubit<CourseState> {
@@ -21,26 +22,26 @@ class CourseCubit extends Cubit<CourseState> {
   }
 
   //
-  Future getCoursesByFilter(String status, int subjectId) async {
+  Future getCoursesByFilter(Filter filter) async {
     try {
       List<Course> courses = await _repository.fetchCourseByFilter(
-          http.Client(), status, subjectId);
+          http.Client(), filter);
       emit(CourseListLoadedState(courses));
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
     }
   }
 
-  //get courses unregisterd by tuteeId; by subjectId and classId
-  Future getUnregisteredCoursesBySubjectIdClassId(int tuteeId, int subjectId, int classId) async {
-    try {
-      List<Course> courses = await _repository.fetchgetUnregisteredCoursesBySubjectIdClassId(
-          http.Client(), tuteeId, subjectId, classId);
-      emit(CourseListLoadedState(courses));
-    } catch (e) {
-      emit(CourseLoadFailedState('$e'));
-    }
-  }
+  // //get courses unregisterd by tuteeId; by subjectId and classId
+  // Future getUnregisteredCoursesBySubjectIdClassId(int tuteeId, int subjectId, int classId) async {
+  //   try {
+  //     List<Course> courses = await _repository.fetchgetUnregisteredCoursesBySubjectIdClassId(
+  //         http.Client(), tuteeId, subjectId, classId);
+  //     emit(CourseListLoadedState(courses));
+  //   } catch (e) {
+  //     emit(CourseLoadFailedState('$e'));
+  //   }
+  // }
 
   //get course by course Id
   Future getCoursesByCourseId(int id) async {

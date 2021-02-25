@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:tutor_search_system/commons/common_functions.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
+import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/course_filter_variables.dart';
 
 class CourseRepository {
   //fetch all active course courses, fetch courses that isn't followed by this tutee
@@ -35,13 +37,31 @@ class CourseRepository {
 
   //fetch courses by status
   Future<List<Course>> fetchCourseByFilter(
-      http.Client client, String status, int subjectId) async {
+      http.Client client, Filter filter) async {
     //host url
     String url = FILTER_COURSE_API;
     //query parameters
     Map<String, String> queryParams = {
-      'status': status,
-      'subjectId': subjectId.toString(),
+      'subjectId': filter.filterSubject.id.toString(),
+      'tuteeId': globals.authorizedTutee.id.toString(),
+      'classId': filter.filterClass.id.toString(),
+      if (filter.filterStudyFee != null)
+        'minFee': filter.filterStudyFee.from.toString(),
+      if (filter.filterStudyFee != null)
+        'maxFee': filter.filterStudyFee.to.toString(),
+      if (filter.filterDateRange != null)
+        'beginDate': convertDayTimeToString(filter.filterDateRange.start),
+      if (filter.filterDateRange != null)
+        'endDate': convertDayTimeToString(filter.filterDateRange.end),
+      if (filter.filterTimeRange != null)
+        'minTime':
+            convertTimeOfDayToAPIFormatString(filter.filterTimeRange.startTime),
+      if (filter.filterTimeRange != null)
+        'maxTime':
+            convertTimeOfDayToAPIFormatString(filter.filterTimeRange.endTime),
+      if (filter.filterGender != null) 'tutorGender': filter.filterGender,
+      if (filter.filterEducationLevel != null)
+        'educationLevel': filter.filterEducationLevel,
     };
     //transform to queryTring
     String queryString = Uri(queryParameters: queryParams).query;

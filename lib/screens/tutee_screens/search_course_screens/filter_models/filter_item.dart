@@ -1,5 +1,8 @@
 import 'package:tutor_search_system/commons/global_variables.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
+
+class Name {
+  
+}
 
 class FilterItem {
   final String content;

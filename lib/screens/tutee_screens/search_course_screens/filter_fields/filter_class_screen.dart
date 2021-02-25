@@ -7,7 +7,7 @@ import 'package:tutor_search_system/repositories/class_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/states/class_state.dart';
-import '../course_filter_variables.dart' as filter_variables;
+import '../course_filter_variables.dart';
 
 class FilterClassSelectorScreen extends StatefulWidget {
   @override
@@ -27,7 +27,7 @@ class _FilterClassSelectorScreenState extends State<FilterClassSelectorScreen> {
           builder: (context, state) {
             //
             final classCubit = context.watch<ClassCubit>();
-            final subjectId = filter_variables.filterSubject.id;
+            final subjectId = filter.filterSubject.id;
             classCubit.getClassBySubjectId(subjectId);
             //
             if (state is ClassLoadingState) {
@@ -45,7 +45,7 @@ class _FilterClassSelectorScreenState extends State<FilterClassSelectorScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       leading: Visibility(
-                        visible: filter_variables.filterClass.id ==
+                        visible: filter.filterClass.id ==
                             state.classes[index].id,
                         child: Icon(
                           Icons.check,
@@ -56,7 +56,7 @@ class _FilterClassSelectorScreenState extends State<FilterClassSelectorScreen> {
                       title: Text(
                         state.classes[index].name,
                         style: TextStyle(
-                          color: filter_variables.filterClass.id ==
+                          color: filter.filterClass.id ==
                                   state.classes[index].id
                               ? mainColor
                               : textGreyColor,
@@ -65,7 +65,7 @@ class _FilterClassSelectorScreenState extends State<FilterClassSelectorScreen> {
                       ),
                       onTap: () {
                         setState(() {
-                          filter_variables.filterClass = state.classes[index];
+                          filter.filterClass = state.classes[index];
                         });
                         Navigator.pop(context, state.classes[index]);
                       },

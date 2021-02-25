@@ -227,7 +227,7 @@ class SubjectGridCard extends StatelessWidget {
           );
         } else if (globals.authorizedTutee != null) {
           //set filter_variables subject
-          filter_variables.filterSubject = subject;
+          filter_variables.filter.filterSubject = subject;
           //navigate to search and filter screen
           Navigator.push(
             context,

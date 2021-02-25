@@ -6,7 +6,6 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/class.dart';
-import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
@@ -95,7 +94,7 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
           children: [
             //horizontal class list
             SearchCourseBody(
-              subject: filterSubject,
+              subject: filter.filterSubject,
             ),
             //
             // result of subject and class
@@ -178,8 +177,8 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
   @override
   void initState() {
     super.initState();
-    if (filterClass != null) {
-      filterClass = null;
+    if (filter.filterClass != null) {
+      filter.filterClass = null;
     }
   }
 
@@ -198,8 +197,8 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
           return buildLoadingIndicator();
         } else if (state is ClassListLoadedState) {
           //setdefault seelcted class when filter class is null
-          if (filterClass == null) {
-            filterClass = state.classes.first;
+          if (filter.filterClass == null) {
+            filter.filterClass = state.classes.first;
           }
           //load all classes by subject id
           return Expanded(
@@ -226,10 +225,7 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                       builder: (context, state) {
                         //
                         final courseCubit = context.watch<CourseCubit>();
-                        courseCubit.getUnregisteredCoursesBySubjectIdClassId(
-                            authorizedTutee.id,
-                            filterSubject.id,
-                            filterClass.id);
+                        courseCubit.getCoursesByFilter(filter);
                         // courseCubit.getTuteeHomeCourses();
                         //
                         //render proper UI for each Course state
@@ -270,7 +266,7 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
         onTap: () {
           setState(() {
             //setstate current selected class
-            filterClass = classes;
+            filter.filterClass = classes;
           });
         },
         child: Container(
@@ -283,14 +279,14 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                 classes.name,
                 style: TextStyle(
                   color:
-                      filterClass.id == classes.id ? mainColor : textGreyColor,
+                      filter.filterClass.id == classes.id ? mainColor : textGreyColor,
                   fontSize: titleFontSize,
                 ),
               ),
               Divider(
                 indent: 15,
                 endIndent: 15,
-                color: filterClass.id == classes.id
+                color: filter.filterClass.id == classes.id
                     ? mainColor
                     : Colors.transparent,
                 thickness: 1,

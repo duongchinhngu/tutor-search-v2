@@ -3,7 +3,7 @@ import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_fields/filter_class_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_fields/filter_string_fields_screen.dart';
-import './course_filter_variables.dart' as filter_variables;
+import './course_filter_variables.dart';
 import 'package:tutor_search_system/commons/common_functions.dart' as converter;
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
@@ -25,7 +25,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
     //set start time if not null
     if (timeRange != null) {
       setState(() {
-        filter_variables.filterTimeRange = timeRange;
+        filter.filterTimeRange = timeRange;
       });
     }
   }
@@ -35,7 +35,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
     //set start time if not null
     if (dateRange.start != null && dateRange.end != null) {
       setState(() {
-        filter_variables.filterDateRange = dateRange;
+        filter.filterDateRange = dateRange;
       });
     }
   }
@@ -44,7 +44,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
   void reset() {
     setState(() {
       //reset filter vars
-      filter_variables.resetFilterVariables();
+      filter.resetFilterVariables();
       //reset filter item
       filter_items.resetToDefaultValue();
       //reset nunmberofselectedFilteritem in search course screen
@@ -64,14 +64,14 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
           children: [
             //study time
             buildFilterFieldListTitle(
-              filter_variables.filterTimeRange != null,
+              filter.filterTimeRange != null,
               'Study Time',
-              filter_variables.filterTimeRange != null
+              filter.filterTimeRange != null
                   ? converter.convertTimeOfDayToString(
-                          filter_variables.filterTimeRange.startTime) +
+                          filter.filterTimeRange.startTime) +
                       ' - ' +
                       converter.convertTimeOfDayToString(
-                          filter_variables.filterTimeRange.endTime)
+                          filter.filterTimeRange.endTime)
                   : '',
               () async {
                 //choose time range
@@ -85,14 +85,14 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             Divider(),
             // study fee
             buildFilterFieldListTitle(
-              filter_variables.filterStudyFee != null,
+              filter.filterStudyFee != null,
               'Study Fee',
-              filter_variables.filterStudyFee != null
+              filter.filterStudyFee != null
                   ? '\$' +
-                      filter_variables.filterStudyFee.from.toString() +
+                      filter.filterStudyFee.from.toString() +
                       ' - ' +
                       '\$' +
-                      filter_variables.filterStudyFee.to.toString()
+                      filter.filterStudyFee.to.toString()
                   : '',
               () async {
                 //navigator to new page from right to left
@@ -105,17 +105,17 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 );
                 //
                 final selectedValue = await Navigator.push(context, route);
-                //set filter variable
+                //set filter variable = new object
                 setState(() {
                   if (selectedValue == feeRangeContent1) {
-                    filter_variables.filterStudyFee =
-                        filter_variables.FilterStudyFee(0, 25);
+                    filter.filterStudyFee =
+                        FilterStudyFee(0, 25);
                   } else if (selectedValue == feeRangeContent2) {
-                    filter_variables.filterStudyFee =
-                        filter_variables.FilterStudyFee(25, 50);
+                    filter.filterStudyFee =
+                        FilterStudyFee(25, 50);
                   } else if (selectedValue == feeRangeContent3) {
-                    filter_variables.filterStudyFee =
-                        filter_variables.FilterStudyFee(50, double.infinity);
+                    filter.filterStudyFee =
+                        FilterStudyFee(50, double.infinity);
                   }
                 });
               },
@@ -124,10 +124,10 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             Divider(),
             //days in week
             buildFilterFieldListTitle(
-              filter_variables.filterWeekdays.isNotEmpty,
+              filter.filterWeekdays.isNotEmpty,
               'Weekday',
-              filter_variables.filterWeekdays.isNotEmpty
-                  ? filter_variables.filterWeekdays.toString()
+              filter.filterWeekdays.isNotEmpty
+                  ? filter.filterWeekdays.toString()
                   : '',
               () async {
                 //navigator to new page from right to left
@@ -143,7 +143,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 //
                 if (selectedValue != null) {
                   setState(() {
-                    filter_variables.filterWeekdays = selectedValue;
+                    filter.filterWeekdays = selectedValue;
                   });
                 }
               },
@@ -152,14 +152,14 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             Divider(),
             //begin date - end date selector
             buildFilterFieldListTitle(
-              filter_variables.filterDateRange != null,
+              filter.filterDateRange != null,
               'Begin Date - End Date',
-              filter_variables.filterDateRange != null
+              filter.filterDateRange != null
                   ? converter.convertDayTimeToString(
-                          filter_variables.filterDateRange.start) +
+                          filter.filterDateRange.start) +
                       '       to      ' +
                       converter.convertDayTimeToString(
-                          filter_variables.filterDateRange.end)
+                          filter.filterDateRange.end)
                   : '',
               () async {
                 //choose time range
@@ -172,10 +172,10 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             Divider(),
             //class
             buildFilterFieldListTitle(
-              filter_variables.filterClass != null,
+              filter.filterClass != null,
               'Class',
-              filter_variables.filterClass != null
-                  ? filter_variables.filterClass.name
+              filter.filterClass != null
+                  ? filter.filterClass.name
                   : '',
               () async {
                 //navigator to new page from right to left
@@ -187,7 +187,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 //
                 if (selectedValue != null) {
                   setState(() {
-                    filter_variables.filterClass = selectedValue;
+                    filter.filterClass = selectedValue;
                   });
                 }
               },
@@ -196,10 +196,10 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             Divider(),
             // //gender
             buildFilterFieldListTitle(
-              filter_variables.filterGender != null,
+              filter.filterGender != null,
               'Gender',
-              filter_variables.filterGender != null
-                  ? filter_variables.filterGender
+              filter.filterGender != null
+                  ? filter.filterGender
                   : '',
               () async {
                 //navigator to new page from right to left
@@ -214,7 +214,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 final selectedValue = await Navigator.push(context, route);
                 //set filter variable gender
                 setState(() {
-                  filter_variables.filterGender = selectedValue;
+                  filter.filterGender = selectedValue;
                 });
               },
               true,
@@ -222,10 +222,10 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             Divider(),
             //education level
             buildFilterFieldListTitle(
-              filter_variables.filterEducationLevel != null,
+              filter.filterEducationLevel != null,
               'Education Level',
-              filter_variables.filterEducationLevel != null
-                  ? filter_variables.filterEducationLevel
+              filter.filterEducationLevel != null
+                  ? filter.filterEducationLevel
                   : '',
               () async {
                 //navigator to new page from right to left
@@ -240,7 +240,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 final selectedValue = await Navigator.push(context, route);
                 //set filter variable
                 setState(() {
-                  filter_variables.filterEducationLevel = selectedValue;
+                  filter.filterEducationLevel = selectedValue;
                 });
               },
               true,
@@ -342,7 +342,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
   InkWell buildApplyFAB() {
     return InkWell(
       onTap: () {
-        Navigator.pop(context, filter_variables.countSelectedFilterItems());
+        Navigator.pop(context, filter.countSelectedFilterItems());
       },
       child: BottomAppBar(
         color: mainColor,
