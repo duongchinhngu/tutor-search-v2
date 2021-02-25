@@ -11,64 +11,17 @@ import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
 import 'package:tutor_search_system/models/class_has_subject.dart';
-import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/payment_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
 import 'package:tutor_search_system/states/class_state.dart';
 import 'create_course_elements.dart';
-
-//this is default course (when tutor does not choose fields for new course)
-//default value of unchosen field is "No Select"
-Course course = Course.constructor(
-  0,
-  // name
-  '',
-  //begintime
-  globals.DEFAULT_NO_SELECT,
-  // endtime
-  globals.DEFAULT_NO_SELECT,
-  //study form
-  globals.DEFAULT_NO_SELECT,
-  //study fee
-  null,
-  //days in week
-  '[]',
-  //begin date
-  globals.DEFAULT_NO_SELECT,
-  // end date
-  globals.DEFAULT_NO_SELECT,
-  //description
-  '',
-  //status
-  'isDraft',
-  //class has subject
-  //this is hard code need to refactor
-  0,
-  //thi sis hard code
-  //createdBy
-  globals.authorizedTutor.id,
-  // confirmBy
-  //this is fake manager id (confirmedBy); backend handles this field
-  0,
-  //createddate
-  globals.defaultDatetime,
-  //confirm date
-  //this is fake confirmedDate; backend handles this field
-  globals.defaultDatetime,
-);
-
-//selectedClassName
-String selectedClassName = globals.DEFAULT_NO_SELECT;
-
-//course name field controller
-TextEditingController _courseNameController = TextEditingController();
-TextEditingController _courseFeeController = TextEditingController();
-TextEditingController _courseDescriptionController = TextEditingController();
+import 'create_course_variables.dart';
 
 //create course UI;
 //this is main ui
@@ -87,55 +40,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   //
   @override
   void dispose() {
-    //reset to default values
-    course = Course.constructor(
-      0,
-      // name
-      '',
-      //begintime
-      globals.DEFAULT_NO_SELECT,
-      // endtime
-      globals.DEFAULT_NO_SELECT,
-      //study form
-      globals.DEFAULT_NO_SELECT,
-      //study fee
-      null,
-      //days in week
-      '[]',
-      //begin date
-      globals.DEFAULT_NO_SELECT,
-      // end date
-      globals.DEFAULT_NO_SELECT,
-      //description
-      '',
-      //status
-      'isDraft',
-      //class has subject
-      //this is hard code need to refactor
-      0,
-      //thi sis hard code
-      //createdBy
-      globals.authorizedTutor.id,
-      // confirmBy
-      //this is fake manager id (confirmedBy); backend handles this field
-      0,
-      //createddate
-      globals.defaultDatetime,
-      //confirm date
-      //this is fake confirmedDate; backend handles this field
-      globals.defaultDatetime,
-    );
-    resetInputFields();
-    //
+    //reset empty all fields
+    resetEmptyCreateCourseScreen();
     super.dispose();
-  }
-
-  //empty input fields
-  void resetInputFields() {
-    //empty input fields
-    _courseNameController.clear();
-    _courseFeeController.clear();
-    _courseDescriptionController.clear();
   }
 
   @override
@@ -177,13 +84,13 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         ),
                       ),
                       title: TextFormField(
-                        controller: _courseNameController,
+                        controller: courseNameController,
                         maxLength: 100,
                         textAlign: TextAlign.start,
                         onChanged: (context) {
                           //set name = value of this textFormfield on change
                           setState(() {
-                            course.name = _courseNameController.text;
+                            course.name = courseNameController.text;
                           });
                         },
                         decoration: InputDecoration(
@@ -319,7 +226,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ],
                 ),
               ),
-              //study form
+              //study form bottom up
               Container(
                 height: 120,
                 alignment: Alignment.center,
@@ -357,7 +264,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                   subtitle: InkWell(
                     onTap: () {
-                      studyFormSelector(context);
+                      studyFormSelector(context, studyForms);
                     },
                     child: Container(
                       height: 50,
@@ -397,10 +304,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 onTap: () async {
                   //date range;
                   //from date range get start date and end date
-                  final range = await dateRangeSelector(context);
-
+                  final range =
+                      await dateRangeSelector(context, selectedDateRange);
+                  //
+                  if (range != null) {
+                    selectedDateRange = range;
+                  }
                   //set end and start date
-                  setEndAndBeginDate(range);
+                  setEndAndBeginDate(selectedDateRange);
                 },
                 child: Container(
                   height: 210,
@@ -525,11 +436,17 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
               //begin time - end time
               GestureDetector(
                 onTap: () async {
-                  //select time range
-                  final TimeRange timeRange =
-                      await timeRangeSelector(context, 'Study time');
-                  //set tmpCourse begin and end time
-                  setBeginAndEndTime(timeRange);
+                  // //need to refactor
+                  // //select time range
+
+                  final range = await timeRangeSelector(
+                      context, selectedTimeRange, 'Study Time');
+                  //
+                  if (range != null) {
+                    selectedTimeRange = range;
+                  }
+                  // //set tmpCourse begin and end time
+                  setBeginAndEndTime(selectedTimeRange);
                 },
                 child: Container(
                   height: 210,
@@ -724,13 +641,13 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     ),
                   ),
                   title: TextFormField(
-                    controller: _courseFeeController,
+                    controller: courseFeeController,
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.start,
                     onChanged: (context) {
                       setState(() {
                         course.studyFee =
-                            double.parse(_courseFeeController.text);
+                            double.parse(courseFeeController.text);
                       });
                     },
                     decoration: InputDecoration(
@@ -784,11 +701,11 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     expands: true,
                     maxLength: 500,
                     maxLines: null,
-                    controller: _courseDescriptionController,
+                    controller: courseDescriptionController,
                     textAlign: TextAlign.start,
                     onChanged: (context) {
                       setState(() {
-                        course.description = _courseDescriptionController.text;
+                        course.description = courseDescriptionController.text;
                       });
                     },
                     decoration: InputDecoration(
@@ -822,26 +739,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   AppBar buildCreateCourseAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundColor,
-      leading: IconButton(
-        icon: Icon(
-          Icons.close,
-          size: 25,
-          color: textGreyColor,
-        ),
-        onPressed: () {
-          setState(() {
-            selectedClassName = globals.DEFAULT_NO_SELECT;
-          });
-          Navigator.of(context).pop();
-        },
-      ),
+      leading: buildDefaultCloseButton(context),
       actions: [
         TextButton(
           onPressed: () async {
             if (formkey.currentState.validate()) {
               formkey.currentState.save();
-              //show for test
-              course.showAttributes(course);
               //
               if (course.classHasSubjectId == 0 ||
                   course.studyForm == globals.DEFAULT_NO_SELECT ||
@@ -928,51 +831,49 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     }
   }
 
+//study form bottom up
 //select study form;
 // this will be shown when press studyform
-  Future<dynamic> studyFormSelector(BuildContext context) {
+  Future<dynamic> studyFormSelector(
+      BuildContext context, List<CreateCourseItem> studyForms) {
     return showModalBottomSheet(
         context: context,
         builder: (context) {
-          return ListView(
-            children: [
-              // study online
-              ListTile(
-                leading: SizedBox(
-                  width: 50,
+          return ListView.separated(
+            separatorBuilder: (BuildContext context, int index) => Divider(),
+            itemCount: studyForms.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: Visibility(
+                  visible: studyForms[index].isSelected,
+                  child: Icon(
+                    Icons.check,
+                    color: mainColor,
+                    size: 15,
+                  ),
                 ),
                 title: Text(
-                  'Online',
+                  studyForms[index].content,
                   style: TextStyle(
-                    color: textGreyColor,
+                    color: studyForms[index].isSelected
+                        ? mainColor
+                        : textGreyColor,
                     fontSize: titleFontSize,
                   ),
                 ),
                 onTap: () {
                   setState(() {
-                    _selectStudyForm('Online');
+                    //reset studyForms; because this is single selectable
+                    resetStudyForms();
+                    //set selected created course item (swtudy form) status isSelected = !isSelected
+                    studyForms[index].isSelected =
+                        !studyForms[index].isSelected;
+                    //
+                    _selectStudyForm(studyForms[index].content);
                   });
                 },
-              ),
-              //study at tutee home
-              ListTile(
-                leading: SizedBox(
-                  width: 50,
-                ),
-                title: Text(
-                  'Tutee Home',
-                  style: TextStyle(
-                    color: textGreyColor,
-                    fontSize: titleFontSize,
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    _selectStudyForm('Tutee Home');
-                  });
-                },
-              )
-            ],
+              );
+            },
           );
         });
   }
@@ -1013,13 +914,22 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           itemCount: state.classes.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
-                              leading: SizedBox(
-                                width: 50,
+                              leading: Visibility(
+                                visible: selectedClassName ==
+                                    state.classes[index].name,
+                                child: Icon(
+                                  Icons.check,
+                                  color: mainColor,
+                                  size: 15,
+                                ),
                               ),
                               title: Text(
                                 state.classes[index].name,
                                 style: TextStyle(
-                                  color: textGreyColor,
+                                  color: selectedClassName ==
+                                          state.classes[index].name
+                                      ? mainColor
+                                      : textGreyColor,
                                   fontSize: titleFontSize,
                                 ),
                               ),
@@ -1041,8 +951,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                   course.classHasSubjectId = classHasSubject.id;
                                   selectedClassName = state.classes[index].name;
                                 });
-                                print('this is id of class subject: ' +
-                                    course.classHasSubjectId.toString());
                               },
                             );
                           },

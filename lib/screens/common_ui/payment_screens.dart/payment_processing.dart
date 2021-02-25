@@ -12,6 +12,7 @@ import 'package:tutor_search_system/repositories/transaction_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/result_screens/follow_completed_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_variables.dart';
 import '../error_screen.dart';
 import 'result_screens/create_course_completed_screen.dart';
 
@@ -101,8 +102,6 @@ class _TutorPaymentProccessingScreenState
   final tuteeTransactionRepository = TransactionRepository();
   final courseRepository = CourseRepository();
 
-  // enrollmentRepository.postEnrollment(enrollment);
-
   Future<bool> completeTutorPayment(
       TutorTransaction tuteeTransaction, Course course) async {
     //post course
@@ -122,9 +121,8 @@ class _TutorPaymentProccessingScreenState
           return ErrorScreen();
         } else {
           if (snapshot.hasData == true) {
-            //set No select value fot Class
-            selectedClassName = DEFAULT_NO_SELECT;
-            filter.resetFilterVariables();
+            //reset empty for all field in create course screen
+            resetEmptyCreateCourseScreen();
             //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushAndRemoveUntil(

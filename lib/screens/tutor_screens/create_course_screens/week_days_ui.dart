@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'create_course_screen.dart';
+import 'create_course_variables.dart';
 
 //weekday class and contructor
 class Weekday {

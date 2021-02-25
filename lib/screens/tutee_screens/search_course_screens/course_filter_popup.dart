@@ -74,9 +74,14 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                           filter.filterTimeRange.endTime)
                   : '',
               () async {
+                //default dateRange
+                TimeRange defaultTimeRange;
+                if (filter.filterTimeRange != null) {
+                  defaultTimeRange = filter.filterTimeRange;
+                }
                 //choose time range
-                final timeRange =
-                    await timeRangeSelector(context, 'Study time');
+                final timeRange = await timeRangeSelector(
+                    context, defaultTimeRange, 'Study time');
                 //set filter item this time range
                 setBeginAndEndTime(timeRange);
               },
@@ -186,8 +191,14 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                           .convertDayTimeToString(filter.filterDateRange.end)
                   : '',
               () async {
-                //choose time range
-                final dateRange = await dateRangeSelector(context);
+                //default dateRange
+                DateTimeRange defaultDateRange;
+                if (filter.filterDateRange != null) {
+                  defaultDateRange = filter.filterDateRange;
+                }
+                //choose date range
+                final dateRange =
+                    await dateRangeSelector(context, defaultDateRange);
                 //set filter item this date range
                 setBeginAndEndDate(dateRange);
               },
