@@ -9,7 +9,7 @@ import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
-import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/payment_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/payment_screens/payment_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';

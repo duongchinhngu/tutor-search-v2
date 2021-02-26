@@ -57,3 +57,14 @@ Future<DateTimeRange> dateRangeSelector(
     ),
   );
 }
+
+//default date selector
+Future<DateTime> dateSelector(BuildContext context, DateTime defaultDatetime) {
+  return showDatePicker(
+    context: context,
+    // currentDate: defaultDatetime,
+    initialDate: DateTime(1999, 01, 01, 0, 0, 0),
+    firstDate: DateTime(1910, 01, 01, 0, 0, 0),
+    lastDate: DateTime.now(),
+  );
+}

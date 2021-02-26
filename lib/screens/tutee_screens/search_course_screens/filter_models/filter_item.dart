@@ -1,12 +1,8 @@
+import 'package:tutor_search_system/commons/common_model.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 
-class Name {}
-
-class FilterItem {
-  final String content;
-  bool isSelected;
-
-  FilterItem(this.content, this.isSelected);
+class FilterItem extends SelectableObject {
+  FilterItem(String content, bool isSelected) : super(content, isSelected);
 }
 
 //----study form list-----

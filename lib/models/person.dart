@@ -1,15 +1,15 @@
 abstract class Person {
   final int id;
-  final String fullname;
-  final String gender;
-  final String birthday;
-  final String email;
-  final String phone;
-  final String address;
-  final String description;
-  final String status;
-  final int roleId;
-  final String avatarImageLink;
+  String fullname;
+  String gender;
+  String birthday;
+  String email;
+  String phone;
+  String address;
+  String description;
+  String status;
+  int roleId;
+  String avatarImageLink;
 
   Person(
       this.id,
@@ -23,11 +23,6 @@ abstract class Person {
       this.roleId,
       this.description,
       this.avatarImageLink);
-}
 
-class RawUser {
-  final int id;
-  final String email;
-
-  RawUser({this.id, this.email});
+  
 }

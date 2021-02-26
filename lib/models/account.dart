@@ -6,8 +6,10 @@ class Account {
   final String status;
 
   Account({this.id, this.email, this.roleId, this.description, this.status});
+  Account.constructor(
+      this.id, this.email, this.roleId, this.description, this.status);
 
-   factory Account.fromJson(Map<String, dynamic> json) {
+  factory Account.fromJson(Map<String, dynamic> json) {
     return Account(
       id: json['id'],
       email: json['email'],
@@ -17,4 +19,9 @@ class Account {
     );
   }
 
+  void showAttribute() {
+    print('account email: ' + email);
+    print('account role id: ' + roleId.toString());
+    print('account status: ' + status);
+  }
 }

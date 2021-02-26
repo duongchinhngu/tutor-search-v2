@@ -6,12 +6,22 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 
 class LoginScreen extends StatefulWidget {
+  final IconData snackBarIcon;
+  final String snackBarTitle;
   final String snackBarContent;
+  final Color snackBarThemeColor;
 
-  const LoginScreen({Key key, this.snackBarContent}) : super(key: key);
+  const LoginScreen(
+      {Key key,
+      this.snackBarContent,
+      this.snackBarThemeColor,
+      this.snackBarTitle,
+      this.snackBarIcon})
+      : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -31,14 +41,14 @@ class _LoginScreenState extends State<LoginScreen> {
     if (widget.snackBarContent != null) {
       WidgetsBinding.instance.addPostFrameCallback(
         (_) => ScaffoldMessenger.of(context).showSnackBar(
-          buildLoginErrorSnackBar(),
+          buildLoginSnackBar(),
         ),
       );
     }
   }
 
   // show when login error, invalid account email.
-  SnackBar buildLoginErrorSnackBar() {
+  SnackBar buildLoginSnackBar() {
     return SnackBar(
       duration: Duration(
         seconds: 15,
@@ -52,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 70,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7),
-                color: Colors.red[300],
+                color: widget.snackBarThemeColor,
                 boxShadow: [boxShadowStyle]),
           ),
           Container(
@@ -68,15 +78,15 @@ class _LoginScreenState extends State<LoginScreen> {
               leading: SizedBox(
                 width: 60,
                 child: Icon(
-                  Icons.error_outline,
-                  color: Colors.red[300],
+                  widget.snackBarIcon,
+                  color: widget.snackBarThemeColor,
                   size: 30,
                 ),
               ),
               title: Text(
-                'Error',
+                widget.snackBarTitle,
                 style: TextStyle(
-                  color: Colors.red[300],
+                  color: widget.snackBarThemeColor,
                   fontSize: titleFontSize,
                   fontWeight: FontWeight.bold,
                 ),
@@ -133,58 +143,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     // google login buotton
-                    InkWell(
-                      onTap: () async {
-                        // GoogleSignInAccount currentUser =
-                        //     await loginRepository.handleSignInGoogle();
-                        // print('this is raw user: ' + currentUser.email);
-                        // if (currentUser == null) {
-                        //   return LoginScreen();
-                        // } else {
-                        //   return TuteeHomeScreen();
-                        // }
-
-                        // await googleSignIn.signIn().whenComplete(() async {
-                        //   WidgetsBinding.instance.addPostFrameCallback((_) {
-                        //     return Navigator.of(context).pushReplacement(
-                        //       MaterialPageRoute(
-                        //         builder: (context) => RoleRouter(
-                        //           userEmail: googleSignIn.currentUser.email,
-                        //         ),
-                        //       ),
-                        //     );
-                        //   });
-                        // });
-
-                        await loginRepository.handleGoogelSignIn(context);
-
-                        //remove all screen stack and navigate
-                      },
-                      child: Container(
-                        width: 263,
-                        height: 43,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffA80C0C),
-                        ),
-                        child: Text(
-                          'GOOGLE',
-                          style: TextStyle(
-                            fontSize: titleFontSize,
-                            color: textWhiteColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
+                    LoginButton(loginRepository: loginRepository),
                     //sign up link
                     InkWell(
-                      onTap: null,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TuteeRegisterScreen(),
+                          ),
+                        );
+                      },
                       child: Container(
-                        padding: EdgeInsets.only(
-                          top: 20,
-                        ),
+                        // color: Colors.red,
+                        width: 100,
+                        height: 70,
+                        alignment: Alignment.center,
                         child: Text(
                           'Sign Up',
                           style: TextStyle(
@@ -201,6 +175,64 @@ class _LoginScreenState extends State<LoginScreen> {
             return buildLoadingIndicator();
           }
         },
+      ),
+    );
+  }
+}
+
+class LoginButton extends StatelessWidget {
+  const LoginButton({
+    Key key,
+    @required this.loginRepository,
+  }) : super(key: key);
+
+  final LoginRepository loginRepository;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () async {
+        // GoogleSignInAccount currentUser =
+        //     await loginRepository.handleSignInGoogle();
+        // print('this is raw user: ' + currentUser.email);
+        // if (currentUser == null) {
+        //   return LoginScreen();
+        // } else {
+        //   return TuteeHomeScreen();
+        // }
+
+        // await googleSignIn.signIn().whenComplete(() async {
+        //   WidgetsBinding.instance.addPostFrameCallback((_) {
+        //     return Navigator.of(context).pushReplacement(
+        //       MaterialPageRoute(
+        //         builder: (context) => RoleRouter(
+        //           userEmail: googleSignIn.currentUser.email,
+        //         ),
+        //       ),
+        //     );
+        //   });
+        // });
+
+        await loginRepository.handleGoogelSignIn(context);
+
+        //remove all screen stack and navigate
+      },
+      child: Container(
+        width: 263,
+        height: 43,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color(0xffA80C0C),
+        ),
+        child: Text(
+          'GOOGLE',
+          style: TextStyle(
+            fontSize: titleFontSize,
+            color: textWhiteColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

@@ -18,4 +18,31 @@ class AccountRepository {
       throw Exception('Failed to fetch course by course id');
     }
   }
+
+  //post account
+  Future postAcount(Account account) async {
+    final http.Response response = await http.post('$ACCOUNT_API',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'id': account.id,
+            'email': account.email,
+            'roleId': account.roleId,
+            'description': account.description,
+            'status': account.status,
+          },
+        ));
+    if (response.statusCode == 201 ||
+        response.statusCode == 204 ||
+        response.statusCode == 404) {
+      print('this is: ' + response.body + response.statusCode.toString());
+      return true;
+    } else {
+      print('error body account repo: ' + response.body);
+      print(response.statusCode);
+      throw Exception('Faild to post Account');
+    }
+  }
 }

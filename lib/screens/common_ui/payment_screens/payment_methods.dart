@@ -5,7 +5,7 @@ import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/models/fee.dart';
 import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/models/tutor_transaction.dart';
-import 'package:tutor_search_system/screens/common_ui/payment_screens.dart/payment_processing.dart';
+import 'package:tutor_search_system/screens/common_ui/payment_screens/payment_processing.dart';
 
 //complete tutee transaction
 void completeTuteeTransaction(

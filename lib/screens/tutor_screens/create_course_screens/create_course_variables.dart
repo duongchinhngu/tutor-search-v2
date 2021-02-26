@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
+import 'package:tutor_search_system/commons/common_model.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 //this is default course (when tutor does not choose fields for new course)
 //default value of unchosen field is "No Select"
@@ -52,11 +53,9 @@ TextEditingController courseDescriptionController = TextEditingController();
 String selectedClassName = globals.DEFAULT_NO_SELECT;
 
 //this class inorder to check wether or not this field selected;
-class CreateCourseItem {
-  final String content;
-  bool isSelected;
-
-  CreateCourseItem(this.content, this.isSelected);
+class CreateCourseItem extends SelectableObject {
+  CreateCourseItem(String content, bool isSelected)
+      : super(content, isSelected);
 }
 //class create course item
 

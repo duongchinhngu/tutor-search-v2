@@ -41,7 +41,10 @@ class RoleRouter extends StatelessWidget {
                 return Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => LoginScreen(
+                      snackBarIcon: Icons.error_outline,
                       snackBarContent: "Invalid Email! Please try again!",
+                      snackBarThemeColor: Colors.red[900],
+                      snackBarTitle: 'Error',
                     ),
                   ),
                 );
