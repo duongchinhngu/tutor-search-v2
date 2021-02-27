@@ -10,6 +10,22 @@ class TutorRegisterSuccessfullyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue.shade300,
+          elevation: 3.0,
+          isExtended: false,
+          onPressed: () async {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              return Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+                ModalRoute.withName('/Home'),
+              );
+            });
+          },
+          child: Icon(
+            Icons.power_settings_new_outlined,
+            color: textWhiteColor,
+          )),
       body: Container(
         alignment: Alignment.center,
         height: double.infinity,
@@ -23,9 +39,8 @@ class TutorRegisterSuccessfullyScreen extends StatelessWidget {
             //explanation text field
             _buildExtraInformation(),
             // navigating to My Course button
-            (authorizedTutor != null)
-                ? _buildButton(context)
-                : _buildSignOutButton(context),
+
+            // _buildSignOutButton(context),
           ],
         ),
       ),
