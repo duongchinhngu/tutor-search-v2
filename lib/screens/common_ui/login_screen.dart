@@ -6,8 +6,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+
+import 'register_screens/tutor_register_screens/tutor_register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   final IconData snackBarIcon;
@@ -147,10 +150,50 @@ class _LoginScreenState extends State<LoginScreen> {
                     //sign up link
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TuteeRegisterScreen(),
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => TuteeRegisterScreen(),
+                        //     ),
+                        //   );
+                        showDialog(
+                          context: context,
+                          builder: (context) => buildDialog(
+                            context,
+                            'You\'d like to be Tutor or Tutee?',
+                            'Choose role for registration',
+                            [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TutorRegisterScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text('Tutor'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TuteeRegisterScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text('Tutee'),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
                         );
                       },

@@ -56,9 +56,6 @@ class _TuteeRegisterScreenState extends State<TuteeRegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mainColor,
-      // appBar: AppBar(
-      //   leading: buildDefaultBackButton(context),
-      // ),
       body: SingleChildScrollView(
         child: Stack(
           alignment: Alignment.bottomCenter,
@@ -110,30 +107,34 @@ class _TuteeRegisterScreenState extends State<TuteeRegisterScreen> {
               ),
             ),
             //back button
-            AspectRatio(
-              aspectRatio: 2 / 3.85,
-              child: Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsetsDirectional.only(
-                  top: 20,
-                  start: 10,
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ),
+            buildBackButton(context),
           ],
         ),
       ),
     );
+  }
+
+  AspectRatio buildBackButton(BuildContext context) {
+    return AspectRatio(
+            aspectRatio: 2 / 3.85,
+            child: Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsetsDirectional.only(
+                top: 20,
+                start: 10,
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          );
   }
 
 //image selector

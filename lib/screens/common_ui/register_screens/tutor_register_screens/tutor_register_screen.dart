@@ -41,10 +41,8 @@ class _TutorRegisterScreenState extends State<TutorRegisterScreen> {
                 color: mainColor,
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  // height: 550,
                   width: double.infinity,
                   margin: EdgeInsetsDirectional.only(start: 25, top: 85),
-
                   decoration: BoxDecoration(
                     color: Colors.blue.shade300.withOpacity(.5),
                     borderRadius: BorderRadius.only(
@@ -80,11 +78,32 @@ class _TutorRegisterScreenState extends State<TutorRegisterScreen> {
               ),
               //avatar selector
               buildAvatarSelector(),
+              //bakc button
+              _buildBackButton(context)
             ],
           ),
         ],
       ),
     );
+  }
+
+  Container _buildBackButton(BuildContext context) {
+    return Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsetsDirectional.only(
+                start: 10,
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            );
   }
 
   //image selector
