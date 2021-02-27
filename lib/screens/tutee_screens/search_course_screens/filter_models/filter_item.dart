@@ -48,18 +48,18 @@ List<FilterItem> genders = [
   _female,
 ];
 //---------education level---------
-final _educationLevelAll = FilterItem('All', false);
-final _colledge = FilterItem('Colledge', false);
-final _university = FilterItem('University', false);
-final _student = FilterItem('Student', false);
-final _teacher = FilterItem('Teacher', false);
+final educationLevelAll = FilterItem('All', false);
+final colledge = FilterItem('Colledge', false);
+final university = FilterItem('University', false);
+final student = FilterItem('Student', false);
+final teacher = FilterItem('Teacher', false);
 //
 List<FilterItem> educationLevels = [
-  _educationLevelAll,
-  _colledge,
-  _university,
-  _student,
-  _teacher
+  educationLevelAll,
+  colledge,
+  university,
+  student,
+  teacher
 ];
 
 //---reset to default value--------

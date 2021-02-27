@@ -6,11 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/register_variables.dart';
-import 'register_elements.dart';
-import 'register_processing_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_variables.dart';
 import 'package:tutor_search_system/commons/common_functions.dart';
+
+import '../register_elements.dart';
+import '../register_processing_screen.dart';
 
 //
 TextEditingController nameController = TextEditingController();
@@ -24,7 +24,7 @@ TextEditingController addressController = TextEditingController();
 GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
 //image for choosing from phone storage
-File _image;
+File avatarImage;
 //
 
 //
@@ -39,7 +39,7 @@ class _TuteeRegisterScreenState extends State<TuteeRegisterScreen> {
     // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-      _image = image;
+      avatarImage = image;
     });
   }
 
@@ -48,7 +48,7 @@ class _TuteeRegisterScreenState extends State<TuteeRegisterScreen> {
     // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
-      _image = image;
+      avatarImage = image;
     });
   }
 
@@ -158,9 +158,9 @@ class _TuteeRegisterScreenState extends State<TuteeRegisterScreen> {
             CircleAvatar(
               foregroundColor: Colors.green,
               radius: 80,
-              backgroundImage: _image != null
+              backgroundImage: avatarImage != null
                   ? FileImage(
-                      _image,
+                      avatarImage,
                     )
                   : NetworkImage(''),
             ),
@@ -304,25 +304,12 @@ class _InputBodyState extends State<InputBody> {
       onTap: () async {
         if (formkey.currentState.validate()) {
           formkey.currentState.save();
-          //
-          registerTutee.fullname = nameController.text;
-          registerTutee.gender = genderController.text;
-          registerTutee.birthday = birthdayController.text;
-          registerTutee.email = emailController.text;
-          registerTutee.phone = phoneController.text;
-          registerTutee.address = addressController.text;
-          //need to refactor
-          //after post image on Firebase; get link and set to registerTutee
-          if (_image != null) {
-            var imageUrl = await uploadFileOnFirebaseStorage(_image);
-            registerTutee.avatarImageLink = imageUrl;
-          }
-
+          
           //navigate to processing screen
           WidgetsBinding.instance.addPostFrameCallback((_) {
             return Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => RegisterProccessingScreen(
+                builder: (context) => TuteeRegisterProccessingScreen(
                   tutee: registerTutee,
                 ),
               ),

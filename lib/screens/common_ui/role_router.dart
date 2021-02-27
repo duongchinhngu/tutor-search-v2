@@ -4,6 +4,7 @@ import 'package:tutor_search_system/cubits/login_cubit.dart';
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/register_screens/tutor_register_screens/tutor_register_successfully.dart';
 import 'package:tutor_search_system/screens/common_ui/splash_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
@@ -52,14 +53,25 @@ class RoleRouter extends StatelessWidget {
             } else if (state.person is Tutor) {
               //set authorized Tutor
               globals.authorizedTutor = state.person;
-              //remove all screen stack and navigate
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                return Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => TutorBottomNavigatorBar(),
-                  ),
-                );
-              });
+              if (globals.authorizedTutor.status == 'Pending') {
+                //remove all screen stack and navigate
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  return Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => TutorRegisterSuccessfullyScreen(),
+                    ),
+                  );
+                });
+              } else if (globals.authorizedTutor.status == 'Active') {
+                //remove all screen stack and navigate
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  return Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => TutorBottomNavigatorBar(),
+                    ),
+                  );
+                });
+              }
             } else if (state.person is Tutee) {
               //set authorized tutee
               globals.authorizedTutee = state.person;

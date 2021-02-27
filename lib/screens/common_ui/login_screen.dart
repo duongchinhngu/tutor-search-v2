@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 
 class LoginScreen extends StatefulWidget {

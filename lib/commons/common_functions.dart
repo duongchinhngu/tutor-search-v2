@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'global_variables.dart' as globals;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -32,4 +33,16 @@ Future<String> uploadFileOnFirebaseStorage(File file) async {
       firebase_storage.FirebaseStorage.instance.ref().child(file.path);
   firebase_storage.TaskSnapshot uploadTask = await ref.putFile(file);
   return await uploadTask.ref.getDownloadURL();
+}
+
+//select image from storage
+Future<File> getImageFromGallery() async {
+  // ignore: deprecated_member_use
+  return await ImagePicker.pickImage(source: ImageSource.gallery);
+}
+
+//select image from taking picture
+Future<File> getImageFromCamera() async {
+  // ignore: deprecated_member_use
+  return await ImagePicker.pickImage(source: ImageSource.camera);
 }
