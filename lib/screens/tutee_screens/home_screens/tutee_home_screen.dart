@@ -8,6 +8,7 @@ import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
@@ -52,12 +53,8 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
               actions: [
                 InkWell(
                   onTap: () async {
-                    try {
-                      //sign out
-                      await loginRepository.handleSignOut(context);
-                    } catch (error) {
-                      print('You are not allowed! $error');
-                    }
+                    //sign out
+                    showLogoutConfirmDialog(context);
                   },
                   child: Center(
                     child: Text('Sign out'),

@@ -7,6 +7,7 @@ import 'package:tutor_search_system/cubits/subject_cubit.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/repositories/subject_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart'
     as filter_variables;
@@ -36,10 +37,8 @@ class _SubjectGridScreenState extends State<SubjectGridScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: mainColor,
         onPressed: () async {
-          //log out func here
-          // signout func
-          await loginRepository.handleSignOut(context);
-          //
+          // //log out func here
+          showLogoutConfirmDialog(context);
         },
         child: Icon(Icons.power_settings_new_rounded),
       ),
@@ -232,8 +231,7 @@ class SubjectGridCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SearchCourseScreen(
-              ),
+              builder: (context) => SearchCourseScreen(),
             ),
           );
         }

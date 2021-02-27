@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/repositories/login_repository.dart';
 
 //common alert dialog
 AlertDialog buildAlertDialog(BuildContext context) {
@@ -62,5 +63,42 @@ AlertDialog buildDialog(
       ),
     ),
     actions: actions,
+  );
+}
+
+//sign out function common
+Future showLogoutConfirmDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => buildDialog(
+      context,
+      'Are you sure to continue?',
+      'Click cancel to be out',
+      [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  final loginRepository = LoginRepository();
+                  //sign out
+                  await loginRepository.handleSignOut(context);
+                } catch (error) {
+                  print('You are not allowed! $error');
+                }
+              },
+              child: Text('Sign out'),
+            )
+          ],
+        ),
+      ],
+    ),
   );
 }

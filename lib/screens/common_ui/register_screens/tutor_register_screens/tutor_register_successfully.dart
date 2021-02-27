@@ -1,31 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
 
 class TutorRegisterSuccessfullyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue.shade300,
-          elevation: 3.0,
-          isExtended: false,
-          onPressed: () async {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              return Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-                ModalRoute.withName('/Home'),
-              );
-            });
-          },
-          child: Icon(
-            Icons.power_settings_new_outlined,
-            color: textWhiteColor,
-          )),
+      floatingActionButton: _buildSignOutButton(context),
       body: Container(
         alignment: Alignment.center,
         height: double.infinity,
@@ -38,116 +23,25 @@ class TutorRegisterSuccessfullyScreen extends StatelessWidget {
             buildIllustrationImage(),
             //explanation text field
             _buildExtraInformation(),
-            // navigating to My Course button
-
-            // _buildSignOutButton(context),
           ],
         ),
       ),
     );
   }
 
-//back to home button
-  InkWell _buildButton(BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          return Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-            ModalRoute.withName('/Home'),
-          );
-        });
-      },
-      child: Container(
-        width: 263,
-        height: 50,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: mainColor,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 3,
-              child: Icon(
-                Icons.library_books_rounded,
-                size: 30,
-                color: textWhiteColor,
-              ),
-            ),
-            Expanded(
-              flex: 7,
-              child: Container(
-                padding: EdgeInsets.only(
-                  left: 20,
-                ),
-                child: Text(
-                  'Home Screen',
-                  style: TextStyle(
-                    fontSize: titleFontSize,
-                    color: textWhiteColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  //logout buton when tutor account status is pending
-  InkWell _buildSignOutButton(BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        //log out func here
-        // signout func
-        final loginRepository = LoginRepository();
-        await loginRepository.handleSignOut(context);
-        //
-      },
-      child: Container(
-        width: 263,
-        height: 50,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: mainColor,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 3,
-              child: Icon(
-                Icons.power_settings_new_rounded,
-                size: 30,
-                color: textWhiteColor,
-              ),
-            ),
-            Expanded(
-              flex: 7,
-              child: Container(
-                padding: EdgeInsets.only(
-                  left: 20,
-                ),
-                child: Text(
-                  'Sign out',
-                  style: TextStyle(
-                    fontSize: titleFontSize,
-                    color: textWhiteColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  FloatingActionButton _buildSignOutButton(BuildContext context) {
+    return FloatingActionButton(
+        backgroundColor: Colors.blue.shade300,
+        elevation: 3.0,
+        isExtended: false,
+        onPressed: () async {
+          //
+          showLogoutConfirmDialog(context);
+        },
+        child: Icon(
+          Icons.power_settings_new_outlined,
+          color: textWhiteColor,
+        ));
   }
 
 //extra info
