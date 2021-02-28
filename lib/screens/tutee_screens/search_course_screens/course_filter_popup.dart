@@ -152,12 +152,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             buildFilterFieldListTitle(
               filter.filterWeekdays.isNotEmpty,
               'Weekday',
-              filter.filterWeekdays.isNotEmpty
-                  ? filter.filterWeekdays
-                      .toString()
-                      .replaceFirst('[', '')
-                      .replaceFirst(']', '')
-                  : '',
+              filter.filterWeekdays.isNotEmpty ? filter.filterWeekdays : '',
               () async {
                 //navigator to new page from right to left
                 Route route = CupertinoPageRoute(
@@ -168,11 +163,13 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                   ),
                 );
                 //
-                final selectedValue = await Navigator.push(context, route);
+                final selectedValue =
+                    await Navigator.push(context, route) as List<String>;
                 //
                 if (selectedValue != null) {
                   setState(() {
-                    filter.filterWeekdays = selectedValue;
+                    filter.filterWeekdays =
+                        selectedValue.toString().replaceAll('[', '').replaceAll(']', '');
                   });
                 }
               },

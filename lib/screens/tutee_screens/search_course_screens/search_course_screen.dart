@@ -249,35 +249,6 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                   if (state is CourseLoadingState) {
                     return buildLoadingIndicator();
                   } else if (state is CourseListLoadedState) {
-                    // //set weekdays filter to filter
-                    // filter.filterWeekdays.clear();
-                    // for (var weekday in filter_items.weekdays) {
-                    //   if (weekday.isSelected) {
-                    //     filter.filterWeekdays.add(weekday.content);
-                    //   }
-                    // }
-                    // //need to refactor
-                    // //get 3 first characters of a weekday like: Monday => Mon
-                    // List<Course> tmpCourses = [];
-                    // for (var weekday in filter_items.weekdays) {
-                    //   bool isCheck = state.courses.any((s) => s.daysInWeek
-                    //       .contains(weekday.content.substring(0, 2)));
-                    //   if (isCheck && filter_items.weekdays != null) {
-                    //     var course = state.courses
-                    //         .where((s) => s.daysInWeek
-                    //             .contains(weekday.content.substring(0, 2)))
-                    //         .first;
-                    //     //
-                    //     state.courses.remove(course);
-                    //     //
-                    //     tmpCourses.add(course);
-                    //   }
-                    // }
-                    // //set state.courses = tmpCourses
-                    // if (tmpCourses.isNotEmpty) {
-                    //   state.courses = tmpCourses;
-                    // }
-
                     //set subjectList var = this state subject list
                     state.courses = state.courses
                         .where((s) => s.name.contains(searchValue))

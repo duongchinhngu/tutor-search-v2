@@ -36,7 +36,11 @@ class _FilterForStringFieldScreenState
     //add selected items to list to return
     for (var item in widget.filterItems) {
       if (item.isSelected) {
-        selectedItems.add(item.content);
+        if (widget.header == 'Weekday') {
+          selectedItems.add(item.content.substring(0, 3));
+        }else{
+          selectedItems.add(item.content);
+        }
       }
     }
     //

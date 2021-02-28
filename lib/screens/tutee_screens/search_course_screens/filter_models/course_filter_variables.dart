@@ -21,7 +21,7 @@ class Filter {
   String filterStudyForm;
   FilterStudyFee filterStudyFee;
 //weeksday filter-------------------------------------
-  List<String> filterWeekdays;
+  String filterWeekdays;
   //begin end date =>  date range filter------------------------
   DateTimeRange filterDateRange;
 //filter subject id-----------------------
@@ -54,7 +54,7 @@ class Filter {
     filterStudyFee = null;
     // filterSubject = null;
     filterTimeRange = null;
-    filterWeekdays.clear();
+    filterWeekdays = '';
   }
 
 // --------------------- course filter variables function ----------
@@ -85,4 +85,4 @@ class Filter {
   }
 }
 
-Filter filter = Filter(null, null, null, [], null, null, null, null, null);
+Filter filter = Filter(null, null, null, '', null, null, null, null, null);

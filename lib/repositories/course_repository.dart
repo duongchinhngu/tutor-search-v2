@@ -64,6 +64,8 @@ class CourseRepository {
         'educationLevel': filter.filterEducationLevel,
       if (filter.filterStudyForm != null)
         'studyForm': filter.filterStudyForm,
+      if (filter.filterWeekdays != '')
+        'weekdays': filter.filterWeekdays,
     };
     //transform to queryTring
     String queryString = Uri(queryParameters: queryParams).query;
