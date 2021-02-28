@@ -15,7 +15,11 @@ class CourseCubit extends Cubit<CourseState> {
     try {
       List<Course> courses =
           await _repository.fecthTuteeHomeCourses(http.Client());
-      emit(CourseListLoadedState(courses));
+      if (courses != null) {
+        emit(CourseListLoadedState(courses));
+      } else {
+        emit(CourseNoDataState());
+      }
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
     }
@@ -24,9 +28,13 @@ class CourseCubit extends Cubit<CourseState> {
   //
   Future getCoursesByFilter(Filter filter) async {
     try {
-      List<Course> courses = await _repository.fetchCourseByFilter(
-          http.Client(), filter);
-      emit(CourseListLoadedState(courses));
+      List<Course> courses =
+          await _repository.fetchCourseByFilter(http.Client(), filter);
+      if (courses != null) {
+        emit(CourseListLoadedState(courses));
+      } else {
+        emit(CourseNoDataState());
+      }
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
     }
@@ -68,6 +76,23 @@ class CourseCubit extends Cubit<CourseState> {
       }
 
       emit(CourseListLoadedState(courses));
+    } catch (e) {
+      emit(CourseLoadFailedState('$e'));
+    }
+  }
+
+  //get all course by tutorId
+  //get course by course Id
+  Future getTutorCoursesByCourseStatus(int tutorId, String status) async {
+    try {
+      List<Course> courses = await _repository.fetchTutorCoursesByCourseStatus(
+          http.Client(), status, tutorId);
+      //check whether result has data
+      if (courses != null) {
+        emit(CourseListLoadedState(courses));
+      } else {
+        emit(CourseNoDataState());
+      }
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
     }

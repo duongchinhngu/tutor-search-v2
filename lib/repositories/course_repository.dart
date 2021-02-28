@@ -79,8 +79,10 @@ class CourseRepository {
       return jsonResponse
           .map((courses) => new Course.fromJson(courses))
           .toList();
-    } else {
-      throw Exception('Failed to fetch courses by filter');
+    } else if( response.statusCode == 404){
+      return null;
+    }else{
+throw Exception('Failed to fetch courses by filter');
     }
   }
 
@@ -164,6 +166,35 @@ class CourseRepository {
       throw Exception('Failed to fetch courses by filter');
     }
   }
+
+    //fetch all courses by tutee id and enrollment status
+  Future<List<Course>> fetchTutorCoursesByCourseStatus(
+      http.Client client, String status, int tutorId) async {
+    //host url
+    String url = COURSE_API + '/tutor/courses?';
+    //query parameters
+    Map<String, String> queryParams = {
+      'tutorId': tutorId.toString(),
+      'status': status,
+    };
+    //transform to queryTring
+    String queryString = Uri(queryParameters: queryParams).query;
+    url += queryString;
+    //merge to url
+
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((courses) => new Course.fromJson(courses))
+          .toList();
+    } else if( response.statusCode == 404){
+      return null;
+    }else{
+      throw Exception('Failed to fetch tutor courses by course status');
+    }
+  }
+
 
   //post course
   Future postCourse(Course course) async {

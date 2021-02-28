@@ -21,3 +21,4 @@ class CourseListLoadedState extends CourseState{
 
   CourseListLoadedState(this.courses);
 }
+class CourseNoDataState extends CourseState {}

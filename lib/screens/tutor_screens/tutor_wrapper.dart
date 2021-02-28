@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_welcome.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_courses_screens/tutor_my_course_screen.dart';
 
 class TutorBottomNavigatorBar extends StatefulWidget {
   final selectedIndex;
@@ -21,7 +22,7 @@ class _TutorBottomNavigatorBarState extends State<TutorBottomNavigatorBar> {
   void initState() {
     super.initState();
     screens = [
-      CreateCourseWelcomeScreen(),
+      TutorMyCourseScreen(),
       // TutorMyCourseScreen(),
       CreateCourseWelcomeScreen(),
       // TutorNotificationScreen(),

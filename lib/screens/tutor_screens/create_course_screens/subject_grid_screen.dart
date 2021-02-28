@@ -7,6 +7,7 @@ import 'package:tutor_search_system/cubits/subject_cubit.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/repositories/subject_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart'
@@ -34,6 +35,7 @@ class _SubjectGridScreenState extends State<SubjectGridScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _buildAppBar(context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: mainColor,
         onPressed: () async {
@@ -44,20 +46,40 @@ class _SubjectGridScreenState extends State<SubjectGridScreen> {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(
-          vertical: 40,
+          // vertical: 40,
           horizontal: 10,
         ),
         color: mainColor,
         child: Column(
           children: [
-            //search by subject box
-            SearchSubjectBox(),
             //'Subject' title
             SubjectsTitle(),
             //subject Grid view;
             //load by cubit and repo
             SubjectGridView(),
           ],
+        ),
+      ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: mainColor,
+      elevation: 0.0,
+      title: //search by subject box
+          SearchSubjectBox(),
+      leadingWidth: 20,
+      leading: InkWell(
+        onTap: () => Navigator.pop(context),
+        child: Container(
+          padding: EdgeInsets.only(left: 15),
+          alignment: Alignment.center,
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            size: 15,
+          ),
         ),
       ),
     );
@@ -77,6 +99,7 @@ class SubjectsTitle extends StatelessWidget {
       padding: EdgeInsets.only(
         top: 15,
         left: 20,
+        bottom: 15,
       ),
       child: Text(
         'Subjects',

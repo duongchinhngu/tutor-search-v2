@@ -1,6 +1,3 @@
-import 'package:tutor_search_system/models/course.dart';
-
-import 'filter_models/filter_item.dart' as filter_items;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
@@ -12,6 +9,7 @@ import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
+import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart';
@@ -259,6 +257,8 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                     return Center(
                       child: Text(state.errorMessage),
                     );
+                  } else if (state is CourseNoDataState) {
+                    return NoDataScreen();
                   }
                 },
               ),

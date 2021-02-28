@@ -75,20 +75,18 @@ class _CreateCourseWelcomeScreenState extends State<CreateCourseWelcomeScreen> {
               },
               child: Container(
                 width: 263,
-                height: 50,
+                height: 43,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Color(0xffA80C0C),
                 ),
-                child: Container(
-                  child: Text(
-                    'CREATE COURSE',
-                    style: TextStyle(
-                      fontSize: titleFontSize,
-                      color: textWhiteColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+                child: Text(
+                  'Create Course',
+                  style: TextStyle(
+                    fontSize: titleFontSize,
+                    color: textWhiteColor,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

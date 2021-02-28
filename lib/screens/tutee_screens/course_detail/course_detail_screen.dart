@@ -117,7 +117,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     ),
                     //study week days
                     buildCourseInformationListTile(
-                      state.course.daysInWeek,
+                      state.course.daysInWeek
+                          .replaceFirst('[', '')
+                          .replaceFirst(']', ''),
                       'Days In Week',
                       Icons.calendar_today,
                     ),

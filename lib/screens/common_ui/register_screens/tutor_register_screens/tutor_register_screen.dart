@@ -5,6 +5,7 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import '../register_elements.dart';
 import '../register_processing_screen.dart';
 import 'tutor_register_variables.dart';
@@ -32,6 +33,8 @@ class _TutorRegisterScreenState extends State<TutorRegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mainColor,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: buildFloatingActionButton(context),
       body: ListView(
         children: [
           Stack(
@@ -78,8 +81,6 @@ class _TutorRegisterScreenState extends State<TutorRegisterScreen> {
               ),
               //avatar selector
               buildAvatarSelector(),
-              //bakc button
-              _buildBackButton(context)
             ],
           ),
         ],
@@ -87,23 +88,18 @@ class _TutorRegisterScreenState extends State<TutorRegisterScreen> {
     );
   }
 
-  Container _buildBackButton(BuildContext context) {
-    return Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsetsDirectional.only(
-                start: 10,
-              ),
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            );
+  FloatingActionButton buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      child: Icon(
+        Icons.arrow_back_ios,
+        color: Colors.white,
+      ),
+    );
   }
 
   //image selector
@@ -308,7 +304,7 @@ class _InputBodyState extends State<InputBody> {
                         color: mainColor.withOpacity(0.5),
                       ),
                       borderRadius: BorderRadius.circular(5),
-                      color: Colors.blue[50],
+                      color: Colors.blue[50].withOpacity(.4),
                     ),
                     child: (socialIdImage != null)
                         ? InkWell(
@@ -339,7 +335,7 @@ class _InputBodyState extends State<InputBody> {
                             child: Container(
                               alignment: Alignment.center,
                               child: Icon(
-                                Icons.camera_alt,
+                                Icons.add_a_photo,
                                 color: mainColor.withOpacity(0.7),
                                 size: 50,
                               ),
@@ -378,25 +374,89 @@ class _InputBodyState extends State<InputBody> {
                       children: List.generate(
                         certificationImages.length,
                         (index) {
-                          return InkWell(
-                            onTap: () async {
-                              //select Photo from camera
-                              var img = await getImageFromCamera();
-                              if (img != null) {
-                                setState(() {
-                                  certificationImages.add(img);
-                                });
-                              }
-                            },
-                            child: Container(
+                          //element is the first image; it is for take photo by camera
+                          if (index == 0) {
+                            return InkWell(
+                              onTap: () async {
+                                //select Photo from camera
+                                var img = await getImageFromCamera();
+                                if (img != null) {
+                                  setState(() {
+                                    certificationImages.add(img);
+                                  });
+                                }
+                              },
+                              child: Container(
+                                height: 125,
+                                width: 125,
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  Icons.add_a_photo,
+                                  color: mainColor.withOpacity(0.7),
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[50].withOpacity(.4),
+                                  border: Border.all(
+                                    width: 1.0,
+                                    color: mainColor.withOpacity(0.5),
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            //view photo in fullscreen
+                            return Container(
                               height: 125,
                               width: 125,
-                              child: Image.file(
-                                certificationImages[index],
-                                fit: BoxFit.cover,
+                              child: PopupMenuButton(
+                                child: Image.file(
+                                  certificationImages[index],
+                                  fit: BoxFit.cover,
+                                ),
+                                itemBuilder: (context) {
+                                  return <PopupMenuItem>[
+                                    PopupMenuItem(
+                                      child: TextButton(
+                                        child: Text('Detail'),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FullScreenImage(
+                                                imageWidget: Image.file(
+                                                  certificationImages[index],
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    PopupMenuItem(
+                                      child: TextButton(
+                                        child: Text(
+                                          'Remove',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            color: Colors.red.withOpacity(.8),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          setState(() {
+                                            certificationImages.removeAt(index);
+                                          });
+                                        },
+                                      ),
+                                    )
+                                  ];
+                                },
                               ),
-                            ),
-                          );
+                            );
+                          }
                         },
                       ),
                     ),
@@ -404,26 +464,10 @@ class _InputBodyState extends State<InputBody> {
                 ],
               ),
             ),
-
             //
             buildCreateButton(context),
           ],
         ),
-      ),
-    );
-  }
-
-  FloatingActionButton _buildFloatingActionButton(BuildContext context) {
-    return FloatingActionButton(
-      elevation: 0.0,
-      backgroundColor: Colors.transparent,
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      child: Icon(
-        Icons.arrow_back_ios,
-        color: Colors.white,
-        size: 20,
       ),
     );
   }
