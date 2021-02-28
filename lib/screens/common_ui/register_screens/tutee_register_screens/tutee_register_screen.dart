@@ -9,6 +9,7 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_variables.dart';
 import 'package:tutor_search_system/commons/common_functions.dart';
 
+import '../../common_dialogs.dart';
 import '../register_elements.dart';
 import '../register_processing_screen.dart';
 
@@ -116,25 +117,51 @@ class _TuteeRegisterScreenState extends State<TuteeRegisterScreen> {
 
   AspectRatio buildBackButton(BuildContext context) {
     return AspectRatio(
-            aspectRatio: 2 / 3.85,
-            child: Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsetsDirectional.only(
-                top: 20,
-                start: 10,
+      aspectRatio: 2 / 3.85,
+      child: Container(
+        alignment: Alignment.topLeft,
+        padding: EdgeInsetsDirectional.only(
+          top: 20,
+          start: 10,
+        ),
+        child: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            size: 20,
+          ),
+          onPressed: () {
+            //show confirm delete inputs of registration tutor
+            showDialog(
+              context: context,
+              builder: (context) => buildDefaultDialog(
+                context,
+                'Your inputs would be lost!',
+                'Do you want to continue?',
+                [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      //reset to default value
+                      resetRegisterTutee();
+                      //2 times pop to back to home screen
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    child: Text('Continue'),
+                  ),
+                ],
               ),
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          );
+            );
+          },
+        ),
+      ),
+    );
   }
 
 //image selector
@@ -305,7 +332,7 @@ class _InputBodyState extends State<InputBody> {
       onTap: () async {
         if (formkey.currentState.validate()) {
           formkey.currentState.save();
-          
+
           //navigate to processing screen
           WidgetsBinding.instance.addPostFrameCallback((_) {
             return Navigator.of(context).pushReplacement(

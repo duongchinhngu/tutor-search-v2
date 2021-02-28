@@ -755,7 +755,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   course.classHasSubjectId == 0) {
                 showDialog(
                     context: context,
-                    builder: (context) => buildAlertDialog(context));
+                    builder: (context) => buildAlertDialog(
+                        context, 'There is an empty required field!'));
               } else {
                 //set course status from 'isDraft' to 'Pending'
                 course.status = 'Pending';

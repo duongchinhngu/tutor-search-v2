@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         //   );
                         showDialog(
                           context: context,
-                          builder: (context) => buildDialog(
+                          builder: (context) => buildDefaultDialog(
                             context,
                             'You\'d like to be Tutor or Tutee?',
                             'Choose role for registration',

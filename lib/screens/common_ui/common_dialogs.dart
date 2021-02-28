@@ -5,7 +5,7 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 
 //common alert dialog
-AlertDialog buildAlertDialog(BuildContext context) {
+AlertDialog buildAlertDialog(BuildContext context, String label) {
   return AlertDialog(
     title: Container(
       width: double.infinity,
@@ -22,7 +22,8 @@ AlertDialog buildAlertDialog(BuildContext context) {
       height: 20,
       alignment: Alignment.center,
       child: Text(
-        'There is an empty required field!',
+        // 'There is an empty required field!',
+        label,
         style: textStyle,
       ),
     ),
@@ -45,7 +46,7 @@ AlertDialog buildAlertDialog(BuildContext context) {
 }
 
 //common dialog
-AlertDialog buildDialog(
+AlertDialog buildDefaultDialog(
     BuildContext context, String title, String content, List<Widget> actions) {
   return AlertDialog(
     backgroundColor: backgroundColor.withOpacity(1),
@@ -70,7 +71,7 @@ AlertDialog buildDialog(
 Future showLogoutConfirmDialog(BuildContext context) {
   showDialog(
     context: context,
-    builder: (context) => buildDialog(
+    builder: (context) => buildDefaultDialog(
       context,
       'Are you sure to continue?',
       'Click cancel to be out',

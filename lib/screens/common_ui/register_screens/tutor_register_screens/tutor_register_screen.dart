@@ -5,6 +5,7 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import '../register_elements.dart';
 import '../register_processing_screen.dart';
@@ -93,7 +94,33 @@ class _TutorRegisterScreenState extends State<TutorRegisterScreen> {
       elevation: 0,
       backgroundColor: Colors.transparent,
       onPressed: () {
-        Navigator.pop(context);
+        //show confirm delete inputs of registration tutor
+        showDialog(
+          context: context,
+          builder: (context) => buildDefaultDialog(
+            context,
+            'Your inputs would be lost!',
+            'Do you want to continue?',
+            [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  //reset to default value
+                  resetRegisterTutor();
+                  //2 times pop to back to home screen
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Text('Continue'),
+              ),
+            ],
+          ),
+        );
       },
       child: Icon(
         Icons.arrow_back_ios,
@@ -540,19 +567,23 @@ class _InputBodyState extends State<InputBody> {
 InkWell buildCreateButton(BuildContext context) {
   return InkWell(
     onTap: () async {
-      if (formkey.currentState.validate() || socialIdImage == null) {
+      if (formkey.currentState.validate()) {
         formkey.currentState.save();
         //
-        //navigate to processing screen
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          return Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => TutorRegisterProccessingScreen(
-                tutor: registerTutor,
+        if (socialIdImage != null) {
+          //navigate to processing screen
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            return Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => TutorRegisterProccessingScreen(
+                  tutor: registerTutor,
+                ),
               ),
-            ),
-          );
-        });
+            );
+          });
+        } else {
+          return buildAlertDialog(context, 'Social ID Image is required!');
+        }
       }
     },
     child: Container(
