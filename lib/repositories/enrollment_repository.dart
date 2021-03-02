@@ -13,7 +13,7 @@ class EnrollmentRepository {
         },
         body: jsonEncode(
           <String, dynamic>{
-            'id': enrollment.description,
+            'id': enrollment.id,
             'description': enrollment.description,
             'status': enrollment.status,
             'tuteeId': enrollment.tuteeId,

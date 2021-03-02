@@ -10,10 +10,10 @@ class ClassLoadedState extends ClassState {
   ClassLoadedState(this._class);
 }
 
-class ClassesLoadedState extends ClassState {
+class ClassListLoadedState extends ClassState {
   final List<Class> classes;
 
-  ClassesLoadedState(this.classes);
+  ClassListLoadedState(this.classes);
 }
 
 class ClassesLoadFailedState extends ClassState {

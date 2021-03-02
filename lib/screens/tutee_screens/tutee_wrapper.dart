@@ -2,22 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/my_courses/my_course_screen.dart';
-import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/tutee_search_course.dart';
+import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/search_course_welcome_screen.dart';
 
-class MyBottomAppBar extends StatefulWidget {
+class TuteeBottomNavigatorBar extends StatefulWidget {
+  final selectedIndex;
+
+  const TuteeBottomNavigatorBar({Key key, this.selectedIndex})
+      : super(key: key);
+
   @override
-  _MyBottomAppBarState createState() => _MyBottomAppBarState();
+  _TuteeBottomNavigatorBarState createState() =>
+      _TuteeBottomNavigatorBarState();
 }
 
-class _MyBottomAppBarState extends State<MyBottomAppBar> {
+class _TuteeBottomNavigatorBarState extends State<TuteeBottomNavigatorBar> {
   int _currentIndex = 0;
-  final screens = [
-    TuteeHomeScreen(),
-    MyCourseScreen(),
-    TuteeSearchCourseScreen(),
-    TuteeHomeScreen(),
-    TuteeHomeScreen(),
-  ];
+  var screens = [];
+
+  @override
+  void initState() {
+    super.initState();
+    screens = [
+      TuteeHomeScreen(),
+      MyCourseScreen(),
+      TuteeSearchCourseWelcomeScreen(),
+      TuteeHomeScreen(),
+      TuteeHomeScreen(),
+    ];
+    if (widget.selectedIndex != null) {
+      _currentIndex = widget.selectedIndex;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

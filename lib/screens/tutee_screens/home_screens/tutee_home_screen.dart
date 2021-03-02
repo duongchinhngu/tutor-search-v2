@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/repositories/login_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
@@ -18,6 +19,9 @@ class TuteeHomeScreen extends StatefulWidget {
 }
 
 class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
+  //
+  final loginRepository = LoginRepository();
+  //
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -27,7 +31,7 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
           BlocBuilder<CourseCubit, CourseState>(builder: (context, state) {
         //call category cubit and get all course
         final classCubit = context.watch<CourseCubit>();
-        classCubit.getAllCourse();
+        classCubit.getTuteeHomeCourses();
         //render proper UI for each Course state
         if (state is CourseLoadingState) {
           return buildLoadingIndicator();
@@ -46,17 +50,19 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                   ),
                 ),
               ),
+              actions: [
+                InkWell(
+                  onTap: () async {
+                    //sign out
+                    showLogoutConfirmDialog(context);
+                  },
+                  child: Center(
+                    child: Text('Sign out'),
+                  ),
+                ),
+              ],
             ),
-            body: GridView.builder(
-              itemCount: state.courses.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 2 / 4,
-              ),
-              itemBuilder: (context, index) => VerticalCourseCard(
-                course: state.courses[index],
-              ),
-            ),
+            body: buildCourseGridView(state),
           );
         } else if (state is CourseLoadFailedState) {
           return Center(
@@ -68,6 +74,23 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
   }
 }
 
+//course inn gridview UI style
+Container buildCourseGridView(CourseListLoadedState state) {
+  return Container(
+    child: GridView.builder(
+      itemCount: state.courses.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 2 / 4,
+      ),
+      itemBuilder: (context, index) => VerticalCourseCard(
+        course: state.courses[index],
+      ),
+    ),
+  );
+}
+
+//Course Card
 class VerticalCourseCard extends StatelessWidget {
   final Course course;
 
@@ -81,6 +104,7 @@ class VerticalCourseCard extends StatelessWidget {
           MaterialPageRoute(
               builder: (context) => CourseDetailScreen(
                     courseId: course.id,
+                    hasFollowButton: true,
                   )),
         );
       },
@@ -96,17 +120,10 @@ class VerticalCourseCard extends StatelessWidget {
               topRight: Radius.circular(12),
             ),
             boxShadow: [
-              // BoxShadow(
-              //   color: Colors.grey.withOpacity(0.02),
-              //   spreadRadius: 5,
-              //   blurRadius: 7,
-              //   offset: Offset(0, 3), // changes position of shadow
-              // ),
               boxShadowStyle,
             ],
           ),
           width: 60,
-          // height: 300,
           child: Column(
             children: [
               Expanded(

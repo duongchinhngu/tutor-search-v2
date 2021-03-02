@@ -5,10 +5,11 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
-import 'package:tutor_search_system/models/enrollment.dart';
+import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
-import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
+import 'package:tutor_search_system/screens/common_ui/payment_screens/payment_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
@@ -16,8 +17,10 @@ import 'package:tutor_search_system/states/tutor_state.dart';
 
 class CourseDetailScreen extends StatefulWidget {
   final int courseId;
+  final bool hasFollowButton;
 
-  const CourseDetailScreen({Key key, @required this.courseId})
+  const CourseDetailScreen(
+      {Key key, @required this.courseId, @required this.hasFollowButton})
       : super(key: key);
   @override
   _CourseDetailScreenState createState() => _CourseDetailScreenState();
@@ -57,14 +60,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                   ),
                 ),
                 centerTitle: true,
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: textGreyColor,
-                    size: 15,
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
+                leading: buildDefaultBackButton(context),
               ),
               body: Container(
                 color: backgroundColor,
@@ -110,8 +106,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       endIndent: 30,
                     ),
                     //study time
-                    buildCourseInformationListTile(state.course.beginTime,
-                        'Study Time', Icons.access_time),
+                    buildCourseInformationListTile(
+                        state.course.beginTime + ' - ' + state.course.endTime,
+                        'Study Time',
+                        Icons.access_time),
                     Divider(
                       thickness: 1,
                       indent: 30,
@@ -119,7 +117,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     ),
                     //study week days
                     buildCourseInformationListTile(
-                      state.course.daysInWeek,
+                      state.course.daysInWeek
+                          .replaceFirst('[', '')
+                          .replaceFirst(']', ''),
                       'Days In Week',
                       Icons.calendar_today,
                     ),
@@ -163,7 +163,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                   ],
                 ),
               ),
-              floatingActionButton: buildFollowButton(state.course.id),
+              floatingActionButton: Visibility(
+                visible: widget.hasFollowButton,
+                child: buildFollowButton(state.course),
+              ),
             );
           }
         },
@@ -183,13 +186,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
         decoration: BoxDecoration(
           color: backgroundColor,
           shape: BoxShape.circle,
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.grey,
-          //     blurRadius: 1.5,
-          //     offset: Offset(0, 0.05),
-          //   ),
-          // ],
         ),
         child: Icon(
           icon,
@@ -213,14 +209,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   }
 
 //follow floatin button
-  FloatingActionButton buildFollowButton(int courseId) =>
-      FloatingActionButton.extended(
-        onPressed: () {
-          final EnrollmentRepository enrollmentRepository =
-              EnrollmentRepository();
-          final enrollment = new Enrollment.modelConstructor(
-              0, 1, courseId, 'Waiting for accept from tutor', 'Pending');
-          enrollmentRepository.postEnrollment(enrollment);
         },
         label: Text(
           'Follow',

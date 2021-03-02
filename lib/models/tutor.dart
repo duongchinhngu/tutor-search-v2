@@ -1,36 +1,51 @@
-class Tutor {
-  final int id;
-  final String fullname;
-  final String gender;
-  final String birthday;
-  final String email;
-  final String phone;
-  final String address;
-  final String status;
-  final int roleId;
-  final String avatarImageLink;
-  final String educationLevel;
-  final String school;
-  final int points;
-  final int membershipId;
-  final String description;
+import 'person.dart';
 
-  Tutor(
-      {this.id,
-      this.fullname,
-      this.gender,
-      this.birthday,
-      this.email,
-      this.phone,
-      this.address,
-      this.status,
-      this.roleId,
-      this.avatarImageLink,
-      this.educationLevel,
-      this.school,
-      this.points,
-      this.membershipId,
-      this.description});
+class Tutor extends Person {
+  String educationLevel;
+  String school;
+  int points;
+  int membershipId;
+  String socialIdUrl;
+
+  Tutor({
+    int id,
+    String fullname,
+    String gender,
+    String birthday,
+    String email,
+    String phone,
+    String address,
+    String status,
+    int roleId,
+    String description,
+    String avatarImageLink,
+    this.educationLevel,
+    this.school,
+    this.points,
+    this.membershipId,
+    this.socialIdUrl,
+  }) : super(id, fullname, gender, birthday, email, phone, address, status,
+            roleId, description, avatarImageLink);
+
+  Tutor.constructor(
+    int id,
+    String fullname,
+    String gender,
+    String birthday,
+    String email,
+    String phone,
+    String address,
+    String status,
+    int roleId,
+    String description,
+    String avatarImageLink,
+    this.educationLevel,
+    this.school,
+    this.points,
+    this.membershipId,
+    this.socialIdUrl,
+  ) : super(id, fullname, gender, birthday, email, phone, address, status,
+            roleId, description, avatarImageLink);
 
   factory Tutor.fromJson(Map<String, dynamic> json) {
     return Tutor(
@@ -49,6 +64,21 @@ class Tutor {
       points: json['points'],
       membershipId: json['membershipId'],
       description: json['description'],
+      socialIdUrl: json['socialIdUrl'],
     );
+  }
+
+  void showAttributes() {
+    print('this is tutor fullname: ' + fullname);
+    print('this is tutor gender: ' + gender);
+    print('this is tutor birthday: ' + birthday);
+    print('this is tutor email: ' + email);
+    print('this is tutor phone: ' + phone);
+    print('this is tutor address: ' + address);
+    print('this is tutor roleId: ' + roleId.toString());
+    print('this is tutor avatarImageLink: ' + avatarImageLink);
+    print('this is tutor educationLevel: ' + educationLevel);
+    print('this is tutor school: ' + school);
+    print('this is tutor socialIdUrl: ' + socialIdUrl);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,7 +17,9 @@ class MyCourseScreen extends StatefulWidget {
 }
 
 class _MyCourseScreenState extends State<MyCourseScreen> {
+  //default seelcted status
   String _selectedStatus = 'All';
+  //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +31,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
           style: GoogleFonts.kaushanScript(
             textStyle: TextStyle(
               color: mainColor,
-              fontSize: 30,
+              fontSize: headerFontSize,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -110,7 +113,8 @@ class _CourseListViewState extends State<CourseListView> {
         builder: (context, state) {
           //
           final courseCubit = context.watch<CourseCubit>();
-          courseCubit.getCoursesByEnrollmentStatus(1, widget.currentStatus);
+          courseCubit.getCoursesByEnrollmentStatus(
+              globals.authorizedTutee.id, widget.currentStatus);
           //
           if (state is CourseLoadingState) {
             return buildLoadingIndicator();
@@ -126,6 +130,7 @@ class _CourseListViewState extends State<CourseListView> {
                         MaterialPageRoute(
                             builder: (context) => CourseDetailScreen(
                                   courseId: state.courses[index].id,
+                                  hasFollowButton: false,
                                 )),
                       );
                     },

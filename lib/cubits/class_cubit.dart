@@ -8,10 +8,21 @@ class ClassCubit extends Cubit<ClassState> {
   final ClassRepository _repository;
   ClassCubit(this._repository) : super(ClassLoadingState());
 
+  //get all active class
   Future getAllClasses() async {
     try {
       List<Class> classes = await _repository.fetchAllClass(http.Client());
-      emit(ClassesLoadedState(classes));
+      emit(ClassListLoadedState(classes));
+    } catch (e) {
+      emit(ClassesLoadFailedState('$e'));
+    }
+  }
+
+  //get all active class by subject id
+  Future getClassBySubjectId(int subjectId) async {
+    try {
+      List<Class> classes = await _repository.fetchClassBySubjectId(http.Client(), subjectId);
+      emit(ClassListLoadedState(classes));
     } catch (e) {
       emit(ClassesLoadFailedState('$e'));
     }

@@ -11,7 +11,7 @@ class SubjectLoadedState extends SubjectState {
 }
 
 class SubjectListLoadedState extends SubjectState {
-  final List<Subject> subjects;
+  List<Subject> subjects;
 
   SubjectListLoadedState(this.subjects);
 }
