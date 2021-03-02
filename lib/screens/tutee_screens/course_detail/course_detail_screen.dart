@@ -209,11 +209,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   }
 
 //follow floatin button
-  FloatingActionButton buildFollowButton(Course course) =>
-      FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => PaymentScreen(course: course)));
         },
         label: Text(
           'Follow',
@@ -255,7 +250,9 @@ class TutorCard extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => TutorDetails(),
+                    builder: (context) => TutorDetails(
+                      tutorId: tutorId,
+                    ),
                   ),
                 );
               },
