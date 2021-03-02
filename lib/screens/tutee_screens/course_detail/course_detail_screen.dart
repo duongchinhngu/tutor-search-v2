@@ -6,7 +6,9 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/payment_screens/payment_screen.dart';
@@ -208,7 +210,17 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
     );
   }
 
-//follow floatin button
+  FloatingActionButton buildFollowButton(Course course) =>
+      FloatingActionButton.extended(
+        onPressed: () {
+          //navigate to Payment Screen
+          //payment screeen wil process properly
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PaymentScreen(course: course),
+            ),
+          );
         },
         label: Text(
           'Follow',

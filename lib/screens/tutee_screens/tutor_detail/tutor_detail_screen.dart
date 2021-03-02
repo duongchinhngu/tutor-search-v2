@@ -4,6 +4,7 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/states/tutee_state.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
@@ -27,6 +28,9 @@ class TutorDetails extends StatelessWidget {
           return buildLoadingIndicator();
         } else if (state is TutorLoadedState) {
           return Scaffold(
+            appBar: AppBar(
+              leading: buildDefaultBackButton(context),
+            ),
             body: Container(
               child: Container(
                 child: Stack(
@@ -47,7 +51,8 @@ class TutorDetails extends StatelessWidget {
                             child: CircleAvatar(
                               radius: 65,
                               backgroundImage: NetworkImage(
-                                state.tutor.avatarImageLink,
+                                // state.tutor.avatarImageLink,
+                                'http://www.gstatic.com/tv/thumb/persons/528854/528854_v9_bb.jpg'
                               ),
                             ),
                           ),
@@ -97,12 +102,6 @@ class TutorDetails extends StatelessWidget {
                                   topRight: Radius.circular(12),
                                 ),
                                 boxShadow: [
-                                  // BoxShadow(
-                                  //   color: Colors.grey.withOpacity(0.02),
-                                  //   spreadRadius: 5,
-                                  //   blurRadius: 7,
-                                  //   offset: Offset(0, 3), // changes position of shadow
-                                  // ),
                                   boxShadowStyle,
                                 ],
                               ),
