@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/tutor_register_screens/tutor_register_successfully.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_courses_screens/tutor_my_course_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

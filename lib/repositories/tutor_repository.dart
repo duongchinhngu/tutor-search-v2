@@ -49,7 +49,6 @@ class TutorRepository {
             'points': tutor.points,
             'membershipId': tutor.membershipId,
             'socialIdUrl': tutor.socialIdUrl,
-            'certificationUrl': tutor.certificationUrl,
           },
         ));
     if (response.statusCode == 201 ||

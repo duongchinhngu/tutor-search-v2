@@ -91,7 +91,6 @@ class _TuteeRegisterScreenState extends State<TuteeRegisterScreen> {
                 ),
               ),
             ),
-
             //3nd stack
             AspectRatio(
               aspectRatio: 2 / 3.85,

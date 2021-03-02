@@ -47,7 +47,8 @@ class CourseRepository {
       'classId': filter.filterClass.id.toString(),
       if (filter.filterStudyFee != null)
         'minFee': filter.filterStudyFee.from.toString(),
-      if (filter.filterStudyFee != null)
+      if (filter.filterStudyFee != null &&
+          filter.filterStudyFee.to != double.infinity)
         'maxFee': filter.filterStudyFee.to.toString(),
       if (filter.filterDateRange != null)
         'beginDate': convertDayTimeToString(filter.filterDateRange.start),
@@ -62,10 +63,8 @@ class CourseRepository {
       if (filter.filterGender != null) 'tutorGender': filter.filterGender,
       if (filter.filterEducationLevel != null)
         'educationLevel': filter.filterEducationLevel,
-      if (filter.filterStudyForm != null)
-        'studyForm': filter.filterStudyForm,
-      if (filter.filterWeekdays != '')
-        'weekdays': filter.filterWeekdays,
+      if (filter.filterStudyForm != null) 'studyForm': filter.filterStudyForm,
+      if (filter.filterWeekdays != '') 'weekdays': filter.filterWeekdays,
     };
     //transform to queryTring
     String queryString = Uri(queryParameters: queryParams).query;
@@ -79,10 +78,11 @@ class CourseRepository {
       return jsonResponse
           .map((courses) => new Course.fromJson(courses))
           .toList();
-    } else if( response.statusCode == 404){
+    } else if (response.statusCode == 404) {
       return null;
-    }else{
-throw Exception('Failed to fetch courses by filter');
+    } else {
+      print('Error body: ' + response.body);
+      throw Exception('Failed to fetch courses by filter');
     }
   }
 
@@ -167,7 +167,7 @@ throw Exception('Failed to fetch courses by filter');
     }
   }
 
-    //fetch all courses by tutee id and enrollment status
+  //fetch all courses by tutee id and enrollment status
   Future<List<Course>> fetchTutorCoursesByCourseStatus(
       http.Client client, String status, int tutorId) async {
     //host url
@@ -188,13 +188,12 @@ throw Exception('Failed to fetch courses by filter');
       return jsonResponse
           .map((courses) => new Course.fromJson(courses))
           .toList();
-    } else if( response.statusCode == 404){
+    } else if (response.statusCode == 404) {
       return null;
-    }else{
+    } else {
       throw Exception('Failed to fetch tutor courses by course status');
     }
   }
-
 
   //post course
   Future postCourse(Course course) async {

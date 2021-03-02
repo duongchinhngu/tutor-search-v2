@@ -16,8 +16,6 @@ List<File> certificationImages = [
   File(
       'assets\images\education-concept-vector-illustration-in-flat-style-online-education-school-university-creative-ideas.jpg')
 ];
-//list of certificationUrl; this will add to the result registerTutor
-List<String> certificationUrls = [];
 
 //tutor object
 Tutor registerTutor = Tutor.constructor(
@@ -53,7 +51,6 @@ Tutor registerTutor = Tutor.constructor(
   //social id url
   '',
   //certification url
-  '',
 );
 
 //clear all text controllers of register  tutor
@@ -70,7 +67,10 @@ void resetTextController() {
 //socialId image
   socialIdImage = null;
 //list of certificationImg
-  certificationImages.clear();
+  certificationImages = [
+    File(
+        'assets\images\education-concept-vector-illustration-in-flat-style-online-education-school-university-creative-ideas.jpg')
+  ];
 }
 
 //reset ALL selected field to register  tutor:
@@ -114,6 +114,5 @@ resetRegisterTutor() {
     //social id url
     '',
     //certification url
-    '',
   );
 }

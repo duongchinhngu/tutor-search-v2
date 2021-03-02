@@ -43,3 +43,6 @@ const TUTOR_TRANSACTION_API = "$SERVER_NAME/tutor-transactions";
 const CLASS_HAS_SUBJECT_API = "$SERVER_NAME/class-has-subject";
 const SEARCH_CLASS_HAS_SUBJECT_API = "$CLASS_HAS_SUBJECT_API/search";
 
+//image api urls
+const   IMAGE_API  = '$SERVER_NAME/images';
+

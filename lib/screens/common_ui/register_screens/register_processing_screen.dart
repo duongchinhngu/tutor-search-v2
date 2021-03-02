@@ -6,6 +6,7 @@ import 'package:tutor_search_system/models/account.dart';
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/account_repository.dart';
+import 'package:tutor_search_system/repositories/image_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
@@ -15,6 +16,7 @@ import 'package:tutor_search_system/screens/common_ui/register_screens/tutor_reg
 import '../error_screen.dart';
 import './tutee_register_screens/tutee_register_screen.dart' as tutee_screen;
 import './tutor_register_screens/tutor_register_screen.dart' as tutor_screen;
+import 'package:tutor_search_system/models/image.dart' as image;
 
 ////processing REgister tutee
 class TuteeRegisterProccessingScreen extends StatefulWidget {
@@ -120,7 +122,9 @@ class _TutorRegisterProccessingScreenState
     extends State<TutorRegisterProccessingScreen> {
   //
   final tutorRepository = TutorRepository();
-
+  //
+  final imageRepository = ImageRepository();
+  //
   Future<bool> registerTutor(Tutor tutor) async {
     tutor.fullname = tutor_screen.nameController.text;
     tutor.gender = tutor_screen.genderController.text;
@@ -142,21 +146,22 @@ class _TutorRegisterProccessingScreenState
       tutor.socialIdUrl = imageUrl;
     }
 
+    //post tutor
+    await tutorRepository.postTutor(tutor);
+    //post Image to DB
     if (certificationImages.length > 1) {
       //remove ADD image icon File in default certification image list
       certificationImages.remove(certificationImages.first);
       //
       for (var certitfication in certificationImages) {
         var imageUrl = await uploadFileOnFirebaseStorage(certitfication);
-        certificationUrls.add(imageUrl);
+        // post certification url to Image table in DB
+        imageRepository.postImage(
+          new image.Image.constructor(
+              0, imageUrl, 'certification', tutor.email),
+        );
       }
-      //pass this to Tutor attr certification
-      tutor.certificationUrl = certificationUrls.toString();
     }
-
-    tutor.showAttributes();
-    //post tutor
-    await tutorRepository.postTutor(tutor);
     return Future.value(true);
   }
 

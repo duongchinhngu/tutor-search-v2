@@ -47,20 +47,6 @@ List<FilterItem> genders = [
   _male,
   _female,
 ];
-//---------education level---------
-final educationLevelAll = FilterItem('All', false);
-final colledge = FilterItem('Colledge', false);
-final university = FilterItem('University', false);
-final student = FilterItem('Student', false);
-final teacher = FilterItem('Teacher', false);
-//
-List<FilterItem> educationLevels = [
-  educationLevelAll,
-  colledge,
-  university,
-  student,
-  teacher
-];
 
 //---reset to default value--------
 void resetToDefaultValue() {
@@ -74,10 +60,6 @@ void resetToDefaultValue() {
   }
 //
   for (var item in genders) {
-    item.isSelected = false;
-  }
-//
-  for (var item in educationLevels) {
     item.isSelected = false;
   }
   //

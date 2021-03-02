@@ -167,8 +167,8 @@ Container CourseCard(Course course) {
           alignment: Alignment.centerRight,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: course.status == 'Accepted'
-                  ? mainColor
+              color: course.status == 'Active'
+                  ? Colors.green.shade400
                   : (course.status == 'Denied')
                       ? Colors.red
                       : Colors.orange,
@@ -241,8 +241,8 @@ Container CourseCard(Course course) {
                                 height: 10,
                                 width: 10,
                                 decoration: BoxDecoration(
-                                  color: course.status == 'Accepted'
-                                      ? mainColor
+                                  color: course.status == 'Active'
+                                      ? Colors.green.shade400
                                       : (course.status == 'Denied')
                                           ? Colors.red
                                           : Colors.orange,

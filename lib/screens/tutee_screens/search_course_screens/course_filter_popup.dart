@@ -168,8 +168,10 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 //
                 if (selectedValue != null) {
                   setState(() {
-                    filter.filterWeekdays =
-                        selectedValue.toString().replaceAll('[', '').replaceAll(']', '');
+                    filter.filterWeekdays = selectedValue
+                        .toString()
+                        .replaceAll('[', '')
+                        .replaceAll(']', '');
                   });
                 }
               },
@@ -243,32 +245,6 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 //set filter variable gender
                 setState(() {
                   filter.filterGender = selectedValue;
-                });
-              },
-              true,
-            ),
-            Divider(),
-            //education level
-            buildFilterFieldListTitle(
-              filter.filterEducationLevel != null,
-              'Education Level',
-              filter.filterEducationLevel != null
-                  ? filter.filterEducationLevel
-                  : '',
-              () async {
-                //navigator to new page from right to left
-                Route route = CupertinoPageRoute(
-                  builder: (context) => FilterForStringFieldScreen(
-                    filterItems: educationLevels,
-                    header: 'Education Level',
-                    isMultipleSelectable: false,
-                  ),
-                );
-                //
-                final selectedValue = await Navigator.push(context, route);
-                //set filter variable
-                setState(() {
-                  filter.filterEducationLevel = selectedValue;
                 });
               },
               true,

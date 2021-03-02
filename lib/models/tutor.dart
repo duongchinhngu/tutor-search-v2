@@ -6,7 +6,6 @@ class Tutor extends Person {
   int points;
   int membershipId;
   String socialIdUrl;
-  String certificationUrl;
 
   Tutor({
     int id,
@@ -25,29 +24,27 @@ class Tutor extends Person {
     this.points,
     this.membershipId,
     this.socialIdUrl,
-    this.certificationUrl,
   }) : super(id, fullname, gender, birthday, email, phone, address, status,
             roleId, description, avatarImageLink);
 
   Tutor.constructor(
-      int id,
-      String fullname,
-      String gender,
-      String birthday,
-      String email,
-      String phone,
-      String address,
-      String status,
-      int roleId,
-      String description,
-      String avatarImageLink,
-      this.educationLevel,
-      this.school,
-      this.points,
-      this.membershipId,
-      this.socialIdUrl,
-      this.certificationUrl)
-      : super(id, fullname, gender, birthday, email, phone, address, status,
+    int id,
+    String fullname,
+    String gender,
+    String birthday,
+    String email,
+    String phone,
+    String address,
+    String status,
+    int roleId,
+    String description,
+    String avatarImageLink,
+    this.educationLevel,
+    this.school,
+    this.points,
+    this.membershipId,
+    this.socialIdUrl,
+  ) : super(id, fullname, gender, birthday, email, phone, address, status,
             roleId, description, avatarImageLink);
 
   factory Tutor.fromJson(Map<String, dynamic> json) {
@@ -68,7 +65,6 @@ class Tutor extends Person {
       membershipId: json['membershipId'],
       description: json['description'],
       socialIdUrl: json['socialIdUrl'],
-      certificationUrl: json['certificationUrl'],
     );
   }
 
@@ -84,6 +80,5 @@ class Tutor extends Person {
     print('this is tutor educationLevel: ' + educationLevel);
     print('this is tutor school: ' + school);
     print('this is tutor socialIdUrl: ' + socialIdUrl);
-    print('this is tutor certificationUrl: ' + certificationUrl);
   }
 }
