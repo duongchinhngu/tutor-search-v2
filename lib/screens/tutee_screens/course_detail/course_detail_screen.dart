@@ -263,7 +263,7 @@ class TutorCard extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => TutorDetails(
-                      tutorId: 1,
+                      tutorId: tutorId,
                     ),
                   ),
                 );
