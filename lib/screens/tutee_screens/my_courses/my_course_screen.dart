@@ -163,7 +163,9 @@ Container CourseCard(Course course) {
               borderRadius: BorderRadius.circular(15),
               color: course.status == 'Accepted'
                   ? mainColor
-                  : (course.status == 'Denied') ? Colors.red : Colors.orange,
+                  : (course.status == 'Denied')
+                      ? Colors.red
+                      : Colors.orange,
               boxShadow: [
                 boxShadowStyle,
               ]),

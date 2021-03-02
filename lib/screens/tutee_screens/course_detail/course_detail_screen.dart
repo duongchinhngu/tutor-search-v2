@@ -213,10 +213,13 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   }
 
 //follow floatin button
-  FloatingActionButton buildFollowButton(int courseId) => FloatingActionButton.extended(
+  FloatingActionButton buildFollowButton(int courseId) =>
+      FloatingActionButton.extended(
         onPressed: () {
-          final EnrollmentRepository enrollmentRepository = EnrollmentRepository();
-          final enrollment = new Enrollment.modelConstructor(0, 1, courseId, 'Waiting for accept from tutor', 'Pending');
+          final EnrollmentRepository enrollmentRepository =
+              EnrollmentRepository();
+          final enrollment = new Enrollment.modelConstructor(
+              0, 1, courseId, 'Waiting for accept from tutor', 'Pending');
           enrollmentRepository.postEnrollment(enrollment);
         },
         label: Text(
@@ -259,7 +262,9 @@ class TutorCard extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => TutorDetails(),
+                    builder: (context) => TutorDetails(
+                      tutorId: 1,
+                    ),
                   ),
                 );
               },
