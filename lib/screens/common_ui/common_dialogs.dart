@@ -69,7 +69,7 @@ AlertDialog buildDefaultDialog(
 
 //sign out function common
 Future showLogoutConfirmDialog(BuildContext context) {
-  showDialog(
+  return showDialog(
     context: context,
     builder: (context) => buildDefaultDialog(
       context,

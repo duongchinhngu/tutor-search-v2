@@ -673,7 +673,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                 ),
               ),
-              // Description
+              //description
               Container(
                 height: 200,
                 alignment: Alignment.center,

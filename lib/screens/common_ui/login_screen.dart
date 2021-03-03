@@ -1,14 +1,17 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
+import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
 
 import 'register_screens/tutor_register_screens/tutor_register_screen.dart';
 
@@ -44,65 +47,15 @@ class _LoginScreenState extends State<LoginScreen> {
     if (widget.snackBarContent != null) {
       WidgetsBinding.instance.addPostFrameCallback(
         (_) => ScaffoldMessenger.of(context).showSnackBar(
-          buildLoginSnackBar(),
+          buildDefaultSnackBar(
+            widget.snackBarIcon,
+            widget.snackBarTitle,
+            widget.snackBarContent,
+            widget.snackBarThemeColor,
+          ),
         ),
       );
     }
-  }
-
-  // show when login error, invalid account email.
-  SnackBar buildLoginSnackBar() {
-    return SnackBar(
-      duration: Duration(
-        seconds: 15,
-      ),
-      backgroundColor: backgroundColor,
-      behavior: SnackBarBehavior.floating,
-      elevation: 0.0,
-      content: Stack(
-        children: [
-          Container(
-            height: 70,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                color: widget.snackBarThemeColor,
-                boxShadow: [boxShadowStyle]),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(7),
-                topRight: Radius.circular(7),
-              ),
-              color: backgroundColor,
-            ),
-            height: 65,
-            child: ListTile(
-              leading: SizedBox(
-                width: 60,
-                child: Icon(
-                  widget.snackBarIcon,
-                  color: widget.snackBarThemeColor,
-                  size: 30,
-                ),
-              ),
-              title: Text(
-                widget.snackBarTitle,
-                style: TextStyle(
-                  color: widget.snackBarThemeColor,
-                  fontSize: titleFontSize,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Text(
-                widget.snackBarContent,
-                style: textStyle,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -205,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Sign Up',
                           style: TextStyle(
-                            color: const Color(0xff2B2BAA),
+                            color: defaultBlueTextColor,
                           ),
                         ),
                       ),
@@ -235,31 +188,11 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        // GoogleSignInAccount currentUser =
-        //     await loginRepository.handleSignInGoogle();
-        // print('this is raw user: ' + currentUser.email);
-        // if (currentUser == null) {
-        //   return LoginScreen();
-        // } else {
-        //   return TuteeHomeScreen();
-        // }
-
-        // await googleSignIn.signIn().whenComplete(() async {
-        //   WidgetsBinding.instance.addPostFrameCallback((_) {
-        //     return Navigator.of(context).pushReplacement(
-        //       MaterialPageRoute(
-        //         builder: (context) => RoleRouter(
-        //           userEmail: googleSignIn.currentUser.email,
-        //         ),
-        //       ),
-        //     );
-        //   });
-        // });
-
-        await loginRepository.handleGoogelSignIn(context);
-
-        //remove all screen stack and navigate
+        //show email login dialog
+        await loginRepository.handleGoogleSignIn(context);
+        //
       },
+      //
       child: Container(
         width: 263,
         height: 43,

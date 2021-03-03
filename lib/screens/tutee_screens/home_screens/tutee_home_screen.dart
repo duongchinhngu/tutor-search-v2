@@ -3,16 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
 import 'package:tutor_search_system/states/course_state.dart';
+import 'package:http/http.dart' as http;
 
+//this var for check whether or not take feedback
+bool isTakeFeedback = false;
+
+//
 class TuteeHomeScreen extends StatefulWidget {
   @override
   _TuteeHomeScreenState createState() => _TuteeHomeScreenState();
@@ -21,6 +29,34 @@ class TuteeHomeScreen extends StatefulWidget {
 class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
   //
   final loginRepository = LoginRepository();
+  //
+  final feedbackRepository = FeedbackRepository();
+  //
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //check feedback for this authorized tutee
+    if (!isTakeFeedback) {
+      feedbackRepository
+          .fetchUnfeedbackTutorByTuteeId(http.Client(), authorizedTutee.id)
+          .then(
+            (value) => {
+              if (value != null)
+                {
+                  showFeedbackDialog(context, value).then((value) => {
+                        isTakeFeedback = true,
+                        //set isSending is false
+                        isSending = false,
+                        //
+                      }),
+                }
+            },
+          );
+    }
+    //
+  }
+
   //
   @override
   Widget build(BuildContext context) {

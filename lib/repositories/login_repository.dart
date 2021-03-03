@@ -8,6 +8,7 @@ import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/role_router.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 
 class LoginRepository {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -16,7 +17,10 @@ class LoginRepository {
 //sign in (login) by Google account
 //need to  refactor
 //add JWT heres
-  Future handleGoogelSignIn(BuildContext context) async {
+  Future handleGoogleSignIn(BuildContext context) async {
+    //reset global var
+    isTakeFeedback = false;
+    //
     await _googleSignIn.signIn().whenComplete(() async {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         return Navigator.of(context).pushReplacement(
