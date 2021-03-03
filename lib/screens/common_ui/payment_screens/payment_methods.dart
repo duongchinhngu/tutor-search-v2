@@ -43,8 +43,12 @@ void completeTuteeTransaction(
 }
 
 //complete tutor transaction
-void completeTutorTransaction(
-    BuildContext context, Course course, double totalAmount, Fee fee) {
+void completeTutorTransaction(BuildContext context, Course course,
+    double totalAmount, int usePoint, Fee fee) {
+  //reset new value to authorizeTutor
+  //then update this authorized tutor to DB
+  //
+  globals.authorizedTutor.points = globals.authorizedTutor.points - usePoint;
 //init tutorTransaction
   final tutorTransaction = TutorTransaction.modelConstructor(
       0,

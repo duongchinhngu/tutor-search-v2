@@ -29,3 +29,11 @@ const feeRangeContent3 = 'Above \$50';
 
 const GENDER_MALE = 'Male';
 const GENDER_FEMALE = 'Female';
+// -------------------------course status variables--------------------
+class CourseConstants {
+  static const ACCEPTED_STATUS = 'Accepted';
+  static const DENIED_STATUS = 'Denied';
+  static const INACTIVE_STATUS = 'Inactive';
+  static const PENDING_STATUS = 'Pending';
+  static const ONGOING_STATUS = 'Ongoing';
+}

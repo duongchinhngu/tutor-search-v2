@@ -74,7 +74,7 @@ class _FeedbackDialogBodyState extends State<FeedbackDialogBody> {
                         widget.tutor.avatarImageLink,
                       ),
                     ),
-                    //COlumn of course name and tutor name
+                    //COlumn of tutor gender and tutor name
                     Container(
                       padding: EdgeInsetsDirectional.only(
                         start: 7,
@@ -83,26 +83,19 @@ class _FeedbackDialogBodyState extends State<FeedbackDialogBody> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          //course name
+                          //tutor name
                           Text(
-                            'Kimkadasian Coursete',
+                            widget.tutor.fullname,
                             style: titleStyle,
                           ),
                           //
                           Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'tutor ',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: textGreyColor.withOpacity(0.7),
-                                  ),
-                                ),
-                                //tutor name
-                                Text(widget.tutor.fullname)
-                              ],
+                            alignment: Alignment.centerLeft,
+                            width: 110,
+                            child: Text(
+                              widget.tutor.gender,
+                              style: textStyle,
+                              textAlign: TextAlign.left,
                             ),
                           )
                         ],
@@ -259,7 +252,7 @@ Future<dynamic> showFeedbackCompletedDialog(BuildContext context) {
             //thank you title
             Container(
               child: Text(
-                'Thank You, Duong Chinh Ngu!',
+                'Thank You, ' + authorizedTutee.fullname + '!',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
@@ -289,7 +282,6 @@ Future<dynamic> showFeedbackCompletedDialog(BuildContext context) {
             //
             GestureDetector(
               onTap: () {
-                
                 Navigator.pop(context);
               },
               child: Container(
@@ -329,14 +321,14 @@ Container _buildFeedbackTitle() {
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Image.asset(
             'assets/images/feedback.png',
-            height: 40,
-            width: 40,
+            height: 50,
+            width: 50,
             color: Colors.green,
           ),
         ),
         //label
         Text(
-          'Tell us your Feedback!',
+          'Feedback your tutor !',
           style: TextStyle(
             fontSize: headerFontSize,
             fontWeight: FontWeight.bold,

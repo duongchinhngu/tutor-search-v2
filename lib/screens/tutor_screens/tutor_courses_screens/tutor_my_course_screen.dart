@@ -43,12 +43,15 @@ class _TutorMyCourseScreenState extends State<TutorMyCourseScreen> {
             Container(
               height: 60,
               alignment: Alignment.center,
-              child: Row(
+              child: ListView(
+                scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  Expanded(child: buildCourseStatusCard(0, 'All')),
-                  Expanded(child: buildCourseStatusCard(1, 'Accepted')),
-                  Expanded(child: buildCourseStatusCard(2, 'Denied')),
-                  Expanded(child: buildCourseStatusCard(3, 'Pending')),
+                  buildCourseStatusCard(0, 'All'),
+                  buildCourseStatusCard(1, CourseConstants.ACCEPTED_STATUS),
+                  buildCourseStatusCard(2, CourseConstants.ONGOING_STATUS),
+                  buildCourseStatusCard(3, CourseConstants.PENDING_STATUS),
+                  buildCourseStatusCard(4, CourseConstants.INACTIVE_STATUS),
+                  buildCourseStatusCard(5, CourseConstants.DENIED_STATUS),
                 ],
               ),
             ),
@@ -70,8 +73,14 @@ class _TutorMyCourseScreenState extends State<TutorMyCourseScreen> {
         });
       },
       child: Container(
+        width: 100,
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(
+          horizontal: 10,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
               status,
@@ -80,12 +89,24 @@ class _TutorMyCourseScreenState extends State<TutorMyCourseScreen> {
                 fontSize: titleFontSize,
               ),
             ),
-            Divider(
-              indent: 20,
-              endIndent: 20,
-              color: _selectedStatus == status ? mainColor : Colors.transparent,
-              thickness: 1,
-            ),
+            Visibility(
+              visible: _selectedStatus == status,
+              child: Divider(
+                color: mainColor,
+                thickness: 1,
+                indent: 10,
+                endIndent: 10,
+              ),
+            )
+            // Container(
+            //   height: 10,
+            //   decoration: BoxDecoration(
+            //     color: Colors.red,
+            //     border: Border(
+            //       bottom: BorderSide(color: Colors.lightGreen, width: 3),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

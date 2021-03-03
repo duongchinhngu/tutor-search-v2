@@ -34,7 +34,6 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
   //
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     //check feedback for this authorized tutee
     if (!isTakeFeedback) {
@@ -46,7 +45,7 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                 {
                   showFeedbackDialog(context, value).then((value) => {
                         isTakeFeedback = true,
-                        //set isSending is false
+                        //set isSending is false when sended feedback to DB
                         isSending = false,
                         //
                       }),

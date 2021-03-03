@@ -5,6 +5,7 @@ import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 //this is default course (when tutor does not choose fields for new course)
 //default value of unchosen field is "No Select"
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/screens/common_ui/payment_screens/payment_screen.dart';
 
 Course course = Course.constructor(
   0,
@@ -135,6 +136,8 @@ void resetEmptyCreateCourseScreen() {
   selectedDateRange = null;
   //set selectedTimeRange is null
   selectedTimeRange = null;
+  //reset use point input = null
+  usePointController.clear();
 }
 
 //default date range ( contains beginDate and endDate)
