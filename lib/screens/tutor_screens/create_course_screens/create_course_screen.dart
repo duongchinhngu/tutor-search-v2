@@ -341,7 +341,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                       //begin date
                       ListTile(
-                        minLeadingWidth: 20,
                         leading: Icon(
                           Icons.calendar_today,
                           color: mainColor,
@@ -386,7 +385,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                       // end date
                       ListTile(
-                        minLeadingWidth: 20,
                         leading: Icon(
                           Icons.calendar_today,
                           color: mainColor,
@@ -590,7 +588,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                 ),
                 child: ListTile(
-                  minLeadingWidth: 20,
                   title: Container(
                     padding: EdgeInsets.only(top: 15),
                     child: Row(
