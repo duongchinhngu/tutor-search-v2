@@ -11,8 +11,6 @@ import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
-
 import 'register_screens/tutor_register_screens/tutor_register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -167,6 +165,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             );
+          } else if (snapshot.hasError) {
+            print('Error');
           } else {
             return buildLoadingIndicator();
           }

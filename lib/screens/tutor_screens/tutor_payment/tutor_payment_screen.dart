@@ -26,8 +26,8 @@ class TutorPaymentScreen extends StatefulWidget {
 
 class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
   //
-  bool validateTotalAmount(double totalAmount) {
-    if (totalAmount < 0) {
+  bool validatePoint(double totalAmount, int usedPoint) {
+    if (totalAmount < 0 || usedPoint > globals.authorizedTutor.points) {
       return false;
     }
     return true;
@@ -252,26 +252,20 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
       onPressed: () async {
         //set enable onPress function for FAB
         if (state is FeeLoadedState) {
-          if (globals.authorizedTutor != null) {
-            //validate total amoount
-            if (validateTotalAmount(totalAmount)) {
-              //post Tutor Transaction
-              payment_methods.completeTutorTransaction(
-                  context,
-                  widget.course,
-                  totalAmount,
-                  int.parse(usePointController.text != ''
-                      ? usePointController.text
-                      : '0'),
-                  state.fee);
-            } else {
-              //show dialog alert
-              showDialog(
-                context: context,
-                builder: (context) => buildAlertDialog(
-                    context, 'Total amount must be greater than 0!'),
-              );
-            }
+          int usedPoint = int.parse(
+              usePointController.text != '' ? usePointController.text : '0');
+          //validate total amoount
+          if (validatePoint(totalAmount, usedPoint)) {
+            //post Tutor Transaction
+            payment_methods.completeTutorTransaction(
+                context, widget.course, totalAmount, usedPoint, state.fee);
+          } else {
+            //show dialog alert
+            showDialog(
+              context: context,
+              builder: (context) => buildAlertDialog(
+                  context, 'Total amount must be greater than 0!'),
+            );
           }
         }
         //disble FAB when fee is not loaded yet
