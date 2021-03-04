@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/common_model.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
+import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
+
 //this is default course (when tutor does not choose fields for new course)
 //default value of unchosen field is "No Select"
-import 'package:tutor_search_system/models/course.dart';
-import 'package:tutor_search_system/screens/common_ui/payment_screens/payment_screen.dart';
-
 Course course = Course.constructor(
   0,
   // name

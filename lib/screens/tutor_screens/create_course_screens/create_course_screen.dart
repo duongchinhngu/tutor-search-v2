@@ -16,9 +16,9 @@ import 'package:tutor_search_system/repositories/class_has_subject_repository.da
 import 'package:tutor_search_system/repositories/class_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
-import 'package:tutor_search_system/screens/common_ui/payment_screens/payment_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/class_state.dart';
 import 'create_course_variables.dart';
 
@@ -798,7 +798,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PaymentScreen(course: course),
+                    builder: (context) => TutorPaymentScreen(course: course),
                   ),
                 );
               }

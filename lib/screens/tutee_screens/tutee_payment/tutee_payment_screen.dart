@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:flutter/material.dart';
@@ -6,24 +5,20 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/fee_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
-import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
-import 'payment_methods.dart' as payment_methods;
 import 'package:tutor_search_system/repositories/fee_repository.dart';
 import 'package:tutor_search_system/states/fee_state.dart';
-
-//use point controller text
-TextEditingController usePointController = TextEditingController();
+import 'tutee_payment_method.dart' as payment_methods;
 
 //
-class PaymentScreen extends StatefulWidget {
+class TuteePaymentScreen extends StatefulWidget {
   final Course course;
 
-  const PaymentScreen({Key key, @required this.course}) : super(key: key);
+  const TuteePaymentScreen({Key key, @required this.course}) : super(key: key);
   @override
-  _PaymentScreenState createState() => _PaymentScreenState();
+  _TuteePaymentScreenState createState() => _TuteePaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
   //
   bool validateTotalAmount(double totalAmount) {
     if (totalAmount < 0) {
@@ -44,8 +39,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
         //tutor payment has feeId = 2 (create course fee); tutee has feeId = 1 (joining course fee)
         if (globals.authorizedTutee != null) {
           feeId = 1;
-        } else if (globals.authorizedTutor != null) {
-          feeId = 2;
         }
         //
         //total amount
@@ -56,14 +49,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
         //
         //set total amount
         if (state is FeeLoadedState) {
+          // set total amount for tutee
           if (globals.authorizedTutee != null) {
             totalAmount += state.fee.price + widget.course.studyFee;
-          } else if (globals.authorizedTutor != null) {
-            totalAmount = totalAmount +
-                state.fee.price -
-                int.parse(usePointController.text != ''
-                    ? usePointController.text
-                    : '0');
           }
         }
         //render ui
@@ -106,6 +94,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               boxShadow: [boxShadowStyle]),
                           child: Column(
                             children: [
+                              //fee
                               Container(
                                 width: 341,
                                 height: 60,
@@ -124,17 +113,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 ),
                               ),
                               //Transfer to tutor
-                              //tutee only
-                              Visibility(
-                                visible: globals.authorizedTutee != null,
-                                child: _buildTuteeTransferToTutor(),
-                              ),
+                              _buildTuteeTransferToTutor(),
                               //amount
-                              //tutee only
-                              Visibility(
-                                visible: globals.authorizedTutee != null,
-                                child: _buildTuteeAmountToPay(),
-                              ),
+                              _buildTuteeAmountToPay(),
                               PaymentItemDivider(),
                               //fee
                               Container(
@@ -155,67 +136,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 ),
                               ),
                               //
-                              PaymentItemDivider(),
-                              //use point of tutor
-                              Visibility(
-                                visible: globals.authorizedTutor != null,
-                                child: Container(
-                                  width: 341,
-                                  height: 60,
-                                  alignment: Alignment.center,
-                                  child: ListTile(
-                                    leading: Text(
-                                      'Use point(s)',
-                                      style: TextStyle(color: Colors.grey[400]),
-                                    ),
-                                    trailing: Container(
-                                      width: 140,
-                                      height: 40,
-                                      child: TextFormField(
-                                        controller: usePointController,
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(
-                                          signed: false,
-                                          decimal: true,
-                                        ),
-                                        textAlign: TextAlign.start,
-                                        // if user has 0 point => set enable is true
-                                        enabled:
-                                            globals.authorizedTutor.points != 0,
-                                        //
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.digitsOnly
-                                        ],
-                                        onChanged: (usePoint) {
-                                          setState(() {
-                                            totalAmount -= int.parse(usePoint);
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          fillColor: Color(0xffF9F2F2),
-                                          filled: true,
-                                          focusedBorder: InputBorder.none,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            borderSide: const BorderSide(
-                                                color: Colors.transparent,
-                                                width: 0.0),
-                                          ),
-                                          hintText: globals
-                                                  .authorizedTutor.points
-                                                  .toString() +
-                                              ' point(s) available',
-                                          hintStyle: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: textFontSize,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
                               PaymentItemDivider(),
                               //total amount
                               _buildTotalAmount(totalAmount),
@@ -304,24 +224,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
             //post TuteeTransaction
             payment_methods.completeTuteeTransaction(
                 context, widget.course, totalAmount);
-          } else if (globals.authorizedTutor != null) {
-            //validate total amoount
-            if (validateTotalAmount(totalAmount)) {
-              //post Tutor Transaction
-              payment_methods.completeTutorTransaction(
-                  context,
-                  widget.course,
-                  totalAmount,
-                  int.parse(usePointController.toString()),
-                  state.fee);
-            } else {
-              //show dialog alert
-              showDialog(
-                context: context,
-                builder: (context) => buildAlertDialog(
-                    context, 'Total amount must be greater than 0!'),
-              );
-            }
           }
         }
         //disble FAB when fee is not loaded yet
