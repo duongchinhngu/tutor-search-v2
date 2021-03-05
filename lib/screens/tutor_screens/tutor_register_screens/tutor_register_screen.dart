@@ -8,8 +8,8 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/repositories/account_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
-import '../register_elements.dart';
-import '../register_processing_screen.dart';
+import 'register_elements.dart';
+import 'tutor_register_processing_screen.dart';
 import 'tutor_register_variables.dart';
 import 'package:http/http.dart' as http;
 

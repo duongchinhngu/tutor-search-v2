@@ -1,17 +1,15 @@
 import 'dart:ui';
-import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/repositories/account_repository.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'register_screens/tutor_register_screens/tutor_register_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_register_screens/tutee_register_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/tutor_register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   final IconData snackBarIcon;

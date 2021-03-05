@@ -7,11 +7,11 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/repositories/account_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_variables.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:http/http.dart' as http;
-import '../../common_dialogs.dart';
-import '../register_elements.dart';
-import '../register_processing_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/register_elements.dart';
+import 'tutee_register_processing_screen.dart';
+import 'tutee_register_variables.dart';
 
 //
 TextEditingController nameController = TextEditingController();
