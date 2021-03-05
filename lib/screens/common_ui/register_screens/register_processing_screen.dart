@@ -50,15 +50,15 @@ class _TuteeRegisterProccessingScreenState
           await uploadFileOnFirebaseStorage(tutee_screen.avatarImage);
       tutee.avatarImageLink = imageUrl;
     }
-
-    //post course
-    await tuteeRepository.postTutee(tutee);
     //init account obj
     final account =
         Account.constructor(0, tutee.email, tutee.roleId, '', 'Active');
     account.showAttribute();
     //post Account
     await accountRepository.postAcount(account);
+    //post course
+    await tuteeRepository.postTutee(tutee);
+
     return Future.value(true);
   }
 
@@ -135,7 +135,11 @@ class _TutorRegisterProccessingScreenState
     tutor.educationLevel = tutor_screen.educationLevelController.text;
     tutor.school = tutor_screen.schoolController.text;
 
-    //need to refactor
+    //init account obj
+    final account =
+        Account.constructor(0, tutor.email, tutor.roleId, '', 'Active');
+    //post Account
+    await AccountRepository().postAcount(account);
     //after post image on Firebase; get link and set to tutor
     if (avatarImage != null) {
       var imageUrl = await uploadFileOnFirebaseStorage(avatarImage);
@@ -145,7 +149,6 @@ class _TutorRegisterProccessingScreenState
       var imageUrl = await uploadFileOnFirebaseStorage(socialIdImage);
       tutor.socialIdUrl = imageUrl;
     }
-
     //post tutor
     await tutorRepository.postTutor(tutor);
     //post Image to DB

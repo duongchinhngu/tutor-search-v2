@@ -27,7 +27,24 @@ class TutorPaymentScreen extends StatefulWidget {
 class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
   //
   bool validatePoint(double totalAmount, int usedPoint) {
-    if (totalAmount < 0 || usedPoint > globals.authorizedTutor.points) {
+    //total amount cannot be negative
+    if (totalAmount < 0) {
+      //show dialog alert
+      showDialog(
+        context: context,
+        builder: (context) =>
+            buildAlertDialog(context, 'Total amount must be greater than 0!'),
+      );
+      return false;
+    } else
+    //cannot use point over the number tutor has
+    if (usedPoint > globals.authorizedTutor.points) {
+      //show dialog alert
+      showDialog(
+        context: context,
+        builder: (context) => buildAlertDialog(context,
+            'Your available point(s) is ${globals.authorizedTutor.points}'),
+      );
       return false;
     }
     return true;
@@ -259,16 +276,8 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
             //post Tutor Transaction
             payment_methods.completeTutorTransaction(
                 context, widget.course, totalAmount, usedPoint, state.fee);
-          } else {
-            //show dialog alert
-            showDialog(
-              context: context,
-              builder: (context) => buildAlertDialog(
-                  context, 'Total amount must be greater than 0!'),
-            );
           }
         }
-        //disble FAB when fee is not loaded yet
       },
       isExtended: true,
       backgroundColor: Colors.transparent,
