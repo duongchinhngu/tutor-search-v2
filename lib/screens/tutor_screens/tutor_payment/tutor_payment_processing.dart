@@ -54,10 +54,11 @@ class _TutorPaymentProccessingScreenState
             });
     //post tutor transaction
     await transactionRepository.postTutorTransaction(widget.tutorTransaction);
-    //update this tutor in DB
-    await TutorRepository().putTutor(globals.authorizedTutor);
     //post course
     await courseRepository.postCourse(course);
+    //update this tutor in DB
+    await TutorRepository().putTutor(globals.authorizedTutor);
+    //
     return Future.value(true);
   }
 
