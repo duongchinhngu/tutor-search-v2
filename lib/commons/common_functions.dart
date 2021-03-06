@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tutor_search_system/commons/colors.dart';
 import 'global_variables.dart' as globals;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -45,4 +46,18 @@ Future<File> getImageFromGallery() async {
 Future<File> getImageFromCamera() async {
   // ignore: deprecated_member_use
   return await ImagePicker.pickImage(source: ImageSource.camera);
+}
+
+//get status and return proper color for the status
+Color mapStatusToColor(String status){
+  
+  if( status == globals.CourseConstants.DENIED_STATUS){
+    return deniedColor;
+  }else if( status == globals.CourseConstants.ACTIVE_STATUS){
+    return activeColor;
+  } else if( status == globals.CourseConstants.PENDING_STATUS){
+    return pendingColor;
+  }
+  //this is error color for test
+  return Colors.tealAccent;
 }

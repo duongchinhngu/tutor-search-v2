@@ -35,14 +35,6 @@ Course course = Course.constructor(
   //thi sis hard code
   //createdBy
   globals.authorizedTutor.id,
-  // confirmBy
-  //this is fake manager id (confirmedBy); backend handles this field
-  0,
-  //createddate
-  globals.defaultDatetime,
-  //confirm date
-  //this is fake confirmedDate; backend handles this field
-  globals.defaultDatetime,
 );
 
 //course name field controller
@@ -116,14 +108,6 @@ void resetEmptyCreateCourseScreen() {
     //thi sis hard code
     //createdBy
     globals.authorizedTutor.id,
-    // confirmBy
-    //this is fake manager id (confirmedBy); backend handles this field
-    0,
-    //createddate
-    globals.defaultDatetime,
-    //confirm date
-    //this is fake confirmedDate; backend handles this field
-    globals.defaultDatetime,
   );
   //reset all text controllers text = empty
   resetInputFields();

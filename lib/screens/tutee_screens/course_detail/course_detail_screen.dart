@@ -74,47 +74,27 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     //course name
                     buildCourseInformationListTile(
                         state.course.name, 'Course Name', Icons.library_books),
-                    Divider(
-                      thickness: 1,
-                      indent: 30,
-                      endIndent: 30,
-                    ),
+                    buildDivider(),
                     //course name
                     buildCourseInformationListTile(
                         state.course.classHasSubjectId.toString(),
                         'Subject',
                         Icons.subject),
-                    Divider(
-                      thickness: 1,
-                      indent: 30,
-                      endIndent: 30,
-                    ),
+                    buildDivider(),
                     //course name
                     buildCourseInformationListTile(
                         state.course.name, 'Class', Icons.grade),
-                    Divider(
-                      thickness: 1,
-                      indent: 30,
-                      endIndent: 30,
-                    ),
+                    buildDivider(),
                     //school
                     buildCourseInformationListTile(
                         state.course.studyForm, 'Study Form', Icons.school),
-                    Divider(
-                      thickness: 1,
-                      indent: 30,
-                      endIndent: 30,
-                    ),
+                    buildDivider(),
                     //study time
                     buildCourseInformationListTile(
                         state.course.beginTime + ' - ' + state.course.endTime,
                         'Study Time',
                         Icons.access_time),
-                    Divider(
-                      thickness: 1,
-                      indent: 30,
-                      endIndent: 30,
-                    ),
+                    buildDivider(),
                     //study week days
                     buildCourseInformationListTile(
                       state.course.daysInWeek
@@ -123,33 +103,21 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       'Days In Week',
                       Icons.calendar_today,
                     ),
-                    Divider(
-                      thickness: 1,
-                      indent: 30,
-                      endIndent: 30,
-                    ),
+                    buildDivider(),
                     //begin and end date
                     buildCourseInformationListTile(
                       state.course.beginDate + ' to ' + state.course.endDate,
                       'Begin - End Date',
                       Icons.date_range,
                     ),
-                    Divider(
-                      thickness: 1,
-                      indent: 30,
-                      endIndent: 30,
-                    ),
+                    buildDivider(),
                     //price of the course
                     buildCourseInformationListTile(
                       '\$' + state.course.studyFee.toString(),
                       'Study Fee',
                       Icons.monetization_on,
                     ),
-                    Divider(
-                      thickness: 1,
-                      indent: 30,
-                      endIndent: 30,
-                    ),
+                    buildDivider(),
                     //description for this course
                     buildCourseInformationListTile(
                       state.course.description,
@@ -170,40 +138,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             );
           }
         },
-      ),
-    );
-  }
-
-  ListTile buildCourseInformationListTile(
-      String content, String title, IconData icon) {
-    return ListTile(
-      leading: Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        width: 43,
-        height: 43,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          icon,
-          color: mainColor,
-        ),
-      ),
-      title: Text(
-        title,
-        style: TextStyle(fontSize: 13, color: Colors.grey[500]),
-      ),
-      subtitle: Text(
-        content,
-        style: title == 'Course Name'
-            ? titleStyle
-            : TextStyle(
-                fontSize: titleFontSize,
-                color: textGreyColor,
-              ),
       ),
     );
   }
@@ -328,4 +262,48 @@ class TutorCard extends StatelessWidget {
       ),
     );
   }
+}
+
+//course infortion listtitle
+ListTile buildCourseInformationListTile(
+    String content, String title, IconData icon) {
+  return ListTile(
+    leading: Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      width: 43,
+      height: 43,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        shape: BoxShape.circle,
+      ),
+      child: Icon(
+        icon,
+        color: mainColor,
+      ),
+    ),
+    title: Text(
+      title,
+      style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+    ),
+    subtitle: Text(
+      content,
+      style: title == 'Course Name'
+          ? titleStyle
+          : TextStyle(
+              fontSize: titleFontSize,
+              color: textGreyColor,
+            ),
+    ),
+  );
+}
+
+//default divider for this page
+Divider buildDivider() {
+  return Divider(
+    thickness: 1,
+    indent: 30,
+    endIndent: 30,
+  );
 }

@@ -99,12 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     //sign up link
                     InkWell(
                       onTap: () {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => TuteeRegisterScreen(),
-                        //     ),
-                        //   );
+                        //show role selector dialog
                         showDialog(
                           context: context,
                           builder: (context) => buildDefaultDialog(
