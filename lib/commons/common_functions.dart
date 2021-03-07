@@ -49,15 +49,20 @@ Future<File> getImageFromCamera() async {
 }
 
 //get status and return proper color for the status
-Color mapStatusToColor(String status){
-  
-  if( status == globals.CourseConstants.DENIED_STATUS){
+Color mapStatusToColor(String status) {
+  if (status == globals.CourseConstants.DENIED_STATUS) {
     return deniedColor;
-  }else if( status == globals.CourseConstants.ACTIVE_STATUS){
+  } else if (status == globals.CourseConstants.ACTIVE_STATUS ||
+      status == globals.CourseConstants.ACCEPTED_STATUS) {
     return activeColor;
-  } else if( status == globals.CourseConstants.PENDING_STATUS){
+  } else if (status == globals.CourseConstants.PENDING_STATUS) {
     return pendingColor;
   }
   //this is error color for test
   return Colors.tealAccent;
+}
+
+//get year old from birthday
+int getYearOldFromBithdayString(String birthday) {
+  return DateTime.now().year - int.parse(birthday.substring(0, 4));
 }

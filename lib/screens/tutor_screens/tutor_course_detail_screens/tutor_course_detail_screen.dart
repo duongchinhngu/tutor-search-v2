@@ -8,15 +8,19 @@ import 'package:tutor_search_system/commons/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
+import 'package:tutor_search_system/cubits/tutee_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
+import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/course_tutee_screens/course_tutee_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
+import 'package:tutor_search_system/states/tutee_state.dart';
 
 class TutorCourseDetailScreen extends StatefulWidget {
   final int courseId;
@@ -123,47 +127,112 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
           // //tutees in course
           Visibility(
             visible: _checkShowNumberOfTuteeWidget(course.status),
-            child: Column(
-              children: [
-                Container(
-                  height: 140,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      //image tutees in course
-                      Image.asset(
-                        'assets/images/cute-boy-study-with-laptop-cartoon-icon-illustration-education-technology-icon-concept-isolated-flat-cartoon-style_138676-2107.jpg',
-                        height: 119,
-                      ),
-                      //
-                      Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Course\'s tutee(s)',
-                              style: textStyle,
-                            ),
-                            //number of tutee in the class
-                            Text(
-                              '2 tutee(s)',
-                              style: titleStyle,
-                            )
-                          ],
-                        ),
-                      ),
-                      //arrow
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: textGreyColor,
-                        size: 20,
-                      )
-                    ],
+            child: GestureDetector(
+              onTap: () {
+                //navigate to COurse tutee screen to show tutees in this course
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CourseTuteeScreen(course: course),
                   ),
-                ),
-                //
-                buildDivider(),
-              ],
+                );
+              },
+              child: Column(
+                children: [
+                  Container(
+                    height: 140,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        //image tutees in course
+                        Image.asset(
+                          'assets/images/cute-boy-study-with-laptop-cartoon-icon-illustration-education-technology-icon-concept-isolated-flat-cartoon-style_138676-2107.jpg',
+                          height: 119,
+                        ),
+                        //
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Course\'s tutee(s)',
+                                style: textStyle,
+                              ),
+
+                              BlocProvider(
+                                create: (context) =>
+                                    TuteeCubit(TuteeRepository()),
+                                child: BlocBuilder<TuteeCubit, TuteeState>(
+                                  builder: (context, state) {
+                                    //
+                                    final tuteeCubit =
+                                        context.watch<TuteeCubit>();
+                                    tuteeCubit.getTuteesByCourseId(course.id);
+                                    //
+                                    if (state is TuteeLoadingState) {
+                                      return Text('loading..');
+                                    } else if (state is TuteeNoDataState) {
+                                      return Text(
+                                        '0 tutee(s)',
+                                        style: titleStyle,
+                                      );
+                                    } else if (state is TuteeListLoadedState) {
+                                      return Container(
+                                        // height: 30,
+                                        // width: 90,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              state.tutees.length.toString() +
+                                                  ' tutee(s)',
+                                              style: titleStyle,
+                                            ),
+                                            // //notification number
+                                            // Visibility(
+                                            //   visible: false,
+                                            //   child: Container(
+                                            //     height: 17,
+                                            //     width: 17,
+                                            //     alignment: Alignment.center,
+                                            //     decoration: BoxDecoration(
+                                            //       shape: BoxShape.circle,
+                                            //       color: Colors.red,
+                                            //     ),
+                                            //     child: Text(
+                                            //       '1',
+                                            //       style: TextStyle(
+                                            //         color: textWhiteColor,
+                                            //         fontSize: 12,
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                              //number of tutee in the class
+                            ],
+                          ),
+                        ),
+                        //arrow
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: textGreyColor,
+                          size: 20,
+                        )
+                      ],
+                    ),
+                  ),
+                  //
+                  buildDivider(),
+                ],
+              ),
             ),
           ),
           //course name
@@ -206,7 +275,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
           buildDivider(),
           //description for this course
           buildCourseInformationListTile(
-            course.description,
+            course.description != '' ? course.description : 'No description',
             'Extra Information',
             Icons.description,
           ),

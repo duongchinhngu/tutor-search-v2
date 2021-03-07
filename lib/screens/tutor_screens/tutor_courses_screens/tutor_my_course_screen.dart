@@ -146,7 +146,7 @@ class _CourseListViewState extends State<CourseListView> {
                                 )),
                       );
                     },
-                    child: CourseCard(context, state.courses[index]),
+                    child: TutorCourseCard(context, state.courses[index]),
                   );
                 },
               ),
@@ -165,8 +165,10 @@ class _CourseListViewState extends State<CourseListView> {
 }
 
 // ignore: non_constant_identifier_names
-Widget CourseCard(BuildContext context, Course course) {
+Widget TutorCourseCard(BuildContext context, Course course) {
+  //
   double courseCardHeight = 140;
+  //
   return GestureDetector(
     onTap: () {
       //
@@ -235,7 +237,7 @@ Widget CourseCard(BuildContext context, Course course) {
                 ),
                 //begin-end time
                 Text(
-                  course.beginTime + ' - ' + course.endTime,
+                  course.beginTime.substring(0,5) + ' - ' + course.endTime.substring(0,5),
                   style: textStyle,
                 ),
                 //begin date and status
@@ -252,7 +254,7 @@ Widget CourseCard(BuildContext context, Course course) {
                         ),
                       ),
                       Expanded(
-                        flex: 7,
+                        flex: 6,
                         child: Text(
                           course.beginDate,
                           style: textStyle,
@@ -271,7 +273,7 @@ Widget CourseCard(BuildContext context, Course course) {
                         ),
                       ),
                       Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Container(
                           child: Text(
                             course.status,

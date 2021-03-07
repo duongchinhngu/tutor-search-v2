@@ -59,4 +59,20 @@ class TuteeRepository {
       throw Exception('Faild to post Tutee');
     }
   }
+
+  //fetch Tutee by courseId
+  Future<List<Tutee>> fetchTuteeByCourseId(
+      http.Client client, int courseId) async {
+    final response = await http.get('$TUTEE_IN_A_COURSE/$courseId');
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((tutee) => new Tutee.fromJson(tutee)).toList();
+    } else if (response.statusCode == 404) {
+      return null;
+    } else {
+      print('Error body: ' + response.body);
+      throw Exception(
+          'Failed to fetch Tutee by courseId' + response.statusCode.toString());
+    }
+  }
 }

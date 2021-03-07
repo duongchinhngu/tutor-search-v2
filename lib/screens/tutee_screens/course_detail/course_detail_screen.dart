@@ -120,9 +120,16 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     buildDivider(),
                     //description for this course
                     buildCourseInformationListTile(
-                      state.course.description,
+                      state.course.description == ''? 'No description': state.course.description,
                       'Extra Information',
                       Icons.description,
+                    ),
+                    buildDivider(),
+                    //created date of this course
+                    buildCourseInformationListTile(
+                      state.course.endDate,
+                      'Follow Date',
+                      Icons.calendar_today,
                     ),
                     //this widget for being nice only
                     SizedBox(
