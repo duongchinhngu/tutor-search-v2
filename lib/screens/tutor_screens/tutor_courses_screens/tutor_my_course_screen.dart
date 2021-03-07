@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
@@ -98,15 +99,6 @@ class _TutorMyCourseScreenState extends State<TutorMyCourseScreen> {
                 endIndent: 10,
               ),
             )
-            // Container(
-            //   height: 10,
-            //   decoration: BoxDecoration(
-            //     color: Colors.red,
-            //     border: Border(
-            //       bottom: BorderSide(color: Colors.lightGreen, width: 3),
-            //     ),
-            //   ),
-            // )
           ],
         ),
       ),
@@ -174,6 +166,7 @@ class _CourseListViewState extends State<CourseListView> {
 
 // ignore: non_constant_identifier_names
 Widget CourseCard(BuildContext context, Course course) {
+  double courseCardHeight = 140;
   return GestureDetector(
     onTap: () {
       //
@@ -192,22 +185,18 @@ Widget CourseCard(BuildContext context, Course course) {
         alignment: Alignment.centerRight,
         children: <Widget>[
           Container(
-            height: 85,
+            height: courseCardHeight,
             width: 335,
             alignment: Alignment.centerRight,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: course.status == 'Active'
-                    ? activeColor
-                    : (course.status == 'Denied')
-                        ? deniedColor
-                        : pendingColor,
+                color: mapStatusToColor(course.status),
                 boxShadow: [
                   boxShadowStyle,
                 ]),
           ),
           Container(
-            height: 85,
+            height: courseCardHeight,
             width: 324,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -217,83 +206,83 @@ Widget CourseCard(BuildContext context, Course course) {
               color: backgroundColor,
             ),
           ),
+          //
           Container(
-            height: 85,
+            height: courseCardHeight,
             width: 324,
             padding: EdgeInsets.only(
-              left: 15,
-              top: 10,
+              left: 25,
+              bottom: 5,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Expanded(
-                  flex: 4,
+                //course name
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 5,
+                  ),
                   child: Text(
                     course.name,
                     style: titleStyle,
                   ),
                 ),
-                Expanded(
-                  flex: 6,
-                  child: Container(
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(
-                                'state.tutor.avatarImageLink',
-                              ),
+                //weekdays
+                Text(
+                  course.daysInWeek.replaceFirst('[', '').replaceFirst(']', ''),
+                  style: textStyle,
+                ),
+                //begin-end time
+                Text(
+                  course.beginTime + ' - ' + course.endTime,
+                  style: textStyle,
+                ),
+                //begin date and status
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      //begin date
+                      Text(
+                        'begin ',
+                        style: TextStyle(
+                          fontSize: textFontSize,
+                          color: textGreyColor.withOpacity(0.7)
+                        ),
+                      ),
+                      Expanded(
+                        flex: 7,
+                        child: Text(
+                          course.beginDate,
+                          style: textStyle,
+                        ),
+                      ),
+                      //status
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 10,
+                          width: 10,
+                          decoration: BoxDecoration(
+                            color: mapStatusToColor(course.status),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          child: Text(
+                            course.status,
+                            style: TextStyle(
+                              fontSize: textFontSize,
+                              color: mapStatusToColor(course.status),
                             ),
                           ),
                         ),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            padding: EdgeInsetsDirectional.only(
-                              start: 10,
-                            ),
-                            child: Text(
-                              'Tutor ' + course.createdBy.toString(),
-                              style: textStyle,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  height: 10,
-                                  width: 10,
-                                  decoration: BoxDecoration(
-                                    color: course.status == 'Active'
-                                        ? Colors.green.shade400
-                                        : (course.status == 'Denied')
-                                            ? Colors.red
-                                            : Colors.orange,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 8,
-                                child: Container(
-                                  child: Text(
-                                    course.status,
-                                    style: textStyle,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
