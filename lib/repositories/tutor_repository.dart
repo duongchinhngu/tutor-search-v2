@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:http/http.dart' as http;

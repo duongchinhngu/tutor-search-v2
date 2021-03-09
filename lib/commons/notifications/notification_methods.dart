@@ -76,14 +76,7 @@ void getMessage(BuildContext context) {
                       height: 8,
                     ),
                     RaisedButton(
-                      onPressed: () {
-                        // Navigator.of(context).pushReplacement(
-                        //     new MaterialPageRoute(
-                        //         builder: (BuildContext context) =>
-                        //             JobDetailScreen(
-                        //               jobId: msgJobId,
-                        //             )));
-                      },
+                      onPressed: () {},
                       child: Text('Check it now!'),
                       color: Colors.white,
                       textColor: Colors.black,
