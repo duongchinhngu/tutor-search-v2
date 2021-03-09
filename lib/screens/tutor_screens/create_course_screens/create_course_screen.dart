@@ -14,12 +14,11 @@ import 'package:tutor_search_system/models/class_has_subject.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
-import 'package:tutor_search_system/screens/common_ui/payment_screens/payment_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/class_state.dart';
 import 'create_course_variables.dart';
 
@@ -38,12 +37,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   //validator for all input field
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   //
-  @override
-  void dispose() {
-    //reset empty all fields
-    resetEmptyCreateCourseScreen();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -670,7 +663,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                 ),
               ),
-              // Description
+              //description
               Container(
                 height: 200,
                 alignment: Alignment.center,
@@ -736,7 +729,47 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   AppBar buildCreateCourseAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundColor,
-      leading: buildDefaultCloseButton(context),
+      leading: IconButton(
+          icon: Icon(
+            Icons.close,
+            color: textGreyColor,
+            size: 20,
+          ),
+          onPressed: () {
+            //
+            //reset empty all fields
+            showDialog(
+              context: context,
+              builder: (context) => buildDefaultDialog(
+                context,
+                'Your inputs will be lost!',
+                'Are you sure to continue?',
+                [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          resetEmptyCreateCourseScreen();
+                          //
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                        child: Text('Continue'),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            );
+            //
+          }),
       actions: [
         TextButton(
           onPressed: () async {
@@ -762,7 +795,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PaymentScreen(course: course),
+                    builder: (context) => TutorPaymentScreen(course: course),
                   ),
                 );
               }
