@@ -118,6 +118,13 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       Icons.monetization_on,
                     ),
                     buildDivider(),
+                    //price of the course
+                    buildCourseInformationListTile(
+                      state.course.maxTutee.toString(),
+                      'Maximum tutee',
+                      Icons.person,
+                    ),
+                    buildDivider(),
                     //description for this course
                     buildCourseInformationListTile(
                       state.course.description == ''? 'No description': state.course.description,

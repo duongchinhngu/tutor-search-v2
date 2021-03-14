@@ -53,3 +53,6 @@ const FEEDBACK_CHECK_API = '$FEEDBACK_API/check-exist';
 
 //membership api ulrs
 const MEMBERSHIP_API = '$SERVER_NAME/memberships';
+
+//braintree payment api
+const BRAINTREE_API = '$SERVER_NAME/braintree-payment';

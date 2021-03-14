@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'global_variables.dart' as globals;
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import '../global_variables.dart' as globals;
 
 //convert timeofday type to string value
 String convertTimeOfDayToString(TimeOfDay time) {
@@ -26,14 +24,6 @@ String convertTimeOfDayToAPIFormatString(TimeOfDay time) {
 //convert DateTime type to string value
 String convertDayTimeToString(DateTime date) {
   return globals.dateFormatter.format(date);
-}
-
-//post file on Firbase storage and return URL
-Future<String> uploadFileOnFirebaseStorage(File file) async {
-  firebase_storage.Reference ref =
-      firebase_storage.FirebaseStorage.instance.ref().child(file.path);
-  firebase_storage.TaskSnapshot uploadTask = await ref.putFile(file);
-  return await uploadTask.ref.getDownloadURL();
 }
 
 //select image from storage

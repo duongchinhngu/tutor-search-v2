@@ -6,6 +6,7 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/fee_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/fee_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/states/fee_state.dart';
 import 'tutee_payment_method.dart' as payment_methods;
 
@@ -220,11 +221,8 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
       onPressed: () async {
         //set enable onPress function for FAB
         if (state is FeeLoadedState) {
-          if (globals.authorizedTutee != null) {
-            //post TuteeTransaction
-            payment_methods.completeTuteeTransaction(
-                context, widget.course, totalAmount);
-          }
+          
+          payment_methods.checkOutTuteePayment(context, widget.course, totalAmount);
         }
         //disble FAB when fee is not loaded yet
       },
@@ -254,7 +252,7 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
                 color: Color(0xff10D624),
               ),
               child: Text(
-                'Pay Now',
+                'Check out',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: titleFontSize,

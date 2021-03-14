@@ -35,12 +35,14 @@ Course course = Course.constructor(
   //thi sis hard code
   //createdBy
   globals.authorizedTutor.id,
+  1,
 );
 
 //course name field controller
 TextEditingController courseNameController = TextEditingController();
 TextEditingController courseFeeController = TextEditingController();
 TextEditingController courseDescriptionController = TextEditingController();
+TextEditingController courseMaxTuteeController = TextEditingController(text: '1');
 
 //selectedClassName
 String selectedClassName = globals.DEFAULT_NO_SELECT;
@@ -75,6 +77,7 @@ void resetInputFields() {
   courseNameController.clear();
   courseFeeController.clear();
   courseDescriptionController.clear();
+  courseMaxTuteeController.clear();
 }
 
 //reset all field of create course screen; set = empty
@@ -108,6 +111,7 @@ void resetEmptyCreateCourseScreen() {
     //thi sis hard code
     //createdBy
     globals.authorizedTutor.id,
+    1,
   );
   //reset all text controllers text = empty
   resetInputFields();

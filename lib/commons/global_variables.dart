@@ -4,7 +4,16 @@ import 'package:tutor_search_system/models/tutor.dart';
 
 //---------------------user authentication variables------------------------------------------------------
 // tutee id for all page can access; this will be reseted when login succeed
-Tutee authorizedTutee;
+Tutee authorizedTutee = Tutee(
+    id: 16,
+    fullname: 'Nguyen Trung Huy',
+    gender: 'Male',
+    birthday: '1991-01-22',
+    email: 'huyntse63450@fpt.edu.vn',
+    phone: '0999666333',
+    address: 'Ninh Yhusn, Viet Nam',
+    roleId: 4,
+    status: 'Active');
 //
 //tutor id for all page can access;
 //  this will be reseted when tutor login succeeded
@@ -16,7 +25,7 @@ Tutor authorizedTutor;
 //default datetime
 const defaultDatetime = '1990-01-01';
 //default 'No select' variable
-const DEFAULT_NO_SELECT = 'No select'; 
+const DEFAULT_NO_SELECT = 'No select';
 //date formatter
 final dateFormatter = new DateFormat('yyyy-MM-dd');
 //time formatter

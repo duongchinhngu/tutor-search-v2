@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:tutor_search_system/commons/common_functions.dart';
+import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
@@ -216,6 +216,7 @@ class CourseRepository {
             'classHasSubjectId': course.classHasSubjectId,
             'createdBy': course.createdBy,
             'status': course.status,
+            'maxTutee': course.maxTutee,
           },
         ));
     if (response.statusCode == 201 ||
@@ -253,6 +254,7 @@ class CourseRepository {
         'confirmedDate': course.confirmedDate,
         'confirmedBy': course.confirmedBy,
         'status': course.status,
+        'maxTutee': course.maxTutee,
       }),
     );
     if (response.statusCode == 204) {

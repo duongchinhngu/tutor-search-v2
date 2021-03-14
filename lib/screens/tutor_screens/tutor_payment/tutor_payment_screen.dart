@@ -274,7 +274,7 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
           //validate total amoount
           if (validatePoint(totalAmount, usedPoint)) {
             //post Tutor Transaction
-            payment_methods.completeTutorTransaction(
+            payment_methods.checkOutTutorPayment(
                 context, widget.course, totalAmount, usedPoint, state.fee);
           }
         }
@@ -305,7 +305,7 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
                 color: Color(0xff10D624),
               ),
               child: Text(
-                'Pay Now',
+                'Check out',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: titleFontSize,
