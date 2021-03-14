@@ -221,8 +221,8 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
       onPressed: () async {
         //set enable onPress function for FAB
         if (state is FeeLoadedState) {
-          
-          payment_methods.checkOutTuteePayment(context, widget.course, totalAmount);
+          payment_methods.checkOutTuteePayment(
+              context, widget.course, totalAmount);
         }
         //disble FAB when fee is not loaded yet
       },
