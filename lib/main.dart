@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 
@@ -26,6 +27,8 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.pontanoSansTextTheme(),
       ),
       home: TuteeBottomNavigatorBar(),
+      // home: TuteeRegisterScreen(),
+      // home: LoginScreen(),
     );
   }
 }

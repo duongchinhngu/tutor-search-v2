@@ -5,13 +5,13 @@ import 'package:tutor_search_system/models/tutor.dart';
 //---------------------user authentication variables------------------------------------------------------
 // tutee id for all page can access; this will be reseted when login succeed
 Tutee authorizedTutee = Tutee(
-    id: 16,
+    id: 17,
     fullname: 'Nguyen Trung Huy',
     gender: 'Male',
-    birthday: '1991-01-22',
+    birthday: '1998-03-31',
     email: 'huyntse63450@fpt.edu.vn',
-    phone: '0999666333',
-    address: 'Ninh Yhusn, Viet Nam',
+    phone: '0393769476',
+    address: 'Ninh Son Ninh Thuan',
     roleId: 4,
     status: 'Active');
 //

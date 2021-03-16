@@ -59,4 +59,36 @@ class TuteeRepository {
       throw Exception('Faild to post Tutee');
     }
   }
+
+  Future putTuteeUpdate(Tutee tutee, int id) async {
+    final http.Response response = await http.put('$TUTEE_API/$id',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'id': tutee.id,
+            'fullname': tutee.fullname,
+            'gender': tutee.gender,
+            'birthday': tutee.birthday,
+            'email': tutee.email,
+            'phone': tutee.phone,
+            'address': tutee.address,
+            'status': tutee.status,
+            'roleId': tutee.roleId,
+            'description': tutee.description,
+            'avatarImageLink': tutee.avatarImageLink,
+          },
+        ));
+    if (response.statusCode == 201 ||
+        response.statusCode == 204 ||
+        response.statusCode == 404) {
+      print('this is: ' + response.body + response.statusCode.toString());
+      return true;
+    } else {
+      print('error body tutee repo: ' + response.body);
+      print(response.statusCode);
+      throw Exception('Faild to update Tutee');
+    }
+  }
 }
