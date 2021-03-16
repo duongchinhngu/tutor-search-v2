@@ -14,44 +14,44 @@ class Course {
   String status;
   int classHasSubjectId;
   int createdBy;
-  int confirmBy;
   String createdDate;
   String confirmedDate;
+  int confirmedBy;
 
-  Course(
-      {this.id,
-      this.name,
-      this.beginTime,
-      this.endTime,
-      this.studyForm,
-      this.studyFee,
-      this.daysInWeek,
-      this.beginDate,
-      this.endDate,
-      this.description,
-      this.status,
-      this.classHasSubjectId,
-      this.createdBy,
-      this.confirmBy,
-      this.createdDate,
-      this.confirmedDate});
+  Course({
+    this.id,
+    this.name,
+    this.beginTime,
+    this.endTime,
+    this.studyForm,
+    this.studyFee,
+    this.daysInWeek,
+    this.beginDate,
+    this.endDate,
+    this.description,
+    this.status,
+    this.classHasSubjectId,
+    this.createdBy,
+    this.confirmedDate,
+    this.createdDate,
+    this.confirmedBy,
+  });
+
   Course.constructor(
-      this.id,
-      this.name,
-      this.beginTime,
-      this.endTime,
-      this.studyForm,
-      this.studyFee,
-      this.daysInWeek,
-      this.beginDate,
-      this.endDate,
-      this.description,
-      this.status,
-      this.classHasSubjectId,
-      this.createdBy,
-      this.confirmBy,
-      this.createdDate,
-      this.confirmedDate);
+    this.id,
+    this.name,
+    this.beginTime,
+    this.endTime,
+    this.studyForm,
+    this.studyFee,
+    this.daysInWeek,
+    this.beginDate,
+    this.endDate,
+    this.description,
+    this.status,
+    this.classHasSubjectId,
+    this.createdBy,
+  );
 
   void showAttributes(Course course) {
     print('name: ' +
@@ -81,11 +81,7 @@ class Course {
         '\n classhassubject id: ' +
         course.classHasSubjectId.toString() +
         '\n create by: ' +
-        course.createdBy.toString() +
-        '\n confirmBy: ' +
-        course.confirmBy.toString() +
-        '\n confirm date: ' +
-        course.confirmedDate + '\n Created date: ' + course.createdDate);
+        course.createdBy.toString());
   }
 
   factory Course.fromJson(Map<String, dynamic> json) {
@@ -103,9 +99,9 @@ class Course {
       classHasSubjectId: json['classHasSubjectId'],
       createdBy: json['createdBy'],
       status: json['status'],
-      confirmBy: json['confirmBy'],
-      createdDate: json['createdDate'],
+      confirmedBy: json['confirmedBy'],
       confirmedDate: json['confirmedDate'],
+      createdDate: json['createdDate'],
     );
   }
 }

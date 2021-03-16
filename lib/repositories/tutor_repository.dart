@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:http/http.dart' as http;
@@ -60,6 +61,40 @@ class TutorRepository {
       print('error body tutor repo: ' + response.body);
       print(response.statusCode);
       throw Exception('Faild to post Tutor');
+    }
+  }
+
+  //update tutor in db
+  Future<bool> putTutor(Tutor tutor) async {
+    final response = await http.put(
+      '$TUTOR_API/${tutor.id}',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "description": tutor.description,
+        "status": tutor.status,
+        "fullname": tutor.fullname,
+        "gender": tutor.gender,
+        "birthday": tutor.birthday,
+        "email": tutor.email,
+        "phone": tutor.phone,
+        "avatarImageLink": tutor.avatarImageLink,
+        "address": tutor.address,
+        "roleId": tutor.roleId,
+        "id": tutor.id,
+        "educationLevel": tutor.educationLevel,
+        "school": tutor.school,
+        "points": tutor.points,
+        "membershipId": tutor.membershipId,
+        "socialIdUrl": tutor.socialIdUrl,
+      }),
+    );
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      print('Error tutor update body: ' + response.body);
+      throw new Exception('Update tutor failed!: ${response.statusCode}' );
     }
   }
 }

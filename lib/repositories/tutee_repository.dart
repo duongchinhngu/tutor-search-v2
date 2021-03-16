@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/tutee.dart';
@@ -89,6 +88,23 @@ class TuteeRepository {
       print('error body tutee repo: ' + response.body);
       print(response.statusCode);
       throw Exception('Faild to update Tutee');
+    }
+  }
+
+  //fetch Tutee by courseId
+  // ignore: dead_code
+  Future<List<Tutee>> fetchTuteeByCourseId(
+      http.Client client, int courseId) async {
+    final response = await http.get('$TUTEE_IN_A_COURSE/$courseId');
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((tutee) => new Tutee.fromJson(tutee)).toList();
+    } else if (response.statusCode == 404) {
+      return null;
+    } else {
+      print('Error body: ' + response.body);
+      throw Exception(
+          'Failed to fetch Tutee by courseId' + response.statusCode.toString());
     }
   }
 }

@@ -7,6 +7,8 @@ const TUTOR_API = "$SERVER_NAME/tutors";
 const TUTEE_API = "$SERVER_NAME/tutees";
 const UPDATE_TUTEE_API = "$SERVER_NAME/tutees/id?";
 
+const TUTEE_IN_A_COURSE = '$TUTEE_API/tutee-in-course';
+
 //class api urls
 const CLASS_API = "$SERVER_NAME/classes";
 const ALL_CLASS_API = "$CLASS_API/all";
@@ -46,3 +48,10 @@ const SEARCH_CLASS_HAS_SUBJECT_API = "$CLASS_HAS_SUBJECT_API/search";
 
 //image api urls
 const IMAGE_API = '$SERVER_NAME/images';
+
+//feedback api url
+const FEEDBACK_API = '$SERVER_NAME/feedbacks';
+const FEEDBACK_CHECK_API = '$FEEDBACK_API/check-exist';
+
+//membership api ulrs
+const MEMBERSHIP_API = '$SERVER_NAME/memberships';

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/common_model.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
+import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
+
 //this is default course (when tutor does not choose fields for new course)
 //default value of unchosen field is "No Select"
-import 'package:tutor_search_system/models/course.dart';
-
 Course course = Course.constructor(
   0,
   // name
@@ -34,14 +35,6 @@ Course course = Course.constructor(
   //thi sis hard code
   //createdBy
   globals.authorizedTutor.id,
-  // confirmBy
-  //this is fake manager id (confirmedBy); backend handles this field
-  0,
-  //createddate
-  globals.defaultDatetime,
-  //confirm date
-  //this is fake confirmedDate; backend handles this field
-  globals.defaultDatetime,
 );
 
 //course name field controller
@@ -115,14 +108,6 @@ void resetEmptyCreateCourseScreen() {
     //thi sis hard code
     //createdBy
     globals.authorizedTutor.id,
-    // confirmBy
-    //this is fake manager id (confirmedBy); backend handles this field
-    0,
-    //createddate
-    globals.defaultDatetime,
-    //confirm date
-    //this is fake confirmedDate; backend handles this field
-    globals.defaultDatetime,
   );
   //reset all text controllers text = empty
   resetInputFields();
@@ -135,6 +120,8 @@ void resetEmptyCreateCourseScreen() {
   selectedDateRange = null;
   //set selectedTimeRange is null
   selectedTimeRange = null;
+  //reset use point input = null
+  usePointController.clear();
 }
 
 //default date range ( contains beginDate and endDate)

@@ -1,17 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/register_elements.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/tutee_processing_update_profile_screen.dart';
-import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/tutee_profile_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/register_elements.dart';
 
 String _origingender = authorizedTutee.gender;
 
