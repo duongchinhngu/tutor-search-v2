@@ -53,4 +53,9 @@ class EnrollmentConstants {
   static const DENIED_STATUS = 'Denied';
   static const PENDING_STATUS = 'Pending';
 }
+//--------------------
+class StatusConstants {
+  static const ACTIVE_STATUS = 'Active';
+  static const INACTIVE_STATUS = 'Inactive';
+}
 

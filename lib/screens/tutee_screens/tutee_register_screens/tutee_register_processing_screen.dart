@@ -49,6 +49,7 @@ class _TuteeRegisterProccessingScreenState
     account.showAttribute();
     //post Account
     await accountRepository.postAcount(account);
+    tutee.showAttributes();
     //post course
     await tuteeRepository.postTutee(tutee);
 

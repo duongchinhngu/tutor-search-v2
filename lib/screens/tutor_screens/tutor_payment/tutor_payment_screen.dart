@@ -103,9 +103,9 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //payment method title
-                        _buildPaymentMethodTitle(),
+                        buildPaymentMethodTitle(),
                         //payment method
-                        _buildPaymentMethod(),
+                        buildPaymentMethod(),
                         //transaction details title
                         _buildTransactionDetailTitle(),
                         //
@@ -353,46 +353,6 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
     );
   }
 
-  Container _buildPaymentMethod() {
-    return Container(
-      width: 341,
-      height: 60,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white.withOpacity(0.35)),
-      child: ListTile(
-        leading: Image.asset(
-          'assets/images/MoMo_Logo.png',
-          height: 40,
-        ),
-        title: Text(
-          'MoMo wallet',
-          style: TextStyle(
-            color: textWhiteColor,
-            fontSize: titleFontSize,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Container _buildPaymentMethodTitle() {
-    return Container(
-      padding: EdgeInsets.only(
-        left: 10,
-        bottom: 8,
-      ),
-      child: Text(
-        'Payment Method',
-        style: TextStyle(
-          fontSize: titleFontSize,
-          color: textWhiteColor,
-        ),
-      ),
-    );
-  }
-
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0.0,
@@ -435,3 +395,45 @@ class PaymentItemDivider extends StatelessWidget {
     );
   }
 }
+
+
+  Container buildPaymentMethod() {
+    return Container(
+      width: 341,
+      height: 60,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white.withOpacity(0.35)),
+      child: ListTile(
+        leading: Image.asset(
+          'assets/images/logo+money+payment+paypal+shopping+icon-1320193177858485660.png',
+          height: 50,
+        ),
+        title: Text(
+          'PayPal, credit or debit card',
+          style: TextStyle(
+            color: textWhiteColor,
+            fontSize: titleFontSize,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container buildPaymentMethodTitle() {
+    return Container(
+      padding: EdgeInsets.only(
+        left: 10,
+        bottom: 8,
+      ),
+      child: Text(
+        'Payment Method',
+        style: TextStyle(
+          fontSize: titleFontSize,
+          color: textWhiteColor,
+        ),
+      ),
+    );
+  }
+

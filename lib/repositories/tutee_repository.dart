@@ -29,6 +29,7 @@ class TuteeRepository {
 
   //post tutee
   Future postTutee(Tutee tutee) async {
+    tutee.showAttributes();
     final http.Response response = await http.post('$TUTEE_API',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

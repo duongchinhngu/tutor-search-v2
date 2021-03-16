@@ -192,7 +192,7 @@ class _SubjectGridViewState extends State<SubjectGridView> {
       child: BlocBuilder<SubjectCubit, SubjectState>(builder: (context, state) {
         //
         final subjectCubit = context.watch<SubjectCubit>();
-        subjectCubit.getAllSubjects();
+        subjectCubit.getSubjectsByStatus(globals.StatusConstants.ACTIVE_STATUS);
         //
         if (state is SubjectLoadingState) {
           return buildLoadingIndicator();

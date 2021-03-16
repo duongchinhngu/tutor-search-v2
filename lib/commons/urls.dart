@@ -26,6 +26,7 @@ const TUTEE_HOME_COURSES = '$COURSE_API/tutee-home';
 //subject api urls
 const SUBJECT_API = "$SERVER_NAME/subjects";
 const ALL_SUBJECT_API = "$SUBJECT_API/all";
+const SUBJECT_BY_STATUS_API = "$SUBJECT_API/status";
 
 //enrollment api urls
 const ENROLLMENT_API = "$SERVER_NAME/enrollments";

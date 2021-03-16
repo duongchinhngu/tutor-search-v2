@@ -7,6 +7,7 @@ import 'package:tutor_search_system/cubits/fee_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/fee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/fee_state.dart';
 import 'tutee_payment_method.dart' as payment_methods;
 
@@ -77,9 +78,9 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //payment method title
-                        _buildPaymentMethodTitle(),
+                        buildPaymentMethodTitle(),
                         //payment method
-                        _buildPaymentMethod(),
+                        buildPaymentMethod(),
                         //transaction details title
                         _buildTransactionDetailTitle(),
                         //
