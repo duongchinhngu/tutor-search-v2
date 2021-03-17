@@ -12,6 +12,7 @@ import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/tutee_payment_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_variables.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
 
@@ -69,6 +70,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     //tutor intro card
                     TutorCard(
                       tutorId: state.course.createdBy,
+                      courseId: state.course.id,
                     ),
                     //all COurse detail information
                     //course name
@@ -118,18 +120,30 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       Icons.monetization_on,
                     ),
                     buildDivider(),
+                    //price of the course
+                    buildCourseInformationListTile(
+                      state.course.maxTutee.toString(),
+                      'Maximum tutee',
+                      Icons.person,
+                    ),
+                    buildDivider(),
                     //description for this course
                     buildCourseInformationListTile(
-                      state.course.description == ''? 'No description': state.course.description,
+                      state.course.description == ''
+                          ? 'No description'
+                          : state.course.description,
                       'Extra Information',
                       Icons.description,
                     ),
                     buildDivider(),
                     //created date of this course
-                    buildCourseInformationListTile(
-                      state.course.endDate,
-                      'Follow Date',
-                      Icons.calendar_today,
+                    Visibility(
+                      visible: !widget.hasFollowButton,
+                      child: buildCourseInformationListTile(
+                        state.course.endDate,
+                        'Follow Date',
+                        Icons.calendar_today,
+                      ),
                     ),
                     //this widget for being nice only
                     SizedBox(
@@ -176,8 +190,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
 //tutor card on top of the screen
 class TutorCard extends StatelessWidget {
   final int tutorId;
+  final int courseId;
 
-  const TutorCard({Key key, @required this.tutorId}) : super(key: key);
+  const TutorCard({Key key, @required this.tutorId, @required this.courseId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -203,6 +219,7 @@ class TutorCard extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => TutorDetails(
                       tutorId: tutorId,
+                      courseId: courseId,
                     ),
                   ),
                 );

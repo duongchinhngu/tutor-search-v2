@@ -17,6 +17,7 @@ class Course {
   String createdDate;
   String confirmedDate;
   int confirmedBy;
+  int maxTutee;
 
   Course({
     this.id,
@@ -35,6 +36,7 @@ class Course {
     this.confirmedDate,
     this.createdDate,
     this.confirmedBy,
+    this.maxTutee, 
   });
 
   Course.constructor(
@@ -50,7 +52,7 @@ class Course {
     this.description,
     this.status,
     this.classHasSubjectId,
-    this.createdBy,
+    this.createdBy, this.maxTutee,
   );
 
   void showAttributes(Course course) {
@@ -102,6 +104,7 @@ class Course {
       confirmedBy: json['confirmedBy'],
       confirmedDate: json['confirmedDate'],
       createdDate: json['createdDate'],
+      maxTutee: json['maxTutee'],
     );
   }
 }

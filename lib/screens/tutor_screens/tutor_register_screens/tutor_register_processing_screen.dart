@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/common_functions.dart';
+import 'package:tutor_search_system/commons/functions/common_functions.dart';
+import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
 import 'package:tutor_search_system/models/account.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/account_repository.dart';

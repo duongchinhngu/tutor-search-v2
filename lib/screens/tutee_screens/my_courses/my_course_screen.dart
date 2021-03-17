@@ -1,4 +1,4 @@
-import 'package:tutor_search_system/commons/common_functions.dart';
+import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

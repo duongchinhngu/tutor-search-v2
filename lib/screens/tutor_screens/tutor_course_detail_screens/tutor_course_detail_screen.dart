@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/common_functions.dart';
+import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
@@ -271,6 +271,13 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
             '\$' + course.studyFee.toString(),
             'Study Fee',
             Icons.monetization_on,
+          ),
+          buildDivider(),
+          //price of the course
+          buildCourseInformationListTile(
+            course.maxTutee.toString(),
+            'Maximum tutee',
+            Icons.person,
           ),
           buildDivider(),
           //description for this course

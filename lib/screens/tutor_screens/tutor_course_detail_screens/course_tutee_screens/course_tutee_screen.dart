@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/common_functions.dart';
+import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
@@ -10,6 +10,7 @@ import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
@@ -114,28 +115,74 @@ class TuteeCard extends StatelessWidget {
             onTap: () {
               //update enrollment status
               if (state is EnrollmentLoadedState) {
-                state.enrollment.status = EnrollmentConstants.ACCEPTED_STATUS;
-                //
-                Navigator.pop(context);
-                //
-                EnrollmentRepository()
-                    .putEnrollment(state.enrollment)
-                    .onError((error, stackTrace) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(buildDefaultSnackBar(
-                    Icons.error_outline,
-                    'Error!',
-                    'Please try again.',
-                    Colors.red,
-                  ));
-                });
-                //show done message after done update enrollment status
-                ScaffoldMessenger.of(context).showSnackBar(
-                  buildDefaultSnackBar(
-                    Icons.check_circle_outline_outlined,
-                    'Tutee has been accepted!',
-                    'Contact to tutee now!',
-                    Colors.green,
+                showDialog(
+                  context: context,
+                  builder: (context) => buildDefaultDialog(
+                    context,
+                    'Accept this follower to be your tutee!',
+                    'Do it now!',
+                    [
+                      ElevatedButton(
+                        onPressed: () {
+                          state.enrollment.status =
+                              EnrollmentConstants.DENIED_STATUS;
+                          //
+                          Navigator.pop(context);
+                          //
+                          EnrollmentRepository()
+                              .putEnrollment(state.enrollment)
+                              .onError((error, stackTrace) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(buildDefaultSnackBar(
+                              Icons.error_outline,
+                              'Error!',
+                              'Deny follower failed.',
+                              Colors.red,
+                            ));
+                          });
+                          //show done message after done update enrollment status
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            buildDefaultSnackBar(
+                              Icons.check_circle_outline_outlined,
+                              'Denied Successully!',
+                              'Give other followers a chance.',
+                              Colors.green,
+                            ),
+                          );
+                        },
+                        child: Text('Deny'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          state.enrollment.status =
+                              EnrollmentConstants.ACCEPTED_STATUS;
+                          //
+                          Navigator.pop(context);
+                          //
+                          EnrollmentRepository()
+                              .putEnrollment(state.enrollment)
+                              .onError((error, stackTrace) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(buildDefaultSnackBar(
+                              Icons.error_outline,
+                              'Error!',
+                              'Accept follower failed.',
+                              Colors.red,
+                            ));
+                          });
+                          //show done message after done update enrollment status
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            buildDefaultSnackBar(
+                              Icons.check_circle_outline_outlined,
+                              'Accepted Successfully!',
+                              'Contact now!',
+                              Colors.green,
+                            ),
+                          );
+                        },
+                        child: Text('Accept'),
+                      )
+                    ],
                   ),
                 );
               }
