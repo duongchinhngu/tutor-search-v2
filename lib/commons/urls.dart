@@ -5,6 +5,8 @@ const TUTOR_API = "$SERVER_NAME/tutors";
 
 //tutee api urls
 const TUTEE_API = "$SERVER_NAME/tutees";
+const UPDATE_TUTEE_API = "$SERVER_NAME/tutees/id?";
+
 const TUTEE_IN_A_COURSE = '$TUTEE_API/tutee-in-course';
 
 //class api urls

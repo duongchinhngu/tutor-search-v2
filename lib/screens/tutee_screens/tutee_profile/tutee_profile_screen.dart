@@ -6,6 +6,19 @@ import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/update_tutee_profile_screen.dart';
 
 class TuteeProfileManagement extends StatefulWidget {
+  final IconData snackBarIcon;
+  final String snackBarTitle;
+  final String snackBarContent;
+  final Color snackBarThemeColor;
+
+  const TuteeProfileManagement(
+      {Key key,
+      this.snackBarIcon,
+      this.snackBarTitle,
+      this.snackBarContent,
+      this.snackBarThemeColor})
+      : super(key: key);
+
   @override
   _TuteeProfileManagementState createState() => _TuteeProfileManagementState();
 }
