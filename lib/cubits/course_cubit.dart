@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/extended_models/course_subject.dart';
 import 'package:tutor_search_system/models/extended_models/course_tutor.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:http/http.dart' as http;
@@ -55,7 +56,7 @@ class CourseCubit extends Cubit<CourseState> {
   //get course by course Id
   Future getCoursesByCourseId(int id) async {
     try {
-      Course course =
+      ExtendedCourse course =
           await _repository.fetchCourseByCourseId(http.Client(), id);
       emit(CourseLoadedState(course));
     } catch (e) {
