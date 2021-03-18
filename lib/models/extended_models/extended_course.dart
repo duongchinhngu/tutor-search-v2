@@ -3,28 +3,32 @@ import '../course.dart';
 class ExtendedCourse extends Course {
   final String className;
   final String subjectName;
+  final String followDate;
+  final String enrollmentStatus;
 
   ExtendedCourse(
-      int id,
-      String name,
-      String beginTime,
-      String endTime,
-      String studyForm,
-      double studyFee,
-      String daysInWeek,
-      String beginDate,
-      String endDate,
-      String description,
-      String status,
-      int classHasSubjectId,
-      int createdBy,
-      String createdDate,
-      String confirmedDate,
-      int confirmedBy,
-      int maxTutee,
-      this.className,
-      this.subjectName)
-      : super(
+    int id,
+    String name,
+    String beginTime,
+    String endTime,
+    String studyForm,
+    double studyFee,
+    String daysInWeek,
+    String beginDate,
+    String endDate,
+    String description,
+    String status,
+    int classHasSubjectId,
+    int createdBy,
+    String createdDate,
+    String confirmedDate,
+    int confirmedBy,
+    int maxTutee,
+    this.className,
+    this.subjectName,
+    this.followDate,
+    this.enrollmentStatus,
+  ) : super(
           id,
           name,
           beginTime,
@@ -61,6 +65,8 @@ class ExtendedCourse extends Course {
     int maxTutee,
     this.className,
     this.subjectName,
+    this.followDate,
+    this.enrollmentStatus,
   }) : super(
           id,
           name,
@@ -99,6 +105,8 @@ class ExtendedCourse extends Course {
       maxTutee: json['maxTutee'],
       className: json['className'],
       subjectName: json['subjectName'],
+      followDate: json['followDate'].toString().replaceAll('T', ' at '),
+      enrollmentStatus: json['enrollmentStatus'],
     );
   }
 }

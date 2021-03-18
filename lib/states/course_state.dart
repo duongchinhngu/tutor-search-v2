@@ -1,5 +1,5 @@
 import 'package:tutor_search_system/models/course.dart';
-import 'package:tutor_search_system/models/extended_models/course_subject.dart';
+import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 
 abstract class CourseState {}
 
