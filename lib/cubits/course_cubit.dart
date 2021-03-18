@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/extended_models/course_tutor.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart';
@@ -13,7 +14,7 @@ class CourseCubit extends Cubit<CourseState> {
   //course status = active; not registered by this authorized tutee id
   Future getTuteeHomeCourses() async {
     try {
-      List<Course> courses =
+      List<CourseTutor> courses =
           await _repository.fecthTuteeHomeCourses(http.Client());
       if (courses != null) {
         emit(CourseListLoadedState(courses));

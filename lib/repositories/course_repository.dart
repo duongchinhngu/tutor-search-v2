@@ -5,17 +5,18 @@ import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
+import 'package:tutor_search_system/models/extended_models/course_tutor.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart';
 
 class CourseRepository {
   //fecth all courses : status = active and not registered by this tuteeId
-  Future<List<Course>> fecthTuteeHomeCourses(http.Client client) async {
+  Future<List<CourseTutor>> fecthTuteeHomeCourses(http.Client client) async {
     final tuteeId = globals.authorizedTutee.id;
     final response = await http.get('$TUTEE_HOME_COURSES/$tuteeId');
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
-          .map((courses) => new Course.fromJson(courses))
+          .map((courses) => new CourseTutor.fromJson(courses))
           .toList();
     } else {
       throw Exception('Failed to fetch all courses');
