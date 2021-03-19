@@ -106,7 +106,7 @@ class ExtendedCourse extends Course {
       className: json['className'],
       subjectName: json['subjectName'],
       followDate: json['followDate'].toString().replaceAll('T', ' at '),
-      enrollmentStatus: json['enrollmentStatus'],
+      enrollmentStatus: json['enrollmentStatus'].toString(),
     );
   }
 }

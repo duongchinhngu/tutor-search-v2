@@ -65,9 +65,11 @@ class CourseCubit extends Cubit<CourseState> {
   }
 
   Future getCoursesByCourseIdTuteeId(int id, int tuteeId) async {
+    
     try {
       ExtendedCourse course =
           await _repository.fetchCourseByCourseIdTuteeId(http.Client(), id, tuteeId);
+          // print('this if follow date: ' + course.followDate);
       emit(CourseLoadedState(course));
     } catch (e) {
       emit(CourseLoadFailedState('$e'));

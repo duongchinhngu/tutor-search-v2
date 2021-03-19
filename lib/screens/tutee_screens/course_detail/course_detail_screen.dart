@@ -36,7 +36,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
         builder: (context, state) {
           //
           final courseCubit = context.watch<CourseCubit>();
-          courseCubit.getCoursesByCourseIdTuteeId(widget.courseId, authorizedTutee.id);
+          courseCubit.getCoursesByCourseIdTuteeId(
+              widget.courseId, authorizedTutee.id);
           //
           //render proper ui
           if (state is CourseLoadingState) {
@@ -79,9 +80,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     buildDivider(),
                     //course name
                     buildCourseInformationListTile(
-                        state.course.subjectName,
-                        'Subject',
-                        Icons.subject),
+                        state.course.subjectName, 'Subject', Icons.subject),
                     buildDivider(),
                     //course name
                     buildCourseInformationListTile(
@@ -140,17 +139,19 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     Visibility(
                       visible: !widget.hasFollowButton,
                       child: buildCourseInformationListTile(
-                        state.course.followDate,
+                        state.course?.followDate,
                         'Follow Date',
                         Icons.calendar_today,
                       ),
                     ),
-                    buildDivider(),
+                    Visibility(
+                        visible: !widget.hasFollowButton,
+                        child: buildDivider()),
                     //created date of this course
                     Visibility(
                       visible: !widget.hasFollowButton,
                       child: buildCourseInformationListTile(
-                        state.course.enrollmentStatus,
+                        state.course?.enrollmentStatus,
                         'Status',
                         Icons.check_circle_outline_outlined,
                       ),
