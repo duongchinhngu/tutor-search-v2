@@ -5,6 +5,8 @@ class ExtendedCourse extends Course {
   final String subjectName;
   final String followDate;
   final String enrollmentStatus;
+  final String tutorAvatarUrl;
+  final String tutorName;
 
   ExtendedCourse(
     int id,
@@ -28,6 +30,8 @@ class ExtendedCourse extends Course {
     this.subjectName,
     this.followDate,
     this.enrollmentStatus,
+    this.tutorAvatarUrl,
+    this.tutorName,
   ) : super(
           id,
           name,
@@ -67,6 +71,8 @@ class ExtendedCourse extends Course {
     this.subjectName,
     this.followDate,
     this.enrollmentStatus,
+    this.tutorAvatarUrl,
+    this.tutorName,
   }) : super(
           id,
           name,
@@ -107,6 +113,8 @@ class ExtendedCourse extends Course {
       subjectName: json['subjectName'],
       followDate: json['followDate'].toString().replaceAll('T', ' at '),
       enrollmentStatus: json['enrollmentStatus'].toString(),
+      tutorAvatarUrl: json['tutorAvatarUrl'].toString(),
+      tutorName: json['tutorName'].toString(),
     );
   }
 }

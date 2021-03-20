@@ -141,7 +141,7 @@ class CourseRepository {
   }
 
   //fetch all courses by tutee id and enrollment status
-  Future<List<Course>> fetchCoursesByEnrollmentStatus(
+  Future<List<ExtendedCourse>> fetchCoursesByEnrollmentStatus(
       http.Client client, String status, int tuteeId) async {
     //host url
     String url = COURSES_BY_ENROLLMENT_STATUS_API;
@@ -159,7 +159,7 @@ class CourseRepository {
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
-          .map((courses) => new Course.fromJson(courses))
+          .map((courses) => new ExtendedCourse.fromJson(courses))
           .toList();
     } else {
       throw Exception('Failed to fetch courses by filter');
