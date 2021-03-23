@@ -11,7 +11,7 @@ Tutee authorizedTutee = Tutee(
     birthday: '1998-03-31',
     email: 'huyntse63450@fpt.edu.vn',
     phone: '0393769476',
-    address: 'Ninh Son Ninh Thuan',
+    address: 'dai hoc bach khoa ho chi minh',
     roleId: 4,
     status: 'Active');
 //

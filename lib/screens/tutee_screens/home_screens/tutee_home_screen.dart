@@ -1,7 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
@@ -17,6 +24,8 @@ import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_cou
 import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:tutor_search_system/screens/tutee_screens/tutee_map/api_key.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
 
 //this var for check whether or not take feedback
 bool isTakeFeedback = false;
@@ -90,6 +99,17 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                 ),
               ),
               actions: [
+                 IconButton(
+                  icon: const Icon(Icons.location_pin),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TuteeSearchGoogleMap(),
+                      ),
+                    );
+                  },
+                ),
                 InkWell(
                   onTap: () async {
                     //sign out
@@ -122,18 +142,114 @@ Container buildCourseGridView(CourseListLoadedState state) {
         crossAxisCount: 2,
         childAspectRatio: 2 / 4,
       ),
-      itemBuilder: (context, index) => VerticalCourseCard(
+      itemBuilder: (context, index) => CourseCard(
         course: state.courses[index],
       ),
     ),
   );
 }
 
-//Course Card
-class VerticalCourseCard extends StatelessWidget {
+class CourseCard extends StatefulWidget {
   final CourseTutor course;
 
-  const VerticalCourseCard({Key key, @required this.course}) : super(key: key);
+   const CourseCard({Key key, @required this.course}) : super(key: key);
+  @override
+  _CourseCardState createState() => _CourseCardState();
+}
+
+class _CourseCardState extends State<CourseCard> {
+  GoogleMapController mapController;
+  TutorRepository tutorRepository;
+  Position _currentPosition;
+  String _currentAddress;
+  String _distance = '';
+  Set<Marker> markers = {};
+  PolylinePoints polylinePoints;
+  Map<PolylineId, Polyline> polylines = {};
+  List<LatLng> polylineCoordinates = [];
+  String _startAddress = authorizedTutee.address;
+  String _destinationAddress = '';
+
+  _createPolylines(Position start, Position destination) async {
+    polylinePoints = PolylinePoints();
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      GKey.API_KEY, // Google Maps API Key
+      PointLatLng(start.latitude, start.longitude),
+      PointLatLng(destination.latitude, destination.longitude),
+      travelMode: TravelMode.transit,
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+
+    PolylineId id = PolylineId('poly');
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.red,
+      points: polylineCoordinates,
+      width: 3,
+    );
+    polylines[id] = polyline;
+  }
+
+  double _coordinateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
+  Future<bool> _calculateDistance(String start, String des) async {
+    try {
+      List<Location> startPlacemark = await locationFromAddress(start);
+      List<Location> destinationPlacemark = await locationFromAddress(des);
+
+      if (startPlacemark != null && destinationPlacemark != null) {
+        // Use the retrieved coordinates of the current position,
+        // instead of the address if the start position is user's
+        // current position, as it results in better accuracy.
+        Position startCoordinates = start == _currentAddress
+            ? Position(
+                latitude: _currentPosition.latitude,
+                longitude: _currentPosition.longitude)
+            : Position(
+                latitude: startPlacemark[0].latitude,
+                longitude: startPlacemark[0].longitude);
+        Position destinationCoordinates = Position(
+            latitude: destinationPlacemark[0].latitude,
+            longitude: destinationPlacemark[0].longitude);
+
+        await _createPolylines(startCoordinates, destinationCoordinates);
+        double totalDistance = 0.0;
+        // Calculating the total distance by adding the distance
+        // between small segments
+        for (int i = 0; i < polylineCoordinates.length - 1; i++) {
+          totalDistance += _coordinateDistance(
+            polylineCoordinates[i].latitude,
+            polylineCoordinates[i].longitude,
+            polylineCoordinates[i + 1].latitude,
+            polylineCoordinates[i + 1].longitude,
+          );
+        }
+        _distance = totalDistance.toStringAsFixed(1);
+        return true;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
+  }
+
+  void initState() {
+    super.initState();
+    _destinationAddress = widget.course.address;
+    _calculateDistance(_startAddress, _destinationAddress);
+  }
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -142,7 +258,7 @@ class VerticalCourseCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) => TuteeHomeCourseDetailScreen(
-                    courseId: course.id,
+                    courseId: widget.course.id,
                     // hasFollowButton: true,
                   )),
         );
@@ -188,7 +304,7 @@ class VerticalCourseCard extends StatelessWidget {
                               padding:
                                   const EdgeInsets.fromLTRB(13, 15, 13, 60),
                               child: Text(
-                                course.name,
+                                widget.course.name,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: textWhiteColor,
@@ -204,8 +320,8 @@ class VerticalCourseCard extends StatelessWidget {
                             child: CircleAvatar(
                               radius: 50,
                               backgroundImage: NetworkImage(
-                                  course.avatarImageLink != null
-                                      ? course.avatarImageLink
+                                 widget.course.avatarImageLink != null
+                                      ? widget.course.avatarImageLink
                                       : ''),
                             ),
                           ),
@@ -227,7 +343,7 @@ class VerticalCourseCard extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  course.fullname,
+                  widget.course.fullname,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: textGreyColor,
@@ -275,28 +391,28 @@ class VerticalCourseCard extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             margin: const EdgeInsets.only(top: 5),
                             child: Text(
-                              course.studyForm,
+                              widget.course.studyForm,
                               style: textStyle,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
-                              course.beginTime,
+                              widget.course.beginTime,
                               style: textStyle,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
-                              '200m',
+                              _distance + ' km',
                               style: textStyle,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
-                              course.studyFee.toString(),
+                              widget.course.studyFee.toString(),
                               style: textStyle,
                             ),
                           ),

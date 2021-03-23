@@ -96,9 +96,9 @@ class CourseTutor extends Course {
   factory CourseTutor.fromJson(Map<String, dynamic> json) {
     return CourseTutor.fromJsonConstructor(
       id: json['id'],
-      fullname: json['fullname'],
+      fullname: json['fullname'].toString(),
       gender: json['gender'],
-      birthday: json['birthday'].toString().substring(0, 10),
+      birthday: json['birthday'].toString(),
       email: json['email'],
       phone: json['phone'],
       address: json['address'],
@@ -109,8 +109,8 @@ class CourseTutor extends Course {
       studyForm: json['studyForm'],
       studyFee: json['studyFee'].toDouble(),
       daysInWeek: json['daysInWeek'],
-      beginDate: json['beginDate'].toString().substring(0, 10),
-      endDate: json['endDate'].toString().substring(0, 10),
+      beginDate: json['beginDate'].toString(),
+      endDate: json['endDate'].toString(),
       description: json['description'],
       classHasSubjectId: json['classHasSubjectId'],
       createdBy: json['createdBy'],

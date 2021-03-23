@@ -25,7 +25,7 @@ class CourseRepository {
   }
 
   //fetch courses by status
-  Future<List<Course>> fetchCourseByFilter(
+  Future<List<CourseTutor>> fetchCourseByFilter(
       http.Client client, Filter filter) async {
     //host url
     String url = FILTER_COURSE_API;
@@ -65,7 +65,7 @@ class CourseRepository {
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
-          .map((courses) => new Course.fromJson(courses))
+          .map((courses) => new CourseTutor.fromJson(courses))
           .toList();
     } else if (response.statusCode == 404) {
       return null;

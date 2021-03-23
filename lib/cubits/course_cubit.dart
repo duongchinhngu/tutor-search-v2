@@ -30,7 +30,7 @@ class CourseCubit extends Cubit<CourseState> {
   //
   Future getCoursesByFilter(Filter filter) async {
     try {
-      List<Course> courses =
+      List<CourseTutor> courses =
           await _repository.fetchCourseByFilter(http.Client(), filter);
       if (courses != null) {
         emit(CourseListLoadedState(courses));
