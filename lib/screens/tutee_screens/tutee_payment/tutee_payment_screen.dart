@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/fee_cubit.dart';
-import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/fee_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/fee_state.dart';
 import 'tutee_payment_method.dart' as payment_methods;
 
 //
 class TuteePaymentScreen extends StatefulWidget {
-  final Course course;
+  final ExtendedCourse course;
 
   const TuteePaymentScreen({Key key, @required this.course}) : super(key: key);
   @override
@@ -209,7 +208,7 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
           style: TextStyle(color: Colors.grey[400]),
         ),
         trailing: Text(
-          widget.course.createdBy.toString(),
+          widget.course.tutorName,
           style: textStyle,
         ),
       ),

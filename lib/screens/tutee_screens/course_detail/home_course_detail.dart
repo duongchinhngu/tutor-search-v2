@@ -54,7 +54,7 @@ class _TuteeHomeCourseDetailScreenState
               backgroundColor: backgroundColor,
               appBar: buildCourseDetailAppbar(context),
               body: buildCourseDetailBody(context, state.course),
-              floatingActionButton: buildFollowButton(state.course),
+              floatingActionButton: buildFollowButton(context, state.course),
             );
           }
         },
@@ -104,7 +104,8 @@ class _TuteeHomeCourseDetailScreenState
                   MaterialPageRoute(
                     builder: (context) => TutorDetails(
                       tutorId: course.createdBy,
-                      courseId: course.id,
+                      course: course,
+                      hasFollowButton: true,
                     ),
                   ),
                 );
@@ -228,27 +229,27 @@ class _TuteeHomeCourseDetailScreenState
       ),
     );
   }
-
-  FloatingActionButton buildFollowButton(Course course) =>
-      FloatingActionButton.extended(
-        onPressed: () {
-          //navigate to Payment Screen
-          //payment screeen wil process properly
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TuteePaymentScreen(course: course),
-            ),
-          );
-        },
-        label: Text(
-          'Follow',
-          style: TextStyle(
-            fontSize: titleFontSize,
-            color: textWhiteColor,
-          ),
-        ),
-        isExtended: true,
-        backgroundColor: mainColor,
-      );
 }
+
+FloatingActionButton buildFollowButton(BuildContext context, ExtendedCourse course) =>
+    FloatingActionButton.extended(
+      onPressed: () {
+        //navigate to Payment Screen
+        //payment screeen wil process properly
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TuteePaymentScreen(course: course),
+          ),
+        );
+      },
+      label: Text(
+        'Follow',
+        style: TextStyle(
+          fontSize: titleFontSize,
+          color: textWhiteColor,
+        ),
+      ),
+      isExtended: true,
+      backgroundColor: mainColor,
+    );

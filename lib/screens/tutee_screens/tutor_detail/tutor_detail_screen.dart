@@ -6,19 +6,26 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
+import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
 import 'package:tutor_search_system/states/enrollment_state.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TutorDetails extends StatelessWidget {
   final int tutorId;
-  final int courseId;
-  const TutorDetails({Key key, @required this.tutorId, @required this.courseId})
+  final Course course;
+  final bool hasFollowButton;
+  const TutorDetails(
+      {Key key,
+      @required this.tutorId,
+      @required this.course,
+      @required this.hasFollowButton})
       : super(key: key);
 
   @override
@@ -185,12 +192,16 @@ class TutorDetails extends StatelessWidget {
                     //tutor information
                     TutorInformation(
                       tutor: state.tutor,
-                      courseId: courseId,
+                      course: course,
                     ),
                   ],
                 ),
               ),
             ),
+            //follow button
+            floatingActionButton: Visibility(
+                visible: hasFollowButton,
+                child: buildFollowButton(context, course)),
           );
         } else if (state is TutorLoadFailedState) {
           return Center(
@@ -204,11 +215,11 @@ class TutorDetails extends StatelessWidget {
 
 class TutorInformation extends StatelessWidget {
   final Tutor tutor;
-  final int courseId;
+  final Course course;
   const TutorInformation({
     Key key,
     @required this.tutor,
-    @required this.courseId,
+    @required this.course,
   }) : super(key: key);
 
   @override
@@ -220,7 +231,7 @@ class TutorInformation extends StatelessWidget {
           //
           final enrollmentCubit = context.watch<EnrollmentCubit>();
           enrollmentCubit.getEnrollmentByCourseIdTuteeId(
-              courseId, authorizedTutee.id);
+              course.id, authorizedTutee.id);
           //
           bool isCensoredInfo = true;
           if (state is EnrollmentLoadedState) {

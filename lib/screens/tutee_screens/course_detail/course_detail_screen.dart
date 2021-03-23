@@ -118,7 +118,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                   MaterialPageRoute(
                     builder: (context) => TutorDetails(
                       tutorId: course.createdBy,
-                      courseId: course.id,
+                      course: course,
+                      hasFollowButton: false,
                     ),
                   ),
                 );
@@ -162,20 +163,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       children: [
                         //tutee name
                         Text(
-                          'Duong Chinh Ngu',
+                          course.tutorName,
                           style: titleStyle,
                         ),
-                        //gender
-                        Text(
-                          'Male',
-                          style: textStyle,
-                        ),
-                        //years old
-                        Text(
-                          // getYearOldFromBithdayString(tutee.birthday).toString() +
-                          '23 years old',
-                          style: textStyle,
-                        ),
+                        //five star here
                       ],
                     ),
                   ),
@@ -246,11 +237,35 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             Icons.calendar_today,
           ),
           buildDivider(),
-          //created date of this course
-          buildCourseInformationListTile(
-            course?.status,
-            'Course Status',
-            Icons.check_circle_outline_outlined,
+          //course status
+          Container(
+            padding: EdgeInsets.only(
+              left: 30,
+              right: 30,
+            ),
+            child: ListTile(
+              leading: Text(
+                'Course status',
+                style: titleStyle,
+              ),
+              trailing: Container(
+                height: 35,
+                width: 80,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: mapStatusToColor(course.status),
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Text(
+                  course.status,
+                  style: TextStyle(
+                    fontSize: textFontSize,
+                    color: textWhiteColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ),
           //this widget for being nice only
           SizedBox(
