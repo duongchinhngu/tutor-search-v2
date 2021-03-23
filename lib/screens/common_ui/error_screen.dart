@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_wrapper.dart';
 
 class ErrorScreen extends StatelessWidget {
   @override
@@ -55,13 +57,26 @@ class ErrorScreen extends StatelessWidget {
             // navigating to My Course button
             InkWell(
               onTap: () async {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  return Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (context) => TuteeBottomNavigatorBar()),
-                    ModalRoute.withName('/Home'),
-                  );
-                });
+                if (authorizedTutor.id != null) {
+                  //tutor
+
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    return Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) => TutorBottomNavigatorBar()),
+                      ModalRoute.withName('/Home'),
+                    );
+                  });
+                } else if (authorizedTutee.id != null) {
+//tutee
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    return Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) => TuteeBottomNavigatorBar()),
+                      ModalRoute.withName('/Home'),
+                    );
+                  });
+                }
               },
               child: Container(
                 width: 263,

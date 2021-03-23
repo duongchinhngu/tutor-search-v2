@@ -105,7 +105,8 @@ class CourseRepository {
   }
 
   //fetch courses by courseId
-  Future<ExtendedCourse> fetchCourseByCourseId(http.Client client, int id) async {
+  Future<ExtendedCourse> fetchCourseByCourseId(
+      http.Client client, int id) async {
     final response = await http.get('$COURSE_API/$id');
     if (response.statusCode == 200) {
       return ExtendedCourse.fromJson(json.decode(response.body));
@@ -115,11 +116,14 @@ class CourseRepository {
   }
 
   //fetch courses by courseId and tuteeId enroolemnt
-  Future<ExtendedCourse> fetchCourseByCourseIdTuteeId(http.Client client, int id, int tuteeId) async {
+  Future<ExtendedCourse> fetchCourseByCourseIdTuteeId(
+      http.Client client, int id, int tuteeId) async {
     final response = await http.get('$COURSE_API/$id?tuteeId=$tuteeId');
     if (response.statusCode == 200) {
       return ExtendedCourse.fromJson(json.decode(response.body));
     } else {
+      print('Errror here status code: ' + response.statusCode.toString());
+      print('thi sis error body: ' + response.body);
       throw Exception('Failed to fetch course by course id');
     }
   }

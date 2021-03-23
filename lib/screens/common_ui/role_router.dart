@@ -36,7 +36,7 @@ class RoleRouter extends StatelessWidget {
               ),
             );
           } else if (state is SignInSucceededState) {
-            if (state.person == null) {
+            if (state.person == null || state.person.status == globals.StatusConstants.INACTIVE_STATUS) {
               //remove all screen stack and navigate
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 return Navigator.of(context).pushReplacement(

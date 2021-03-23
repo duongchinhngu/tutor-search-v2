@@ -65,11 +65,9 @@ class CourseCubit extends Cubit<CourseState> {
   }
 
   Future getCoursesByCourseIdTuteeId(int id, int tuteeId) async {
-    
     try {
-      ExtendedCourse course =
-          await _repository.fetchCourseByCourseIdTuteeId(http.Client(), id, tuteeId);
-          // print('this if follow date: ' + course.followDate);
+      ExtendedCourse course = await _repository.fetchCourseByCourseIdTuteeId(
+          http.Client(), id, tuteeId);
       emit(CourseLoadedState(course));
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
@@ -85,8 +83,8 @@ class CourseCubit extends Cubit<CourseState> {
       //   courses =
       //       await _repository.fetchCoursesByTuteeId(http.Client(), tuteeId);
       // } else {
-        courses = await _repository.fetchCoursesByEnrollmentStatus(
-            http.Client(), status, tuteeId);
+      courses = await _repository.fetchCoursesByEnrollmentStatus(
+          http.Client(), status, tuteeId);
       // }
 
       emit(CourseListLoadedState(courses));

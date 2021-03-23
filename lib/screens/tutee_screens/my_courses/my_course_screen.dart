@@ -133,7 +133,6 @@ class _CourseListViewState extends State<CourseListView> {
                         MaterialPageRoute(
                             builder: (context) => CourseDetailScreen(
                                   courseId: state.courses[index].id,
-                                  hasFollowButton: false,
                                 )),
                       );
                     },

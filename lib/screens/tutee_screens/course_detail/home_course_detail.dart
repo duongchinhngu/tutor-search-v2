@@ -6,25 +6,29 @@ import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
-import 'package:tutor_search_system/cubits/tutor_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/tutee_payment_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
+import './course_detail_screen.dart';
 
-class CourseDetailScreen extends StatefulWidget {
+class TuteeHomeCourseDetailScreen extends StatefulWidget {
   final int courseId;
 
-  const CourseDetailScreen({Key key, @required this.courseId})
+  const TuteeHomeCourseDetailScreen({Key key, @required this.courseId})
       : super(key: key);
   @override
-  _CourseDetailScreenState createState() => _CourseDetailScreenState();
+  _TuteeHomeCourseDetailScreenState createState() =>
+      _TuteeHomeCourseDetailScreenState();
 }
 
-class _CourseDetailScreenState extends State<CourseDetailScreen> {
+class _TuteeHomeCourseDetailScreenState
+    extends State<TuteeHomeCourseDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -36,18 +40,21 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
           courseCubit.getCoursesByCourseIdTuteeId(
               widget.courseId, authorizedTutee.id);
           //
+          // return Container(
+          //   height: 100,
+          //   color: Colors.red,
+          // );
           //render proper ui
           if (state is CourseLoadingState) {
             return buildLoadingIndicator();
           } else if (state is CourseLoadFailedState) {
-            return Center(
-              child: Text(state.errorMessage),
-            );
+            return ErrorScreen();
           } else if (state is CourseLoadedState) {
             return Scaffold(
               backgroundColor: backgroundColor,
               appBar: buildCourseDetailAppbar(context),
               body: buildCourseDetailBody(context, state.course),
+              floatingActionButton: buildFollowButton(state.course),
             );
           }
         },
@@ -79,30 +86,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               ),
             ),
           ),
-          //status
-          Container(
-            margin: EdgeInsets.only(
-              left: 135,
-              right: 135,
-              bottom: 20,
-              top: 10,
-            ),
-            height: 35,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: mapStatusToColor(course.enrollmentStatus),
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Text(
-              course.enrollmentStatus,
-              style: TextStyle(
-                fontSize: titleFontSize,
-                color: textWhiteColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          SizedBox(
+            height: 20,
           ),
-          //
           //
           buildDivider(),
           //tutor sumary and initro
@@ -162,19 +148,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       children: [
                         //tutee name
                         Text(
-                          'Duong Chinh Ngu',
+                          course.tutorName,
                           style: titleStyle,
-                        ),
-                        //gender
-                        Text(
-                          'Male',
-                          style: textStyle,
-                        ),
-                        //years old
-                        Text(
-                          // getYearOldFromBithdayString(tutee.birthday).toString() +
-                          '23 years old',
-                          style: textStyle,
                         ),
                       ],
                     ),
@@ -232,25 +207,18 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             Icons.monetization_on,
           ),
           buildDivider(),
+          //maximun tutee in the course
+          buildCourseInformationListTile(
+            course.maxTutee.toString(),
+            'Maximum tutee',
+            Icons.person,
+          ),
+          buildDivider(),
           //description for this course
           buildCourseInformationListTile(
             course.description != '' ? course.description : 'No description',
             'Extra Information',
             Icons.description,
-          ),
-          buildDivider(),
-          //created date of this course
-          buildCourseInformationListTile(
-            course?.followDate,
-            'Follow Date',
-            Icons.calendar_today,
-          ),
-          buildDivider(),
-          //created date of this course
-          buildCourseInformationListTile(
-            course?.status,
-            'Course Status',
-            Icons.check_circle_outline_outlined,
           ),
           //this widget for being nice only
           SizedBox(
@@ -260,48 +228,27 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
       ),
     );
   }
-}
 
-//course infortion listtitle
-ListTile buildCourseInformationListTile(
-    String content, String title, IconData icon) {
-  return ListTile(
-    leading: Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-      ),
-      width: 43,
-      height: 43,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        icon,
-        color: mainColor,
-      ),
-    ),
-    title: Text(
-      title,
-      style: TextStyle(fontSize: 13, color: Colors.grey[500]),
-    ),
-    subtitle: Text(
-      content,
-      style: title == 'Course Name'
-          ? titleStyle
-          : TextStyle(
-              fontSize: titleFontSize,
-              color: textGreyColor,
+  FloatingActionButton buildFollowButton(Course course) =>
+      FloatingActionButton.extended(
+        onPressed: () {
+          //navigate to Payment Screen
+          //payment screeen wil process properly
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TuteePaymentScreen(course: course),
             ),
-    ),
-  );
-}
-
-//default divider for this page
-Divider buildDivider() {
-  return Divider(
-    thickness: 1,
-    indent: 30,
-    endIndent: 30,
-  );
+          );
+        },
+        label: Text(
+          'Follow',
+          style: TextStyle(
+            fontSize: titleFontSize,
+            color: textWhiteColor,
+          ),
+        ),
+        isExtended: true,
+        backgroundColor: mainColor,
+      );
 }

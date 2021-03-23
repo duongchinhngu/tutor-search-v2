@@ -36,29 +36,10 @@ class _TutorPaymentProccessingScreenState
 //
   Future<bool> completeTutorPayment(
       TutorTransaction tuteeTransaction, Course course) async {
-    //get membership of this auth tutor
-    await MembershipRepository()
-        .fetchMembershipByMembershipId(
-            http.Client(), globals.authorizedTutor.membershipId)
-        .then((membership) => {
-              //update achieve points
-              //point save is pointRate nhan voi total amount: so tien ma sau khi tru di point use
-              widget.tutorTransaction.archievedPoints =
-                  (widget.tutorTransaction.totalAmount * membership.pointRate)
-                      .round(),
-              //reset new value to authorizeTutor
-              //then update this authorized tutor to DB
-              // //
-              globals.authorizedTutor.points = globals.authorizedTutor.points -
-                  widget.tutorTransaction.usedPoints +
-                  widget.tutorTransaction.archievedPoints,
-            });
     //post tutor transaction
     await transactionRepository.postTutorTransaction(widget.tutorTransaction);
     //post course
     await courseRepository.postCourse(course);
-    //update this tutor in DB
-    await TutorRepository().putTutor(globals.authorizedTutor);
     //
     return Future.value(true);
   }

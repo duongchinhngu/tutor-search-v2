@@ -1,4 +1,3 @@
-//complete tutor transaction
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/braintree_payment_functions.dart';
@@ -77,14 +76,6 @@ void _completeTutorTransaction(BuildContext context, Course course,
       usePoint,
       //need to refactor
       globals.authorizedTutor.id);
-  // 0,
-  // '1900-01-01',
-  // course.studyFee,
-  // totalAmount,
-  // '',
-  // 'Successfull',
-  // globals.tuteeId,
-  // 1);
   //
   WidgetsBinding.instance.addPostFrameCallback((_) {
     return Navigator.of(context).pushReplacement(

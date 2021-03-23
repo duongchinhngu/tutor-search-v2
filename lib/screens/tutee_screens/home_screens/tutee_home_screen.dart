@@ -7,14 +7,13 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
-import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/extended_models/course_tutor.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
 import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:http/http.dart' as http;
@@ -142,9 +141,9 @@ class VerticalCourseCard extends StatelessWidget {
         //navigate to course detail screen
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) => CourseDetailScreen(
+              builder: (context) => TuteeHomeCourseDetailScreen(
                     courseId: course.id,
-                    hasFollowButton: true,
+                    // hasFollowButton: true,
                   )),
         );
       },

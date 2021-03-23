@@ -52,7 +52,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
     ));
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: _buildAppbar(context),
+      appBar: buildCourseDetailAppbar(context),
       body: BlocProvider(
         create: (context) => CourseCubit(
           CourseRepository(),
@@ -177,8 +177,6 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                                       );
                                     } else if (state is TuteeListLoadedState) {
                                       return Container(
-                                        // height: 30,
-                                        // width: 90,
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -188,26 +186,6 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                                                   ' tutee(s)',
                                               style: titleStyle,
                                             ),
-                                            // //notification number
-                                            // Visibility(
-                                            //   visible: false,
-                                            //   child: Container(
-                                            //     height: 17,
-                                            //     width: 17,
-                                            //     alignment: Alignment.center,
-                                            //     decoration: BoxDecoration(
-                                            //       shape: BoxShape.circle,
-                                            //       color: Colors.red,
-                                            //     ),
-                                            //     child: Text(
-                                            //       '1',
-                                            //       style: TextStyle(
-                                            //         color: textWhiteColor,
-                                            //         fontSize: 12,
-                                            //       ),
-                                            //     ),
-                                            //   ),
-                                            // ),
                                           ],
                                         ),
                                       );
@@ -239,7 +217,8 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               course.subjectName, 'Subject', Icons.subject),
           buildDivider(),
           //course name
-          buildCourseInformationListTile(course.className, 'Class', Icons.grade),
+          buildCourseInformationListTile(
+              course.className, 'Class', Icons.grade),
           buildDivider(),
           //school
           buildCourseInformationListTile(
@@ -355,33 +334,33 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
       ),
     );
   }
+}
 
 //appbar with background image
-  PreferredSize _buildAppbar(BuildContext context) {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(70),
-      child: AppBar(
-          elevation: 0.0,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/top-instructional-design-theories-models-next-elearning-course.jpg',
-                  // fit: BoxFit.fitWidth,
-                ),
-                fit: BoxFit.cover,
+PreferredSize buildCourseDetailAppbar(BuildContext context) {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(70),
+    child: AppBar(
+        elevation: 0.0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                'assets/images/top-instructional-design-theories-models-next-elearning-course.jpg',
+                // fit: BoxFit.fitWidth,
               ),
+              fit: BoxFit.cover,
             ),
           ),
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-              size: 20,
-            ),
-            onPressed: () => Navigator.pop(context),
-          )),
-    );
-  }
+        ),
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            size: 20,
+          ),
+          onPressed: () => Navigator.pop(context),
+        )),
+  );
 }
