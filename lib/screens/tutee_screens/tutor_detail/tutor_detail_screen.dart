@@ -13,6 +13,7 @@ import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
 import 'package:tutor_search_system/states/enrollment_state.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -408,6 +409,7 @@ class TutorInformation extends StatelessWidget {
                                   ],
                                 ),
                               ),
+
                               Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(5, 5, 10, 10),
@@ -416,15 +418,29 @@ class TutorInformation extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(right: 30),
                                       child: Image.asset(
-                                          'assets/images/pinlocation.png'),
+                                          'assets/images/phone.png'),
                                     ),
                                     Stack(
                                       children: [
-                                        Container(
-                                          width: 250,
+                                        //phone number
+                                        GestureDetector(
                                           child: Text(
                                             tutor.address,
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
                                           ),
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TuteeSearchGoogleMap(
+                                                          tutoraddress:
+                                                              tutor.address,
+                                                        )));
+                                          },
                                         ),
                                         //
                                         Visibility(
@@ -449,6 +465,56 @@ class TutorInformation extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              // Padding(
+                              //   padding:
+                              //       const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                              //   child: Row(
+                              //     children: [
+                              //       Padding(
+                              //         padding: const EdgeInsets.only(right: 30),
+                              //         child: Image.asset(
+                              //             'assets/images/pinlocation.png'),
+                              //       ),
+                              //       Stack(
+                              //         children: [
+                              //            GestureDetector(
+                              //             child: Text(
+                              //               tutor.address,
+                              //               style: TextStyle(
+                              //                 color: Colors.green,
+                              //                 decoration:
+                              //                     TextDecoration.underline,
+                              //               ),
+                              //             ),
+                              //             onTap: () {
+                              //               Navigator.of(context).push(MaterialPage(
+
+                              //               ),);
+                              //             },
+                              //           ),
+                              //           //
+                              //           Visibility(
+                              //             visible: isCensoredInfo,
+                              //             child: Positioned.fill(
+                              //               child: ClipRect(
+                              //                 child: BackdropFilter(
+                              //                   filter: ImageFilter.blur(
+                              //                     sigmaY: 5,
+                              //                     sigmaX: 5,
+                              //                   ),
+                              //                   child: Container(
+                              //                     color: Colors.black
+                              //                         .withOpacity(0),
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(5, 5, 10, 10),
