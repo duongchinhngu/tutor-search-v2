@@ -1,19 +1,23 @@
 import 'package:intl/intl.dart';
 import 'package:tutor_search_system/models/tutee.dart';
+// import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 
 //---------------------user authentication variables------------------------------------------------------
 // tutee id for all page can access; this will be reseted when login succeed
-Tutee authorizedTutee = Tutee(
-    id: 17,
-    fullname: 'Nguyen Trung Huy',
-    gender: 'Male',
-    birthday: '1998-03-31',
-    email: 'huyntse63450@fpt.edu.vn',
-    phone: '0393769476',
-    address: 'dai hoc bach khoa ho chi minh',
-    roleId: 4,
-    status: 'Active');
+
+Tutee authorizedTutee;
+
+// Tutee(
+// id: 17,
+// fullname: 'Nguyen Trung Huy',
+// gender: 'Male',
+// birthday: '1998-03-31',
+// email: 'huyntse63450@fpt.edu.vn',
+// phone: '0393769476',
+// address: 'dai hoc bach khoa ho chi minh',
+// roleId: 4,
+// status: 'Active');
 //
 //tutor id for all page can access;
 //  this will be reseted when tutor login succeeded
@@ -38,6 +42,7 @@ const feeRangeContent3 = 'Above \$50';
 
 const GENDER_MALE = 'Male';
 const GENDER_FEMALE = 'Female';
+
 // -------------------------course status variables--------------------
 class CourseConstants {
   static const ACTIVE_STATUS = 'Active';
@@ -47,15 +52,16 @@ class CourseConstants {
   static const PENDING_STATUS = 'Pending';
   static const ONGOING_STATUS = 'Ongoing';
 }
+
 // -------------------------enrollment status variables--------------------
 class EnrollmentConstants {
   static const ACCEPTED_STATUS = 'Accepted';
   static const DENIED_STATUS = 'Denied';
   static const PENDING_STATUS = 'Pending';
 }
+
 //--------------------
 class StatusConstants {
   static const ACTIVE_STATUS = 'Active';
   static const INACTIVE_STATUS = 'Inactive';
 }
-
