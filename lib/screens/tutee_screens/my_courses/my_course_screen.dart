@@ -8,6 +8,7 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
@@ -144,6 +145,8 @@ class _CourseListViewState extends State<CourseListView> {
             return Center(
               child: Text(state.errorMessage),
             );
+          }else if( state is CourseNoDataState){
+            return NoDataScreen();
           }
         },
       ),

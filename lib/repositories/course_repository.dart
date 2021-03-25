@@ -165,7 +165,9 @@ class CourseRepository {
       return jsonResponse
           .map((courses) => new ExtendedCourse.fromJson(courses))
           .toList();
-    } else {
+    } else if( response.statusCode == 404){
+      return null;
+    }else {
       throw Exception('Failed to fetch courses by filter');
     }
   }
