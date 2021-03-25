@@ -99,7 +99,7 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                 ),
               ),
               actions: [
-                 IconButton(
+                IconButton(
                   icon: const Icon(Icons.location_pin),
                   onPressed: () {
                     Navigator.push(
@@ -152,7 +152,7 @@ Container buildCourseGridView(CourseListLoadedState state) {
 class CourseCard extends StatefulWidget {
   final CourseTutor course;
 
-   const CourseCard({Key key, @required this.course}) : super(key: key);
+  const CourseCard({Key key, @required this.course}) : super(key: key);
   @override
   _CourseCardState createState() => _CourseCardState();
 }
@@ -250,6 +250,7 @@ class _CourseCardState extends State<CourseCard> {
     _destinationAddress = widget.course.address;
     _calculateDistance(_startAddress, _destinationAddress);
   }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -320,7 +321,7 @@ class _CourseCardState extends State<CourseCard> {
                             child: CircleAvatar(
                               radius: 50,
                               backgroundImage: NetworkImage(
-                                 widget.course.avatarImageLink != null
+                                  widget.course.avatarImageLink != null
                                       ? widget.course.avatarImageLink
                                       : ''),
                             ),
@@ -412,7 +413,7 @@ class _CourseCardState extends State<CourseCard> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
-                              widget.course.studyFee.toString(),
+                              '\$' + widget.course.studyFee.toString(),
                               style: textStyle,
                             ),
                           ),
