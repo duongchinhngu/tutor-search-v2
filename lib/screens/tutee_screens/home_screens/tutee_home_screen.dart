@@ -46,7 +46,6 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
   void initState() {
     registerOnFirebase();
     getMessage(context);
-
     super.initState();
     //check feedback for this authorized tutee
     if (!isTakeFeedback) {
