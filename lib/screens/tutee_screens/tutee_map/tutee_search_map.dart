@@ -3,12 +3,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 
 import 'dart:math' show cos, sqrt, asin;
 
 import 'api_key.dart';
 
 class TuteeSearchGoogleMap extends StatefulWidget {
+  final tutoraddress;
+
+  const TuteeSearchGoogleMap({Key key, this.tutoraddress}) : super(key: key);
   @override
   _TuteeSearchGoogleMapState createState() => _TuteeSearchGoogleMapState();
 }
@@ -164,7 +168,7 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
             startCoordinates.longitude,
           ),
           infoWindow: InfoWindow(
-            title: 'Start',
+            title: 'Tutee Address',
             snippet: _startAddress,
           ),
           icon: BitmapDescriptor.defaultMarker,
@@ -178,7 +182,7 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
             destinationCoordinates.longitude,
           ),
           infoWindow: InfoWindow(
-            title: 'Destination',
+            title: 'Tutor Address',
             snippet: _destinationAddress,
           ),
           icon: BitmapDescriptor.defaultMarker,
@@ -188,8 +192,8 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
         markers.add(startMarker);
         markers.add(destinationMarker);
 
-        print('START COORDINATES: $startCoordinates');
-        print('DESTINATION COORDINATES: $destinationCoordinates');
+        // print('START COORDINATES: $startCoordinates');
+        // print('DESTINATION COORDINATES: $destinationCoordinates');
 
         Position _northeastCoordinates;
         Position _southwestCoordinates;
@@ -309,7 +313,10 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
+    // _getCurrentLocation();
+    _startAddress = authorizedTutee.address;
+    _destinationAddress = widget.tutoraddress;
+    _calculateDistance();
   }
 
   @override
@@ -405,13 +412,15 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Text(
-                            'Places',
-                            style: TextStyle(fontSize: 20.0),
+                          Center(
+                            child: Text(
+                              'Distance',
+                              style: TextStyle(fontSize: 20.0),
+                            ),
                           ),
                           SizedBox(height: 10),
                           _textField(
-                              label: 'Start',
+                              label: 'You: ' + _startAddress,
                               hint: 'Choose starting point',
                               prefixIcon: Icon(Icons.looks_one),
                               suffixIcon: IconButton(
@@ -431,7 +440,7 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
                               }),
                           SizedBox(height: 10),
                           _textField(
-                              label: 'Destination',
+                              label: 'Tutor: ' + _destinationAddress,
                               hint: 'Choose destination',
                               prefixIcon: Icon(Icons.looks_two),
                               controller: destinationAddressController,

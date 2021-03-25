@@ -8,6 +8,7 @@ import 'package:tutor_search_system/models/tutor.dart';
 
 Tutee authorizedTutee;
 
+Tutor currentTutor;
 // Tutee(
 // id: 17,
 // fullname: 'Nguyen Trung Huy',
