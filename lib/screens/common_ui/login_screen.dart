@@ -3,6 +3,7 @@ import 'package:braintree_payment/braintree_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/braintree.dart';
@@ -101,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     LoginButton(loginRepository: loginRepository),
                     //sign up link
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
                         //show role selector dialog
                         showDialog(
                           context: context,
@@ -187,8 +188,7 @@ class LoginButton extends StatelessWidget {
         //show email login dialog
         await loginRepository.handleGoogleSignIn(context);
         //
-        // 
-        
+        //
       },
       //
       child: Container(
