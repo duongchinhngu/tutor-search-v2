@@ -11,8 +11,10 @@ import 'api_key.dart';
 
 class TuteeSearchGoogleMap extends StatefulWidget {
   final tutoraddress;
+  final tuteeaddress;
 
-  const TuteeSearchGoogleMap({Key key, this.tutoraddress}) : super(key: key);
+  const TuteeSearchGoogleMap({Key key, this.tutoraddress, this.tuteeaddress})
+      : super(key: key);
   @override
   _TuteeSearchGoogleMapState createState() => _TuteeSearchGoogleMapState();
 }
@@ -314,7 +316,7 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
   void initState() {
     super.initState();
     // _getCurrentLocation();
-    _startAddress = authorizedTutee.address;
+    _startAddress = widget.tuteeaddress;
     _destinationAddress = widget.tutoraddress;
     _calculateDistance();
   }
@@ -336,7 +338,7 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
               initialCameraPosition: __initalLocation,
               myLocationEnabled: true,
               myLocationButtonEnabled: true,
-              mapType: MapType.normal,
+              mapType: MapType.terrain,
               zoomGesturesEnabled: true,
               zoomControlsEnabled: false,
               polylines: Set<Polyline>.of(polylines.values),

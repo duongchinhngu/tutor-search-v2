@@ -445,6 +445,9 @@ class TutorInformation extends StatelessWidget {
                                                         TuteeSearchGoogleMap(
                                                           tutoraddress:
                                                               tutor.address,
+                                                          tuteeaddress:
+                                                              authorizedTutee
+                                                                  .address,
                                                         )));
                                           },
                                         ),
