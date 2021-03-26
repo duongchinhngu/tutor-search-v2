@@ -7,19 +7,6 @@ class LoginCubit extends Cubit<LoginState> {
   final LoginRepository loginRepository;
   LoginCubit(this.loginRepository) : super(InitialLoginState());
 
-  // Future loginByGoolge() {
-  //   try {
-  //     dynamic result = loginRepository.handleSignInGoogle();
-  //     if (result == null) {
-  //       emit(SignedInFailedState('Invalid username or password'));
-  //     } else {
-  //       emit(SignInSucceededState());
-  //     }
-  //   } catch (e) {
-  //     emit(SignedInFailedState('$e'));
-  //   }
-  // }
-
   // route to proper role
   Future routeRole(String email) async {
     try {

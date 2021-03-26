@@ -17,7 +17,6 @@ import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 
 class LoginRepository {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 //sign in (login) by Google account
@@ -28,60 +27,32 @@ class LoginRepository {
     isTakeFeedback = false;
     //
     await _googleSignIn.signIn().whenComplete(() async {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (_googleSignIn.currentUser != null) {
-          //if email is selected; navigate to roleRouter
-          return Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => RoleRouter(
-                userEmail: _googleSignIn.currentUser.email,
+      //
+      if (await authenticateByEmail(_googleSignIn.currentUser.email)) {
+        //navigate to role roouter if token is provided
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_googleSignIn.currentUser != null) {
+            //if email is selected; navigate to roleRouter
+            return Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => RoleRouter(
+                  userEmail: _googleSignIn.currentUser.email,
+                ),
               ),
-            ),
-          );
-        }
-      });
+            );
+          }
+        });
+      }
     });
-
-    // try {
-    //   final GoogleSignInAccount account = await _googleSignIn.signIn();
-    //   final GoogleSignInAuthentication _googleAuth =
-    //       await account.authentication;
-    //   final AuthCredential credential = GoogleAuthProvider.credential(
-    //     idToken: _googleAuth.idToken,
-    //     accessToken: _googleAuth.accessToken,
-    //   );
-
-    //   UserCredential authResult =
-    //       await _auth.signInWithCredential(credential).whenComplete(() async {
-    //     User currentUser = _auth.currentUser;
-    //     var tokenResult = await currentUser.getIdToken();
-    //     //
-    //     print('this is token in login repo: ' + tokenResult);
-    //     //
-    //     // await postFirebaseToken(tokenResult);
-    //     //navigate to RoleRouter
-    //     WidgetsBinding.instance.addPostFrameCallback((_) {
-    //       return Navigator.of(context).pushReplacement(
-    //         MaterialPageRoute(
-    //           builder: (context) => RoleRouter(
-    //             userEmail: currentUser.email,
-    //           ),
-    //         ),
-    //       );
-    //     });
-    //   });
-    // } catch (e) {
-    //   return null;
-    // }
   }
 
-  Future postFirebaseToken(String idToken) async {
+  Future authenticateByEmail(String email) async {
     final http.Response response = await http.post(
       AUTH_API,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{'token': idToken}),
+      body: jsonEncode(<String, String>{'email': email}),
     );
     if (response.statusCode == 200) {
       ProjectToken currentToken =
@@ -89,17 +60,10 @@ class LoginRepository {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString('token', currentToken.token);
-      Map<String, dynamic> payloadMap =
-          currentToken.parseJwtPayLoad(currentToken.token);
-      sharedPreferences.setInt('userIdToken', payloadMap['id']);
-      sharedPreferences.setString('userNameToken', payloadMap['name']);
-      sharedPreferences.setString('userEmailToken', payloadMap['email']);
-      // sharedPreferences.setInt('userRoleToken', payloadMap['imageLink'])
+      //
       return true;
     } else {
-      throw Exception(
-        'login_service.dart : postFirebaseToken() _ Failed to post token',
-      );
+      throw Exception('Failed to Authenticate');
     }
   }
 
@@ -117,26 +81,6 @@ class LoginRepository {
       );
     });
   }
-
-// //login by googole auth by firebase
-//   Future<GoogleSignInAccount> handleSignInGoogle() async {
-//     try {
-//       return await _googleSignIn.signIn();
-
-//       // GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-//       // AuthCredential credential = GoogleAuthProvider.credential(
-//       //   accessToken: googleAuth.accessToken,
-//       //   idToken: googleAuth.idToken,
-//       // );
-//       // UserCredential authResult = (await _auth.signInWithCredential(credential));
-//       // User currentUser =  _auth.currentUser;
-//       // String tokenResult = await currentUser.getIdToken();
-
-//       // return userFromFirebaseUser(currentUser);
-//     } catch (e) {
-//       print('this is error when sign in: $e');
-//     }
-//   }
 
   Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

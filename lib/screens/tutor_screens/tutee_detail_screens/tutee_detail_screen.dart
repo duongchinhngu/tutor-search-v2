@@ -439,6 +439,8 @@ class TuteeInformation extends StatelessWidget {
                                                           tutoraddress:
                                                               authorizedTutor
                                                                   .address,
+                                                          tuteeaddress:
+                                                              tutee.address,
                                                         )));
                                           },
                                         ),

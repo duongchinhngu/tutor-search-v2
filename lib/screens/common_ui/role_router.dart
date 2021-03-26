@@ -4,6 +4,7 @@ import 'package:tutor_search_system/cubits/login_cubit.dart';
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/splash_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
@@ -30,11 +31,7 @@ class RoleRouter extends StatelessWidget {
           if (state is InitialLoginState) {
             return SplashScreen();
           } else if (state is SignedInFailedState) {
-            return Container(
-              child: Center(
-                child: Text('this error: ' + state.errorMessage),
-              ),
-            );
+            return ErrorScreen();
           } else if (state is SignInSucceededState) {
             if (state.person == null || state.person.status == globals.StatusConstants.INACTIVE_STATUS) {
               //remove all screen stack and navigate

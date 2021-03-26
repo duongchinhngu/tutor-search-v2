@@ -61,4 +61,4 @@ const MEMBERSHIP_API = '$SERVER_NAME/memberships';
 const BRAINTREE_API = '$SERVER_NAME/braintree-payment';
 
 //authentication api
-const AUTH_API = '$SERVER_NAME/auth/verify';
+const AUTH_API = '$SERVER_NAME/auth/authenticate';
