@@ -23,5 +23,15 @@ class TuteeCubit extends Cubit<TuteeState> {
       emit(TuteeErrorState('$e'));
     }
   }
+
+  //get all tutor
+  Future getTuteeByTuteeId(int id) async {
+    try {
+      Tutee tutee = await _repository.fetchTuteeByTuteeId(Client(), id);
+      emit(TuteeLoadedState(tutee));
+    } catch (e) {
+      emit(TuteeErrorState('$e'));
+    }
+  }
   
 }

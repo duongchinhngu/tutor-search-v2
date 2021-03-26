@@ -18,7 +18,7 @@ class FullScreenImage extends StatelessWidget {
               Navigator.pop(context);
             }),
       ),
-      body: Center(
+      body: Container(
         child: Hero(tag: 'imageHero', child: imageWidget),
       ),
     );

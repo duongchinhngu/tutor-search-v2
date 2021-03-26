@@ -15,6 +15,8 @@ import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutee_detail_screens/tutee_detail_screen.dart';
 import 'package:tutor_search_system/states/enrollment_state.dart';
 import 'package:tutor_search_system/states/tutee_state.dart';
 
@@ -115,76 +117,101 @@ class TuteeCard extends StatelessWidget {
             onTap: () {
               //update enrollment status
               if (state is EnrollmentLoadedState) {
-                showDialog(
-                  context: context,
-                  builder: (context) => buildDefaultDialog(
-                    context,
-                    'Accept this follower to be your tutee!',
-                    'Do it now!',
-                    [
-                      ElevatedButton(
-                        onPressed: () {
-                          state.enrollment.status =
-                              EnrollmentConstants.DENIED_STATUS;
-                          //
-                          Navigator.pop(context);
-                          //
-                          EnrollmentRepository()
-                              .putEnrollment(state.enrollment)
-                              .onError((error, stackTrace) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(buildDefaultSnackBar(
-                              Icons.error_outline,
-                              'Error!',
-                              'Deny follower failed.',
-                              Colors.red,
-                            ));
-                          });
-                          //show done message after done update enrollment status
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            buildDefaultSnackBar(
-                              Icons.check_circle_outline_outlined,
-                              'Denied Successully!',
-                              'Give other followers a chance.',
-                              Colors.green,
-                            ),
-                          );
-                        },
-                        child: Text('Deny'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          state.enrollment.status =
-                              EnrollmentConstants.ACCEPTED_STATUS;
-                          //
-                          Navigator.pop(context);
-                          //
-                          EnrollmentRepository()
-                              .putEnrollment(state.enrollment)
-                              .onError((error, stackTrace) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(buildDefaultSnackBar(
-                              Icons.error_outline,
-                              'Error!',
-                              'Accept follower failed.',
-                              Colors.red,
-                            ));
-                          });
-                          //show done message after done update enrollment status
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            buildDefaultSnackBar(
-                              Icons.check_circle_outline_outlined,
-                              'Accepted Successfully!',
-                              'Contact now!',
-                              Colors.green,
-                            ),
-                          );
-                        },
-                        child: Text('Accept'),
-                      )
-                    ],
-                  ),
-                );
+                //show dialog when enrollment is not Pending to confirm or deny follower
+                if (state.enrollment.status ==
+                    EnrollmentConstants.PENDING_STATUS) {
+                  //show confirm dialog to veryfoy follower
+                  showDialog(
+                    context: context,
+                    builder: (context) => buildDefaultDialog(
+                      context,
+                      'Accept this follower to be your tutee!',
+                      'Do it now!',
+                      [
+                        ElevatedButton(
+                          onPressed: () {
+                            state.enrollment.status =
+                                EnrollmentConstants.DENIED_STATUS;
+                            //
+                            Navigator.pop(context);
+                            //
+                            EnrollmentRepository()
+                                .putEnrollment(state.enrollment)
+                                .onError((error, stackTrace) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(buildDefaultSnackBar(
+                                Icons.error_outline,
+                                'Error!',
+                                'Deny follower failed.',
+                                Colors.red,
+                              ));
+                            });
+                            //show done message after done update enrollment status
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              buildDefaultSnackBar(
+                                Icons.check_circle_outline_outlined,
+                                'Denied Successully!',
+                                'Give other followers a chance.',
+                                Colors.green,
+                              ),
+                            );
+                          },
+                          child: Text('Deny'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            state.enrollment.status =
+                                EnrollmentConstants.ACCEPTED_STATUS;
+                            //
+                            Navigator.pop(context);
+                            //
+                            EnrollmentRepository()
+                                .putEnrollment(state.enrollment)
+                                .onError((error, stackTrace) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(buildDefaultSnackBar(
+                                Icons.error_outline,
+                                'Error!',
+                                'Accept follower failed.',
+                                Colors.red,
+                              ));
+                            });
+                            //show done message after done update enrollment status
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              buildDefaultSnackBar(
+                                Icons.check_circle_outline_outlined,
+                                'Accepted Successfully!',
+                                'Contact now!',
+                                Colors.green,
+                              ),
+                            );
+                            //navigate to tutee detail after accept this tutee
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TuteeDetailScreen(
+                                          tuteeId: tutee.id,
+                                          course: course,
+                                        )));
+                          },
+                          child: Text('Accept'),
+                        )
+                      ],
+                    ),
+                  );
+                } else if (state.enrollment.status ==
+                        EnrollmentConstants.ACCEPTED_STATUS ||
+                    state.enrollment.status ==
+                        EnrollmentConstants.DENIED_STATUS) {
+                  //navigate to tutee detail
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TuteeDetailScreen(
+                                tuteeId: tutee.id,
+                                course: course,
+                              )));
+                }
               }
             },
             child: Container(

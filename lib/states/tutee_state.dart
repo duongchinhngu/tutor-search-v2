@@ -5,7 +5,7 @@ abstract class TuteeState {}
 class TuteeLoadingState extends TuteeState {}
 class TuteeNoDataState extends TuteeState {}
 
-class TuteeLoadedState {
+class TuteeLoadedState extends TuteeState{
   final Tutee tutee;
 
   TuteeLoadedState(this.tutee);

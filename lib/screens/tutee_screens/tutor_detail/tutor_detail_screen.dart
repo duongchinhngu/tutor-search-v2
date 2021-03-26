@@ -7,10 +7,12 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/extended_models/extended_tutor.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
+import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
@@ -42,7 +44,10 @@ class TutorDetails extends StatelessWidget {
         //render proper UI for each Course state
         if (state is TutorLoadingState) {
           return buildLoadingIndicator();
-        } else if (state is TutorLoadedState) {
+        } else if (state is ExtendedTutorLoadedState) {
+          //
+          print('this is certi' + state.tutor.certificationUrls.toString());
+          //
           return Scaffold(
             appBar: AppBar(
               leading: buildDefaultBackButton(context),
@@ -215,7 +220,7 @@ class TutorDetails extends StatelessWidget {
 }
 
 class TutorInformation extends StatelessWidget {
-  final Tutor tutor;
+  final ExtendedTutor tutor;
   final Course course;
   const TutorInformation({
     Key key,
@@ -245,6 +250,7 @@ class TutorInformation extends StatelessWidget {
           //
           return ListView(
             children: [
+              //
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 230, 0, 0),
                 child: Container(
@@ -465,56 +471,6 @@ class TutorInformation extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // Padding(
-                              //   padding:
-                              //       const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                              //   child: Row(
-                              //     children: [
-                              //       Padding(
-                              //         padding: const EdgeInsets.only(right: 30),
-                              //         child: Image.asset(
-                              //             'assets/images/pinlocation.png'),
-                              //       ),
-                              //       Stack(
-                              //         children: [
-                              //            GestureDetector(
-                              //             child: Text(
-                              //               tutor.address,
-                              //               style: TextStyle(
-                              //                 color: Colors.green,
-                              //                 decoration:
-                              //                     TextDecoration.underline,
-                              //               ),
-                              //             ),
-                              //             onTap: () {
-                              //               Navigator.of(context).push(MaterialPage(
-
-                              //               ),);
-                              //             },
-                              //           ),
-                              //           //
-                              //           Visibility(
-                              //             visible: isCensoredInfo,
-                              //             child: Positioned.fill(
-                              //               child: ClipRect(
-                              //                 child: BackdropFilter(
-                              //                   filter: ImageFilter.blur(
-                              //                     sigmaY: 5,
-                              //                     sigmaX: 5,
-                              //                   ),
-                              //                   child: Container(
-                              //                     color: Colors.black
-                              //                         .withOpacity(0),
-                              //                   ),
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           )
-                              //         ],
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
                               Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(5, 5, 10, 10),
@@ -535,6 +491,65 @@ class TutorInformation extends StatelessWidget {
                       )
                     ],
                   ),
+                ),
+              ),
+              //certification images
+              Container(
+                alignment: Alignment.centerRight,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                      ),
+                      child: Text(
+                        'Certification Image(s)',
+                        style: TextStyle(
+                          color: mainColor,
+                          fontSize: titleFontSize,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 260,
+                      alignment: Alignment.centerLeft,
+                      child: Wrap(
+                        runAlignment: WrapAlignment.spaceBetween,
+                        runSpacing: 10,
+                        spacing: 10,
+                        children: List.generate(tutor.certificationUrls.length,
+                            (index) {
+                          //view photo in fullscreen
+                          return InkWell(
+                            onTap: () {
+                              //
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FullScreenImage(
+                                    imageWidget: Image.network(
+                                      tutor.certificationUrls[index],
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: 125,
+                              width: 125,
+                              child: Image.network(
+                                tutor.certificationUrls[index],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
