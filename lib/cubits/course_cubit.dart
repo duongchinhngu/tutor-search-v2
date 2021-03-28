@@ -18,7 +18,7 @@ class CourseCubit extends Cubit<CourseState> {
       List<CourseTutor> courses =
           await _repository.fecthTuteeHomeCourses(http.Client());
       if (courses != null) {
-        emit(CourseListLoadedState(courses));
+        emit(CourseTutorListLoadedState(courses));
       } else {
         emit(CourseNoDataState());
       }
@@ -33,7 +33,7 @@ class CourseCubit extends Cubit<CourseState> {
       List<CourseTutor> courses =
           await _repository.fetchCourseByFilter(http.Client(), filter);
       if (courses != null) {
-        emit(CourseListLoadedState(courses));
+        emit(CourseTutorListLoadedState(courses));
       } else {
         emit(CourseNoDataState());
       }

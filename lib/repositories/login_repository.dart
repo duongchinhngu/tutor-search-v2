@@ -1,7 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -27,10 +28,9 @@ class LoginRepository {
     isTakeFeedback = false;
     //
     await _googleSignIn.signIn().whenComplete(() async {
-      //
-      if (await authenticateByEmail(_googleSignIn.currentUser.email)) {
-        //navigate to role roouter if token is provided
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+      // navigate to role roouter if token is provided
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
           if (_googleSignIn.currentUser != null) {
             //if email is selected; navigate to roleRouter
             return Navigator.of(context).pushReplacement(
@@ -41,29 +41,25 @@ class LoginRepository {
               ),
             );
           }
-        });
-      }
+        },
+      );
     });
   }
 
   Future authenticateByEmail(String email) async {
-    final http.Response response = await http.post(
-      AUTH_API,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{'email': email}),
-    );
+    final http.Response response =
+        await http.post('$AUTH_API/authenticate?email=$email');
     if (response.statusCode == 200) {
       ProjectToken currentToken =
           ProjectToken.fromJson(json.decode(response.body));
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString('token', currentToken.token);
-      //
+      // //
       return true;
     } else {
-      throw Exception('Failed to Authenticate');
+      print('atuthenticate error: ' + response.statusCode.toString());
+      throw ('Failed to Authenticate');
     }
   }
 
@@ -80,11 +76,6 @@ class LoginRepository {
         ModalRoute.withName("/Login"),
       );
     });
-  }
-
-  Future<String> getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
   }
 
   //load account by email; and then use RoleId to load Tutor or Tutee account info
@@ -105,5 +96,20 @@ class LoginRepository {
           .fetchTuteeByTuteeEmail(http.Client(), account.email);
     }
     return null;
+  }
+
+  Future fetchAuthTest() async {
+    final response = await http.Client().get(
+      'https://tutorsearchsystem.azurewebsites.net/api/auth',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
+    if (response.statusCode == 200) {
+      print('thí sí dcn and marymai: ' + response.body);
+    } else if (response.statusCode == 404) {
+      print('Not found email in authenticate');
+    } else {
+      print('thí sí dcn and marymai error: ' + response.statusCode.toString());
+      throw Exception('Failed to get to authenticate authorization!!!!!');
+    }
   }
 }

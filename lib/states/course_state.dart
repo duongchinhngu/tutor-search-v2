@@ -1,4 +1,5 @@
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/extended_models/course_tutor.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 
 abstract class CourseState {}
@@ -22,4 +23,11 @@ class CourseListLoadedState extends CourseState{
 
   CourseListLoadedState(this.courses);
 }
+
+class CourseTutorListLoadedState extends CourseState{
+  List<CourseTutor> courses;
+
+  CourseTutorListLoadedState(this.courses);
+}
+
 class CourseNoDataState extends CourseState {}

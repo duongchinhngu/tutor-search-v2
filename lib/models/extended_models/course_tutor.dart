@@ -8,8 +8,9 @@ class CourseTutor extends Course {
   final String phone;
   final String address;
   final String avatarImageLink;
+  double distance;
 
-  CourseTutor.fromJsonConstructor({
+  CourseTutor.fromJsonConstructor( {
     int id,
     String name,
     String beginTime,
@@ -34,6 +35,7 @@ class CourseTutor extends Course {
     this.phone,
     this.address,
     this.avatarImageLink,
+    this.distance,
   }) : super(
           id,
           name,
@@ -119,6 +121,7 @@ class CourseTutor extends Course {
       createdDate: json['createdDate'],
       maxTutee: json['maxTutee'],
       avatarImageLink: json['avatarImageLink'],
+      distance: 0.0,
     );
   }
 }

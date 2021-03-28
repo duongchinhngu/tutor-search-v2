@@ -247,7 +247,7 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                   //render proper UI for each Course state
                   if (state is CourseLoadingState) {
                     return buildLoadingIndicator();
-                  } else if (state is CourseListLoadedState) {
+                  } else if (state is CourseTutorListLoadedState) {
                     //set subjectList var = this state subject list
                     state.courses = state.courses
                         .where((s) => s.name.contains(searchValue))

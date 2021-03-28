@@ -82,7 +82,7 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
         //render proper UI for each Course state
         if (state is CourseLoadingState) {
           return buildLoadingIndicator();
-        } else if (state is CourseListLoadedState) {
+        } else if (state is CourseTutorListLoadedState) {
           //load all course and then load courses by class id
           return Scaffold(
             appBar: AppBar(
@@ -133,7 +133,10 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
 }
 
 //course inn gridview UI style
-Container buildCourseGridView(CourseListLoadedState state) {
+Container buildCourseGridView(CourseTutorListLoadedState state) {
+  //
+  state.courses.sort((a,b) => a.distance.compareTo(b.distance));
+  //
   return Container(
     child: GridView.builder(
       itemCount: state.courses.length,
@@ -259,7 +262,6 @@ class _CourseCardState extends State<CourseCard> {
           MaterialPageRoute(
               builder: (context) => TuteeHomeCourseDetailScreen(
                     courseId: widget.course.id,
-                    // hasFollowButton: true,
                   )),
         );
       },

@@ -13,10 +13,23 @@ import 'package:tutor_search_system/screens/tutor_screens/tutor_wrapper.dart';
 import 'package:tutor_search_system/states/login_state.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 
-class RoleRouter extends StatelessWidget {
+class RoleRouter extends StatefulWidget {
   final String userEmail;
 
   const RoleRouter({Key key, @required this.userEmail}) : super(key: key);
+
+  @override
+  _RoleRouterState createState() => _RoleRouterState();
+}
+
+class _RoleRouterState extends State<RoleRouter> {
+  @override
+  void initState() async {
+    //authenticate and save token to use
+    await LoginRepository().authenticateByEmail(widget.userEmail);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -26,14 +39,16 @@ class RoleRouter extends StatelessWidget {
         builder: (context, state) {
           //
           final loginCubit = context.watch<LoginCubit>();
-          loginCubit.routeRole(userEmail);
+          loginCubit.routeRole(widget.userEmail);
           //
           if (state is InitialLoginState) {
             return SplashScreen();
           } else if (state is SignedInFailedState) {
             return ErrorScreen();
           } else if (state is SignInSucceededState) {
-            if (state.person == null || state.person.status == globals.StatusConstants.INACTIVE_STATUS) {
+            if (state.person == null ||
+                state.person.status ==
+                    globals.StatusConstants.INACTIVE_STATUS) {
               //remove all screen stack and navigate
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 return Navigator.of(context).pushReplacement(

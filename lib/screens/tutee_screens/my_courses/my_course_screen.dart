@@ -130,9 +130,10 @@ class _CourseListViewState extends State<CourseListView> {
                       //navigate to course detail screen
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => CourseDetailScreen(
-                                  courseId: state.courses[index].id,
-                                )),
+                          builder: (context) => CourseDetailScreen(
+                            courseId: state.courses[index].id,
+                          ),
+                        ),
                       );
                     },
                     child: CourseCard(state.courses[index]),
@@ -145,7 +146,7 @@ class _CourseListViewState extends State<CourseListView> {
             return Center(
               child: Text(state.errorMessage),
             );
-          }else if( state is CourseNoDataState){
+          } else if (state is CourseNoDataState) {
             return NoDataScreen();
           }
         },
@@ -266,7 +267,8 @@ Container CourseCard(ExtendedCourse course) {
                     height: 90,
                     width: 90,
                     decoration: BoxDecoration(
-                      color: mapStatusToColor(course.enrollmentStatus).withOpacity(.4),
+                      color: mapStatusToColor(course.enrollmentStatus)
+                          .withOpacity(.4),
                       shape: BoxShape.circle,
                     ),
                   ),
