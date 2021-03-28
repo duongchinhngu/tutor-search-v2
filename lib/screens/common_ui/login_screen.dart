@@ -103,48 +103,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     //sign up link
                     InkWell(
                       onTap: () async {
-                        LoginRepository().fetchAuthTest();
-                        // //show role selector dialog
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (context) => buildDefaultDialog(
-                        //     context,
-                        //     'You\'d like to be Tutor or Tutee?',
-                        //     'Choose role for registration',
-                        //     [
-                        //       Row(
-                        //         mainAxisAlignment:
-                        //             MainAxisAlignment.spaceEvenly,
-                        //         children: [
-                        //           ElevatedButton(
-                        //             onPressed: () {
-                        //               Navigator.push(
-                        //                 context,
-                        //                 MaterialPageRoute(
-                        //                   builder: (context) =>
-                        //                       TutorRegisterScreen(),
-                        //                 ),
-                        //               );
-                        //             },
-                        //             child: Text('Tutor'),
-                        //           ),
-                        //           ElevatedButton(
-                        //             onPressed: () {
-                        //               Navigator.push(
-                        //                 context,
-                        //                 MaterialPageRoute(
-                        //                   builder: (context) =>
-                        //                       TuteeRegisterScreen(),
-                        //                 ),
-                        //               );
-                        //             },
-                        //             child: Text('Tutee'),
-                        //           )
-                        //         ],
-                        //       ),
-                        //     ],
-                        //   ),
-                        // );
+                        // LoginRepository().fetchAuthTest();
+                        //show role selector dialog
+                        showDialog(
+                          context: context,
+                          builder: (context) => buildDefaultDialog(
+                            context,
+                            'You\'d like to be Tutor or Tutee?',
+                            'Choose role for registration',
+                            [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TutorRegisterScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text('Tutor'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TuteeRegisterScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text('Tutee'),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
                       },
                       child: Container(
                         // color: Colors.red,

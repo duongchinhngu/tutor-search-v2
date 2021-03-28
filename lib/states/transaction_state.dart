@@ -12,8 +12,3 @@ class TransactionErrorState extends TransactionState {
   TransactionErrorState(this.errorMessage);
 }
 
-class TuteeTransactionLoadedState extends TransactionState {
-  final TuteeTransaction tuteeTransaction;
-
-  TuteeTransactionLoadedState(this.tuteeTransaction);
-}

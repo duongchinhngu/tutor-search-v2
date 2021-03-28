@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
+import 'package:tutor_search_system/screens/tutee_screens/transaction_screens/tutee_transaction_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/update_tutee_profile_screen.dart';
 
 class TuteeProfileManagement extends StatefulWidget {
@@ -429,31 +429,40 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
                                     child: Image.asset(
                                         'assets/images/history.png'),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 37),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Container(
-                                          width: 200,
-                                          child: Text(
-                                            'Transaction',
-                                            style: TextStyle(
-                                              color: textGreyColor,
-                                              fontWeight: FontWeight.bold,
+                                  //transactions
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TuteeTransactionScreen()));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 37),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Container(
+                                            width: 200,
+                                            child: Text(
+                                              'Transaction',
+                                              style: TextStyle(
+                                                color: textGreyColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Container(
-                                          width: 200,
-                                          child: Text(
-                                            '68 Transactions',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                          Container(
+                                            width: 200,
+                                            child: Text(
+                                              '68 Transactions',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   )
                                 ],

@@ -24,13 +24,6 @@ class RoleRouter extends StatefulWidget {
 
 class _RoleRouterState extends State<RoleRouter> {
   @override
-  void initState() async {
-    //authenticate and save token to use
-    await LoginRepository().authenticateByEmail(widget.userEmail);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LoginCubit(LoginRepository()),

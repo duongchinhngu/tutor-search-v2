@@ -57,7 +57,7 @@ class ErrorScreen extends StatelessWidget {
             // navigating to My Course button
             InkWell(
               onTap: () async {
-                if (authorizedTutor.id != null) {
+                if (authorizedTutor != null) {
                   //tutor
 
                   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -67,7 +67,7 @@ class ErrorScreen extends StatelessWidget {
                       ModalRoute.withName('/Home'),
                     );
                   });
-                } else if (authorizedTutee.id != null) {
+                } else if (authorizedTutee != null) {
 //tutee
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     return Navigator.of(context).pushAndRemoveUntil(

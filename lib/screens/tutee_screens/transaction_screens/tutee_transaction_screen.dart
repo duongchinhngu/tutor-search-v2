@@ -1,0 +1,199 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/functions/common_functions.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/cubits/transaction_cubit.dart';
+import 'package:tutor_search_system/cubits/tutee_transaction_cubit.dart';
+import 'package:tutor_search_system/models/tutee_transaction.dart';
+import 'package:tutor_search_system/repositories/tutee_transaction_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
+import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/transaction_screens/tutee_transaction_detail_screen.dart';
+import 'package:tutor_search_system/states/transaction_state.dart';
+import 'package:tutor_search_system/states/tutee_transaction_state.dart';
+
+class TuteeTransactionScreen extends StatefulWidget {
+  @override
+  _TuteeTransactionScreenState createState() => _TuteeTransactionScreenState();
+}
+
+class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      // appBar: GradientAppBar(
+      //   title: Text('Flutter Gradient Example'),
+      //   gradient: LinearGradient(
+      //     colors: [
+      //       Colors.cyan,
+      //       Colors.indigo,
+      //     ],
+      //   ),
+      // ),
+      // // appBar: GradientAppBar(
+      // //   gradient: LinearGradient(
+      // //       begin: Alignment.topCenter,
+      // //       end: Alignment.bottomCenter,
+      // //       colors: [
+      // //         mainColor,
+      // //         backgroundColor,
+      // //       ]),
+      // //   leading: IconButton(
+      // //     icon: Icon(
+      // //       Icons.arrow_back_ios,
+      // //       color: backgroundColor,
+      // //       size: 15,
+      // //     ),
+      // //     onPressed: () => Navigator.pop(context),
+      // //   ),
+      // //   centerTitle: true,
+      // //   title: Text(
+      // //     'Transactions',
+      // //   ),
+      // //   actions: [Icon(Icons.sort)],
+      // // ),
+      appBar: AppBar(
+        backgroundColor: mainColor,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: backgroundColor,
+            size: 15,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        centerTitle: true,
+        title: Text(
+          'Transactions',
+        ),
+        actions: [Icon(Icons.sort)],
+      ),
+      body: BlocProvider(
+        create: (context) =>
+            TuteeTransactionCubit(TuteeTransactionRepository()),
+        child: BlocBuilder<TuteeTransactionCubit, TuteeTransactionState>(
+            builder: (context, state) {
+          //
+          final tuteeTransactionCubit = context.watch<TuteeTransactionCubit>();
+          tuteeTransactionCubit
+              .getTuteeTransactionByTuteeId(authorizedTutee.id);
+          //
+          if (state is TuteeTransactionErrorState) {
+            return Text(state.errorMessage);
+          } else if (state is InitialTuteeTransactionState) {
+            return buildLoadingIndicator();
+          } else if (state is TuteeTransactionNoDataState) {
+            return NoDataScreen();
+          } else if (state is TuteeTransactionListLoadedState) {
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: ListView.separated(
+                separatorBuilder: (context, index) => Divider(),
+                itemCount: state.tuteeTransactions.length,
+                itemBuilder: (context, index) {
+                  return buildTuteeTransactionCard(state, index);
+                },
+              ),
+            );
+          }
+        }),
+      ),
+      //
+    );
+  }
+
+  Widget buildTuteeTransactionCard(
+      TuteeTransactionListLoadedState state, int index) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) => TuteeTransactonDetailScreen(
+                    tuteeTransaction: state.tuteeTransactions[index],
+                  )),
+        );
+      },
+      child: Container(
+        height: 80,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            //
+            Container(
+                child: Icon(
+              Icons.payments,
+              size: 30,
+              color: Colors.orange,
+            )),
+            //
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    state.tuteeTransactions[index].feeName,
+                    style: TextStyle(
+                        fontSize: titleFontSize,
+                        color: Color(0xff04046D),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'to tutor ',
+                        style: textStyle,
+                      ),
+                      Text('Duong Chinh Ngu'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        state.tuteeTransactions[index].dateTime
+                            .substring(0, 10),
+                        style: textStyle,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 10, right: 5),
+                        height: 10,
+                        width: 10,
+                        decoration: BoxDecoration(
+                          color: activeColor,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      Text(
+                        state.tuteeTransactions[index].status,
+                        style: textStyle,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            //
+            Hero(
+              tag: 'TotalAmount',
+                          child: Text(
+                '\$' + state.tuteeTransactions[index].totalAmount.toString(),
+                style: TextStyle(
+                  fontSize: titleFontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black.withOpacity(0.8),
+                ),
+              ),
+            ),
+            
+          ],
+        ),
+      ),
+    );
+  }
+}
