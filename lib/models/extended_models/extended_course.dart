@@ -117,4 +117,8 @@ class ExtendedCourse extends Course {
       tutorName: json['tutorName'].toString(),
     );
   }
+
 }
+
+
+  

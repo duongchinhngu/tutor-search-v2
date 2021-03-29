@@ -1,5 +1,7 @@
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 
+import 'extended_models/extended_course.dart';
+
 class Course {
   final int id;
   String name;
@@ -55,7 +57,7 @@ class Course {
     this.createdBy, this.maxTutee,
   );
 
-  void showAttributes(Course course) {
+  void showAttributes(ExtendedCourse course) {
     print('name: ' +
         course.name +
         '\nbegin time: ' +
@@ -83,7 +85,12 @@ class Course {
         '\n classhassubject id: ' +
         course.classHasSubjectId.toString() +
         '\n create by: ' +
-        course.createdBy.toString());
+        course.createdBy.toString() +
+        '\n class name: ' +
+        course.className  +
+        '\n confirmBy by: ' +
+        course.confirmedBy.toString()
+        );
   }
 
   factory Course.fromJson(Map<String, dynamic> json) {

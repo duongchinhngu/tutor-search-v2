@@ -4,6 +4,7 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/screens/tutee_screens/transaction_screens/tutee_transaction_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/update_tutee_profile_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TuteeProfileManagement extends StatefulWidget {
   final IconData snackBarIcon;
@@ -27,9 +28,41 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: buildDefaultBackButton(context),
-      // ),
+      appBar: AppBar(
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return <PopupMenuItem>[
+                PopupMenuItem(
+                  child: TextButton(
+                    child: Text('Call Report Center'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      launch('tel:0869631008');
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) =>
+                      //         FullScreenImage(
+                      //       imageWidget: Image.file(
+                      //         certificationImages[index],
+                      //         fit: BoxFit.cover,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // );
+                    },
+                  ),
+                ),
+              ];
+            },
+            child: Icon(
+              Icons.flag_rounded,
+              color: Colors.amber,
+            ),
+          ),
+        ],
+      ),
       body: Container(
         child: Container(
           child: Stack(

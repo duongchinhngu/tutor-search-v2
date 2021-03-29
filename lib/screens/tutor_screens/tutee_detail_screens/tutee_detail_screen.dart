@@ -249,20 +249,6 @@ class TuteeInformation extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      // //description
-                      // Padding(
-                      //   padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
-                      //   child: Container(
-                      //       alignment: Alignment.center,
-                      //       child: Text(
-                      //         tutee.description,
-                      //         style: TextStyle(
-                      //           color: textGreyColor,
-                      //           fontSize: 11,
-                      //         ),
-                      //       )),
-                      // ),
-                      //
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: Container(
