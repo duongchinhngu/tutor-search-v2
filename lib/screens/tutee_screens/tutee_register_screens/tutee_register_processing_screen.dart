@@ -44,8 +44,7 @@ class _TuteeRegisterProccessingScreenState
       tutee.avatarImageLink = imageUrl;
     }
     //init account obj
-    final account =
-        Account.constructor(0, tutee.email, tutee.roleId, '', 'Active');
+    final account = Account.constructor(0, tutee.email, tutee.roleId);
     account.showAttribute();
     //post Account
     await accountRepository.postAcount(account);

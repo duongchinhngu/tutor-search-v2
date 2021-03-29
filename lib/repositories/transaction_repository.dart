@@ -22,6 +22,8 @@ class TransactionRepository {
             'status': tuteeTransaction.status,
             'tuteeId': tuteeTransaction.tuteeId,
             'feeId': tuteeTransaction.feeId,
+            'feePrice': tuteeTransaction.feePrice,
+            'tutorId': tuteeTransaction.tutorId,
           },
         ));
     if (response.statusCode == 201 ||
@@ -53,6 +55,7 @@ class TransactionRepository {
             'feeId': tutorTransaction.feeId,
             'archievedPoints': tutorTransaction.archievedPoints,
             'usedPoints': tutorTransaction.usedPoints,
+            'feePrice': tutorTransaction.feePrice,
           },
         ));
     if (response.statusCode == 201 ||

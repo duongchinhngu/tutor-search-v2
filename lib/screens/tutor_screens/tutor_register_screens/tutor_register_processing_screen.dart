@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
 import 'package:tutor_search_system/models/account.dart';
 import 'package:tutor_search_system/models/tutor.dart';
@@ -43,7 +42,7 @@ class _TutorRegisterProccessingScreenState
 
     //init account obj
     final account =
-        Account.constructor(0, tutor.email, tutor.roleId, '', 'Active');
+        Account.constructor(0, tutor.email, tutor.roleId);
     //post Account
     await AccountRepository().postAcount(account);
     //after post image on Firebase; get link and set to tutor

@@ -1,9 +1,13 @@
+
 import 'package:tutor_search_system/models/transaction.dart';
 
 class TuteeTransaction extends Transaction {
   final int tuteeId;
   final int feeId;
   String feeName;
+  final int tutorId;
+  String tutorName;
+  final double feePrice;
 
   TuteeTransaction.modelConstructor(
     int id,
@@ -14,6 +18,7 @@ class TuteeTransaction extends Transaction {
     String status,
     this.tuteeId,
     this.feeId,
+    this.tutorId, this.feePrice,
   ) : super(id, dateTime, amount, totalAmount, description, status);
 
   TuteeTransaction({
@@ -26,6 +31,9 @@ class TuteeTransaction extends Transaction {
     this.tuteeId,
     this.feeId,
     this.feeName,
+    this.tutorId,
+    this.tutorName,
+    this.feePrice, 
   }) : super(id, dateTime, amount, totalAmount, description, status);
 
   factory TuteeTransaction.fromJson(Map<String, dynamic> json) {
@@ -40,6 +48,9 @@ class TuteeTransaction extends Transaction {
       tuteeId: json['tuteeId'],
       feeId: json['feeId'],
       feeName: json['feeName'],
+      tutorId: json['tutorId'],
+      tutorName: json['tutorName'],
+      feePrice: json['feePrice'].toDouble(),
     );
   }
 }

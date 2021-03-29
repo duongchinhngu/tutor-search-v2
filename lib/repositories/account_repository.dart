@@ -28,8 +28,6 @@ class AccountRepository {
             'id': account.id,
             'email': account.email,
             'roleId': account.roleId,
-            'description': account.description,
-            'status': account.status,
           },
         ));
     if (response.statusCode == 201 ||

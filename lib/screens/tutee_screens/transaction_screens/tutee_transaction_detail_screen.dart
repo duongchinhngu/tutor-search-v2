@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
@@ -48,15 +47,12 @@ class TuteeTransactonDetailScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Hero(
-                          tag: 'TotalAmount',
-                          child: Text(
-                            tuteeTransaction.feeName,
-                            style: TextStyle(
-                                fontSize: headerFontSize + 3,
-                                color: Color(0xff04046D),
-                                fontWeight: FontWeight.bold),
-                          ),
+                        Text(
+                          tuteeTransaction.feeName,
+                          style: TextStyle(
+                              fontSize: headerFontSize + 3,
+                              color: Color(0xff04046D),
+                              fontWeight: FontWeight.bold),
                         ),
                         //status
                         Container(
@@ -109,10 +105,11 @@ class TuteeTransactonDetailScreen extends StatelessWidget {
               defaultNormalStyle,
             ),
             //fee
-            buildInfoElement('Fee', '\$' + tuteeTransaction.feeId.toString(),
+            buildInfoElement('Fee', '\$' + tuteeTransaction.feePrice.toString(),
                 defaultNormalStyle),
             //transfer to tutor
-            buildInfoElement('To tutor', 'Duong Chinh Ngu', defaultNormalStyle),
+            buildInfoElement(
+                'To tutor', tuteeTransaction.tutorName, defaultNormalStyle),
             //datetime
             buildInfoElement(
                 'Datetime', tuteeTransaction.dateTime, defaultNormalStyle),

@@ -61,21 +61,24 @@ void _completeTutorTransaction(BuildContext context, Course course,
     double totalAmount, int usePoint, Fee fee) async {
 //init tutorTransaction
   final tutorTransaction = TutorTransaction.modelConstructor(
-      0,
-      globals.defaultDatetime,
-      fee.price,
-      totalAmount,
-      '',
-      //temporary status
-      'Successful',
-      //feeId
-      fee.id,
-      //achievedPoint
-      0,
-      //used points
-      usePoint,
-      //need to refactor
-      globals.authorizedTutor.id);
+    0,
+    globals.defaultDatetime,
+    fee.price,
+    totalAmount,
+    '',
+    //temporary status
+    'Successful',
+    //feeId
+    fee.id,
+    //achievedPoint
+    0,
+    //used points
+    usePoint,
+    //need to refactor
+    globals.authorizedTutor.id,
+    //fee price
+    fee.price
+  );
   //
   WidgetsBinding.instance.addPostFrameCallback((_) {
     return Navigator.of(context).pushReplacement(

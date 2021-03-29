@@ -5,6 +5,7 @@ import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/models/braintree.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
+import 'package:tutor_search_system/models/fee.dart';
 import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/repositories/braintree_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
@@ -13,7 +14,7 @@ import 'tutee_payment_processing.dart';
 
 //show payment method: credit card ỏ debit card or Paypal
 Future checkOutTuteePayment(
-    BuildContext context, Course course, double totalAmount) async {
+    BuildContext context, Fee fee, Course course, double totalAmount) async {
   //get braintree client token and prepare braintree model
   Braintree braintree = await prepareBraintreeCheckOut(totalAmount);
   //doCheckout() method
@@ -31,7 +32,7 @@ Future checkOutTuteePayment(
       //init model and navigate to process screen
       if (globals.authorizedTutee != null) {
         //post TuteeTransaction
-        _completeTuteeTransaction(context, course, totalAmount);
+        _completeTuteeTransaction(context, fee, course, totalAmount);
       }
     } else {
       //show alert undeconstruction
@@ -58,7 +59,7 @@ Future checkOutTuteePayment(
 
 //complete tutee transaction
 void _completeTuteeTransaction(
-    BuildContext context, Course course, double totalAmount) {
+    BuildContext context,Fee fee, Course course, double totalAmount) {
 //init tuteeTransaction
   final tuteeTransaction = TuteeTransaction.modelConstructor(
     0,
@@ -66,9 +67,12 @@ void _completeTuteeTransaction(
     course.studyFee,
     totalAmount,
     '',
-    'Successfull',
+    'Successful',
     globals.authorizedTutee.id,
-    1,
+    fee.id,
+    //tutorId
+    course.createdBy,
+    fee.price
   );
   //init enrollment
   final enrollment = Enrollment.modelConstructor(

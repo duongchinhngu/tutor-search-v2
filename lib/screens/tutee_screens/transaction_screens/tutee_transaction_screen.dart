@@ -71,7 +71,7 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
         title: Text(
           'Transactions',
         ),
-        actions: [Icon(Icons.sort)],
+        // actions: [Icon(Icons.sort)],
       ),
       body: BlocProvider(
         create: (context) =>
@@ -179,9 +179,7 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
               ),
             ),
             //
-            Hero(
-              tag: 'TotalAmount',
-                          child: Text(
+            Text(
                 '\$' + state.tuteeTransactions[index].totalAmount.toString(),
                 style: TextStyle(
                   fontSize: titleFontSize,
@@ -189,7 +187,6 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
                   color: Colors.black.withOpacity(0.8),
                 ),
               ),
-            ),
             
           ],
         ),
