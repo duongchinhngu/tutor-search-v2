@@ -6,10 +6,9 @@ import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
-import 'package:tutor_search_system/cubits/tutor_cubit.dart';
-import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/tutee_payment_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
@@ -48,6 +47,11 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               backgroundColor: backgroundColor,
               appBar: buildCourseDetailAppbar(context),
               body: buildCourseDetailBody(context, state.course),
+              floatingActionButton: Visibility(
+                child: buildPayNowButton(context, state.course),
+                visible: state.course.enrollmentStatus ==
+                    EnrollmentConstants.UNPAID_STATUS,
+              ),
             );
           }
         },
@@ -82,8 +86,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
           //status
           Container(
             margin: EdgeInsets.only(
-              left: 135,
-              right: 135,
+              left: 110,
+              right: 110,
               bottom: 20,
               top: 10,
             ),
@@ -276,6 +280,29 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
     );
   }
 }
+
+FloatingActionButton buildPayNowButton(
+        BuildContext context, ExtendedCourse course) =>
+    FloatingActionButton.extended(
+      onPressed: () {
+        //
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TuteePaymentScreen(course: course),
+          ),
+        );
+      },
+      label: Text(
+        'Pay now',
+        style: TextStyle(
+          fontSize: titleFontSize,
+          color: textWhiteColor,
+        ),
+      ),
+      isExtended: true,
+      backgroundColor: mainColor,
+    );
 
 //course infortion listtitle
 ListTile buildCourseInformationListTile(

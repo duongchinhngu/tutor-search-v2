@@ -45,6 +45,20 @@ class EnrollmentRepository {
     }
   }
 
+   //get enrollment by enroolemntId
+  Future<Enrollment> fetchEnrollmentById(int id) async {
+    final response =
+        await http.get('$ENROLLMENT_API/$id');
+    if (response.statusCode == 200) {
+      return Enrollment.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 404) {
+      return null;
+    } else {
+      throw Exception(
+          'Failed to Enrollment by Id: ' + response.body);
+    }
+  }
+
     //update enrollment in db
   Future<bool> putEnrollment(Enrollment enrollment) async {
     final response = await http.put(

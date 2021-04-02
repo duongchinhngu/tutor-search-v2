@@ -104,16 +104,23 @@ class CourseRepository {
     }
   }
 
-  //fetch courses by courseId
+  //fetch extedned courses by courseId
   Future<ExtendedCourse> fetchCourseByCourseId(
       http.Client client, int id) async {
     final response = await http.get('$COURSE_API/$id');
     if (response.statusCode == 200) {
-      // return ExtendedCourse.fromJson(json.decode(response.body));
-      ExtendedCourse c =  ExtendedCourse.fromJson(json.decode(response.body));
-      c.showAttributes(c);
-      print('-------------------------');
-      return c;
+      return ExtendedCourse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to fetch course by course id');
+    }
+  }
+
+  //gey course by id
+  Future<Course> fetchCourseById( int id) async {
+    final response = await http.get('$COURSE_API/get/$id');
+    if (response.statusCode == 200) {
+      print('Success here: ' +response.body);
+      return Course.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to fetch course by course id');
     }
@@ -169,9 +176,9 @@ class CourseRepository {
       return jsonResponse
           .map((courses) => new ExtendedCourse.fromJson(courses))
           .toList();
-    } else if( response.statusCode == 404){
+    } else if (response.statusCode == 404) {
       return null;
-    }else {
+    } else {
       throw Exception('Failed to fetch courses by filter');
     }
   }

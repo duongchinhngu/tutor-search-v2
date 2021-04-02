@@ -243,7 +243,7 @@ class TutorInformation extends StatelessWidget {
           if (state is EnrollmentLoadedState) {
             if (state.enrollment != null &&
                 state.enrollment.status ==
-                    EnrollmentConstants.ACCEPTED_STATUS) {
+                    EnrollmentConstants.ACTIVE_STATUS) {
               isCensoredInfo = false;
             }
           }

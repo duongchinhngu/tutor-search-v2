@@ -2,44 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
-import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
-import 'package:tutor_search_system/repositories/transaction_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/follow_completed_screen.dart';
 
-
-//tutee payment processing screen
-//this screen process payment; navigate to result screen (error, complete successully; processing)
-class TuteePaymentProccessingScreen extends StatefulWidget {
-  final TuteeTransaction tuteeTransaction;
+class CourseFollowProcessingScreen extends StatefulWidget {
   final Enrollment enrollment;
 
-  const TuteePaymentProccessingScreen(
-      {Key key, @required this.tuteeTransaction, @required this.enrollment})
+  const CourseFollowProcessingScreen({Key key, @required this.enrollment})
       : super(key: key);
   @override
-  _TuteePaymentProccessingScreenState createState() =>
-      _TuteePaymentProccessingScreenState();
+  _CourseFollowProcessingScreenState createState() =>
+      _CourseFollowProcessingScreenState();
 }
 
-class _TuteePaymentProccessingScreenState
-    extends State<TuteePaymentProccessingScreen> {
-  final tuteeTransactionRepository = TransactionRepository();
-  final enrollmentRepository = EnrollmentRepository();
-
-  Future<bool> completePayment(
-      TuteeTransaction tuteeTransaction, Enrollment enrollment) async {
-    await tuteeTransactionRepository
-        .postTuteeTransaction(widget.tuteeTransaction);
-    await enrollmentRepository.putEnrollment(enrollment);
+class _CourseFollowProcessingScreenState
+    extends State<CourseFollowProcessingScreen> {
+  Future<bool> completeFollowCourse(Enrollment enrollment) async {
+    await EnrollmentRepository().postEnrollment(enrollment);
     return Future.value(true);
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: completePayment(widget.tuteeTransaction, widget.enrollment),
+      future: completeFollowCourse(widget.enrollment),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return ErrorScreen();

@@ -35,7 +35,7 @@ class _TuteeUpdateProfileProcessingScreenState
           await uploadFileOnFirebaseStorage(tutee_update_screen.avatartUpdate);
       tutee.avatarImageLink = imageUrl;
     }
-
+    
     await tuteeRepository.putTuteeUpdate(tutee, tutee.id);
 
     return Future.value(true);

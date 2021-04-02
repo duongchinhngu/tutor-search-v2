@@ -29,8 +29,8 @@ import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search
 
 //this var for check whether or not take feedback
 bool isTakeFeedback = false;
-
 //
+
 class TuteeHomeScreen extends StatefulWidget {
   @override
   _TuteeHomeScreenState createState() => _TuteeHomeScreenState();
@@ -66,6 +66,8 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
           );
     }
     //
+    //show dialog for choosing interested subject seletor
+    
   }
 
   //
@@ -135,7 +137,7 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
 //course inn gridview UI style
 Container buildCourseGridView(CourseTutorListLoadedState state) {
   //
-  state.courses.sort((a,b) => a.distance.compareTo(b.distance));
+  state.courses.sort((a, b) => a.distance.compareTo(b.distance));
   //
   return Container(
     child: GridView.builder(

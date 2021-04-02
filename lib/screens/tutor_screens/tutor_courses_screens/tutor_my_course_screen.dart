@@ -48,6 +48,7 @@ class _TutorMyCourseScreenState extends State<TutorMyCourseScreen> {
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   buildCourseStatusCard(0, 'All'),
+                  buildCourseStatusCard(1, CourseConstants.UNPAID_STATUS),
                   buildCourseStatusCard(1, CourseConstants.ACTIVE_STATUS),
                   buildCourseStatusCard(2, CourseConstants.ONGOING_STATUS),
                   buildCourseStatusCard(3, CourseConstants.PENDING_STATUS),

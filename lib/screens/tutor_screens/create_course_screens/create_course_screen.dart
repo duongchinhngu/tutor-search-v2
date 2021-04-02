@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:tutor_search_system/commons/functions/common_functions.dart' as converter;
+import 'package:tutor_search_system/commons/functions/common_functions.dart'
+    as converter;
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
@@ -20,6 +21,7 @@ import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/class_state.dart';
+import 'create_course_processing_screen.dart';
 import 'create_course_variables.dart';
 
 //create course UI;
@@ -846,14 +848,16 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
               } else {
                 //set course status from 'isDraft' to 'Pending'
                 course.status = 'Pending';
-                //thi sis for test only
-                //navigate to payment screen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TutorPaymentScreen(course: course),
-                  ),
-                );
+                //
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  return Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => CreateCourseProcessingScreen(
+                        course: course,
+                      ),
+                    ),
+                  );
+                });
               }
             }
           },
@@ -985,7 +989,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   builder: (context, state) {
                     //
                     final classCubit = context.watch<ClassCubit>();
-                    classCubit.getClassBySubjectIdStatus(subject.id, globals.StatusConstants.ACTIVE_STATUS);
+                    classCubit.getClassBySubjectIdStatus(
+                        subject.id, globals.StatusConstants.ACTIVE_STATUS);
                     //
                     if (state is ClassLoadingState) {
                       return buildLoadingIndicator();

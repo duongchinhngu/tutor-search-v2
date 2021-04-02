@@ -47,6 +47,10 @@ Color mapStatusToColor(String status) {
     return activeColor;
   } else if (status == globals.CourseConstants.PENDING_STATUS) {
     return pendingColor;
+  } if( status == globals.EnrollmentConstants.UNPAID_STATUS ){
+    return Colors.grey;
+  } else if( status == globals.EnrollmentConstants.ACCEPTED_STATUS){
+    return activeColor;
   }
   //this is error color for test
   return Colors.tealAccent;

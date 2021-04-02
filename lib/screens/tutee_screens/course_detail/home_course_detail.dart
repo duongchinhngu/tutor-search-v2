@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
-import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/course_follow_processing_screen/course_follow_processing_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/tutee_payment_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
@@ -40,10 +40,6 @@ class _TuteeHomeCourseDetailScreenState
           courseCubit.getCoursesByCourseIdTuteeId(
               widget.courseId, authorizedTutee.id);
           //
-          // return Container(
-          //   height: 100,
-          //   color: Colors.red,
-          // );
           //render proper ui
           if (state is CourseLoadingState) {
             return buildLoadingIndicator();
@@ -231,15 +227,25 @@ class _TuteeHomeCourseDetailScreenState
   }
 }
 
-FloatingActionButton buildFollowButton(BuildContext context, ExtendedCourse course) =>
+FloatingActionButton buildFollowButton(
+        BuildContext context, ExtendedCourse course) =>
     FloatingActionButton.extended(
       onPressed: () {
-        //navigate to Payment Screen
-        //payment screeen wil process properly
+        //insert new enrollment for this tutee and this course, tutor
+        // (dont show this course on tutee home screen)
+        //init enrollment
+        final enrollment = Enrollment.modelConstructor(
+          0,
+          authorizedTutee.id,
+          course.id,
+          'Waiting for acception from Tutor of this course',
+          'Pending',
+        );
+        //
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TuteePaymentScreen(course: course),
+            builder: (context) => CourseFollowProcessingScreen(enrollment: enrollment),
           ),
         );
       },
