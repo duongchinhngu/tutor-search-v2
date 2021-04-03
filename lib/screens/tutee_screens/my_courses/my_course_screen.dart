@@ -109,37 +109,6 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
       ),
     );
   }
-
-//   GestureDetector buildCourseStatusCard(int index, String status) {
-//     return GestureDetector(
-//       onTap: () {
-//         setState(() {
-//           // set selected class UI
-//           _selectedStatus = status;
-//         });
-//       },
-//       child: Container(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Text(
-//               status,
-//               style: TextStyle(
-//                 color: _selectedStatus == status ? mainColor : textGreyColor,
-//                 fontSize: titleFontSize,
-//               ),
-//             ),
-//             Divider(
-//               indent: 20,
-//               endIndent: 20,
-//               color: _selectedStatus == status ? mainColor : Colors.transparent,
-//               thickness: 1,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
 }
 
 class CourseListView extends StatefulWidget {
@@ -183,7 +152,6 @@ class _CourseListViewState extends State<CourseListView> {
                       );
                     },
                     child: CourseCard(state.courses[index]),
-                    // child: TutorCourseCard(context, state.courses[index]),
                   );
                 },
               ),

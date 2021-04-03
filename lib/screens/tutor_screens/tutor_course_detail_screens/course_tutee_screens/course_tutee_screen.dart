@@ -201,10 +201,7 @@ class TuteeCard extends StatelessWidget {
                       ],
                     ),
                   );
-                } else if (state.enrollment.status ==
-                        EnrollmentConstants.ACCEPTED_STATUS ||
-                    state.enrollment.status ==
-                        EnrollmentConstants.DENIED_STATUS) {
+                } else  {
                   //navigate to tutee detail
                   Navigator.push(
                       context,

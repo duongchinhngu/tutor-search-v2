@@ -32,7 +32,8 @@ class EnrollmentRepository {
   }
 
   //get enrollment by tuteeId and courseId
-  Future<Enrollment> fetchEnrollmentByCourseIdTuteeId(int courseId, int tuteeId) async {
+  Future<Enrollment> fetchEnrollmentByCourseIdTuteeId(
+      int courseId, int tuteeId) async {
     final response =
         await http.get('$ENROLLMENT_API/course/tutee/$courseId/$tuteeId');
     if (response.statusCode == 200) {
@@ -45,21 +46,19 @@ class EnrollmentRepository {
     }
   }
 
-   //get enrollment by enroolemntId
+  //get enrollment by enroolemntId
   Future<Enrollment> fetchEnrollmentById(int id) async {
-    final response =
-        await http.get('$ENROLLMENT_API/$id');
+    final response = await http.get('$ENROLLMENT_API/$id');
     if (response.statusCode == 200) {
       return Enrollment.fromJson(json.decode(response.body));
     } else if (response.statusCode == 404) {
       return null;
     } else {
-      throw Exception(
-          'Failed to Enrollment by Id: ' + response.body);
+      throw Exception('Failed to Enrollment by Id: ' + response.body);
     }
   }
 
-    //update enrollment in db
+  //update enrollment in db
   Future<bool> putEnrollment(Enrollment enrollment) async {
     final response = await http.put(
       '$ENROLLMENT_API/${enrollment.id}',
@@ -68,12 +67,12 @@ class EnrollmentRepository {
       },
       body: jsonEncode(<String, dynamic>{
         'id': enrollment.id,
-      'tuteeId': enrollment.tuteeId,
-      'courseId': enrollment.courseId,
-      'description': enrollment.description,
-      'status': enrollment.status,
-      'createdDate': enrollment.createdDate,
-      'confirmedDate': enrollment.confirmedDate,
+        'tuteeId': enrollment.tuteeId,
+        'courseId': enrollment.courseId,
+        'description': enrollment.description,
+        'status': enrollment.status,
+        'createdDate': enrollment.createdDate,
+        'confirmedDate': enrollment.confirmedDate,
       }),
     );
     if (response.statusCode == 204) {
@@ -81,6 +80,25 @@ class EnrollmentRepository {
     } else {
       print('Error enrollment update body: ' + response.body);
       throw new Exception('Update enrollment failed!: ${response.statusCode}');
+    }
+  }
+
+  //update enrollment in db
+  Future<bool> checkFullCourse(int courseId) async {
+    final response = await http.put(
+      '$ENROLLMENT_API/check-full-course/$courseId',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'courseId': courseId,
+      }),
+    );
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      print('Error enrollment check full course: ' + response.body);
+      throw new Exception('check full course failed!: ${response.statusCode}');
     }
   }
 }

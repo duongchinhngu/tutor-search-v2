@@ -8,7 +8,6 @@ import 'package:tutor_search_system/repositories/transaction_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/follow_completed_screen.dart';
 
-
 //tutee payment processing screen
 //this screen process payment; navigate to result screen (error, complete successully; processing)
 class TuteePaymentProccessingScreen extends StatefulWidget {
@@ -30,9 +29,14 @@ class _TuteePaymentProccessingScreenState
 
   Future<bool> completePayment(
       TuteeTransaction tuteeTransaction, Enrollment enrollment) async {
+    //
     await tuteeTransactionRepository
         .postTuteeTransaction(widget.tuteeTransaction);
+    //
     await enrollmentRepository.putEnrollment(enrollment);
+    //
+    await enrollmentRepository.checkFullCourse(enrollment.courseId);
+    //
     return Future.value(true);
   }
 
