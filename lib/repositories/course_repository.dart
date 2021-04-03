@@ -283,7 +283,7 @@ class CourseRepository {
 
     //check validate course
   Future<Course> checkValidate(Course course) async {
-    final http.Response response = await http.post(COURSE_API,
+    final http.Response response = await http.post('$COURSE_API/check-validate',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
