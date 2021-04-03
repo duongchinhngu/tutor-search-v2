@@ -12,9 +12,11 @@ import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
 import 'package:tutor_search_system/models/class_has_subject.dart';
+import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
+import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
@@ -831,6 +833,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       actions: [
         TextButton(
           onPressed: () async {
+            //
+            //check whether or nowt begin/end date and begin/end time cos bi trung khong
+            //neu bi trung thi khong cho tao => inavalid
+            Course redundantCourse =
+                await CourseRepository().checkValidate(course);
+            //
             if (formkey.currentState.validate()) {
               formkey.currentState.save();
               //
@@ -845,6 +853,25 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     context: context,
                     builder: (context) => buildAlertDialog(
                         context, 'There is an empty required field!'));
+              }
+              if (redundantCourse != null) {
+                //
+                showDialog(
+                    context: context,
+                    builder: (context) => buildDefaultDialog(
+                            context,
+                            "Invalid!",
+                            "Same study time with course named " +
+                                redundantCourse.name,
+                            [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Ok'),
+                              ),
+                            ]));
+                //
               } else {
                 //set course status from 'isDraft' to 'Pending'
                 course.status = 'Pending';
