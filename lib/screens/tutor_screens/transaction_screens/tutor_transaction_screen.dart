@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/functions/common_functions.dart';
-import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/cubits/transaction_cubit.dart';
-import 'package:tutor_search_system/cubits/tutee_transaction_cubit.dart';
-import 'package:tutor_search_system/models/tutee_transaction.dart';
+import 'package:tutor_search_system/cubits/tutor_transaction_cubit.dart';
+import 'package:tutor_search_system/cubits/tutor_transaction_cubit.dart';
 import 'package:tutor_search_system/repositories/tutee_transaction_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
+import 'package:tutor_search_system/repositories/tutor_transaction_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/transaction_screens/tutee_transaction_detail_screen.dart';
-import 'package:tutor_search_system/states/transaction_state.dart';
+import 'package:tutor_search_system/screens/tutor_screens/transaction_screens/tutor_transaction_detail_screen.dart';
 import 'package:tutor_search_system/states/tutee_transaction_state.dart';
+import 'package:tutor_search_system/states/tutor_transaction_state.dart';
 
-class TuteeTransactionScreen extends StatefulWidget {
+class TutorTransactionScreen extends StatefulWidget {
   @override
-  _TuteeTransactionScreenState createState() => _TuteeTransactionScreenState();
+  _TutorTransactionScreenState createState() => _TutorTransactionScreenState();
 }
 
-class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
+class _TutorTransactionScreenState extends State<TutorTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,31 +55,48 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
       // //   ),
       // //   actions: [Icon(Icons.sort)],
       // // ),
-      appBar: _buildAppBar(context),
+      appBar: AppBar(
+        backgroundColor: mainColor,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: backgroundColor,
+            size: 15,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        centerTitle: true,
+        title: Text(
+          'Transactions',
+        ),
+        // actions: [Icon(Icons.sort)],
+      ),
       body: BlocProvider(
         create: (context) =>
-            TuteeTransactionCubit(TuteeTransactionRepository()),
-        child: BlocBuilder<TuteeTransactionCubit, TuteeTransactionState>(
+            TutorTransactionCubit(TutorTransactionRepository()),
+        child: BlocBuilder<TutorTransactionCubit, TutorTransactionState>(
             builder: (context, state) {
           //
-          final tuteeTransactionCubit = context.watch<TuteeTransactionCubit>();
-          tuteeTransactionCubit
-              .getTuteeTransactionByTuteeId(authorizedTutee.id);
+          final tutorTransactionCubit = context.watch<TutorTransactionCubit>();
+          tutorTransactionCubit
+              // .getTuteeTransactionByTuteeId(authorizedTutor.id);
+              .getTutorTransactionByTutorId(1);
           //
-          if (state is TuteeTransactionErrorState) {
-            return Text(state.errorMessage);
-          } else if (state is InitialTuteeTransactionState) {
+          if (state is TutorTransactionErrorState) {
+            return ErrorScreen();
+            // return Text(state.errorMessage);
+          } else if (state is InitialTutorTransactionState) {
             return buildLoadingIndicator();
-          } else if (state is TuteeTransactionNoDataState) {
+          } else if (state is TutorTransactionNoDataState) {
             return NoDataScreen();
-          } else if (state is TuteeTransactionListLoadedState) {
+          } else if (state is TutorTransactionListLoadedState) {
             return Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: ListView.separated(
                 separatorBuilder: (context, index) => Divider(),
-                itemCount: state.tuteeTransactions.length,
+                itemCount: state.tutorTransactions.length,
                 itemBuilder: (context, index) {
-                  return buildTuteeTransactionCard(state, index);
+                  return buildTutorTransactionCard(state, index);
                 },
               ),
             );
@@ -92,38 +107,20 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: mainColor,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back_ios,
-          color: backgroundColor,
-          size: 15,
-        ),
-        onPressed: () => Navigator.pop(context),
-      ),
-      centerTitle: true,
-      title: Text(
-        'Transactions',
-      ),
-      // actions: [Icon(Icons.sort)],
-    );
-  }
-
-  Widget buildTuteeTransactionCard(
-      TuteeTransactionListLoadedState state, int index) {
+  Widget buildTutorTransactionCard(
+      TutorTransactionListLoadedState state, int index) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) => TuteeTransactonDetailScreen(
-                    tuteeTransaction: state.tuteeTransactions[index],
-                  )),
+            builder: (context) => TutorTransactonDetailScreen(
+              tuteeTransaction: state.tutorTransactions[index],
+            ),
+          ),
         );
       },
       child: Container(
-        height: 80,
+        height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -142,7 +139,7 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    state.tuteeTransactions[index].feeName,
+                    state.tutorTransactions[index].feeName,
                     style: TextStyle(
                         fontSize: titleFontSize,
                         color: Color(0xff04046D),
@@ -151,16 +148,7 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
                   Row(
                     children: [
                       Text(
-                        'to tutor ',
-                        style: textStyle,
-                      ),
-                      Text('Duong Chinh Ngu'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        state.tuteeTransactions[index].dateTime
+                        state.tutorTransactions[index].dateTime
                             .substring(0, 10),
                         style: textStyle,
                       ),
@@ -174,7 +162,7 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
                         ),
                       ),
                       Text(
-                        state.tuteeTransactions[index].status,
+                        state.tutorTransactions[index].status,
                         style: textStyle,
                       )
                     ],
@@ -184,14 +172,13 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
             ),
             //
             Text(
-                '\$' + state.tuteeTransactions[index].totalAmount.toString(),
-                style: TextStyle(
-                  fontSize: titleFontSize,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black.withOpacity(0.8),
-                ),
+              '\$' + state.tutorTransactions[index].totalAmount.toString(),
+              style: TextStyle(
+                fontSize: titleFontSize,
+                fontWeight: FontWeight.bold,
+                color: Colors.black.withOpacity(0.8),
               ),
-            
+            ),
           ],
         ),
       ),

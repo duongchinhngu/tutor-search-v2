@@ -51,4 +51,22 @@ class FeedbackRepository {
       throw Exception('Failed to fetch Tutor by check feedback');
     }
   }
+
+  //get feedback by tutorid
+  Future<List<Feedbacks>> fetchFeedbackByTutorId(
+      http.Client client, int tutorId) async {
+    final response = await http.get('$FEEDBACK_API/tutor/$tutorId');
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((feedback) =>
+              new Feedbacks.fromJson(feedback))
+          .toList();
+    } else if (response.statusCode == 404) {
+      return null;
+    } else {
+      print('this is error body: ' + response.body);
+      throw Exception('Failed to fetch Feedbackes by tutorId');
+    }
+  }
 }

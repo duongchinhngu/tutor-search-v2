@@ -13,6 +13,18 @@ IconButton buildDefaultBackButton(BuildContext context) {
   );
 }
 
+//default back button
+IconButton buildDefaultCustomBackButton(BuildContext context, Color color) {
+  return IconButton(
+    icon: Icon(
+      Icons.arrow_back_ios,
+      color: color,
+      size: 15,
+    ),
+    onPressed: () => Navigator.pop(context),
+  );
+}
+
 //default close button
 IconButton buildDefaultCloseButton(BuildContext context) {
     return IconButton(

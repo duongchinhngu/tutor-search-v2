@@ -6,6 +6,8 @@ class Tutor extends Person {
   int points;
   int membershipId;
   String socialIdUrl;
+  String createdDate;
+  String confirmedDate;
 
   Tutor({
     int id,
@@ -24,6 +26,8 @@ class Tutor extends Person {
     this.points,
     this.membershipId,
     this.socialIdUrl,
+    this.createdDate,
+    this.confirmedDate,
   }) : super(id, fullname, gender, birthday, email, phone, address, status,
             roleId, description, avatarImageLink);
 
@@ -65,6 +69,8 @@ class Tutor extends Person {
       membershipId: json['membershipId'],
       description: json['description'],
       socialIdUrl: json['socialIdUrl'],
+      createdDate: json['createdDate'],
+      confirmedDate: json['confirmedDate'],
     );
   }
 

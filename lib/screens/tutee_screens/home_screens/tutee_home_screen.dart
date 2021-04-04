@@ -8,6 +8,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
@@ -22,6 +23,7 @@ import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
 import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
+import 'package:tutor_search_system/screens/tutee_screens/interested_subject_selector_dialog/interested_subject_selector_dialog.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/screens/tutee_screens/tutee_map/api_key.dart';
@@ -29,7 +31,8 @@ import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search
 
 //this var for check whether or not take feedback
 bool isTakeFeedback = false;
-//
+//List of interested subject ids for fileter
+List<String> _interestedSubjects = [];
 
 class TuteeHomeScreen extends StatefulWidget {
   @override
@@ -67,7 +70,23 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
     }
     //
     //show dialog for choosing interested subject seletor
-    
+    // Future<SharedPreferences> prefs =
+    SharedPreferences.getInstance().then((prefs) {
+      List<String> ids = prefs.getStringList(
+          'interestedSubjectsOf' + authorizedTutee.id.toString());
+      //
+      if (ids != null) {
+        print('this is selecteabel: ' + ids.toString());
+        _interestedSubjects = ids;
+      } else {
+        showModalBottomSheet(
+            isScrollControlled: true,
+            elevation: 10,
+            backgroundColor: backgroundColor,
+            context: context,
+            builder: (context) => InterestedSubjectSelectorDialog());
+      }
+    });
   }
 
   //
@@ -89,13 +108,24 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
           return Scaffold(
             appBar: AppBar(
               backgroundColor: mainColor,
-              title: Text(
-                "EasyEdu",
-                style: GoogleFonts.kaushanScript(
-                  textStyle: TextStyle(
-                    color: textWhiteColor,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+              title: GestureDetector(
+                // onTap: () async {
+                //   SharedPreferences prefs =
+                //       await SharedPreferences.getInstance();
+                //   List<String> ids = prefs.getStringList(
+                //       'interestedSubjectsOf' + authorizedTutee.id.toString());
+                //   for (var i in ids) {
+                //     print('this is id: ' + i);
+                //   }
+                // },
+                child: Text(
+                  "EasyEdu",
+                  style: GoogleFonts.kaushanScript(
+                    textStyle: TextStyle(
+                      color: textWhiteColor,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
