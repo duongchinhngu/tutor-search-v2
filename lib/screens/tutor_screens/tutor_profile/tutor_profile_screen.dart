@@ -28,7 +28,6 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
       appBar: AppBar(
         backgroundColor: mainColor,
         elevation: 0,
-        // leading: buildDefaultCustomBackButton(context, Colors.white),
         actions: [
           //sign out button
           IconButton(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/screens/common_ui/notification_screens/notification_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_welcome.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_courses_screens/tutor_my_course_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_profile/tutor_profile_screen.dart';
@@ -28,7 +29,9 @@ class _TutorBottomNavigatorBarState extends State<TutorBottomNavigatorBar> {
       // TutorMyCourseScreen(),
       CreateCourseWelcomeScreen(),
       // TutorNotificationScreen(),
-      CreateCourseWelcomeScreen(),
+      NotificationScreen(
+        receiverEmail: authorizedTutor.email,
+      ),
       // TutorProfileScreen(),
       TutorProfileScreen(
         tutor: authorizedTutor,

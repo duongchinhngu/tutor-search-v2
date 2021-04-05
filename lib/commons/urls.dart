@@ -62,3 +62,6 @@ const BRAINTREE_API = '$SERVER_NAME/braintree-payment';
 
 //authentication api
 const AUTH_API = '$SERVER_NAME/auth';
+
+//notification api
+const NOTIFICATION_API = '$SERVER_NAME/notifications';
