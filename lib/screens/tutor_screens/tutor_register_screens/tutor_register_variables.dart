@@ -47,7 +47,7 @@ Tutor registerTutor = Tutor.constructor(
   //pointsave
   0,
   //membershipId
-  1,
+  6,
   //social id url
   '',
   //certification url

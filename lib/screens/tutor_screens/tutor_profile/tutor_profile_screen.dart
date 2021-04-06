@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/certification_images/certification_image_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/update_tutee_profile_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/certification_image_screen/certification_image_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/feeback/feedback_card.dart';
 import 'package:tutor_search_system/screens/tutor_screens/feeback/tutor_feedback_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/transaction_screens/tutor_transaction_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile.dart';
 
 class TutorProfileScreen extends StatefulWidget {
   final Tutor tutor;
@@ -25,23 +28,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(
-        backgroundColor: mainColor,
-        elevation: 0,
-        actions: [
-          //sign out button
-          IconButton(
-            icon: Icon(
-              Icons.power_settings_new_outlined,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              //show
-              showLogoutConfirmDialog(context);
-            },
-          )
-        ],
-      ),
+      appBar: _buildAppBar(context),
       body: Container(
         child: ListView(
           children: [
@@ -106,71 +93,41 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
             //
             buildCourseInformationListTile(
                 widget.tutor.gender, 'Gender', Icons.gesture),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             buildCourseInformationListTile(
                 widget.tutor.birthday, 'Birthday', Icons.cake),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             buildCourseInformationListTile(
                 widget.tutor.phone, 'Phone', Icons.phone_android),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             buildCourseInformationListTile(
               widget.tutor.address,
               'Address',
-              Icons.gesture,
+              Icons.home_outlined,
             ),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             buildCourseInformationListTile(widget.tutor.educationLevel,
                 'Education Level', Icons.cast_for_education_outlined),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             buildCourseInformationListTile(
                 widget.tutor.school, 'School', Icons.school_outlined),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             buildCourseInformationListTile(widget.tutor.points.toString(),
                 'Available Point(s)', Icons.donut_large_sharp),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             buildCourseInformationListTile(widget.tutor.membershipId.toString(),
                 'Current Membership', Icons.card_membership_outlined),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             buildCourseInformationListTile(
                 widget.tutor.createdDate.substring(0, 10),
                 'Created Date',
                 Icons.calendar_today_outlined),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             buildCourseInformationListTile(
                 widget.tutor.confirmedDate.substring(0, 10),
                 'Confirmed Date',
                 Icons.calendar_today_sharp),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             //soical id image
             Container(
               height: 250,
@@ -207,10 +164,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
               ),
             ),
 
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             //certification images
             InkWell(
               onTap: () {
@@ -247,10 +201,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
                 ),
               ),
             ),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             //transactions
             InkWell(
               onTap: () {
@@ -287,10 +238,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
                 ),
               ),
             ),
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             //feedbacks
             InkWell(
               onTap: () {
@@ -328,10 +276,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
               ),
             ),
             ////
-            Divider(
-              endIndent: 30,
-              indent: 50,
-            ),
+            buildDivider(),
             //
             SizedBox(
               height: 40,
@@ -339,6 +284,68 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: mainColor,
+      elevation: 0,
+      title: Text('Tutor Profile'),
+      actions: [
+        //update button
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    UpdateTutorProfileScreen(tutor: authorizedTutor),
+              ),
+            );
+          },
+          child: buildEditProfileButton(),
+        ),
+        //sign out button
+        IconButton(
+          icon: Icon(
+            Icons.power_settings_new_outlined,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            //show
+            showLogoutConfirmDialog(context);
+          },
+        )
+      ],
+    );
+  }
+
+  Container buildEditProfileButton() {
+    return Container(
+      // height: 0,
+      margin: EdgeInsets.symmetric(vertical: 10),
+      width: 100,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(45),
+        color: mainColor,
+        border: Border.all(width: 1, color: backgroundColor),
+      ),
+      child: Center(
+        child: Text(
+          'Edit Profile',
+          style: TextStyle(
+            color: backgroundColor,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Divider buildDivider() {
+    return Divider(
+      endIndent: 30,
+      indent: 50,
     );
   }
 }
