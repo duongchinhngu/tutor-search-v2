@@ -5,6 +5,7 @@ class ExtendedCourse extends Course {
   final String subjectName;
   final String followDate;
   final String enrollmentStatus;
+  final int enrollmentId;
   final String tutorAvatarUrl;
   final String tutorName;
 
@@ -31,7 +32,7 @@ class ExtendedCourse extends Course {
     this.followDate,
     this.enrollmentStatus,
     this.tutorAvatarUrl,
-    this.tutorName,
+    this.tutorName, this.enrollmentId,
   ) : super(
           id,
           name,
@@ -49,7 +50,7 @@ class ExtendedCourse extends Course {
           maxTutee,
         );
 
-  ExtendedCourse.fromJsonConstructor({
+  ExtendedCourse.fromJsonConstructor( {
     int id,
     String name,
     String beginTime,
@@ -73,6 +74,7 @@ class ExtendedCourse extends Course {
     this.enrollmentStatus,
     this.tutorAvatarUrl,
     this.tutorName,
+    this.enrollmentId,
   }) : super(
           id,
           name,
@@ -115,6 +117,7 @@ class ExtendedCourse extends Course {
       enrollmentStatus: json['enrollmentStatus'].toString(),
       tutorAvatarUrl: json['tutorAvatarUrl'].toString(),
       tutorName: json['tutorName'].toString(),
+      enrollmentId: json['enrollmentId'],
     );
   }
 

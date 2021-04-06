@@ -7,11 +7,11 @@ class FilterItem extends SelectableObject {
 
 //----study form list-----
 final _online = FilterItem('Online', false);
-final _tuteeHome = FilterItem('Tutee Home', false);
+final _tutorHome = FilterItem('Tutor Home', false);
 //
 List<FilterItem> studyForms = [
   _online,
-  _tuteeHome,
+  _tutorHome,
 ];
 //---fee range list-----
 final _feeRange1 = FilterItem(feeRangeContent1, false);

@@ -1,17 +1,16 @@
 import 'dart:ui';
-import 'package:braintree_payment/braintree_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/models/braintree.dart';
-import 'package:tutor_search_system/repositories/braintree_repository.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/interested_subject_selector_dialog/interested_subject_selector_dialog.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/tutor_register_screen.dart';
 
@@ -88,14 +87,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     //illustration image
-                    Container(
-                      padding: EdgeInsets.only(
-                        top: 0,
-                        bottom: 30,
-                      ),
-                      child: Image.asset(
-                        'assets/images/boy-studying-with-book_113065-238.jpg',
-                        // width: 100,
+                    GestureDetector(
+                      onTap: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        List<String> ids = prefs.getStringList(
+                            'interestedSubjectsOf' +
+                                authorizedTutee.id.toString());
+                        for (var i in ids) {
+                          print('this is id: ' + i);
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          top: 0,
+                          bottom: 30,
+                        ),
+                        child: Image.asset(
+                          'assets/images/boy-studying-with-book_113065-238.jpg',
+                          // width: 100,
+                        ),
                       ),
                     ),
                     // google login buotton
@@ -103,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     //sign up link
                     InkWell(
                       onTap: () async {
-                        // LoginRepository().fetchAuthTest();
+                        
                         //show role selector dialog
                         showDialog(
                           context: context,

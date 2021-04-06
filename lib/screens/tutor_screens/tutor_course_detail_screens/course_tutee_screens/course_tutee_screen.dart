@@ -161,7 +161,7 @@ class TuteeCard extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () {
                             state.enrollment.status =
-                                EnrollmentConstants.ACCEPTED_STATUS;
+                                EnrollmentConstants.UNPAID_STATUS;
                             //
                             Navigator.pop(context);
                             //
@@ -181,28 +181,27 @@ class TuteeCard extends StatelessWidget {
                               buildDefaultSnackBar(
                                 Icons.check_circle_outline_outlined,
                                 'Accepted Successfully!',
-                                'Contact now!',
+                                'Tutee pay and you can contact!',
                                 Colors.green,
                               ),
                             );
                             //navigate to tutee detail after accept this tutee
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TuteeDetailScreen(
-                                          tuteeId: tutee.id,
-                                          course: course,
-                                        )));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TuteeDetailScreen(
+                                  tuteeId: tutee.id,
+                                  course: course,
+                                ),
+                              ),
+                            );
                           },
                           child: Text('Accept'),
                         )
                       ],
                     ),
                   );
-                } else if (state.enrollment.status ==
-                        EnrollmentConstants.ACCEPTED_STATUS ||
-                    state.enrollment.status ==
-                        EnrollmentConstants.DENIED_STATUS) {
+                } else  {
                   //navigate to tutee detail
                   Navigator.push(
                       context,

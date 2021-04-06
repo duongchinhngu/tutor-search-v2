@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/screens/common_ui/notification_screens/notification_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/my_courses/my_course_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/search_course_welcome_screen.dart';
@@ -27,7 +29,9 @@ class _TuteeBottomNavigatorBarState extends State<TuteeBottomNavigatorBar> {
       TuteeHomeScreen(),
       MyCourseScreen(),
       TuteeSearchCourseWelcomeScreen(),
-      TuteeHomeScreen(),
+      NotificationScreen(
+        receiverEmail: authorizedTutee.email,
+      ),
       TuteeProfileManagement(),
     ];
     if (widget.selectedIndex != null) {

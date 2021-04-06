@@ -56,11 +56,11 @@ class CreateCourseItem extends SelectableObject {
 
 //study form create course item
 CreateCourseItem _online = CreateCourseItem('Online', false);
-CreateCourseItem _tuteeHome = CreateCourseItem('Tutee Home', false);
+CreateCourseItem _tutorHome = CreateCourseItem('Tutor Home', false);
 //
 List<CreateCourseItem> studyForms = [
   _online,
-  _tuteeHome,
+  _tutorHome,
 ];
 //reset studyForm status isSelected false for all
 void resetStudyForms() {
@@ -77,7 +77,7 @@ void resetInputFields() {
   courseNameController.clear();
   courseFeeController.clear();
   courseDescriptionController.clear();
-  courseMaxTuteeController.clear();
+  courseMaxTuteeController = TextEditingController(text: '1');
 }
 
 //reset all field of create course screen; set = empty

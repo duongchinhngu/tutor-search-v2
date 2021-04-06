@@ -28,7 +28,7 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
   //
   bool validatePoint(double totalAmount, int usedPoint) {
     //total amount cannot be negative
-    if (totalAmount < 0) {
+    if (totalAmount <= 0) {
       //show dialog alert
       showDialog(
         context: context,

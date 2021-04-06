@@ -28,4 +28,23 @@ class ImageRepository {
       throw Exception('Faild to post TuteeTransaction');
     }
   }
+
+//get image by email
+  Future<String> fetchImageByEmail(
+      http.Client client, String email, String imageType) async {
+        
+    final response = await http
+        .get('$IMAGE_API/get/result?ownerEmail=$email&imageType=$imageType');
+         
+    if (response.statusCode == 200) {
+      String jsonResponse = json.decode(response.body).toString();
+      print('Wer are here' + response.body);
+      return jsonResponse.toString();
+    } else if (response.statusCode == 404) {
+      return null;
+    } else {
+      print('this is error body: ' + response.body);
+      throw Exception('Failed to fetch Imagees by tutorId');
+    }
+  }
 }

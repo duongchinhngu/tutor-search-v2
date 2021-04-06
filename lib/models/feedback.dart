@@ -4,19 +4,21 @@ class Feedbacks {
   final int tutorId;
   final int tuteeId;
   final double rate;
-  // final String createdDate;
-  // final String confirmedDate;
-  // final int confirmedBy;
+  String tuteeName;
+  String tuteeAvatarUrl;
   final String status;
+  String createdDate;
 
   Feedbacks({
     this.id,
     this.comment,
     this.tutorId,
-    // this.createdDate,
+    this.createdDate,
     this.status,
     this.tuteeId,
     this.rate,
+    this.tuteeName,
+    this.tuteeAvatarUrl,
     // this.confirmedDate,
     // this.confirmedBy,
   });
@@ -37,12 +39,12 @@ class Feedbacks {
       id: json['id'],
       comment: json['comment'],
       tutorId: json['tutorId'],
-      // createdDate: json['createdDate'],
-      rate: json['rate'],
+      createdDate: json['createdDate'],
+      rate: json['rate'].toDouble(),
       tuteeId: json['tuteeId'],
       status: json['status'],
-      // confirmedDate: json['confirmedDate'],
-      // confirmedBy: json['confirmedBy'],
+      tuteeName: json['tuteeName'],
+      tuteeAvatarUrl: json['tuteeAvatarUrl'],
     );
   }
 

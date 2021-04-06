@@ -46,12 +46,18 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
             Container(
               height: 60,
               alignment: Alignment.center,
-              child: Row(
+              child: ListView(
+                scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  Expanded(child: buildCourseStatusCard(0, 'All')),
-                  Expanded(child: buildCourseStatusCard(1, 'Accepted')),
-                  Expanded(child: buildCourseStatusCard(2, 'Denied')),
-                  Expanded(child: buildCourseStatusCard(3, 'Pending')),
+                  buildCourseStatusCard(0, 'All'),
+                  buildCourseStatusCard(
+                      1, globals.EnrollmentConstants.ACTIVE_STATUS),
+                  buildCourseStatusCard(
+                      2, globals.EnrollmentConstants.UNPAID_STATUS),
+                  buildCourseStatusCard(
+                      3, globals.EnrollmentConstants.DENIED_STATUS),
+                  buildCourseStatusCard(
+                      4, globals.EnrollmentConstants.PENDING_STATUS),
                 ],
               ),
             ),
@@ -73,8 +79,14 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
         });
       },
       child: Container(
+        width: 90,
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(
+          horizontal: 10,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
               status,
@@ -83,12 +95,15 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                 fontSize: titleFontSize,
               ),
             ),
-            Divider(
-              indent: 20,
-              endIndent: 20,
-              color: _selectedStatus == status ? mainColor : Colors.transparent,
-              thickness: 1,
-            ),
+            Visibility(
+              visible: _selectedStatus == status,
+              child: Divider(
+                color: mainColor,
+                thickness: 1,
+                indent: 10,
+                endIndent: 10,
+              ),
+            )
           ],
         ),
       ),
@@ -137,7 +152,6 @@ class _CourseListViewState extends State<CourseListView> {
                       );
                     },
                     child: CourseCard(state.courses[index]),
-                    // child: TutorCourseCard(context, state.courses[index]),
                   );
                 },
               ),

@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/tutor_transaction.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
-import 'package:tutor_search_system/repositories/membership_repository.dart';
 import 'package:tutor_search_system/repositories/transaction_repository.dart';
-import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_variables.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/create_course_completed_screen.dart';
-import 'package:tutor_search_system/commons/global_variables.dart' as globals;
-import 'package:http/http.dart' as http;
 
 //tutor payment processing screen
 //this screen process payment; navigate to result screen (error, complete successully; processing)
@@ -38,8 +34,14 @@ class _TutorPaymentProccessingScreenState
       TutorTransaction tuteeTransaction, Course course) async {
     //post tutor transaction
     await transactionRepository.postTutorTransaction(widget.tutorTransaction);
-    //post course
-    await courseRepository.postCourse(course);
+    
+    //get course by Id
+    Course _course = await CourseRepository().fetchCourseById(course.id);
+    //put course
+    //set course status is active after paid money
+    _course.status = CourseConstants.ACTIVE_STATUS;
+    //
+    await courseRepository.putCourse(_course);
     //
     return Future.value(true);
   }
@@ -53,8 +55,6 @@ class _TutorPaymentProccessingScreenState
           return ErrorScreen();
         } else {
           if (snapshot.hasData == true) {
-            //reset empty for all field in create course screen
-            resetEmptyCreateCourseScreen();
             //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushAndRemoveUntil(

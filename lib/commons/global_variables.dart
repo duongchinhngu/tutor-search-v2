@@ -36,6 +36,7 @@ const GENDER_FEMALE = 'Female';
 // -------------------------course status variables--------------------
 class CourseConstants {
   static const ACTIVE_STATUS = 'Active';
+  static const UNPAID_STATUS = 'Unpaid';
   static const ACCEPTED_STATUS = 'Accepted';
   static const DENIED_STATUS = 'Denied';
   static const INACTIVE_STATUS = 'Inactive';
@@ -46,6 +47,8 @@ class CourseConstants {
 // -------------------------enrollment status variables--------------------
 class EnrollmentConstants {
   static const ACCEPTED_STATUS = 'Accepted';
+  static const UNPAID_STATUS = 'Unpaid';
+  static const ACTIVE_STATUS = 'Active';
   static const DENIED_STATUS = 'Denied';
   static const PENDING_STATUS = 'Pending';
 }

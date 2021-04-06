@@ -3,18 +3,19 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/braintree_payment_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/models/braintree.dart';
-import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
+import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/models/fee.dart';
 import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/repositories/braintree_repository.dart';
+import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'tutee_payment_processing.dart';
 
 //show payment method: credit card ỏ debit card or Paypal
 Future checkOutTuteePayment(
-    BuildContext context, Fee fee, Course course, double totalAmount) async {
+    BuildContext context, Fee fee, ExtendedCourse course, double totalAmount) async {
   //get braintree client token and prepare braintree model
   Braintree braintree = await prepareBraintreeCheckOut(totalAmount);
   //doCheckout() method
@@ -58,8 +59,8 @@ Future checkOutTuteePayment(
 }
 
 //complete tutee transaction
-void _completeTuteeTransaction(
-    BuildContext context,Fee fee, Course course, double totalAmount) {
+Future<void> _completeTuteeTransaction(
+    BuildContext context,Fee fee, ExtendedCourse course, double totalAmount) async {
 //init tuteeTransaction
   final tuteeTransaction = TuteeTransaction.modelConstructor(
     0,
@@ -74,14 +75,9 @@ void _completeTuteeTransaction(
     course.createdBy,
     fee.price
   );
-  //init enrollment
-  final enrollment = Enrollment.modelConstructor(
-    0,
-    globals.authorizedTutee.id,
-    course.id,
-    'Waiting for acception from Tutor of this course',
-    'Pending',
-  );
+  // //init enrollment and changse status
+  Enrollment enrollment = await EnrollmentRepository().fetchEnrollmentById(course.enrollmentId);
+  enrollment.status = globals.EnrollmentConstants.ACTIVE_STATUS;
   //
   WidgetsBinding.instance.addPostFrameCallback((_) {
     return Navigator.of(context).pushReplacement(

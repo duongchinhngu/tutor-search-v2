@@ -39,18 +39,6 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
                     onPressed: () {
                       Navigator.pop(context);
                       launch('tel:0869631008');
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) =>
-                      //         FullScreenImage(
-                      //       imageWidget: Image.file(
-                      //         certificationImages[index],
-                      //         fit: BoxFit.cover,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // );
                     },
                   ),
                 ),

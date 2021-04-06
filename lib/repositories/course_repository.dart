@@ -104,16 +104,23 @@ class CourseRepository {
     }
   }
 
-  //fetch courses by courseId
+  //fetch extedned courses by courseId
   Future<ExtendedCourse> fetchCourseByCourseId(
       http.Client client, int id) async {
     final response = await http.get('$COURSE_API/$id');
     if (response.statusCode == 200) {
-      // return ExtendedCourse.fromJson(json.decode(response.body));
-      ExtendedCourse c =  ExtendedCourse.fromJson(json.decode(response.body));
-      c.showAttributes(c);
-      print('-------------------------');
-      return c;
+      return ExtendedCourse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to fetch course by course id');
+    }
+  }
+
+  //gey course by id
+  Future<Course> fetchCourseById( int id) async {
+    final response = await http.get('$COURSE_API/get/$id');
+    if (response.statusCode == 200) {
+      print('Success here: ' +response.body);
+      return Course.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to fetch course by course id');
     }
@@ -169,9 +176,9 @@ class CourseRepository {
       return jsonResponse
           .map((courses) => new ExtendedCourse.fromJson(courses))
           .toList();
-    } else if( response.statusCode == 404){
+    } else if (response.statusCode == 404) {
       return null;
-    }else {
+    } else {
       throw Exception('Failed to fetch courses by filter');
     }
   }
@@ -271,6 +278,41 @@ class CourseRepository {
     } else {
       print('Error course update body: ' + response.body);
       throw new Exception('Update course failed!: ${response.statusCode}');
+    }
+  }
+
+    //check validate course
+  Future<Course> checkValidate(Course course) async {
+    final http.Response response = await http.post('$COURSE_API/check-validate',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'id': course.id,
+            'name': course.name,
+            'beginTime': globals.defaultDatetime + 'T' + course.beginTime,
+            'endTime': globals.defaultDatetime + 'T' + course.endTime,
+            'studyForm': course.studyForm,
+            'studyFee': course.studyFee,
+            'daysInWeek': course.daysInWeek,
+            'beginDate': course.beginDate,
+            'endDate': course.endDate,
+            'description': course.description,
+            'classHasSubjectId': course.classHasSubjectId,
+            'createdBy': course.createdBy,
+            'status': course.status,
+            'maxTutee': course.maxTutee,
+          },
+        ));
+    if (response.statusCode == 201 ||
+        response.statusCode == 204 ||
+        response.statusCode == 404) {
+      return null;
+    } else if(response.statusCode == 200){
+      print('this is: ' + response.body + response.statusCode.toString());
+      print(response.statusCode);
+      return Course.fromJson(json.decode(response.body));
     }
   }
 }

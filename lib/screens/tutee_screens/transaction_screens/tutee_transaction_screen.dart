@@ -57,22 +57,7 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
       // //   ),
       // //   actions: [Icon(Icons.sort)],
       // // ),
-      appBar: AppBar(
-        backgroundColor: mainColor,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: backgroundColor,
-            size: 15,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        centerTitle: true,
-        title: Text(
-          'Transactions',
-        ),
-        // actions: [Icon(Icons.sort)],
-      ),
+      appBar: _buildAppBar(context),
       body: BlocProvider(
         create: (context) =>
             TuteeTransactionCubit(TuteeTransactionRepository()),
@@ -104,6 +89,25 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
         }),
       ),
       //
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: mainColor,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: backgroundColor,
+          size: 15,
+        ),
+        onPressed: () => Navigator.pop(context),
+      ),
+      centerTitle: true,
+      title: Text(
+        'Transactions',
+      ),
+      // actions: [Icon(Icons.sort)],
     );
   }
 

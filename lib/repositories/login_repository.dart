@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
