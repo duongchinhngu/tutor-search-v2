@@ -52,7 +52,6 @@ class CourseRepository {
       if (filter.filterGender != null) 'tutorGender': filter.filterGender,
       if (filter.filterEducationLevel != null)
         'educationLevel': filter.filterEducationLevel,
-      if (filter.filterStudyForm != null) 'studyForm': filter.filterStudyForm,
       if (filter.filterWeekdays != '') 'weekdays': filter.filterWeekdays,
     };
     //transform to queryTring
@@ -232,6 +231,7 @@ class CourseRepository {
             'createdBy': course.createdBy,
             'status': course.status,
             'maxTutee': course.maxTutee,
+            'location': course.location,
           },
         ));
     if (response.statusCode == 201 ||
@@ -269,6 +269,7 @@ class CourseRepository {
         'confirmedBy': course.confirmedBy,
         'status': course.status,
         'maxTutee': course.maxTutee,
+        'location': course.location,
       }),
     );
     if (response.statusCode == 204) {
@@ -300,6 +301,7 @@ class CourseRepository {
             'createdBy': course.createdBy,
             'status': course.status,
             'maxTutee': course.maxTutee,
+            'location': course.location,
           },
         ));
     if (response.statusCode == 201 ||

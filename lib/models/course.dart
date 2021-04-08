@@ -7,7 +7,7 @@ class Course {
   String name;
   String beginTime;
   String endTime;
-
+  String location;
   double studyFee;
   String daysInWeek;
   String beginDate;
@@ -38,6 +38,7 @@ class Course {
     this.createdDate,
     this.confirmedBy,
     this.maxTutee,
+    this.location,
   });
 
   Course(
@@ -54,6 +55,7 @@ class Course {
     this.classHasSubjectId,
     this.createdBy,
     this.maxTutee,
+    this.location,
   );
 
   void showAttributes(ExtendedCourse course) {
@@ -106,6 +108,7 @@ class Course {
       confirmedDate: json['confirmedDate'],
       createdDate: json['createdDate'],
       maxTutee: json['maxTutee'],
+      location: json['location'],
     );
   }
 }

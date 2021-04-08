@@ -27,29 +27,31 @@ class ExtendedCourse extends Course {
     String confirmedDate,
     int confirmedBy,
     int maxTutee,
+    String location,
     this.className,
     this.subjectName,
     this.followDate,
     this.enrollmentStatus,
     this.tutorAvatarUrl,
-    this.tutorName, this.enrollmentId,
+    this.tutorName,
+    this.enrollmentId,
   ) : super(
-          id,
-          name,
-          beginTime,
-          endTime,
-          studyFee,
-          daysInWeek,
-          beginDate,
-          endDate,
-          description,
-          status,
-          classHasSubjectId,
-          createdBy,
-          maxTutee,
-        );
+            id,
+            name,
+            beginTime,
+            endTime,
+            studyFee,
+            daysInWeek,
+            beginDate,
+            endDate,
+            description,
+            status,
+            classHasSubjectId,
+            createdBy,
+            maxTutee,
+            location);
 
-  ExtendedCourse.fromJsonConstructor( {
+  ExtendedCourse.fromJsonConstructor({
     int id,
     String name,
     String beginTime,
@@ -67,6 +69,7 @@ class ExtendedCourse extends Course {
     String confirmedDate,
     int confirmedBy,
     int maxTutee,
+    String location,
     this.className,
     this.subjectName,
     this.followDate,
@@ -75,20 +78,20 @@ class ExtendedCourse extends Course {
     this.tutorName,
     this.enrollmentId,
   }) : super(
-          id,
-          name,
-          beginTime,
-          endTime,
-          studyFee,
-          daysInWeek,
-          beginDate,
-          endDate,
-          description,
-          status,
-          classHasSubjectId,
-          createdBy,
-          maxTutee,
-        );
+            id,
+            name,
+            beginTime,
+            endTime,
+            studyFee,
+            daysInWeek,
+            beginDate,
+            endDate,
+            description,
+            status,
+            classHasSubjectId,
+            createdBy,
+            maxTutee,
+            location);
 
   factory ExtendedCourse.fromJson(Map<String, dynamic> json) {
     return ExtendedCourse.fromJsonConstructor(
@@ -115,10 +118,7 @@ class ExtendedCourse extends Course {
       tutorAvatarUrl: json['tutorAvatarUrl'].toString(),
       tutorName: json['tutorName'].toString(),
       enrollmentId: json['enrollmentId'],
+      location: json['location'],
     );
   }
-
 }
-
-
-  

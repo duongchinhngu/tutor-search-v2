@@ -8,39 +8,43 @@ import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_pa
 //this is default course (when tutor does not choose fields for new course)
 //default value of unchosen field is "No Select"
 Course course = Course(
-  0,
-  // name
-  '',
-  //begintime
-  globals.DEFAULT_NO_SELECT,
-  // endtime
-  globals.DEFAULT_NO_SELECT,
-  //study fee
-  null,
-  //days in week
-  '[]',
-  //begin date
-  globals.DEFAULT_NO_SELECT,
-  // end date
-  globals.DEFAULT_NO_SELECT,
-  //description
-  '',
-  //status
-  'isDraft',
-  //class has subject
-  //this is hard code need to refactor
-  0,
-  //thi sis hard code
-  //createdBy
-  globals.authorizedTutor.id,
-  1,
-);
+    0,
+    // name
+    '',
+    //begintime
+    globals.DEFAULT_NO_SELECT,
+    // endtime
+    globals.DEFAULT_NO_SELECT,
+    //study fee
+    null,
+    //days in week
+    '[]',
+    //begin date
+    globals.DEFAULT_NO_SELECT,
+    // end date
+    globals.DEFAULT_NO_SELECT,
+    //description
+    '',
+    //status
+    'isDraft',
+    //class has subject
+    //this is hard code need to refactor
+    0,
+    //thi sis hard code
+    //createdBy
+    globals.authorizedTutor.id,
+    1,
+    //location
+    '');
 
 //course name field controller
 TextEditingController courseNameController = TextEditingController();
 TextEditingController courseFeeController = TextEditingController();
 TextEditingController courseDescriptionController = TextEditingController();
-TextEditingController courseMaxTuteeController = TextEditingController(text: '1');
+TextEditingController courseMaxTuteeController =
+    TextEditingController(text: '1');
+TextEditingController locationController =
+    TextEditingController(text: globals.authorizedTutor.address);
 
 //selectedClassName
 String selectedClassName = globals.DEFAULT_NO_SELECT;
@@ -60,14 +64,6 @@ List<CreateCourseItem> studyForms = [
   _online,
   _tutorHome,
 ];
-//reset studyForm status isSelected false for all
-void resetStudyForms() {
-  for (var form in studyForms) {
-    if (form.isSelected) {
-      form.isSelected = false;
-    }
-  }
-}
 
 //empty input fields
 void resetInputFields() {
@@ -76,6 +72,8 @@ void resetInputFields() {
   courseFeeController.clear();
   courseDescriptionController.clear();
   courseMaxTuteeController = TextEditingController(text: '1');
+  locationController =
+      TextEditingController(text: globals.authorizedTutor.address);
 }
 
 //reset all field of create course screen; set = empty
@@ -108,12 +106,12 @@ void resetEmptyCreateCourseScreen() {
     //createdBy
     globals.authorizedTutor.id,
     1,
+    //location
+    '',
   );
   //reset all text controllers text = empty
   resetInputFields();
   //reset all bottom up selected value
-  //reset study forms
-  resetStudyForms();
   //
   selectedClassName = globals.DEFAULT_NO_SELECT;
   //set selectedDateRange is null

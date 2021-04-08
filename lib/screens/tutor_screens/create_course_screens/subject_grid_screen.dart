@@ -35,14 +35,6 @@ class _SubjectGridScreenState extends State<SubjectGridScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: mainColor,
-        onPressed: () async {
-          // //log out func here
-          showLogoutConfirmDialog(context);
-        },
-        child: Icon(Icons.power_settings_new_rounded),
-      ),
       body: Container(
         padding: EdgeInsets.symmetric(
           // vertical: 40,

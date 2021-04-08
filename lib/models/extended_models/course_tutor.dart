@@ -28,6 +28,7 @@ class CourseTutor extends Course {
     String confirmedDate,
     int confirmedBy,
     int maxTutee,
+    String location,
     this.fullname,
     this.gender,
     this.birthday,
@@ -50,6 +51,7 @@ class CourseTutor extends Course {
           classHasSubjectId,
           createdBy,
           maxTutee,
+          location,
         );
 
   CourseTutor(
@@ -70,6 +72,7 @@ class CourseTutor extends Course {
     String confirmedDate,
     int confirmedBy,
     int maxTutee,
+    String location,
     this.fullname,
     this.gender,
     this.birthday,
@@ -91,6 +94,7 @@ class CourseTutor extends Course {
           classHasSubjectId,
           createdBy,
           maxTutee,
+          location,
         );
 
   factory CourseTutor.fromJson(Map<String, dynamic> json) {
@@ -119,6 +123,7 @@ class CourseTutor extends Course {
       maxTutee: json['maxTutee'],
       avatarImageLink: json['avatarImageLink'],
       distance: 0.0,
+      location: json['location'],
     );
   }
 }
