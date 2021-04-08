@@ -196,10 +196,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
           buildCourseInformationListTile(
               course.className, 'Class', Icons.grade),
           buildDivider(),
-          //school
-          buildCourseInformationListTile(
-              course.studyForm, 'Study Form', Icons.school),
-          buildDivider(),
+      
           //study time
           buildCourseInformationListTile(
               course.beginTime + ' - ' + course.endTime,

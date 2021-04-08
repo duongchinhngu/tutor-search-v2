@@ -2,12 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
-import 'package:tutor_search_system/screens/tutee_screens/interested_subject_selector_dialog/interested_subject_selector_dialog.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_profile/tutor_profile_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_wrapper.dart';
-// import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -15,8 +15,6 @@ Course course = Course(
   globals.DEFAULT_NO_SELECT,
   // endtime
   globals.DEFAULT_NO_SELECT,
-  //study form
-  globals.DEFAULT_NO_SELECT,
   //study fee
   null,
   //days in week
@@ -90,8 +88,6 @@ void resetEmptyCreateCourseScreen() {
     //begintime
     globals.DEFAULT_NO_SELECT,
     // endtime
-    globals.DEFAULT_NO_SELECT,
-    //study form
     globals.DEFAULT_NO_SELECT,
     //study fee
     null,

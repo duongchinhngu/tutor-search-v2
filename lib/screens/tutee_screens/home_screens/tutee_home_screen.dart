@@ -421,14 +421,7 @@ class _CourseCardState extends State<CourseCard> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                            margin: const EdgeInsets.only(top: 5),
-                            child: Text(
-                              widget.course.studyForm,
-                              style: textStyle,
-                            ),
-                          ),
+                          
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(

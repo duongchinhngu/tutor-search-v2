@@ -223,79 +223,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ],
                 ),
               ),
-              //study form bottom up
-              Container(
-                height: 120,
-                alignment: Alignment.center,
-                padding: EdgeInsets.only(left: 20),
-                margin: EdgeInsets.only(right: 20, top: 20),
-                decoration: BoxDecoration(
-                  color: backgroundColor,
-                  boxShadow: [boxShadowStyle],
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                  ),
-                ),
-                child: ListTile(
-                  leading: Container(
-                    width: 43,
-                    height: 43,
-                    child: Icon(
-                      Icons.school,
-                      color: mainColor,
-                    ),
-                  ),
-                  title: Container(
-                    padding: EdgeInsets.only(
-                      left: 10,
-                      bottom: 5,
-                    ),
-                    child: Text(
-                      'Study form',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[500],
-                      ),
-                    ),
-                  ),
-                  subtitle: InkWell(
-                    onTap: () {
-                      studyFormSelector(context, studyForms);
-                    },
-                    child: Container(
-                      height: 50,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 1,
-                            offset: Offset(1, 1),
-                          ),
-                        ],
-                        color: Colors.white,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            course.studyForm,
-                            style: TextStyle(
-                                fontSize: titleFontSize, color: textGreyColor),
-                          ),
-                          Icon(
-                            Icons.edit,
-                            size: 20,
-                            color: mainColor,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               //begin date - end date
               GestureDetector(
                 onTap: () async {
@@ -843,7 +770,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
               formkey.currentState.save();
               //
               if (course.classHasSubjectId == 0 ||
-                  course.studyForm == globals.DEFAULT_NO_SELECT ||
                   course.beginDate == globals.DEFAULT_NO_SELECT ||
                   course.beginTime == globals.DEFAULT_NO_SELECT ||
                   course.endTime == globals.DEFAULT_NO_SELECT ||
@@ -949,60 +875,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     }
   }
 
-//study form bottom up
-//select study form;
-// this will be shown when press studyform
-  Future<dynamic> studyFormSelector(
-      BuildContext context, List<CreateCourseItem> studyForms) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return ListView.separated(
-            separatorBuilder: (BuildContext context, int index) => Divider(),
-            itemCount: studyForms.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: Visibility(
-                  visible: studyForms[index].isSelected,
-                  child: Icon(
-                    Icons.check,
-                    color: mainColor,
-                    size: 15,
-                  ),
-                ),
-                title: Text(
-                  studyForms[index].content,
-                  style: TextStyle(
-                    color: studyForms[index].isSelected
-                        ? mainColor
-                        : textGreyColor,
-                    fontSize: titleFontSize,
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    //reset studyForms; because this is single selectable
-                    resetStudyForms();
-                    //set selected created course item (swtudy form) status isSelected = !isSelected
-                    studyForms[index].isSelected =
-                        !studyForms[index].isSelected;
-                    //
-                    _selectStudyForm(studyForms[index].content);
-                  });
-                },
-              );
-            },
-          );
-        });
-  }
 
-  //select and set state of study form in default course
-  _selectStudyForm(String studyForm) {
-    Navigator.pop(context);
-    setState(() {
-      course.studyForm = studyForm;
-    });
-  }
+
 
 //load all classes by api
   Future<dynamic> classSelector(BuildContext context, Subject subject) =>

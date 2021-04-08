@@ -7,7 +7,7 @@ class Course {
   String name;
   String beginTime;
   String endTime;
-  String studyForm;
+
   double studyFee;
   String daysInWeek;
   String beginDate;
@@ -26,7 +26,6 @@ class Course {
     this.name,
     this.beginTime,
     this.endTime,
-    this.studyForm,
     this.studyFee,
     this.daysInWeek,
     this.beginDate,
@@ -38,7 +37,7 @@ class Course {
     this.confirmedDate,
     this.createdDate,
     this.confirmedBy,
-    this.maxTutee, 
+    this.maxTutee,
   });
 
   Course(
@@ -46,7 +45,6 @@ class Course {
     this.name,
     this.beginTime,
     this.endTime,
-    this.studyForm,
     this.studyFee,
     this.daysInWeek,
     this.beginDate,
@@ -54,7 +52,8 @@ class Course {
     this.description,
     this.status,
     this.classHasSubjectId,
-    this.createdBy, this.maxTutee,
+    this.createdBy,
+    this.maxTutee,
   );
 
   void showAttributes(ExtendedCourse course) {
@@ -67,9 +66,6 @@ class Course {
         '\n Endtime: ' +
         globals.defaultDatetime +
         'T' +
-        course.endTime +
-        '\n studyForm: ' +
-        course.studyForm +
         '\n study fee: ' +
         course.studyFee.toString() +
         '\n days inweek: ' +
@@ -87,10 +83,9 @@ class Course {
         '\n create by: ' +
         course.createdBy.toString() +
         '\n class name: ' +
-        course.className  +
+        course.className +
         '\n confirmBy by: ' +
-        course.confirmedBy.toString()
-        );
+        course.confirmedBy.toString());
   }
 
   factory Course.fromJson(Map<String, dynamic> json) {
@@ -99,7 +94,6 @@ class Course {
       name: json['name'],
       beginTime: json['beginTime'].toString().substring(11),
       endTime: json['endTime'].toString().substring(11),
-      studyForm: json['studyForm'],
       studyFee: json['studyFee'].toDouble(),
       daysInWeek: json['daysInWeek'],
       beginDate: json['beginDate'].toString().substring(0, 10),
