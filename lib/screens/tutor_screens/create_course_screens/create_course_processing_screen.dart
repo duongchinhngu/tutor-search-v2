@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
+import 'package:tutor_search_system/models/image.dart' as image;
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/repositories/image_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/create_course_completed_screen.dart';
 
@@ -17,6 +20,20 @@ class CreateCourseProcessingScreen extends StatelessWidget {
     //post course
     await CourseRepository().postCourse(course);
     //
+    //post Image to DB
+    if (extraImages.length > 1) {
+      //remove ADD image icon File in default certification image list
+      extraImages.remove(extraImages.first);
+      //
+      for (var certitfication in extraImages) {
+        var imageUrl = await uploadFileOnFirebaseStorage(certitfication);
+        // post certification url to Image table in DB
+        ImageRepository().postImage(
+          new image.Image.constructor(
+              0, imageUrl, 'courseExtraImages', 'course ' + course.id.toString()),
+        );
+      }
+    }
     return Future.value(true);
   }
 

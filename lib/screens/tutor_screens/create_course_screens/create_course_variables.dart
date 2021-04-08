@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/common_model.dart';
@@ -45,6 +47,9 @@ TextEditingController courseMaxTuteeController =
     TextEditingController(text: '1');
 TextEditingController locationController =
     TextEditingController(text: globals.authorizedTutor.address);
+
+// ----course extra images-------------------
+List<File> extraImages = [File('')];
 
 //selectedClassName
 String selectedClassName = globals.DEFAULT_NO_SELECT;
@@ -120,6 +125,8 @@ void resetEmptyCreateCourseScreen() {
   selectedTimeRange = null;
   //reset use point input = null
   usePointController.clear();
+  //clear list of extra images
+  extraImages = [File('')];
 }
 
 //default date range ( contains beginDate and endDate)
