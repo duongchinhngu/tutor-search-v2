@@ -290,186 +290,290 @@ class TutorInformation extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  // Padding(
-                                  //   padding:
-                                  //       const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                  //   child: Row(
-                                  //     children: [
-                                  //       Padding(
-                                  //         padding:
-                                  //             const EdgeInsets.only(right: 30),
-                                  //         child: Image.asset(
-                                  //             'assets/images/gender.png'),
-                                  //       ),
-                                  //       Text(tutor.gender)
-                                  //     ],
-                                  //   ),
-                                  // ),
-
                                   buildCourseInformationListTile(
                                       tutor.gender, 'Gender', Icons.gesture),
                                   buildDivider(),
                                   buildCourseInformationListTile(
                                       tutor.birthday, 'Birthday', Icons.cake),
-                                  // buildDivider(),
-                                  // Padding(
-                                  //   padding:
-                                  //       const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                  //   child: Row(
-                                  //     children: [
-                                  //       Padding(
-                                  //         padding:
-                                  //             const EdgeInsets.only(right: 30),
-                                  //         child: Image.asset(
-                                  //             'assets/images/email.png'),
-                                  //       ),
-                                  //       Stack(
-                                  //         children: [
-                                  //           //email
-                                  //           GestureDetector(
-                                  //             onTap: () {
-                                  //               //ui to launch to email
-                                  //               final Uri _emailLaunchUri = Uri(
-                                  //                   scheme: 'mailto',
-                                  //                   path: tutor.email,
-                                  //                   queryParameters: {
-                                  //                     'subject': authorizedTutee
-                                  //                             .fullname +
-                                  //                         ' ask to join you course!',
-                                  //                     'body':
-                                  //                         'I would like to contact you for your course! ...'
-                                  //                   });
-                                  //               //launch
-                                  //               launch(_emailLaunchUri
-                                  //                   .toString()
-                                  //                   .replaceAll('+', ' '));
-                                  //             },
-                                  //             child: Text(
-                                  //               tutor.email,
-                                  //               style: TextStyle(
-                                  //                   color: Colors.blue,
-                                  //                   fontSize: textFontSize,
-                                  //                   decoration: TextDecoration
-                                  //                       .underline),
-                                  //             ),
-                                  //           ),
-                                  //           //
-                                  //           Visibility(
-                                  //             visible: isCensoredInfo,
-                                  //             child: Positioned.fill(
-                                  //               child: ClipRect(
-                                  //                 child: BackdropFilter(
-                                  //                   filter: ImageFilter.blur(
-                                  //                     sigmaY: 5,
-                                  //                     sigmaX: 5,
-                                  //                   ),
-                                  //                   child: Container(
-                                  //                     color: Colors.black
-                                  //                         .withOpacity(0),
-                                  //                   ),
-                                  //                 ),
-                                  //               ),
-                                  //             ),
-                                  //           )
-                                  //         ],
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
+
                                   buildDivider(),
                                   buildCourseInformationListTile(
                                       tutor.educationLevel,
                                       'Education Level',
                                       Icons.cast_for_education_outlined),
 
-                                  Stack(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          //ui to launch to email
-                                          final Uri _emailLaunchUri = Uri(
-                                              scheme: 'mailto',
-                                              path: tutor.email,
-                                              queryParameters: {
-                                                'subject': authorizedTutee
-                                                        .fullname +
-                                                    ' ask to join you course!',
-                                                'body':
-                                                    'I would like to contact you for your course! ...'
-                                              });
-                                          //launch
-                                          launch(_emailLaunchUri
-                                              .toString()
-                                              .replaceAll('+', ' '));
-                                        },
-                                        child:
-                                            buildCourseInformationListTileBlurInfo(
-                                                tutor.email,
-                                                'Email',
-                                                Icons.email),
-                                      ),
-                                      // Visibility(
-                                      //   visible: isCensoredInfo,
-                                      //   child: Positioned.fill(
-                                      //     child: ClipRect(
-                                      //       child: BackdropFilter(
-                                      //         filter: ImageFilter.blur(
-                                      //           sigmaY: 5,
-                                      //           sigmaX: 5,
-                                      //         ),
-                                      //         child: Container(
-                                      //           color:
-                                      //               Colors.black.withOpacity(0),
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      buildDivider(),
-                                    ],
-                                  ),
+                                  // Stack(
+                                  //   children: [
+                                  //     GestureDetector(
+                                  //       onTap: () {
+                                  //         //ui to launch to email
+                                  //         final Uri _emailLaunchUri = Uri(
+                                  //             scheme: 'mailto',
+                                  //             path: tutor.email,
+                                  //             queryParameters: {
+                                  //               'subject': authorizedTutee
+                                  //                       .fullname +
+                                  //                   ' ask to join you course!',
+                                  //               'body':
+                                  //                   'I would like to contact you for your course! ...'
+                                  //             });
+                                  //         //launch
+                                  //         launch(_emailLaunchUri
+                                  //             .toString()
+                                  //             .replaceAll('+', ' '));
+                                  //       },
+                                  //       child:
+                                  //           buildCourseInformationListTileBlurInfo(
+                                  //               tutor.email,
+                                  //               'Email',
+                                  //               Icons.email),
+                                  //     ),
 
-                                  Stack(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          launch('tel:${tutor.phone}');
-                                        },
-                                        child:
-                                            buildCourseInformationListTileBlurInfo(
-                                                tutor.phone,
-                                                'Phone',
-                                                Icons.phone_android),
-                                      ),
-                                      buildDivider(),
-                                    ],
-                                  ),
-
-                                  Stack(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      TuteeSearchGoogleMap(
-                                                        tutoraddress:
-                                                            tutor.address,
-                                                        tuteeaddress:
-                                                            authorizedTutee
-                                                                .address,
-                                                      )));
-                                        },
-                                        child:
-                                            buildCourseInformationListTileBlurInfo(
-                                          tutor.address,
-                                          'Address',
-                                          Icons.home_outlined,
+                                  //     buildDivider(),
+                                  //   ],
+                                  // ),
+                                  buildDivider(),
+                                  ListTile(
+                                      leading: Container(
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                        ),
+                                        width: 43,
+                                        height: 43,
+                                        decoration: BoxDecoration(
+                                          color: backgroundColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.email,
+                                          color: mainColor,
                                         ),
                                       ),
-                                      buildDivider(),
-                                    ],
-                                  ),
+                                      title: Text(
+                                        'Mail Address',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.grey[500]),
+                                      ),
+                                      subtitle: Stack(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              //ui to launch to email
+                                              final Uri _emailLaunchUri = Uri(
+                                                  scheme: 'mailto',
+                                                  path: tutor.email,
+                                                  queryParameters: {
+                                                    'subject': authorizedTutee
+                                                            .fullname +
+                                                        ' ask to join you course!',
+                                                    'body':
+                                                        'I would like to contact you for your course! ...'
+                                                  });
+                                              //launch
+                                              launch(_emailLaunchUri
+                                                  .toString()
+                                                  .replaceAll('+', ' '));
+                                            },
+                                            child: Text(
+                                              tutor.email,
+                                              style: 'Mail Address' ==
+                                                      'Course Name'
+                                                  ? titleStyle
+                                                  : TextStyle(
+                                                      fontSize: titleFontSize,
+                                                      color: textGreyColor,
+                                                    ),
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: true,
+                                            child: Positioned.fill(
+                                              child: ClipRect(
+                                                child: BackdropFilter(
+                                                  filter: ImageFilter.blur(
+                                                    sigmaY: 5,
+                                                    sigmaX: 5,
+                                                  ),
+                                                  child: Container(
+                                                    color: Colors.black
+                                                        .withOpacity(0),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+
+                                  ListTile(
+                                      leading: Container(
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                        ),
+                                        width: 43,
+                                        height: 43,
+                                        decoration: BoxDecoration(
+                                          color: backgroundColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.phone_android,
+                                          color: mainColor,
+                                        ),
+                                      ),
+                                      title: Text(
+                                        'Phone number',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.grey[500]),
+                                      ),
+                                      subtitle: Stack(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              launch('tel:${tutor.phone}');
+                                            },
+                                            child: Text(
+                                              tutor.phone,
+                                              style: 'Phone number' ==
+                                                      'Course Name'
+                                                  ? titleStyle
+                                                  : TextStyle(
+                                                      fontSize: titleFontSize,
+                                                      color: textGreyColor,
+                                                    ),
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: true,
+                                            child: Positioned.fill(
+                                              child: ClipRect(
+                                                child: BackdropFilter(
+                                                  filter: ImageFilter.blur(
+                                                    sigmaY: 5,
+                                                    sigmaX: 5,
+                                                  ),
+                                                  child: Container(
+                                                    color: Colors.black
+                                                        .withOpacity(0),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+
+                                  // Stack(
+                                  //   children: [
+                                  //     GestureDetector(
+                                  //       onTap: () {
+                                  //         launch('tel:${tutor.phone}');
+                                  //       },
+                                  //       child:
+                                  //           buildCourseInformationListTileBlurInfo(
+                                  //               tutor.phone,
+                                  //               'Phone',
+                                  //               Icons.phone_android),
+                                  //     ),
+                                  //     buildDivider(),
+                                  //   ],
+                                  // ),
+                                  //
+
+                                  ListTile(
+                                      leading: Container(
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                        ),
+                                        width: 43,
+                                        height: 43,
+                                        decoration: BoxDecoration(
+                                          color: backgroundColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.home_outlined,
+                                          color: mainColor,
+                                        ),
+                                      ),
+                                      title: Text(
+                                        'Address',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.grey[500]),
+                                      ),
+                                      subtitle: Stack(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          TuteeSearchGoogleMap(
+                                                            tutoraddress:
+                                                                tutor.address,
+                                                            tuteeaddress:
+                                                                authorizedTutee
+                                                                    .address,
+                                                          )));
+                                            },
+                                            child: Text(
+                                              tutor.address,
+                                              style: 'Address' == 'Course Name'
+                                                  ? titleStyle
+                                                  : TextStyle(
+                                                      fontSize: titleFontSize,
+                                                      color: textGreyColor,
+                                                    ),
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: true,
+                                            child: Positioned.fill(
+                                              child: ClipRect(
+                                                child: BackdropFilter(
+                                                  filter: ImageFilter.blur(
+                                                    sigmaY: 5,
+                                                    sigmaX: 5,
+                                                  ),
+                                                  child: Container(
+                                                    color: Colors.black
+                                                        .withOpacity(0),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+
+                                  // Stack(
+                                  //   children: [
+                                  //     GestureDetector(
+                                  //       onTap: () {
+                                  //         Navigator.of(context).push(
+                                  //             MaterialPageRoute(
+                                  //                 builder: (context) =>
+                                  //                     TuteeSearchGoogleMap(
+                                  //                       tutoraddress:
+                                  //                           tutor.address,
+                                  //                       tuteeaddress:
+                                  //                           authorizedTutee
+                                  //                               .address,
+                                  //                     )));
+                                  //       },
+                                  //       child:
+                                  //           buildCourseInformationListTileBlurInfo(
+                                  //         tutor.address,
+                                  //         'Address',
+                                  //         Icons.home_outlined,
+                                  //       ),
+                                  //     ),
+                                  //     buildDivider(),
+                                  //   ],
+                                  // ),
 
                                   // Padding(
                                   //   padding:
