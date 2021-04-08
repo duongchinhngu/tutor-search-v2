@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/fee_cubit.dart';
+import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/fee_repository.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
@@ -13,8 +14,11 @@ import 'tutee_payment_method.dart' as payment_methods;
 //
 class TuteePaymentScreen extends StatefulWidget {
   final ExtendedCourse course;
+  final Enrollment enrollment;
 
-  const TuteePaymentScreen({Key key, @required this.course}) : super(key: key);
+  const TuteePaymentScreen(
+      {Key key, @required this.course, @required this.enrollment})
+      : super(key: key);
   @override
   _TuteePaymentScreenState createState() => _TuteePaymentScreenState();
 }
@@ -222,7 +226,7 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
         //set enable onPress function for FAB
         if (state is FeeLoadedState) {
           payment_methods.checkOutTuteePayment(
-              context, state.fee, widget.course, totalAmount);
+              context, state.fee, widget.course, totalAmount, widget.enrollment);
         }
         //disble FAB when fee is not loaded yet
       },

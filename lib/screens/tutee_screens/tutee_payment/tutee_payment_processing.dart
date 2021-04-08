@@ -33,10 +33,10 @@ class _TuteePaymentProccessingScreenState
     await tuteeTransactionRepository
         .postTuteeTransaction(widget.tuteeTransaction);
     //
-    await enrollmentRepository.putEnrollment(enrollment);
-    //
-    await enrollmentRepository.checkFullCourse(enrollment.courseId);
-    //
+    await enrollmentRepository.postEnrollment(enrollment);
+    // //
+    // await enrollmentRepository.checkFullCourse(enrollment.courseId);
+    // //
     return Future.value(true);
   }
 

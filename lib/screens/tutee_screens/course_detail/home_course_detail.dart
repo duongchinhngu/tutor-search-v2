@@ -238,14 +238,16 @@ FloatingActionButton buildFollowButton(
           0,
           authorizedTutee.id,
           course.id,
-          'Waiting for acception from Tutor of this course',
-          'Pending',
+          '',
+          EnrollmentConstants.ACTIVE_STATUS,
         );
         //
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CourseFollowProcessingScreen(enrollment: enrollment),
+            // builder: (context) => CourseFollowProcessingScreen(enrollment: enrollment),
+            builder: (context) =>
+                TuteePaymentScreen(course: course, enrollment: enrollment),
           ),
         );
       },

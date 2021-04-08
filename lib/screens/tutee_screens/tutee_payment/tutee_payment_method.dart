@@ -15,7 +15,7 @@ import 'tutee_payment_processing.dart';
 
 //show payment method: credit card ỏ debit card or Paypal
 Future checkOutTuteePayment(
-    BuildContext context, Fee fee, ExtendedCourse course, double totalAmount) async {
+    BuildContext context, Fee fee, ExtendedCourse course, double totalAmount, Enrollment enrollment) async {
   //get braintree client token and prepare braintree model
   Braintree braintree = await prepareBraintreeCheckOut(totalAmount);
   //doCheckout() method
@@ -33,7 +33,7 @@ Future checkOutTuteePayment(
       //init model and navigate to process screen
       if (globals.authorizedTutee != null) {
         //post TuteeTransaction
-        _completeTuteeTransaction(context, fee, course, totalAmount);
+        _completeTuteeTransaction(context, fee, course, totalAmount, enrollment);
       }
     } else {
       //show alert undeconstruction
@@ -60,7 +60,7 @@ Future checkOutTuteePayment(
 
 //complete tutee transaction
 Future<void> _completeTuteeTransaction(
-    BuildContext context,Fee fee, ExtendedCourse course, double totalAmount) async {
+    BuildContext context,Fee fee, ExtendedCourse course, double totalAmount, Enrollment enrollment) async {
 //init tuteeTransaction
   final tuteeTransaction = TuteeTransaction.modelConstructor(
     0,
@@ -75,9 +75,6 @@ Future<void> _completeTuteeTransaction(
     course.createdBy,
     fee.price
   );
-  // //init enrollment and changse status
-  Enrollment enrollment = await EnrollmentRepository().fetchEnrollmentById(course.enrollmentId);
-  enrollment.status = globals.EnrollmentConstants.ACTIVE_STATUS;
   //
   WidgetsBinding.instance.addPostFrameCallback((_) {
     return Navigator.of(context).pushReplacement(

@@ -1,17 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
+//validator for all input field
+GlobalKey<FormState> updateTutorFormkey = GlobalKey<FormState>();
 
 //
-File avatartUpdate;
-//socialId image
-File socialIdImage;
+String avatarUpdateUrl = '';
+//
+String socialIdUrl = '';
+//
 //list of certificationImg
-List<File> certificationImages = [
-  File(
-      'assets\images\education-concept-vector-illustration-in-flat-style-online-education-school-university-creative-ideas.jpg')
-];
+List<String> certificationImages = [''];
 
 //
 TextEditingController nameController = TextEditingController();
@@ -32,12 +30,9 @@ void resetTextController() {
   addressController.clear();
   educationLevelController.clear();
   universityController.clear();
-  avatartUpdate = null;
+
 //socialId image
-  socialIdImage = null;
+
 //list of certificationImg
-  certificationImages = [
-    File(
-        'assets\images\education-concept-vector-illustration-in-flat-style-online-education-school-university-creative-ideas.jpg')
-  ];
+  certificationImages = [''];
 }

@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/tutor.dart';
-import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
-import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/update_tutee_profile_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/certification_image_screen/certification_image_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/feeback/feedback_card.dart';
 import 'package:tutor_search_system/screens/tutor_screens/feeback/tutor_feedback_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/transaction_screens/tutor_transaction_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile.dart';

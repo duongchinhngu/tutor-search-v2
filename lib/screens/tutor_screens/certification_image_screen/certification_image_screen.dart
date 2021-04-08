@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/cubits/image_cubit.dart';
 import 'package:tutor_search_system/repositories/image_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
@@ -23,11 +24,10 @@ class _CertificationImageScreenState extends State<CertificationImageScreen> {
           create: (context) => ImageCubit(ImageRepository()),
           child: BlocBuilder<ImageCubit, ImageState>(builder: (context, state) {
             //
-            //
             final imageCubit = context.watch<ImageCubit>();
             imageCubit
                 // .getTuteeTransactionByTuteeId(authorizedTutor.id);
-                .getImageByEmail('duongchinhngu@gmail.com', 'certification');
+                .getImageByEmail(authorizedTutor.email, 'certification');
             //
             if (state is ImageErrorState) {
               // return ErrorScreen();

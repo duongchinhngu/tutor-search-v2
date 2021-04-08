@@ -286,12 +286,12 @@ FloatingActionButton buildPayNowButton(
     FloatingActionButton.extended(
       onPressed: () {
         //
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TuteePaymentScreen(course: course),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => TuteePaymentScreen(course: course, enrollment: widg,),
+        //   ),
+        // );
       },
       label: Text(
         'Pay now',
