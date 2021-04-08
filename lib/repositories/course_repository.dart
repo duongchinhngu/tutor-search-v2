@@ -104,7 +104,7 @@ class CourseRepository {
   }
 
   //fetch extedned courses by courseId
-  Future<ExtendedCourse> fetchCourseByCourseId(
+  Future<ExtendedCourse>  fetchCourseByCourseId(
       http.Client client, int id) async {
     final response = await http.get('$COURSE_API/$id');
     if (response.statusCode == 200) {

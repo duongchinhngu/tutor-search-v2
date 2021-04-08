@@ -650,6 +650,61 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                 ),
               ),
+              //location
+              Container(
+                height: 200,
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(right: 20, top: 20, bottom: 20),
+                margin: EdgeInsets.only(left: 20, top: 20, bottom: 0),
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  boxShadow: [boxShadowStyle],
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                  ),
+                ),
+                child: ListTile(
+                  leading: Container(
+                    width: 43,
+                    // height: 43,
+                    child: Icon(
+                      Icons.location_on_outlined,
+                      color: mainColor,
+                    ),
+                  ),
+                  title: TextFormField(
+                    keyboardType: TextInputType.multiline,
+                    expands: true,
+                    maxLength: 500,
+                    maxLines: null,
+                    controller: locationController,
+                    textAlign: TextAlign.start,
+                    onChanged: (context) {
+                      setState(() {
+                        course.location = locationController.text;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Course Location',
+                      labelStyle: textStyle,
+                      fillColor: Color(0xffF9F2F2),
+                      filled: true,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                            color: Colors.transparent, width: 0.0),
+                      ),
+                      hintText: 'Where course take place..',
+                      hintStyle: TextStyle(
+                        color: Colors.grey[400],
+                        fontSize: textFontSize,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               //description
               Container(
                 height: 200,
@@ -705,61 +760,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                 ),
               ),
-              //location
-              Container(
-                height: 200,
-                alignment: Alignment.center,
-                padding: EdgeInsets.only(right: 20, top: 20, bottom: 20),
-                margin: EdgeInsets.only(left: 20, top: 20, bottom: 20),
-                decoration: BoxDecoration(
-                  color: backgroundColor,
-                  boxShadow: [boxShadowStyle],
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                  ),
-                ),
-                child: ListTile(
-                  leading: Container(
-                    width: 43,
-                    // height: 43,
-                    child: Icon(
-                      Icons.location_on_outlined,
-                      color: mainColor,
-                    ),
-                  ),
-                  title: TextFormField(
-                    keyboardType: TextInputType.multiline,
-                    expands: true,
-                    maxLength: 500,
-                    maxLines: null,
-                    controller: locationController,
-                    textAlign: TextAlign.start,
-                    onChanged: (context) {
-                      setState(() {
-                        course.location = locationController.text;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'Course Location',
-                      labelStyle: textStyle,
-                      fillColor: Color(0xffF9F2F2),
-                      filled: true,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                            color: Colors.transparent, width: 0.0),
-                      ),
-                      hintText: 'Where course take place..',
-                      hintStyle: TextStyle(
-                        color: Colors.grey[400],
-                        fontSize: textFontSize,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              //
+              
+            
             ],
           ),
         ),

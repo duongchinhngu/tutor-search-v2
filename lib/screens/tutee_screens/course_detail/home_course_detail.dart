@@ -173,6 +173,10 @@ class _TuteeHomeCourseDetailScreenState
           buildCourseInformationListTile(
               course.className, 'Class', Icons.grade),
           buildDivider(),
+          //location
+          buildCourseInformationListTile(
+              course.location, 'Location', Icons.location_on_outlined),
+          buildDivider(),
           //study time
           buildCourseInformationListTile(
               course.beginTime + ' - ' + course.endTime,

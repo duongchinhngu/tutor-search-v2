@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -196,7 +198,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
           buildCourseInformationListTile(
               course.className, 'Class', Icons.grade),
           buildDivider(),
-      
+          //location
+          buildCourseInformationListTile(
+              course.location, 'Location', Icons.location_on_outlined),
+          buildDivider(),
           //study time
           buildCourseInformationListTile(
               course.beginTime + ' - ' + course.endTime,
@@ -334,6 +339,59 @@ ListTile buildCourseInformationListTile(
             ),
     ),
   );
+}
+
+ListTile buildCourseInformationListTileBlurInfo(
+    String content, String title, IconData icon) {
+  return ListTile(
+      leading: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        width: 43,
+        height: 43,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          color: mainColor,
+        ),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+      ),
+      subtitle: Stack(
+        children: [
+          Text(
+            content,
+            style: title == 'Course Name'
+                ? titleStyle
+                : TextStyle(
+                    fontSize: titleFontSize,
+                    color: textGreyColor,
+                  ),
+          ),
+          Visibility(
+            visible: true,
+            child: Positioned.fill(
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaY: 5,
+                    sigmaX: 5,
+                  ),
+                  child: Container(
+                    color: Colors.black.withOpacity(0),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ));
 }
 
 //default divider for this page

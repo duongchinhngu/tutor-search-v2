@@ -19,6 +19,7 @@ import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
 import 'package:tutor_search_system/screens/tutor_screens/feeback/feedback_card.dart';
@@ -58,6 +59,7 @@ class TutorDetails extends StatelessWidget {
           print('this is certi' + state.tutor.certificationUrls.toString());
           //
           return Scaffold(
+            backgroundColor: backgroundColor,
             appBar: AppBar(
               leading: buildDefaultBackButton(context),
             ),
@@ -288,230 +290,318 @@ class TutorInformation extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 30),
-                                          child: Image.asset(
-                                              'assets/images/gender.png'),
-                                        ),
-                                        Text(tutor.gender)
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 30),
-                                          child: Image.asset(
-                                              'assets/images/birthday-cake.png'),
-                                        ),
-                                        Text(tutor.birthday)
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 30),
-                                          child: Image.asset(
-                                              'assets/images/email.png'),
-                                        ),
-                                        Stack(
-                                          children: [
-                                            //email
-                                            GestureDetector(
-                                              onTap: () {
-                                                //ui to launch to email
-                                                final Uri _emailLaunchUri = Uri(
-                                                    scheme: 'mailto',
-                                                    path: tutor.email,
-                                                    queryParameters: {
-                                                      'subject': authorizedTutee
-                                                              .fullname +
-                                                          ' ask to join you course!',
-                                                      'body':
-                                                          'I would like to contact you for your course! ...'
-                                                    });
-                                                //launch
-                                                launch(_emailLaunchUri
-                                                    .toString()
-                                                    .replaceAll('+', ' '));
-                                              },
-                                              child: Text(
+                                  // Padding(
+                                  //   padding:
+                                  //       const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Padding(
+                                  //         padding:
+                                  //             const EdgeInsets.only(right: 30),
+                                  //         child: Image.asset(
+                                  //             'assets/images/gender.png'),
+                                  //       ),
+                                  //       Text(tutor.gender)
+                                  //     ],
+                                  //   ),
+                                  // ),
+
+                                  buildCourseInformationListTile(
+                                      tutor.gender, 'Gender', Icons.gesture),
+                                  buildDivider(),
+                                  buildCourseInformationListTile(
+                                      tutor.birthday, 'Birthday', Icons.cake),
+                                  // buildDivider(),
+                                  // Padding(
+                                  //   padding:
+                                  //       const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Padding(
+                                  //         padding:
+                                  //             const EdgeInsets.only(right: 30),
+                                  //         child: Image.asset(
+                                  //             'assets/images/email.png'),
+                                  //       ),
+                                  //       Stack(
+                                  //         children: [
+                                  //           //email
+                                  //           GestureDetector(
+                                  //             onTap: () {
+                                  //               //ui to launch to email
+                                  //               final Uri _emailLaunchUri = Uri(
+                                  //                   scheme: 'mailto',
+                                  //                   path: tutor.email,
+                                  //                   queryParameters: {
+                                  //                     'subject': authorizedTutee
+                                  //                             .fullname +
+                                  //                         ' ask to join you course!',
+                                  //                     'body':
+                                  //                         'I would like to contact you for your course! ...'
+                                  //                   });
+                                  //               //launch
+                                  //               launch(_emailLaunchUri
+                                  //                   .toString()
+                                  //                   .replaceAll('+', ' '));
+                                  //             },
+                                  //             child: Text(
+                                  //               tutor.email,
+                                  //               style: TextStyle(
+                                  //                   color: Colors.blue,
+                                  //                   fontSize: textFontSize,
+                                  //                   decoration: TextDecoration
+                                  //                       .underline),
+                                  //             ),
+                                  //           ),
+                                  //           //
+                                  //           Visibility(
+                                  //             visible: isCensoredInfo,
+                                  //             child: Positioned.fill(
+                                  //               child: ClipRect(
+                                  //                 child: BackdropFilter(
+                                  //                   filter: ImageFilter.blur(
+                                  //                     sigmaY: 5,
+                                  //                     sigmaX: 5,
+                                  //                   ),
+                                  //                   child: Container(
+                                  //                     color: Colors.black
+                                  //                         .withOpacity(0),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //           )
+                                  //         ],
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  buildDivider(),
+                                  buildCourseInformationListTile(
+                                      tutor.educationLevel,
+                                      'Education Level',
+                                      Icons.cast_for_education_outlined),
+
+                                  Stack(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          //ui to launch to email
+                                          final Uri _emailLaunchUri = Uri(
+                                              scheme: 'mailto',
+                                              path: tutor.email,
+                                              queryParameters: {
+                                                'subject': authorizedTutee
+                                                        .fullname +
+                                                    ' ask to join you course!',
+                                                'body':
+                                                    'I would like to contact you for your course! ...'
+                                              });
+                                          //launch
+                                          launch(_emailLaunchUri
+                                              .toString()
+                                              .replaceAll('+', ' '));
+                                        },
+                                        child:
+                                            buildCourseInformationListTileBlurInfo(
                                                 tutor.email,
-                                                style: TextStyle(
-                                                    color: Colors.blue,
-                                                    fontSize: textFontSize,
-                                                    decoration: TextDecoration
-                                                        .underline),
-                                              ),
-                                            ),
-                                            //
-                                            Visibility(
-                                              visible: isCensoredInfo,
-                                              child: Positioned.fill(
-                                                child: ClipRect(
-                                                  child: BackdropFilter(
-                                                    filter: ImageFilter.blur(
-                                                      sigmaY: 5,
-                                                      sigmaX: 5,
-                                                    ),
-                                                    child: Container(
-                                                      color: Colors.black
-                                                          .withOpacity(0),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                                'Email',
+                                                Icons.email),
+                                      ),
+                                      // Visibility(
+                                      //   visible: isCensoredInfo,
+                                      //   child: Positioned.fill(
+                                      //     child: ClipRect(
+                                      //       child: BackdropFilter(
+                                      //         filter: ImageFilter.blur(
+                                      //           sigmaY: 5,
+                                      //           sigmaX: 5,
+                                      //         ),
+                                      //         child: Container(
+                                      //           color:
+                                      //               Colors.black.withOpacity(0),
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      buildDivider(),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 30),
-                                          child: Image.asset(
-                                              'assets/images/phone.png'),
-                                        ),
-                                        Stack(
-                                          children: [
-                                            //phone number
-                                            GestureDetector(
-                                              child: Text(
+
+                                  Stack(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          launch('tel:${tutor.phone}');
+                                        },
+                                        child:
+                                            buildCourseInformationListTileBlurInfo(
                                                 tutor.phone,
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                ),
-                                              ),
-                                              onTap: () {
-                                                launch('tel:${tutor.phone}');
-                                              },
-                                            ),
-                                            //
-                                            Visibility(
-                                              visible: isCensoredInfo,
-                                              child: Positioned.fill(
-                                                child: ClipRect(
-                                                  child: BackdropFilter(
-                                                    filter: ImageFilter.blur(
-                                                      sigmaY: 5,
-                                                      sigmaX: 5,
-                                                    ),
-                                                    child: Container(
-                                                      color: Colors.black
-                                                          .withOpacity(0),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                                'Phone',
+                                                Icons.phone_android),
+                                      ),
+                                      buildDivider(),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 30),
-                                          child: Image.asset(
-                                              'assets/images/pinlocation.png'),
+
+                                  Stack(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TuteeSearchGoogleMap(
+                                                        tutoraddress:
+                                                            tutor.address,
+                                                        tuteeaddress:
+                                                            authorizedTutee
+                                                                .address,
+                                                      )));
+                                        },
+                                        child:
+                                            buildCourseInformationListTileBlurInfo(
+                                          tutor.address,
+                                          'Address',
+                                          Icons.home_outlined,
                                         ),
-                                        Stack(
-                                          children: [
-                                            //phone number
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 10, 0),
-                                              width: 260,
-                                              child: GestureDetector(
-                                                child: Text(
-                                                  tutor.address,
-                                                  style: TextStyle(
-                                                    color: Colors.red,
-                                                    decoration: TextDecoration
-                                                        .underline,
-                                                  ),
-                                                ),
-                                                onTap: () {
-                                                  Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              TuteeSearchGoogleMap(
-                                                                tutoraddress:
-                                                                    tutor
-                                                                        .address,
-                                                                tuteeaddress:
-                                                                    authorizedTutee
-                                                                        .address,
-                                                              )));
-                                                },
-                                              ),
-                                            ),
-                                            //
-                                            Visibility(
-                                              visible: isCensoredInfo,
-                                              child: Positioned.fill(
-                                                child: ClipRect(
-                                                  child: BackdropFilter(
-                                                    filter: ImageFilter.blur(
-                                                      sigmaY: 5,
-                                                      sigmaX: 5,
-                                                    ),
-                                                    child: Container(
-                                                      color: Colors.black
-                                                          .withOpacity(0),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      buildDivider(),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 30),
-                                          child: Image.asset(
-                                              'assets/images/major.png'),
-                                        ),
-                                        Text(tutor.educationLevel)
-                                      ],
-                                    ),
-                                  ),
+
+                                  // Padding(
+                                  //   padding:
+                                  //       const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Padding(
+                                  //         padding:
+                                  //             const EdgeInsets.only(right: 30),
+                                  //         child: Image.asset(
+                                  //             'assets/images/phone.png'),
+                                  //       ),
+                                  //       Stack(
+                                  //         children: [
+                                  //           //phone number
+                                  //           GestureDetector(
+                                  //             child: Text(
+                                  //               tutor.phone,
+                                  //               style: TextStyle(
+                                  //                 color: Colors.green,
+                                  //                 decoration:
+                                  //                     TextDecoration.underline,
+                                  //               ),
+                                  //             ),
+                                  //             onTap: () {
+                                  //               launch('tel:${tutor.phone}');
+                                  //             },
+                                  //           ),
+                                  //           //
+                                  //           Visibility(
+                                  //             visible: isCensoredInfo,
+                                  //             child: Positioned.fill(
+                                  //               child: ClipRect(
+                                  //                 child: BackdropFilter(
+                                  //                   filter: ImageFilter.blur(
+                                  //                     sigmaY: 5,
+                                  //                     sigmaX: 5,
+                                  //                   ),
+                                  //                   child: Container(
+                                  //                     color: Colors.black
+                                  //                         .withOpacity(0),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //           )
+                                  //         ],
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding:
+                                  //       const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Padding(
+                                  //         padding:
+                                  //             const EdgeInsets.only(right: 30),
+                                  //         child: Image.asset(
+                                  //             'assets/images/pinlocation.png'),
+                                  //       ),
+                                  //       Stack(
+                                  //         children: [
+                                  //           //phone number
+                                  //           Container(
+                                  //             margin: const EdgeInsets.fromLTRB(
+                                  //                 0, 0, 10, 0),
+                                  //             width: 260,
+                                  //             child: GestureDetector(
+                                  //               child: Text(
+                                  //                 tutor.address,
+                                  //                 style: TextStyle(
+                                  //                   color: Colors.red,
+                                  //                   decoration: TextDecoration
+                                  //                       .underline,
+                                  //                 ),
+                                  //               ),
+                                  //               onTap: () {
+                                  //                 Navigator.of(context).push(
+                                  //                     MaterialPageRoute(
+                                  //                         builder: (context) =>
+                                  //                             TuteeSearchGoogleMap(
+                                  //                               tutoraddress:
+                                  //                                   tutor
+                                  //                                       .address,
+                                  //                               tuteeaddress:
+                                  //                                   authorizedTutee
+                                  //                                       .address,
+                                  //                             )));
+                                  //               },
+                                  //             ),
+                                  //           ),
+                                  //           //
+                                  //           Visibility(
+                                  //             visible: isCensoredInfo,
+                                  //             child: Positioned.fill(
+                                  //               child: ClipRect(
+                                  //                 child: BackdropFilter(
+                                  //                   filter: ImageFilter.blur(
+                                  //                     sigmaY: 5,
+                                  //                     sigmaX: 5,
+                                  //                   ),
+                                  //                   child: Container(
+                                  //                     color: Colors.black
+                                  //                         .withOpacity(0),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //           )
+                                  //         ],
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding:
+                                  //       const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Padding(
+                                  //         padding:
+                                  //             const EdgeInsets.only(right: 30),
+                                  //         child: Image.asset(
+                                  //             'assets/images/major.png'),
+                                  //       ),
+                                  //       Text(tutor.educationLevel)
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  buildDivider(),
                                   Padding(
                                     padding:
                                         const EdgeInsets.fromLTRB(5, 5, 10, 10),
@@ -659,16 +749,28 @@ class GetFeedback extends StatelessWidget {
   }
 }
 
-Container _buildListFeedback(FeedbackListLoadedState state) {
+Widget _buildListFeedback(FeedbackListLoadedState state) {
   return Container(
-    child: ListView.builder(
-      itemCount: state.feedbacks.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) => ListFeedback(
+      child: Column(
+    children: List.generate(
+      state.feedbacks.length,
+      (index) => ListFeedback(
         feedbacks: state.feedbacks[index],
       ),
     ),
-  );
+  ));
+
+  // return Container(
+  //   child: GridView.builder(
+  //     gridDelegate: SilverGridDelegte,
+
+  //     itemCount: state.feedbacks.length,
+  //     shrinkWrap: true,
+  //     itemBuilder: (context, index) => ListFeedback(
+  //       feedbacks: state.feedbacks[index],
+  //     ),
+  //   ),
+  // );
 }
 
 class ListFeedback extends StatefulWidget {
