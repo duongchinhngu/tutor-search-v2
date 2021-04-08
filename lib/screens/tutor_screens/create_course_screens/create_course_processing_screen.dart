@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/models/image.dart' as image;
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
@@ -17,9 +18,7 @@ class CreateCourseProcessingScreen extends StatelessWidget {
   const CreateCourseProcessingScreen({Key key, this.course}) : super(key: key);
   //
   Future<bool> completeTutorPayment(Course course) async {
-    //post course
-    await CourseRepository().postCourse(course);
-    //
+    List<String> extraImagesTmp = [];
     //post Image to DB
     if (extraImages.length > 1) {
       //remove ADD image icon File in default certification image list
@@ -27,13 +26,13 @@ class CreateCourseProcessingScreen extends StatelessWidget {
       //
       for (var certitfication in extraImages) {
         var imageUrl = await uploadFileOnFirebaseStorage(certitfication);
-        // post certification url to Image table in DB
-        ImageRepository().postImage(
-          new image.Image.constructor(
-              0, imageUrl, 'courseExtraImages', 'course ' + course.id.toString()),
-        );
+        extraImagesTmp.add(imageUrl);
       }
     }
+    course.extraImages = extraImagesTmp.toString();
+    //post course
+    await CourseRepository().postCourse(course);
+    //
     return Future.value(true);
   }
 
