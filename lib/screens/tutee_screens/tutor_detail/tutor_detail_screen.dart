@@ -1,24 +1,33 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
+import 'package:tutor_search_system/cubits/feedback_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/extended_models/extended_tutor.dart';
+import 'package:tutor_search_system/models/feedback.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
+import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
+import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
+import 'package:tutor_search_system/screens/tutor_screens/feeback/feedback_card.dart';
 import 'package:tutor_search_system/states/enrollment_state.dart';
+import 'package:tutor_search_system/states/feedback_state.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+FeedbackRepository feedbackRepository;
 
 class TutorDetails extends StatelessWidget {
   final int tutorId;
@@ -242,323 +251,601 @@ class TutorInformation extends StatelessWidget {
           bool isCensoredInfo = true;
           if (state is EnrollmentLoadedState) {
             if (state.enrollment != null &&
-                state.enrollment.status ==
-                    EnrollmentConstants.ACTIVE_STATUS) {
+                state.enrollment.status == EnrollmentConstants.ACTIVE_STATUS) {
               isCensoredInfo = false;
             }
           }
           //
-          return ListView(
-            children: [
-              //
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 230, 0, 0),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
-                        child: Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              tutor.description,
-                              style: TextStyle(
-                                color: textGreyColor,
-                                fontSize: 11,
-                              ),
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 30),
-                                      child: Image.asset(
-                                          'assets/images/gender.png'),
-                                    ),
-                                    Text(tutor.gender)
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 30),
-                                      child: Image.asset(
-                                          'assets/images/birthday-cake.png'),
-                                    ),
-                                    Text(tutor.birthday)
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 30),
-                                      child: Image.asset(
-                                          'assets/images/email.png'),
-                                    ),
-                                    Stack(
-                                      children: [
-                                        //email
-                                        GestureDetector(
-                                          onTap: () {
-                                            //ui to launch to email
-                                            final Uri _emailLaunchUri = Uri(
-                                                scheme: 'mailto',
-                                                path: tutor.email,
-                                                queryParameters: {
-                                                  'subject': authorizedTutee
-                                                          .fullname +
-                                                      ' ask to join you course!',
-                                                  'body':
-                                                      'I would like to contact you for your course! ...'
-                                                });
-                                            //launch
-                                            launch(_emailLaunchUri
-                                                .toString()
-                                                .replaceAll('+', ' '));
-                                          },
-                                          child: Text(
-                                            tutor.email,
-                                            style: TextStyle(
-                                                color: Colors.blue,
-                                                fontSize: textFontSize,
-                                                decoration:
-                                                    TextDecoration.underline),
-                                          ),
-                                        ),
-                                        //
-                                        Visibility(
-                                          visible: isCensoredInfo,
-                                          child: Positioned.fill(
-                                            child: ClipRect(
-                                              child: BackdropFilter(
-                                                filter: ImageFilter.blur(
-                                                  sigmaY: 5,
-                                                  sigmaX: 5,
-                                                ),
-                                                child: Container(
-                                                  color: Colors.black
-                                                      .withOpacity(0),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 30),
-                                      child: Image.asset(
-                                          'assets/images/phone.png'),
-                                    ),
-                                    Stack(
-                                      children: [
-                                        //phone number
-                                        GestureDetector(
-                                          child: Text(
-                                            tutor.phone,
-                                            style: TextStyle(
-                                              color: Colors.green,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                            ),
-                                          ),
-                                          onTap: () {
-                                            launch('tel:${tutor.phone}');
-                                          },
-                                        ),
-                                        //
-                                        Visibility(
-                                          visible: isCensoredInfo,
-                                          child: Positioned.fill(
-                                            child: ClipRect(
-                                              child: BackdropFilter(
-                                                filter: ImageFilter.blur(
-                                                  sigmaY: 5,
-                                                  sigmaX: 5,
-                                                ),
-                                                child: Container(
-                                                  color: Colors.black
-                                                      .withOpacity(0),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 30),
-                                      child: Image.asset(
-                                          'assets/images/phone.png'),
-                                    ),
-                                    Stack(
-                                      children: [
-                                        //phone number
-                                        GestureDetector(
-                                          child: Text(
-                                            tutor.address,
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                            ),
-                                          ),
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        TuteeSearchGoogleMap(
-                                                          tutoraddress:
-                                                              tutor.address,
-                                                          tuteeaddress:
-                                                              authorizedTutee
-                                                                  .address,
-                                                        )));
-                                          },
-                                        ),
-                                        //
-                                        Visibility(
-                                          visible: isCensoredInfo,
-                                          child: Positioned.fill(
-                                            child: ClipRect(
-                                              child: BackdropFilter(
-                                                filter: ImageFilter.blur(
-                                                  sigmaY: 5,
-                                                  sigmaX: 5,
-                                                ),
-                                                child: Container(
-                                                  color: Colors.black
-                                                      .withOpacity(0),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 30),
-                                      child: Image.asset(
-                                          'assets/images/major.png'),
-                                    ),
-                                    Text(tutor.educationLevel)
-                                  ],
-                                ),
-                              )
-                            ],
+          return Padding(
+            padding: const EdgeInsets.only(top: 230),
+            child: Container(
+              decoration: BoxDecoration(),
+              child: ListView(
+                children: [
+                  //
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
+                            child: Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  tutor.description,
+                                  style: TextStyle(
+                                    color: textGreyColor,
+                                    fontSize: 11,
+                                  ),
+                                )),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 30),
+                                          child: Image.asset(
+                                              'assets/images/gender.png'),
+                                        ),
+                                        Text(tutor.gender)
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 30),
+                                          child: Image.asset(
+                                              'assets/images/birthday-cake.png'),
+                                        ),
+                                        Text(tutor.birthday)
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 30),
+                                          child: Image.asset(
+                                              'assets/images/email.png'),
+                                        ),
+                                        Stack(
+                                          children: [
+                                            //email
+                                            GestureDetector(
+                                              onTap: () {
+                                                //ui to launch to email
+                                                final Uri _emailLaunchUri = Uri(
+                                                    scheme: 'mailto',
+                                                    path: tutor.email,
+                                                    queryParameters: {
+                                                      'subject': authorizedTutee
+                                                              .fullname +
+                                                          ' ask to join you course!',
+                                                      'body':
+                                                          'I would like to contact you for your course! ...'
+                                                    });
+                                                //launch
+                                                launch(_emailLaunchUri
+                                                    .toString()
+                                                    .replaceAll('+', ' '));
+                                              },
+                                              child: Text(
+                                                tutor.email,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: textFontSize,
+                                                    decoration: TextDecoration
+                                                        .underline),
+                                              ),
+                                            ),
+                                            //
+                                            Visibility(
+                                              visible: isCensoredInfo,
+                                              child: Positioned.fill(
+                                                child: ClipRect(
+                                                  child: BackdropFilter(
+                                                    filter: ImageFilter.blur(
+                                                      sigmaY: 5,
+                                                      sigmaX: 5,
+                                                    ),
+                                                    child: Container(
+                                                      color: Colors.black
+                                                          .withOpacity(0),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 30),
+                                          child: Image.asset(
+                                              'assets/images/phone.png'),
+                                        ),
+                                        Stack(
+                                          children: [
+                                            //phone number
+                                            GestureDetector(
+                                              child: Text(
+                                                tutor.phone,
+                                                style: TextStyle(
+                                                  color: Colors.green,
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                launch('tel:${tutor.phone}');
+                                              },
+                                            ),
+                                            //
+                                            Visibility(
+                                              visible: isCensoredInfo,
+                                              child: Positioned.fill(
+                                                child: ClipRect(
+                                                  child: BackdropFilter(
+                                                    filter: ImageFilter.blur(
+                                                      sigmaY: 5,
+                                                      sigmaX: 5,
+                                                    ),
+                                                    child: Container(
+                                                      color: Colors.black
+                                                          .withOpacity(0),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 30),
+                                          child: Image.asset(
+                                              'assets/images/pinlocation.png'),
+                                        ),
+                                        Stack(
+                                          children: [
+                                            //phone number
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 0, 10, 0),
+                                              width: 260,
+                                              child: GestureDetector(
+                                                child: Text(
+                                                  tutor.address,
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                  ),
+                                                ),
+                                                onTap: () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              TuteeSearchGoogleMap(
+                                                                tutoraddress:
+                                                                    tutor
+                                                                        .address,
+                                                                tuteeaddress:
+                                                                    authorizedTutee
+                                                                        .address,
+                                                              )));
+                                                },
+                                              ),
+                                            ),
+                                            //
+                                            Visibility(
+                                              visible: isCensoredInfo,
+                                              child: Positioned.fill(
+                                                child: ClipRect(
+                                                  child: BackdropFilter(
+                                                    filter: ImageFilter.blur(
+                                                      sigmaY: 5,
+                                                      sigmaX: 5,
+                                                    ),
+                                                    child: Container(
+                                                      color: Colors.black
+                                                          .withOpacity(0),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 30),
+                                          child: Image.asset(
+                                              'assets/images/major.png'),
+                                        ),
+                                        Text(tutor.educationLevel)
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                          ),
+                                          child: Text(
+                                            'Certification Image(s)',
+                                            style: TextStyle(
+                                              color: mainColor,
+                                              fontSize: titleFontSize,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 260,
+                                          alignment: Alignment.centerLeft,
+                                          child: Wrap(
+                                            runAlignment:
+                                                WrapAlignment.spaceBetween,
+                                            runSpacing: 10,
+                                            spacing: 10,
+                                            children: List.generate(
+                                                tutor.certificationUrls.length,
+                                                (index) {
+                                              //view photo in fullscreen
+                                              return InkWell(
+                                                onTap: () {
+                                                  //
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FullScreenImage(
+                                                        imageWidget:
+                                                            Image.network(
+                                                          tutor.certificationUrls[
+                                                              index],
+                                                          fit: BoxFit.fitWidth,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 125,
+                                                  width: 125,
+                                                  child: Image.network(
+                                                    tutor.certificationUrls[
+                                                        index],
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                          ),
+                                          child: Text(
+                                            'Feedback from Tutee(s)',
+                                            style: TextStyle(
+                                              color: mainColor,
+                                              fontSize: titleFontSize,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                            child: GetFeedback(
+                                          tutorid: tutor.id,
+                                        )),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class GetFeedback extends StatelessWidget {
+  final int tutorid;
+
+  const GetFeedback({Key key, this.tutorid}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (context) => FeedbackCubit(FeedbackRepository()),
+        child: BlocBuilder<FeedbackCubit, FeedbackState>(
+            builder: (context, state) {
+          final cubit = context.watch<FeedbackCubit>();
+          // cubit.getFeedbackByTuteeId(authorizedTutor.id);
+          cubit.getFeedbackByTutorId(tutorid);
+          //
+          if (state is FeedbackErrorState) {
+            // return ErrorScreen();
+            return Text(state.errorMessage);
+          } else if (state is InitialFeedbackState) {
+            return buildLoadingIndicator();
+          } else if (state is FeedbackNoDataState) {
+            return NoDataScreen();
+          } else if (state is FeedbackListLoadedState) {
+            // return ListView.builder(
+            //     itemCount: state.feedbacks.length,
+            //     itemBuilder: (context, index) => CardFeedback(
+            //           feedbacks: state.feedbacks[index],
+            //         ));
+            return _buildListFeedback(state);
+          }
+        }));
+  }
+}
+
+Container _buildListFeedback(FeedbackListLoadedState state) {
+  return Container(
+    child: ListView.builder(
+      itemCount: state.feedbacks.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) => ListFeedback(
+        feedbacks: state.feedbacks[index],
+      ),
+    ),
+  );
+}
+
+class ListFeedback extends StatefulWidget {
+  final Feedbacks feedbacks;
+
+  const ListFeedback({Key key, this.feedbacks}) : super(key: key);
+  @override
+  _ListFeedbackState createState() => _ListFeedbackState();
+}
+
+class _ListFeedbackState extends State<ListFeedback> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          //
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //avatar
+              Expanded(
+                flex: 2,
+                child: CircleAvatar(
+                  backgroundImage:
+                      NetworkImage(widget.feedbacks.tuteeAvatarUrl),
+                  radius: 30,
+                ),
+              ),
+              //
+              Expanded(
+                flex: 5,
+                child: Container(
+                  padding: EdgeInsets.only(top: 10, left: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //name tutee
+                      Text(
+                        widget.feedbacks.tuteeName,
+                        style: headerStyle,
+                      ),
+                      ////rate star
+                      Container(
+                        child: RatingBar.builder(
+                          ignoreGestures: true,
+                          initialRating: widget.feedbacks.rate,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: false,
+                          itemCount: 5,
+                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          itemSize: 20,
+                          onRatingUpdate: (double value) {},
                         ),
+                      ),
+                      //content
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(widget.feedbacks.comment),
                       )
                     ],
                   ),
                 ),
               ),
-              //certification images
-              Container(
-                alignment: Alignment.centerRight,
+              //createdDate
+              Expanded(
+                flex: 2,
+                child: Container(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Text(
+                      widget.feedbacks.createdDate.substring(0, 10),
+                      style: textStyle,
+                    )),
+              )
+            ],
+          ),
+          //
+          Divider(
+            indent: 20,
+            endIndent: 30,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class CardFeedback extends StatelessWidget {
+  final Feedbacks feedbacks;
+
+  const CardFeedback({Key key, this.feedbacks}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        //
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //avatar
+            Expanded(
+              flex: 2,
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(feedbacks.tuteeAvatarUrl),
+                radius: 30,
+              ),
+            ),
+            //
+            Expanded(
+              flex: 5,
+              child: Container(
+                padding: EdgeInsets.only(top: 10, left: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    //name tutee
+                    Text(
+                      feedbacks.tuteeName,
+                      style: headerStyle,
+                    ),
+                    ////rate star
                     Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 10,
-                      ),
-                      child: Text(
-                        'Certification Image(s)',
-                        style: TextStyle(
-                          color: mainColor,
-                          fontSize: titleFontSize,
+                      child: RatingBar.builder(
+                        ignoreGestures: true,
+                        initialRating: feedbacks.rate,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
                         ),
+                        itemSize: 20,
+                        onRatingUpdate: (double value) {},
                       ),
                     ),
+                    //content
                     Container(
-                      width: 260,
-                      alignment: Alignment.centerLeft,
-                      child: Wrap(
-                        runAlignment: WrapAlignment.spaceBetween,
-                        runSpacing: 10,
-                        spacing: 10,
-                        children: List.generate(tutor.certificationUrls.length,
-                            (index) {
-                          //view photo in fullscreen
-                          return InkWell(
-                            onTap: () {
-                              //
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FullScreenImage(
-                                    imageWidget: Image.network(
-                                      tutor.certificationUrls[index],
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 125,
-                              width: 125,
-                              child: Image.network(
-                                tutor.certificationUrls[index],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
-                    ),
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Text(feedbacks.comment),
+                    )
                   ],
                 ),
               ),
-            ],
-          );
-        },
-      ),
+            ),
+            //createdDate
+            Expanded(
+              flex: 2,
+              child: Container(
+                  padding: EdgeInsets.only(top: 15),
+                  child: Text(
+                    feedbacks.createdDate.substring(0, 10),
+                    style: textStyle,
+                  )),
+            )
+          ],
+        ),
+        //
+        Divider(
+          indent: 20,
+          endIndent: 30,
+        )
+      ],
     );
   }
 }
