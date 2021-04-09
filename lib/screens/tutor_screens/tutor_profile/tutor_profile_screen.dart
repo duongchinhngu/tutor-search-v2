@@ -110,7 +110,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
             buildCourseInformationListTile(widget.tutor.points.toString(),
                 'Available Point(s)', Icons.donut_large_sharp),
             buildDivider(),
-            buildCourseInformationListTile(widget.tutor.membershipId.toString(),
+            buildCourseInformationListTile(membershipName,
                 'Current Membership', Icons.card_membership_outlined),
             buildDivider(),
             buildCourseInformationListTile(

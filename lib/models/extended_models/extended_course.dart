@@ -28,6 +28,7 @@ class ExtendedCourse extends Course {
     int confirmedBy,
     int maxTutee,
     String location,
+    String extraImages,
     this.className,
     this.subjectName,
     this.followDate,
@@ -49,7 +50,8 @@ class ExtendedCourse extends Course {
             classHasSubjectId,
             createdBy,
             maxTutee,
-            location);
+            location,
+            extraImages);
 
   ExtendedCourse.fromJsonConstructor({
     int id,
@@ -70,6 +72,7 @@ class ExtendedCourse extends Course {
     int confirmedBy,
     int maxTutee,
     String location,
+    String extraImages,
     this.className,
     this.subjectName,
     this.followDate,
@@ -78,20 +81,22 @@ class ExtendedCourse extends Course {
     this.tutorName,
     this.enrollmentId,
   }) : super(
-            id,
-            name,
-            beginTime,
-            endTime,
-            studyFee,
-            daysInWeek,
-            beginDate,
-            endDate,
-            description,
-            status,
-            classHasSubjectId,
-            createdBy,
-            maxTutee,
-            location);
+          id,
+          name,
+          beginTime,
+          endTime,
+          studyFee,
+          daysInWeek,
+          beginDate,
+          endDate,
+          description,
+          status,
+          classHasSubjectId,
+          createdBy,
+          maxTutee,
+          location,
+          extraImages
+        );
 
   factory ExtendedCourse.fromJson(Map<String, dynamic> json) {
     return ExtendedCourse.fromJsonConstructor(
@@ -119,6 +124,7 @@ class ExtendedCourse extends Course {
       tutorName: json['tutorName'].toString(),
       enrollmentId: json['enrollmentId'],
       location: json['location'],
+      extraImages: json['extraImages'],
     );
   }
 }

@@ -8,19 +8,27 @@ class FullScreenImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: Colors.black.withOpacity(.2),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
-        leading: IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
+        leading: Container(
+          height: 20,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black.withOpacity(.5)
+          ),
+          child: Center(
+            child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+          ),
+        ),
       ),
-      body: Container(
-        child: Hero(tag: 'imageHero', child: imageWidget),
-      ),
+      body: Center(child: imageWidget),
     );
   }
 }

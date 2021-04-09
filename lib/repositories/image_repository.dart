@@ -25,7 +25,7 @@ class ImageRepository {
       return true;
     } else {
       print(response.statusCode);
-      throw Exception('Faild to post TuteeTransaction');
+      throw Exception('Faild to post postImage');
     }
   }
 

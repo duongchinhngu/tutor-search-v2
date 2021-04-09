@@ -232,6 +232,7 @@ class CourseRepository {
             'status': course.status,
             'maxTutee': course.maxTutee,
             'location': course.location,
+            'extraImages': course.extraImages
           },
         ));
     if (response.statusCode == 201 ||
@@ -270,6 +271,7 @@ class CourseRepository {
         'status': course.status,
         'maxTutee': course.maxTutee,
         'location': course.location,
+        'extraImages': course.extraImages
       }),
     );
     if (response.statusCode == 204) {

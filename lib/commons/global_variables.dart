@@ -47,6 +47,8 @@ Tutor authorizedTutor = Tutor(
   confirmedDate: '05-04-2021',
   createdDate: '05--04-2021',
 );
+//membershipname of signedin tutor
+String membershipName = '';
 //
 
 //-------------------------------------orther common variables----------------------------------------------

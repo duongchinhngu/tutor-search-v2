@@ -10,6 +10,7 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/tutee_payment_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
@@ -63,6 +64,13 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
 
   //course detail body
   Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
+    List<String> extraImages = [];
+    //
+    extraImages = course.extraImages
+        .replaceFirst(']', '')
+        .replaceFirst('[', '')
+        .split(', ');
+    //
     return Container(
       // width: MediaQuery.of(context).size.width,
       child: ListView(
@@ -241,6 +249,61 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             course?.followDate,
             'Follow Date',
             Icons.calendar_today,
+          ),
+          buildDivider(),
+          //extra images
+          Container(
+            width: double.infinity,
+            alignment: Alignment.topLeft,
+            padding: EdgeInsets.only(top: 5, left: 5),
+            child: Column(
+              children: [
+                //
+                Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 40),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Extra Images',
+                    style: TextStyle(
+                      fontSize: titleFontSize,
+                      color: mainColor,
+                    ),
+                  ),
+                ),
+                //
+                Wrap(
+                  runAlignment: WrapAlignment.spaceBetween,
+                  runSpacing: 5,
+                  spacing: 5,
+                  children: List.generate(extraImages.length, (index) {
+                    //view photo in fullscreen
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FullScreenImage(
+                              imageWidget: Image.network(
+                                extraImages[index],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 114,
+                        width: 114,
+                        child: Image.network(
+                          extraImages[index],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ],
+            ),
           ),
           buildDivider(),
           //course status
