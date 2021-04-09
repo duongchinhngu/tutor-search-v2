@@ -8,6 +8,7 @@ import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/tutee_profile_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/update_tutee_profile_screen.dart'
     as tutee_update_screen;
+import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 
 class TuteeUpdateProfileProcessingScreen extends StatefulWidget {
   final Tutee tutee;
@@ -35,7 +36,7 @@ class _TuteeUpdateProfileProcessingScreenState
           await uploadFileOnFirebaseStorage(tutee_update_screen.avatartUpdate);
       tutee.avatarImageLink = imageUrl;
     }
-    
+
     await tuteeRepository.putTuteeUpdate(tutee, tutee.id);
 
     return Future.value(true);
@@ -55,7 +56,7 @@ class _TuteeUpdateProfileProcessingScreenState
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                    builder: (context) => TuteeProfileManagement(
+                    builder: (context) => TuteeBottomNavigatorBar(
                           snackBarIcon: Icons.check_circle_outline_outlined,
                           snackBarTitle: 'Update Profile Successfully',
                           snackBarContent: 'Continue to enjoy app!',

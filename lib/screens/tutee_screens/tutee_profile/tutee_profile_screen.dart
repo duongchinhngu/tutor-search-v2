@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/transaction_screens/tutee_transaction_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/update_tutee_profile_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -72,14 +73,14 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
                         radius: 65,
                         backgroundImage: NetworkImage(
                             // state.tutor.avatarImageLink,
-                            'http://www.gstatic.com/tv/thumb/persons/528854/528854_v9_bb.jpg'),
+                            authorizedTutee.avatarImageLink),
                       ),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(140, 60, 0, 0),
+                padding: const EdgeInsets.fromLTRB(160, 100, 0, 0),
                 child: Column(
                   children: [
                     Container(
@@ -105,87 +106,6 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: backgroundColor,
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(12),
-                            bottomLeft: Radius.circular(12),
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                          boxShadow: [
-                            boxShadowStyle,
-                          ],
-                        ),
-                        width: 210,
-                        height: 70,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 17, 0, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    "12",
-                                    style: TextStyle(
-                                      color: textGreyColor,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Courses",
-                                    style: TextStyle(
-                                      color: textGreyColor,
-                                      fontSize: 12,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    "125",
-                                    style: TextStyle(
-                                      color: textGreyColor,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Reviews",
-                                    style: TextStyle(
-                                      color: textGreyColor,
-                                      fontSize: 12,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    "176",
-                                    style: TextStyle(
-                                      color: textGreyColor,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Followers",
-                                    style: TextStyle(
-                                      color: textGreyColor,
-                                      fontSize: 12,
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),
@@ -227,269 +147,27 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
                       padding: const EdgeInsets.fromLTRB(10, 5, 10, 30),
                       child: Column(
                         children: [
-                          Container(
-                            width: 400,
-                            height: 100,
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: textGreyColor, width: 1))),
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 10),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 150,
-                                    height: 90,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Image.asset('assets/images/gender.png'),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Container(
-                                                width: 70,
-                                                child: Text(
-                                                  'Gender',
-                                                  style: TextStyle(
-                                                      color: textGreyColor,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 70,
-                                                child: Text(
-                                                  authorizedTutee.gender,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 7),
-                                    width: 150,
-                                    height: 90,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            left: BorderSide(
-                                                color: textGreyColor,
-                                                width: 1))),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10),
-                                          child: Image.asset(
-                                              'assets/images/birthday-cake.png'),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 25),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Container(
-                                                width: 70,
-                                                child: Text(
-                                                  'Birthday',
-                                                  style: TextStyle(
-                                                      color: textGreyColor,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 70,
-                                                child: Text(
-                                                    authorizedTutee.birthday,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                          buildCourseInformationListTile(
+                              authorizedTutee.gender, 'Gender', Icons.gesture),
+                          buildDivider(),
+                          buildCourseInformationListTile(authorizedTutee.phone,
+                              'Phone Number', Icons.phone_android),
+                          buildDivider(),
+                          buildCourseInformationListTile(
+                              authorizedTutee.address,
+                              'Address',
+                              Icons.home_outlined),
+                          buildDivider(),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      TuteeTransactionScreen()));
+                            },
+                            child: buildCourseInformationListTile(
+                                '69', 'Transaction', Icons.money),
                           ),
-                          Container(
-                            width: 400,
-                            height: 100,
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: textGreyColor, width: 1))),
-                            child: Container(
-                              width: 180,
-                              height: 70,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child:
-                                        Image.asset('assets/images/phone.png'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 37),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Container(
-                                          width: 200,
-                                          child: Text(
-                                            'Phone',
-                                            style: TextStyle(
-                                              color: textGreyColor,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 200,
-                                          child: Text(
-                                            authorizedTutee.phone,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 400,
-                            height: 100,
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: textGreyColor, width: 1))),
-                            child: Container(
-                              width: 180,
-                              height: 70,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child: Image.asset(
-                                        'assets/images/pinlocation.png'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 37),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Container(
-                                          width: 200,
-                                          child: Text(
-                                            'Address',
-                                            style: TextStyle(
-                                              color: textGreyColor,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 200,
-                                          child: Text(
-                                            authorizedTutee.address,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 400,
-                            height: 100,
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: textGreyColor, width: 1))),
-                            child: Container(
-                              width: 180,
-                              height: 70,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child: Image.asset(
-                                        'assets/images/history.png'),
-                                  ),
-                                  //transactions
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  TuteeTransactionScreen()));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 37),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Container(
-                                            width: 200,
-                                            child: Text(
-                                              'Transaction',
-                                              style: TextStyle(
-                                                color: textGreyColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 200,
-                                            child: Text(
-                                              '68 Transactions',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
+                          buildDivider(),
                         ],
                       ),
                     ),

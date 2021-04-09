@@ -33,7 +33,6 @@ TextEditingController addressUpdateController =
 TextEditingController birthdayUpdateController =
     TextEditingController(text: authorizedTutee.birthday);
 
-
 class UpdateTuteeProfile extends StatefulWidget {
   @override
   _UpdateTuteeProfileState createState() => _UpdateTuteeProfileState();
@@ -137,7 +136,7 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                                 )
                               : NetworkImage(
                                   //         // state.tutor.avatarImageLink,
-                                  'http://www.gstatic.com/tv/thumb/persons/528854/528854_v9_bb.jpg'),
+                                  authorizedTutee.avatarImageLink),
                         ),
                         //edit avartar icon
                         Positioned(
@@ -423,15 +422,6 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                           Container(
                             width: 200,
                             height: 50,
-                            // child: buildInputPhoneUpdateField(
-                            //     _currentphone,
-                            //     authorizedTutee.phone,
-                            //     TextInputType.phone,
-                            //     MultiValidator([
-                            //       RequiredValidator(
-                            //           errorText: 'Phone is required!'),
-                            //     ]),
-                            //     phoneController),
                             child: editForm(
                                 authorizedTutee.phone,
                                 TextInputType.phone,
@@ -446,12 +436,12 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                 ),
 
                 Container(
-                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                   decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(color: textGreyColor, width: 1))),
                   width: double.infinity,
-                  height: 110,
+                  height: 140,
                   child: Row(
                     children: [
                       Container(
@@ -461,26 +451,17 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
-                              margin: const EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 0),
                               width: 200,
-                              height: 40,
+                              height: 20,
                               child: Text(
                                 'Address',
                                 style: TextStyle(color: textGreyColor),
                               )),
                           Container(
                             width: 200,
-                            height: 50,
-                            // child: buildInputPhoneUpdateField(
-                            //     _currentphone,
-                            //     authorizedTutee.phone,
-                            //     TextInputType.phone,
-                            //     MultiValidator([
-                            //       RequiredValidator(
-                            //           errorText: 'Phone is required!'),
-                            //     ]),
-                            //     phoneController),
-                            child: editForm(
+                            height: 60,
+                            child: editFormAddress(
                                 authorizedTutee.address,
                                 TextInputType.multiline,
                                 200,
@@ -529,8 +510,8 @@ Widget editForm(String hint, TextInputType inputType, int maxlengthInput,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(300),
                   ),
-                  height: 45,
-                  width: 350,
+                  height: 50,
+                  width: 400,
                   child: TextField(
                     onChanged: (text) {
                       currentText = text;
@@ -540,6 +521,58 @@ Widget editForm(String hint, TextInputType inputType, int maxlengthInput,
                     maxLength: maxlengthInput,
                     decoration: InputDecoration(
                       hintText: hint,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget editFormAddress(String hint, TextInputType inputType, int maxlengthInput,
+    TextEditingController _textFieldController, String currentText) {
+  // final TextEditingController _textFieldController = TextEditingController(
+  //   text: content,
+  // );
+  return Container(
+    height: 150,
+    margin: EdgeInsets.only(top: 0),
+    child: Column(
+      children: <Widget>[
+        // Expanded(
+        //   flex: 2,
+        //   child: Container(
+        //     padding: EdgeInsets.only(left: 20),
+        //     alignment: Alignment.bottomLeft,
+        //   ),
+        // ),
+        Expanded(
+          flex: 3,
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(300),
+                  ),
+                  height: 60,
+                  width: 450,
+                  child: TextField(
+                    onChanged: (text) {
+                      currentText = text;
+                    },
+                    controller: _textFieldController,
+                    keyboardType: inputType,
+                    maxLength: maxlengthInput,
+                    decoration: InputDecoration(
+                      hintText: hint,
+                      fillColor: textGreyColor,
                     ),
                   ),
                 ),

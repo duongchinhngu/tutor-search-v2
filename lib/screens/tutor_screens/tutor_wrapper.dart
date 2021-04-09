@@ -3,6 +3,7 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/screens/common_ui/notification_screens/notification_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_welcome.dart';
+import 'package:tutor_search_system/screens/tutor_screens/report_revenue/report_revenue_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_courses_screens/tutor_my_course_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_profile/tutor_profile_screen.dart';
 
@@ -36,6 +37,8 @@ class _TutorBottomNavigatorBarState extends State<TutorBottomNavigatorBar> {
       TutorProfileScreen(
         tutor: authorizedTutor,
       ),
+
+      ReportRevenueScreen(),
     ];
     if (widget.selectedIndex != null) {
       _currentIndex = widget.selectedIndex;
@@ -78,6 +81,10 @@ class _TutorBottomNavigatorBarState extends State<TutorBottomNavigatorBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             title: Text('Profile'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.attach_money),
+            title: Text('Revenue Report'),
           ),
         ],
       ),

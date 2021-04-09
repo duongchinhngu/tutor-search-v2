@@ -405,7 +405,7 @@ class TutorInformation extends StatelessWidget {
                                           ),
                                         ],
                                       )),
-
+                                  buildDivider(),
                                   ListTile(
                                       leading: Container(
                                         margin: EdgeInsets.symmetric(
@@ -481,7 +481,7 @@ class TutorInformation extends StatelessWidget {
                                   //   ],
                                   // ),
                                   //
-
+                                  buildDivider(),
                                   ListTile(
                                       leading: Container(
                                         margin: EdgeInsets.symmetric(

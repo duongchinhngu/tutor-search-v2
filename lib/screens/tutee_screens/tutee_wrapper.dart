@@ -8,9 +8,19 @@ import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/tutee_profile_screen.dart';
 
 class TuteeBottomNavigatorBar extends StatefulWidget {
+  final IconData snackBarIcon;
+  final String snackBarTitle;
+  final String snackBarContent;
+  final Color snackBarThemeColor;
   final selectedIndex;
 
-  const TuteeBottomNavigatorBar({Key key, this.selectedIndex})
+  const TuteeBottomNavigatorBar(
+      {Key key,
+      this.snackBarIcon,
+      this.snackBarTitle,
+      this.snackBarContent,
+      this.snackBarThemeColor,
+      this.selectedIndex})
       : super(key: key);
 
   @override
