@@ -69,3 +69,6 @@ const NOTIFICATION_API = '$SERVER_NAME/notifications';
 //commission api urls
 const COMMISSION_API = "$SERVER_NAME/commissions";
 
+//
+const TUTOR_UPDATE_PROFILE_API = '$SERVER_NAME/tutor-update-profile';
+

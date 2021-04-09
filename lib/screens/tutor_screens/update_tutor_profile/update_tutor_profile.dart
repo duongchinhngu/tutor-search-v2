@@ -11,12 +11,14 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/image_cubit.dart';
 import 'package:tutor_search_system/models/tutor.dart';
+import 'package:tutor_search_system/models/tutor_update_profile.dart';
 import 'package:tutor_search_system/repositories/image_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_processing_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_variable.dart';
 import 'package:tutor_search_system/states/image_state.dart';
 
@@ -46,16 +48,6 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
   void initImage() {
     avatarUpdateUrl = widget.tutor.avatarImageLink;
     socialIdUrl = widget.tutor.socialIdUrl;
-    //
-    // List<String> imgs = ImageRepository()
-    //     .fetchImageByEmail(http.Client(), widget.tutor.email, 'certification')
-    //     .toString()
-    //     .replaceFirst(']', '')
-    //     .replaceFirst('[', '')
-    //     .split(', ');
-
-    // //
-    // certificationImages.insertAll(1, imgs);
   }
 
   @override
@@ -79,10 +71,36 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
           if (updateTutorFormkey.currentState.validate()) {
             updateTutorFormkey.currentState.save();
             //
-
+            certificationImages.removeAt(0);
+            final TutorUpdateProfile tutorUpdateProfile = TutorUpdateProfile(
+                widget.tutor.id,
+                nameController.text,
+                genderController.text,
+                birthdayController.text,
+                widget.tutor.email,
+                phoneController.text,
+                addressController.text,
+                widget.tutor.status,
+                widget.tutor.roleId,
+                widget.tutor.description,
+                widget.tutor.avatarImageLink,
+                educationLevelController.text,
+                universityController.text,
+                avatarUpdateUrl,
+                certificationImages.toString());
+            //
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              return Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => UpdateTutorProfileProcessingScreen(
+                    tutorUpdateProfile: tutorUpdateProfile,
+                  ),
+                ),
+              );
+            });
           }
         },
-        label: Text('Save Update'),
+        label: Text('Save'),
       ),
       body: Form(
         key: updateTutorFormkey,
@@ -159,7 +177,6 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                       maxLength: 100,
                       textAlign: TextAlign.start,
                       onChanged: (context) {
-                        //set name = value of this textFormfield on change
                         setState(() {
                           // course.name = courseNameController.text;
                         });
@@ -539,6 +556,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                       ),
                     ),
                     BlocProvider(
+                      lazy: false,
                       create: (BuildContext context) =>
                           ImageCubit(ImageRepository()),
                       child: BlocBuilder<ImageCubit, ImageState>(
@@ -559,6 +577,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                               child: Text('No certification'),
                             );
                           } else if (state is ImageListLoadedState) {
+                            print('jhii is mage kikkkkkk');
                             //
                             certificationImages = state.images
                                 .replaceFirst(']', '')

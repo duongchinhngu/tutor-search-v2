@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/cubits/login_cubit.dart';
+import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
+import 'package:tutor_search_system/repositories/membership_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/splash_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
@@ -68,6 +71,14 @@ class _RoleRouterState extends State<RoleRouter> {
                   );
                 });
               } else if (globals.authorizedTutor.status == 'Active') {
+                //get membership and take name
+                MembershipRepository()
+                    .fetchMembershipByMembershipId(
+                        http.Client(), globals.authorizedTutor.membershipId)
+                    .then((membership) {
+                  membershipName = membership.name;
+                });
+
                 //remove all screen stack and navigate
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   return Navigator.of(context).pushReplacement(
