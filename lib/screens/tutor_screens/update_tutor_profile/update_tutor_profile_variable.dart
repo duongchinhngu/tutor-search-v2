@@ -9,7 +9,7 @@ String avatarUpdateUrl = '';
 String socialIdUrl = '';
 //
 //list of certificationImg
-List<String> certificationImages = [''];
+List<String> certificationImages = [];
 
 //
 TextEditingController nameController = TextEditingController();
@@ -34,5 +34,5 @@ void resetTextController() {
 //socialId image
 
 //list of certificationImg
-  certificationImages = [''];
+  certificationImages = [];
 }

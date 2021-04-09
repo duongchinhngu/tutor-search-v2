@@ -32,8 +32,27 @@ class TutorUpdateProfileRepository {
       print('this is: ' + response.body + response.statusCode.toString());
       return true;
     } else {
-      print(response.statusCode.toString() + 'this is error body: ' + response.body);
+      print(response.statusCode.toString() +
+          'this is error body: ' +
+          response.body);
       throw Exception('Faild to post TutorUpdateProfile');
+    }
+  }
+
+  //delete tutor update profile by id
+  Future<bool> deleteTutorUpdateProfilebyId(int id) async {
+    final http.Response response = await http.delete(
+      Uri.parse('$TUTOR_UPDATE_PROFILE_API/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      print('Error body delte tutor updat profile: ' + response.body);
+      return false;
     }
   }
 }

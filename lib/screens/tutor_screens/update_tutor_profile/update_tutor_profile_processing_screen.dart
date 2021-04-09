@@ -20,6 +20,8 @@ class _UpdateTutorProfileProcessingScreenState
     extends State<UpdateTutorProfileProcessingScreen> {
   Future<bool> completeTutorUpdateProfile(TutorUpdateProfile tutorUpdateProfile) async {
     //
+    await TutorUpdateProfileRepository().deleteTutorUpdateProfilebyId(tutorUpdateProfile.id);
+    //
     await TutorUpdateProfileRepository().postUpdateProfile(tutorUpdateProfile);
     //
     return Future.value(true);

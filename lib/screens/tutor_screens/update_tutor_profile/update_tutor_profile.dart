@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -56,6 +57,20 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
     initTextController();
     //
     initImage();
+    //
+    ImageRepository()
+        .fetchImageByEmail(http.Client(), widget.tutor.email, 'certification')
+        .then((value) {
+      setState(() {
+        certificationImages = value
+            .toString()
+            .replaceFirst(']', '')
+            .replaceFirst('[', '')
+            .split(', ');
+        certificationImages.insert(0, '');
+      });
+    });
+    //
     super.initState();
   }
 
@@ -555,147 +570,249 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                         ),
                       ),
                     ),
-                    BlocProvider(
-                      lazy: false,
-                      create: (BuildContext context) =>
-                          ImageCubit(ImageRepository()),
-                      child: BlocBuilder<ImageCubit, ImageState>(
-                        builder: (BuildContext context, state) {
-                          //
-                          final imageCubit = context.watch<ImageCubit>();
-                          imageCubit.getImageByEmail(
-                              widget.tutor.email, 'certification');
-                          //
-                          if (state is ImageErrorState) {
-                            return ErrorScreen();
-                            // return Text(state.errorMessage);
-                          } else if (state is InitialImageState) {
-                            return buildLoadingIndicator();
-                          } else if (state is ImageNoDataState) {
-                            // return NoDataScreen();
-                            return Center(
-                              child: Text('No certification'),
-                            );
-                          } else if (state is ImageListLoadedState) {
-                            print('jhii is mage kikkkkkk');
-                            //
-                            certificationImages = state.images
-                                .replaceFirst(']', '')
-                                .replaceFirst('[', '')
-                                .split(', ');
-                            certificationImages.insert(0, '');
-                            //
-                            return Container(
-                              width: 260,
-                              alignment: Alignment.centerLeft,
-                              child: Wrap(
-                                runAlignment: WrapAlignment.spaceBetween,
-                                runSpacing: 10,
-                                spacing: 10,
-                                children: List.generate(
-                                  certificationImages.length,
-                                  (index) {
-                                    //element is the first image; it is for take photo by camera
-                                    if (index == 0) {
-                                      return InkWell(
-                                        onTap: () async {
-                                          //select Photo from camera
-                                          var img = await getImageFromCamera();
-                                          String imageUrl =
-                                              await uploadFileOnFirebaseStorage(
-                                                  img);
-                                          if (img != null) {
-                                            setState(() {
-                                              certificationImages.add(imageUrl);
-                                            });
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 125,
-                                          width: 125,
-                                          alignment: Alignment.center,
-                                          child: Icon(
-                                            Icons.add_a_photo,
-                                            color: mainColor.withOpacity(0.7),
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Colors.blue[50].withOpacity(.4),
-                                            border: Border.all(
-                                              width: 1.0,
-                                              color: mainColor.withOpacity(0.5),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      //view photo in fullscreen
-                                      return Container(
-                                        height: 125,
-                                        width: 125,
-                                        child: PopupMenuButton(
-                                          child: Image.network(
-                                            certificationImages[index],
-                                            fit: BoxFit.cover,
-                                          ),
-                                          itemBuilder: (context) {
-                                            return <PopupMenuItem>[
-                                              PopupMenuItem(
-                                                child: TextButton(
-                                                  child: Text('Detail'),
-                                                  onPressed: () {
-                                                    //
-                                                    Navigator.pop(context);
-                                                    //
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            FullScreenImage(
-                                                          imageWidget:
-                                                              Image.network(
-                                                            certificationImages[
-                                                                index],
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
+                    Container(
+                      width: 260,
+                      alignment: Alignment.centerLeft,
+                      child: Wrap(
+                        runAlignment: WrapAlignment.spaceBetween,
+                        runSpacing: 10,
+                        spacing: 10,
+                        children: List.generate(
+                          certificationImages.length,
+                          (index) {
+                            //element is the first image; it is for take photo by camera
+                            if (index == 0) {
+                              return InkWell(
+                                onTap: () async {
+                                  //select Photo from camera
+                                  var img = await getImageFromCamera();
+                                  String imageUrl =
+                                      await uploadFileOnFirebaseStorage(img);
+                                  if (img != null) {
+                                    setState(() {
+                                      certificationImages.add(imageUrl);
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  height: 125,
+                                  width: 125,
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    Icons.add_a_photo,
+                                    color: mainColor.withOpacity(0.7),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue[50].withOpacity(.4),
+                                    border: Border.all(
+                                      width: 1.0,
+                                      color: mainColor.withOpacity(0.5),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              //view photo in fullscreen
+                              return Container(
+                                height: 125,
+                                width: 125,
+                                child: PopupMenuButton(
+                                  child: Image.network(
+                                    certificationImages[index],
+                                    fit: BoxFit.cover,
+                                  ),
+                                  itemBuilder: (context) {
+                                    return <PopupMenuItem>[
+                                      PopupMenuItem(
+                                        child: TextButton(
+                                          child: Text('Detail'),
+                                          onPressed: () {
+                                            //
+                                            Navigator.pop(context);
+                                            //
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    FullScreenImage(
+                                                  imageWidget: Image.network(
+                                                    certificationImages[index],
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
-                                              PopupMenuItem(
-                                                child: TextButton(
-                                                  child: Text(
-                                                    'Remove',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      color: Colors.red
-                                                          .withOpacity(.8),
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                    setState(() {
-                                                      certificationImages
-                                                          .removeAt(index);
-                                                    });
-                                                  },
-                                                ),
-                                              )
-                                            ];
+                                            );
                                           },
                                         ),
-                                      );
-                                    }
+                                      ),
+                                      PopupMenuItem(
+                                        child: TextButton(
+                                          child: Text(
+                                            'Remove',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              color: Colors.red.withOpacity(.8),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            setState(() {
+                                              certificationImages
+                                                  .removeAt(index);
+                                            });
+                                          },
+                                        ),
+                                      )
+                                    ];
                                   },
                                 ),
-                              ),
-                            );
-                          }
-                        },
+                              );
+                            }
+                          },
+                        ),
                       ),
-                    ),
+                    )
+                    // BlocProvider(
+                    //   lazy: false,
+                    //   create: (BuildContext context) =>
+                    //       ImageCubit(ImageRepository()),
+                    //   child: BlocBuilder<ImageCubit, ImageState>(
+                    //     builder: (BuildContext context, state) {
+                    //       //
+                    //       final imageCubit = context.watch<ImageCubit>();
+                    //       imageCubit.getImageByEmail(
+                    //           widget.tutor.email, 'certification');
+                    //       //
+                    //       if (state is ImageErrorState) {
+                    //         return ErrorScreen();
+                    //         // return Text(state.errorMessage);
+                    //       } else if (state is InitialImageState) {
+                    //         return buildLoadingIndicator();
+                    //       } else if (state is ImageNoDataState) {
+                    //         // return NoDataScreen();
+                    //         return Center(
+                    //           child: Text('No certification'),
+                    //         );
+                    //       } else if (state is ImageListLoadedState) {
+                    //         print('jhii is mage kikkkkkk');
+                    //         //
+                    //         certificationImages = state.images
+                    //             .replaceFirst(']', '')
+                    //             .replaceFirst('[', '')
+                    //             .split(', ');
+                    //         certificationImages.insert(0, '');
+                    //         //
+                    //         return Container(
+                    //           width: 260,
+                    //           alignment: Alignment.centerLeft,
+                    //           child: Wrap(
+                    //             runAlignment: WrapAlignment.spaceBetween,
+                    //             runSpacing: 10,
+                    //             spacing: 10,
+                    //             children: List.generate(
+                    //               certificationImages.length,
+                    //               (index) {
+                    //                 //element is the first image; it is for take photo by camera
+                    //                 if (index == 0) {
+                    //                   return InkWell(
+                    //                     onTap: () async {
+                    //                       //select Photo from camera
+                    //                       var img = await getImageFromCamera();
+                    //                       String imageUrl =
+                    //                           await uploadFileOnFirebaseStorage(
+                    //                               img);
+                    //                       if (img != null) {
+                    //                         setState(() {
+                    //                           certificationImages.add(imageUrl);
+                    //                         });
+                    //                       }
+                    //                     },
+                    //                     child: Container(
+                    //                       height: 125,
+                    //                       width: 125,
+                    //                       alignment: Alignment.center,
+                    //                       child: Icon(
+                    //                         Icons.add_a_photo,
+                    //                         color: mainColor.withOpacity(0.7),
+                    //                       ),
+                    //                       decoration: BoxDecoration(
+                    //                         color:
+                    //                             Colors.blue[50].withOpacity(.4),
+                    //                         border: Border.all(
+                    //                           width: 1.0,
+                    //                           color: mainColor.withOpacity(0.5),
+                    //                         ),
+                    //                       ),
+                    //                     ),
+                    //                   );
+                    //                 } else {
+                    //                   //view photo in fullscreen
+                    //                   return Container(
+                    //                     height: 125,
+                    //                     width: 125,
+                    //                     child: PopupMenuButton(
+                    //                       child: Image.network(
+                    //                         certificationImages[index],
+                    //                         fit: BoxFit.cover,
+                    //                       ),
+                    //                       itemBuilder: (context) {
+                    //                         return <PopupMenuItem>[
+                    //                           PopupMenuItem(
+                    //                             child: TextButton(
+                    //                               child: Text('Detail'),
+                    //                               onPressed: () {
+                    //                                 //
+                    //                                 Navigator.pop(context);
+                    //                                 //
+                    //                                 Navigator.push(
+                    //                                   context,
+                    //                                   MaterialPageRoute(
+                    //                                     builder: (context) =>
+                    //                                         FullScreenImage(
+                    //                                       imageWidget:
+                    //                                           Image.network(
+                    //                                         certificationImages[
+                    //                                             index],
+                    //                                         fit: BoxFit.cover,
+                    //                                       ),
+                    //                                     ),
+                    //                                   ),
+                    //                                 );
+                    //                               },
+                    //                             ),
+                    //                           ),
+                    //                           PopupMenuItem(
+                    //                             child: TextButton(
+                    //                               child: Text(
+                    //                                 'Remove',
+                    //                                 textAlign: TextAlign.left,
+                    //                                 style: TextStyle(
+                    //                                   color: Colors.red
+                    //                                       .withOpacity(.8),
+                    //                                 ),
+                    //                               ),
+                    //                               onPressed: () {
+                    //                                 Navigator.pop(context);
+                    //                                 setState(() {
+                    //                                   certificationImages
+                    //                                       .removeAt(index);
+                    //                                 });
+                    //                               },
+                    //                             ),
+                    //                           )
+                    //                         ];
+                    //                       },
+                    //                     ),
+                    //                   );
+                    //                 }
+                    //               },
+                    //             ),
+                    //           ),
+                    //         );
+                    //       }
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
