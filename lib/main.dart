@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.pontanoSansTextTheme(),
       ),
 
-      home: LoginScreen(),
-
-
+      // home: LoginScreen(),
+      // home: TutorBottomNavigatorBar(),
+      home: TuteeBottomNavigatorBar(),
     );
   }
 }
