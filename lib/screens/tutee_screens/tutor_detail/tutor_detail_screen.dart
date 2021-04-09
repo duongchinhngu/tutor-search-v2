@@ -387,7 +387,7 @@ class TutorInformation extends StatelessWidget {
                                             ),
                                           ),
                                           Visibility(
-                                            visible: true,
+                                            visible: isCensoredInfo,
                                             child: Positioned.fill(
                                               child: ClipRect(
                                                 child: BackdropFilter(
@@ -446,7 +446,7 @@ class TutorInformation extends StatelessWidget {
                                             ),
                                           ),
                                           Visibility(
-                                            visible: true,
+                                            visible: isCensoredInfo,
                                             child: Positioned.fill(
                                               child: ClipRect(
                                                 child: BackdropFilter(
@@ -530,7 +530,7 @@ class TutorInformation extends StatelessWidget {
                                             ),
                                           ),
                                           Visibility(
-                                            visible: true,
+                                            visible: isCensoredInfo,
                                             child: Positioned.fill(
                                               child: ClipRect(
                                                 child: BackdropFilter(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
@@ -53,15 +54,11 @@ class _TuteeUpdateProfileProcessingScreenState
           if (snapshot.hasData == true) {
             //reset to defaul value of tuee
             //
+            authorizedTutee = widget.tutee;
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                    builder: (context) => TuteeBottomNavigatorBar(
-                          snackBarIcon: Icons.check_circle_outline_outlined,
-                          snackBarTitle: 'Update Profile Successfully',
-                          snackBarContent: 'Continue to enjoy app!',
-                          snackBarThemeColor: Colors.green.shade600,
-                        )),
+                    builder: (context) => TuteeBottomNavigatorBar()),
                 ModalRoute.withName('/Home'),
               );
             });
