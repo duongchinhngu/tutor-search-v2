@@ -3,9 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/models/commission.dart';
+import 'package:tutor_search_system/repositories/commission_repository.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
-
+import 'package:http/http.dart' as http;
 import '../tutor_wrapper.dart';
+
+double commissionRate;
+CommissionRepository _commissionRepository;
 
 class ReportRevenueScreen extends StatefulWidget {
   @override
@@ -13,6 +18,18 @@ class ReportRevenueScreen extends StatefulWidget {
 }
 
 class _ReportRevenueScreenState extends State<ReportRevenueScreen> {
+  void initState() {
+    super.initState();
+    CommissionRepository()
+        .fetchCommissionByCommissionId(http.Client(), 1)
+        .then((value) => {
+              if (value != null)
+                {
+                  commissionRate = value.rate,
+                }
+            });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

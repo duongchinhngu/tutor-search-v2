@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:http/http.dart' as http;
+import 'package:tutor_search_system/models/enrollment_course.dart';
 
 class EnrollmentRepository {
   //add new Enrollment in DB, set status is Pending
@@ -28,6 +29,20 @@ class EnrollmentRepository {
       print("Error body: " + response.body);
       throw Exception(
           'Faild to post Enrollment' + response.statusCode.toString());
+    }
+  }
+
+  Future<CourseEnrollment> fetchCourseEnrollmentByTutorIdForMonth(
+      int tutorId, String currentDate) async {
+    final response =
+        await http.get('$ENROLLMENT_API/tutorId/toDate/$tutorId/$currentDate');
+    if (response.statusCode == 200) {
+      return CourseEnrollment.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 404) {
+      return null;
+    } else {
+      throw Exception(
+          'Failed to CourseEnrollment by tutorid and date: ' + response.body);
     }
   }
 
