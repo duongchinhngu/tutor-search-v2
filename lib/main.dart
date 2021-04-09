@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 
 void main() async {
@@ -23,9 +24,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.pontanoSansTextTheme(),
       ),
-      // home: LoginScreen(),
-      // home: TutorBottomNavigatorBar(),
-      home: TuteeBottomNavigatorBar(),
+      home: LoginScreen(),
+
     );
   }
 }

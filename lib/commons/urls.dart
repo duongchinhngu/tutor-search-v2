@@ -65,3 +65,7 @@ const AUTH_API = '$SERVER_NAME/auth';
 
 //notification api
 const NOTIFICATION_API = '$SERVER_NAME/notifications';
+
+//commission api urls
+const COMMISSION_API = "$SERVER_NAME/commissions";
+

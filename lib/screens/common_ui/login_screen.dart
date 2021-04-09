@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -118,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         //show role selector dialog
                         showDialog(
                           context: context,
-                          builder: (context) => buildDefaultDialog(
+                        builder: (context) => buildDefaultDialog(
                             context,
                             'You\'d like to be Tutor or Tutee?',
                             'Choose role for registration',

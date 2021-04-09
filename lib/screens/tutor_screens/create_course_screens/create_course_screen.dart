@@ -12,19 +12,23 @@ import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
+import 'package:tutor_search_system/cubits/commission_cubit.dart';
 import 'package:tutor_search_system/models/class_has_subject.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
+import 'package:tutor_search_system/repositories/commission_repository.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
+import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/class_state.dart';
+import 'package:tutor_search_system/states/commission_state.dart';
 import 'create_course_processing_screen.dart';
 import 'create_course_variables.dart';
 
@@ -982,7 +986,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     builder: (context) => buildDefaultDialog(
                             context,
                             "Invalid!",
-                            "Same study time with course named " +
+                            "Same study time with course named: " +
                                 redundantCourse.name,
                             [
                               ElevatedButton(
@@ -994,18 +998,144 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             ]));
                 //
               } else {
-                //set course status from 'isDraft' to 'Pending'
-                course.status = 'Pending';
-                //
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  return Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => CreateCourseProcessingScreen(
-                        course: course,
+                //show policy (how much this system take from tutor by commission rate)
+                showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                    child: BlocProvider(
+                      create: (BuildContext context) =>
+                          CommissionCubit(CommissionRepository()),
+                      child: BlocBuilder<CommissionCubit, CommissionState>(
+                        builder: (BuildContext context, state) {
+                          //
+                          final commissionCubit =
+                              context.watch<CommissionCubit>();
+                          commissionCubit
+                              // .getTuteeTransactionByTuteeId(authorizedTutor.id);
+                              .getCommissionByCommissionId(1);
+                          //
+                          if (state is CommissionErrorState) {
+                            return ErrorScreen();
+                            // return Text(state.errorMessage);
+                          } else if (state is CommissionLoadingState) {
+                            return buildLoadingIndicator();
+                          } else if (state is CommissionLoadedState) {
+                            return Container(
+                              height: 400,
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10,
+                                    ),
+                                    child: Image.network(
+                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Paper_Plane_Vector.svg/1200px-Paper_Plane_Vector.svg.png',
+                                      height: 110,
+                                    ),
+                                  ),
+                                  // License term
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 15,
+                                    ),
+                                    child: Text(
+                                      'License Term',
+                                      style: headerStyle,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  //license and policies
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                      bottom: 8,
+                                    ),
+                                    child: Text(
+                                        'Your course will be verified by managers, all information of this course must be obey our policies.'),
+                                  ),
+                                  //
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                      bottom: 8,
+                                    ),
+                                    child: Text('Easy Edu would take you ' +
+                                        (state.commission.rate * 100)
+                                            .toString() +
+                                        ' \$ of your total revenue. It means ' +
+                                        (double.parse(
+                                                    courseFeeController.text) *
+                                                state.commission.rate)
+                                            .toString() +
+                                        ' \$ each tutee this course has.'),
+                                  ),
+                                  //
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                                                      child: Container(
+                                      padding: EdgeInsets.only(
+                                        bottom: 20,
+                                      ),
+                                      child: Text('Do you agree?'),
+                                    ),
+                                  ),
+
+                                  //agree and disagree
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      //
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text(
+                                          'Disagree',
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: titleFontSize),
+                                        ),
+                                      ),
+                                      //
+                                      TextButton(
+                                        onPressed: () {
+                                          //
+                                          //set course status from 'isDraft' to 'Pending'
+                                          course.status = 'Pending';
+                                          //
+                                          WidgetsBinding.instance
+                                              .addPostFrameCallback((_) {
+                                            return Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CreateCourseProcessingScreen(
+                                                  course: course,
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                        },
+                                        child: Text(
+                                          'Agree',
+                                          style: TextStyle(
+                                              color: mainColor,
+                                              fontSize: titleFontSize),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
-                  );
-                });
+                  ),
+                );
               }
             }
           },
