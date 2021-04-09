@@ -6,6 +6,7 @@ class Tutor extends Person {
   int points;
   int membershipId;
   String socialIdUrl;
+  int confirmedBy;
   String createdDate;
   String confirmedDate;
 
@@ -28,6 +29,7 @@ class Tutor extends Person {
     this.socialIdUrl,
     this.createdDate,
     this.confirmedDate,
+    this.confirmedBy, 
   }) : super(id, fullname, gender, birthday, email, phone, address, status,
             roleId, description, avatarImageLink);
 
@@ -71,6 +73,7 @@ class Tutor extends Person {
       socialIdUrl: json['socialIdUrl'],
       createdDate: json['createdDate'],
       confirmedDate: json['confirmedDate'],
+      confirmedBy: json['confirmedBy'],
     );
   }
 

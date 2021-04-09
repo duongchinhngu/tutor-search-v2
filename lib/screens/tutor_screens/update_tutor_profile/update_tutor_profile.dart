@@ -88,21 +88,26 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
             //
             certificationImages.removeAt(0);
             final TutorUpdateProfile tutorUpdateProfile = TutorUpdateProfile(
-                widget.tutor.id,
-                nameController.text,
-                genderController.text,
-                birthdayController.text,
-                widget.tutor.email,
-                phoneController.text,
-                addressController.text,
-                widget.tutor.status,
-                widget.tutor.roleId,
-                widget.tutor.description,
-                widget.tutor.avatarImageLink,
-                educationLevelController.text,
-                universityController.text,
-                avatarUpdateUrl,
-                certificationImages.toString());
+              widget.tutor.id,
+              nameController.text,
+              genderController.text,
+              birthdayController.text,
+              widget.tutor.email,
+              phoneController.text,
+              addressController.text,
+              widget.tutor.status,
+              widget.tutor.roleId,
+              widget.tutor.description,
+              widget.tutor.avatarImageLink,
+              educationLevelController.text,
+              universityController.text,
+              avatarUpdateUrl,
+              certificationImages.toString(),
+              widget.tutor.confirmedDate,
+              widget.tutor.points,
+              widget.tutor.membershipId,
+              widget.tutor.confirmedBy,
+            );
             //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushReplacement(

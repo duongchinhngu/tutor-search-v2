@@ -1063,7 +1063,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                     child: Text('Easy Edu would take you ' +
                                         (state.commission.rate * 100)
                                             .toString() +
-                                        ' \$ of your total revenue. It means ' +
+                                        ' \% of your total revenue. It means ' +
                                         (double.parse(
                                                     courseFeeController.text) *
                                                 state.commission.rate)
@@ -1102,6 +1102,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                       TextButton(
                                         onPressed: () {
                                           //
+                                          course.location = locationController.text;
                                           //set course status from 'isDraft' to 'Pending'
                                           course.status = 'Pending';
                                           //
