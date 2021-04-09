@@ -20,6 +20,7 @@ TextEditingController phoneController = TextEditingController();
 TextEditingController addressController = TextEditingController();
 TextEditingController educationLevelController = TextEditingController();
 TextEditingController universityController = TextEditingController();
+TextEditingController descriptionController = TextEditingController();
 
 void resetTextController() {
   nameController.clear();

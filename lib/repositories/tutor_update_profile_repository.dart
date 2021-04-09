@@ -25,11 +25,11 @@ class TutorUpdateProfileRepository {
             "certificateImages": tutorUpdateProfile.certificateImages,
             "email": tutorUpdateProfile.email,
             "description": tutorUpdateProfile.description,
-            "confirmedBy": tutorUpdateProfile.confirmedBy,
             "confirmedDate": tutorUpdateProfile.confirmedDate,
             "points": tutorUpdateProfile.points,
             "membershipId": tutorUpdateProfile.membershipId,
             "roleId": tutorUpdateProfile.roleId,
+            "status": tutorUpdateProfile.status,
           },
         ));
     if (response.statusCode == 201 ||

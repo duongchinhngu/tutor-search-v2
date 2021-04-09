@@ -5,7 +5,6 @@ class TutorUpdateProfile extends Person {
   final String school;
   final String socialIdUrl;
   final String certificateImages;
-  final int confirmedBy;
   final String confirmedDate;
   final int points;
   final int membershipId;
@@ -29,7 +28,6 @@ class TutorUpdateProfile extends Person {
     this.confirmedDate,
     this.points,
     this.membershipId,
-    this.confirmedBy,
   ) : super(id, fullname, gender, birthday, email, phone, address, status,
             roleId, description, avatarImageLink);
 }
