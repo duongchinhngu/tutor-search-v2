@@ -15,6 +15,7 @@ import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/course_tutee_screens/course_tutee_screen.dart';
@@ -94,8 +95,16 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
         isExtended: true,
         backgroundColor: mainColor,
       );
+
   //course detail body
   Widget buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
+    List<String> extraImages = [];
+    //
+    extraImages = course.extraImages
+        .replaceFirst(']', '')
+        .replaceFirst('[', '')
+        .split(', ');
+    //
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: buildCourseDetailAppbar(context),
@@ -293,6 +302,61 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               Icons.description,
             ),
             buildDivider(),
+            //extra images
+            Container(
+              width: double.infinity,
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.only(top: 5, left: 5),
+              child: Column(
+                children: [
+                  //
+                  Container(
+                    padding: EdgeInsets.only(top: 10, bottom: 10, left: 40),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Extra Images',
+                      style: TextStyle(
+                        fontSize: titleFontSize,
+                        color: mainColor,
+                      ),
+                    ),
+                  ),
+                  //
+                  Wrap(
+                    runAlignment: WrapAlignment.spaceBetween,
+                    runSpacing: 5,
+                    spacing: 5,
+                    children: List.generate(extraImages.length, (index) {
+                      //view photo in fullscreen
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FullScreenImage(
+                                imageWidget: Image.network(
+                                  extraImages[index],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 114,
+                          width: 114,
+                          child: Image.network(
+                            extraImages[index],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ],
+              ),
+            ),
+            //
             //active/inactive switch
             Visibility(
               visible: course.status == CourseConstants.ACTIVE_STATUS,
@@ -354,7 +418,6 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                 ),
               ),
             ),
-            //
             SizedBox(
               height: 20,
             )

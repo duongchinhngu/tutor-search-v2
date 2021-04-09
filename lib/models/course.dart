@@ -20,6 +20,7 @@ class Course {
   String confirmedDate;
   int confirmedBy;
   int maxTutee;
+  String extraImages;
 
   Course.fromJsonConstructor({
     this.id,
@@ -39,6 +40,7 @@ class Course {
     this.confirmedBy,
     this.maxTutee,
     this.location,
+    this.extraImages,
   });
 
   Course(
@@ -56,6 +58,7 @@ class Course {
     this.createdBy,
     this.maxTutee,
     this.location,
+    this.extraImages,
   );
 
   void showAttributes(ExtendedCourse course) {
@@ -109,6 +112,7 @@ class Course {
       createdDate: json['createdDate'],
       maxTutee: json['maxTutee'],
       location: json['location'],
+      extraImages: json['extraImages'],
     );
   }
 }
