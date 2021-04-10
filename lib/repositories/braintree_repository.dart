@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/models/braintree.dart';
@@ -7,16 +8,17 @@ import 'package:tutor_search_system/models/braintree.dart';
 class BraintreeRepository {
   //get braintree client token
   Future<String> getBraintreeClientToken() async {
-    final response = await http.get('$BRAINTREE_API');
+    final response = await http.get(
+      '$BRAINTREE_API',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     return response.body;
   }
 
   //post braintree - check out
   Future checkOut(Braintree braintree) async {
     final http.Response response = await http.post('$BRAINTREE_API',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
             'amount': braintree.amount,
@@ -25,7 +27,7 @@ class BraintreeRepository {
         ));
     if (response.statusCode == 201 ||
         response.statusCode == 204 ||
-        response.statusCode == 404 || 
+        response.statusCode == 404 ||
         response.statusCode == 200) {
       print('this is: ' + response.body + response.statusCode.toString());
       return true;

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:http/http.dart' as http;
@@ -9,9 +10,7 @@ class EnrollmentRepository {
   //add new Enrollment in DB, set status is Pending
   Future postEnrollment(Enrollment enrollment) async {
     final http.Response response = await http.post(ENROLLMENT_API,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
             'id': enrollment.id,
@@ -32,12 +31,17 @@ class EnrollmentRepository {
     }
   }
 
-  Future<CourseEnrollment> fetchCourseEnrollmentByTutorIdForMonth(
+  Future<List<CourseEnrollment>> fetchCourseEnrollmentByTutorIdForMonth(
       int tutorId, String currentDate) async {
-    final response =
-        await http.get('$ENROLLMENT_API/tutorId/toDate/$tutorId/$currentDate');
+    final response = await http.get(
+      '$ENROLLMENT_API/tutorId/toDate/$tutorId/$currentDate',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
-      return CourseEnrollment.fromJson(json.decode(response.body));
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((courseenroll) => new CourseEnrollment.fromJson(courseenroll))
+          .toList();
     } else if (response.statusCode == 404) {
       return null;
     } else {

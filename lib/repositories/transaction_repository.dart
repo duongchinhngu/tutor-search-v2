@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:http/http.dart' as http;
@@ -9,9 +10,7 @@ class TransactionRepository {
   //add new TuteeTransaction in DB when MoMO wallet transaction completed
   Future postTuteeTransaction(TuteeTransaction tuteeTransaction) async {
     final http.Response response = await http.post(TUTEE_TRANSACTION_API,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
             'id': tuteeTransaction.id,
@@ -40,9 +39,7 @@ class TransactionRepository {
   //add new TuteeTransaction in DB when MoMO wallet transaction completed
   Future postTutorTransaction(TutorTransaction tutorTransaction) async {
     final http.Response response = await http.post(TUTOR_TRANSACTION_API,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
             'id': tutorTransaction.id,

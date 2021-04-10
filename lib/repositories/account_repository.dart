@@ -1,13 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/account.dart';
 
 class AccountRepository {
   //load account by email
   Future<Account> fetchAccountByEmail(http.Client client, String email) async {
-    final response = await http.get('$ACCOUNT_API/email/$email');
+    final response = await http.get(
+      '$ACCOUNT_API/email/$email',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       return Account.fromJson(json.decode(response.body));
     } else if (response.statusCode == 404) {
@@ -20,9 +24,7 @@ class AccountRepository {
   //post account
   Future postAcount(Account account) async {
     final http.Response response = await http.post('$ACCOUNT_API',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
             'id': account.id,
@@ -45,7 +47,10 @@ class AccountRepository {
   //load account by email
   Future<String> isEmailExist(http.Client client, String email) async {
     print('this is email: ' + email);
-    final response = await http.get('$ACCOUNT_API/check-email-exist/$email');
+    final response = await http.get(
+      '$ACCOUNT_API/check-email-exist/$email',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       return response.body;
     } else {

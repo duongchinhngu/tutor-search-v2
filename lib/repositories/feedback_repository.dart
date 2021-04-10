@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/feedback.dart';
 import 'package:tutor_search_system/models/tutor.dart';
@@ -8,9 +9,7 @@ class FeedbackRepository {
   //add new feedback to DB
   Future postFeedback(Feedbacks feedback) async {
     final http.Response response = await http.post(FEEDBACK_API,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
             'id': feedback.id,
@@ -41,7 +40,7 @@ class FeedbackRepository {
   Future<Tutor> fetchUnfeedbackTutorByTuteeId(
       http.Client client, int tuteeId) async {
     final response =
-        await http.get('$FEEDBACK_CHECK_API/result?tuteeId=$tuteeId');
+        await http.get('$FEEDBACK_CHECK_API/result?tuteeId=$tuteeId', headers: await AuthorizationContants().getAuthorizeHeader(),);
     if (response.statusCode == 200) {
       return Tutor.fromJson(json.decode(response.body));
     } else if (response.statusCode == 500) {

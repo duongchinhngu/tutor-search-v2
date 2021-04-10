@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/extended_models/extended_tutor.dart';
 import 'package:tutor_search_system/models/tutor.dart';
@@ -8,7 +9,10 @@ import 'package:http/http.dart' as http;
 class TutorRepository {
   //fetch tutor by tutor id
   Future<ExtendedTutor> fetchTutorByTutorId(http.Client client, int id) async {
-    final response = await http.get('$TUTOR_API/$id');
+    final response = await http.get(
+      '$TUTOR_API/$id',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       return ExtendedTutor.fromJson(json.decode(response.body));
     } else {
@@ -18,7 +22,10 @@ class TutorRepository {
 
   //fetch tutor by tutor email
   Future<Tutor> fetchTutorByTutorEmail(http.Client client, String email) async {
-    final response = await http.get('$TUTOR_API/email/$email');
+    final response = await http.get(
+      '$TUTOR_API/email/$email',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       return Tutor.fromJson(json.decode(response.body));
     } else {
@@ -29,9 +36,7 @@ class TutorRepository {
   //post tutor
   Future postTutor(Tutor tutor) async {
     final http.Response response = await http.post('$TUTOR_API',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
             'id': tutor.id,
@@ -68,9 +73,7 @@ class TutorRepository {
   Future<bool> putTutor(Tutor tutor) async {
     final response = await http.put(
       '$TUTOR_API/${tutor.id}',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: await AuthorizationContants().getAuthorizeHeader(),
       body: jsonEncode(<String, dynamic>{
         "description": tutor.description,
         "status": tutor.status,
@@ -94,7 +97,7 @@ class TutorRepository {
       return true;
     } else {
       print('Error tutor update body: ' + response.body);
-      throw new Exception('Update tutor failed!: ${response.statusCode}' );
+      throw new Exception('Update tutor failed!: ${response.statusCode}');
     }
   }
 }

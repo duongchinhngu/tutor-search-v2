@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
@@ -13,7 +14,10 @@ class CourseRepository {
   //fecth all courses : status = active and not registered by this tuteeId
   Future<List<CourseTutor>> fecthTuteeHomeCourses(http.Client client) async {
     final tuteeId = globals.authorizedTutee.id;
-    final response = await http.get('$TUTEE_HOME_COURSES/$tuteeId');
+    final response = await http.get(
+      '$TUTEE_HOME_COURSES/$tuteeId',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
@@ -91,7 +95,10 @@ class CourseRepository {
     print('this is query url: ' + url);
     //merge to url
 
-    final response = await http.get(url);
+    final response = await http.get(
+      url,
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
@@ -104,9 +111,12 @@ class CourseRepository {
   }
 
   //fetch extedned courses by courseId
-  Future<ExtendedCourse>  fetchCourseByCourseId(
+  Future<ExtendedCourse> fetchCourseByCourseId(
       http.Client client, int id) async {
-    final response = await http.get('$COURSE_API/$id');
+    final response = await http.get(
+      '$COURSE_API/$id',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       return ExtendedCourse.fromJson(json.decode(response.body));
     } else {
@@ -115,10 +125,13 @@ class CourseRepository {
   }
 
   //gey course by id
-  Future<Course> fetchCourseById( int id) async {
-    final response = await http.get('$COURSE_API/get/$id');
+  Future<Course> fetchCourseById(int id) async {
+    final response = await http.get(
+      '$COURSE_API/get/$id',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
-      print('Success here: ' +response.body);
+      print('Success here: ' + response.body);
       return Course.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to fetch course by course id');
@@ -128,7 +141,10 @@ class CourseRepository {
   //fetch courses by courseId and tuteeId enroolemnt
   Future<ExtendedCourse> fetchCourseByCourseIdTuteeId(
       http.Client client, int id, int tuteeId) async {
-    final response = await http.get('$COURSE_API/$id?tuteeId=$tuteeId');
+    final response = await http.get(
+      '$COURSE_API/$id?tuteeId=$tuteeId',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       return ExtendedCourse.fromJson(json.decode(response.body));
     } else {
@@ -142,7 +158,10 @@ class CourseRepository {
   Future<List<Course>> fetchCoursesByTuteeId(
       http.Client client, int tuteeId) async {
     //wait for back end
-    final response = await http.get('$COURSES_BY_TUTEEID_API/$tuteeId');
+    final response = await http.get(
+      '$COURSES_BY_TUTEEID_API/$tuteeId',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     //wait for back end
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -169,7 +188,10 @@ class CourseRepository {
     url += queryString;
     //merge to url
 
-    final response = await http.get(url);
+    final response = await http.get(
+      url,
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
@@ -197,7 +219,10 @@ class CourseRepository {
     url += queryString;
     //merge to url
 
-    final response = await http.get(url);
+    final response = await http.get(
+      url,
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
@@ -213,9 +238,7 @@ class CourseRepository {
   //post course
   Future postCourse(Course course) async {
     final http.Response response = await http.post(COURSE_API,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
             'id': course.id,
@@ -250,9 +273,7 @@ class CourseRepository {
   Future<bool> putCourse(Course course) async {
     final response = await http.put(
       '$COURSE_API/${course.id}',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: await AuthorizationContants().getAuthorizeHeader(),
       body: jsonEncode(<String, dynamic>{
         'id': course.id,
         'name': course.name,
@@ -282,12 +303,10 @@ class CourseRepository {
     }
   }
 
-    //check validate course
+  //check validate course
   Future<Course> checkValidate(Course course) async {
     final http.Response response = await http.post('$COURSE_API/check-validate',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
             'id': course.id,
@@ -310,7 +329,7 @@ class CourseRepository {
         response.statusCode == 204 ||
         response.statusCode == 404) {
       return null;
-    } else if(response.statusCode == 200){
+    } else if (response.statusCode == 200) {
       print('this is: ' + response.body + response.statusCode.toString());
       print(response.statusCode);
       return Course.fromJson(json.decode(response.body));
