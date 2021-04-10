@@ -23,9 +23,9 @@ class EnrollmentCubit extends Cubit<EnrollmentState> {
   Future getEnrollmentOfMonthByTutorIdDate(
       int tutorId, String currentdate) async {
     try {
-      CourseEnrollment courseEnrollment = await _repository
+      List<CourseEnrollment> listCourseEnrollment = await _repository
           .fetchCourseEnrollmentByTutorIdForMonth(tutorId, currentdate);
-      emit(CourseEnrollmentListLoadedState(courseEnrollment));
+      emit(CourseEnrollmentListLoadedState(listCourseEnrollment));
     } catch (e) {
       emit(CourseEnrollmentLoadFailedState('$e'));
     }

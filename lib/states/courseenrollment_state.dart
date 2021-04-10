@@ -11,7 +11,7 @@ class CourseEnrollmentLoadFailedState extends EnrollmentState {
 }
 
 class CourseEnrollmentListLoadedState extends EnrollmentState {
-  final CourseEnrollment courseEnrollment;
+  final List<CourseEnrollment> courseEnrollment;
 
   CourseEnrollmentListLoadedState(this.courseEnrollment);
 }

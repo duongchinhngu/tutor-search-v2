@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/models/tutor_update_profile.dart';
@@ -7,9 +8,7 @@ class TutorUpdateProfileRepository {
   //add new temporatory tutpr update profile
   Future postUpdateProfile(TutorUpdateProfile tutorUpdateProfile) async {
     final http.Response response = await http.post(TUTOR_UPDATE_PROFILE_API,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
             "id": tutorUpdateProfile.id,
@@ -43,9 +42,7 @@ class TutorUpdateProfileRepository {
   Future<bool> deleteTutorUpdateProfilebyId(int id) async {
     final http.Response response = await http.delete(
       Uri.parse('$TUTOR_UPDATE_PROFILE_API/$id'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: await AuthorizationContants().getAuthorizeHeader(),
     );
 
     if (response.statusCode == 204) {

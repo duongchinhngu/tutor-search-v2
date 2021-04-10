@@ -47,8 +47,10 @@ class LoginRepository {
   }
 
   Future authenticateByEmail(String email) async {
-    final http.Response response =
-        await http.post('$AUTH_API/authenticate?email=$email');
+    final http.Response response = await http.post(
+      '$AUTH_API/authenticate?email=$email',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       ProjectToken currentToken =
           ProjectToken.fromJson(json.decode(response.body));
