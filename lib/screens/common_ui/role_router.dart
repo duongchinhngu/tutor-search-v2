@@ -76,8 +76,8 @@ class _RoleRouterState extends State<RoleRouter> {
                     .fetchMembershipByMembershipId(
                         http.Client(), globals.authorizedTutor.membershipId)
                     .then((membership) {
-                      print('thí í memershoo: ' + membership.name);
-                    membershipName = membership.name;
+                  print('thí í memershoo: ' + membership.name);
+                  membershipName = membership.name;
                 });
 
                 //remove all screen stack and navigate
@@ -85,6 +85,16 @@ class _RoleRouterState extends State<RoleRouter> {
                   return Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => TutorBottomNavigatorBar(),
+                    ),
+                  );
+                });
+              } else if (globals.authorizedTutor.status ==
+                  StatusConstants.INACTIVE_STATUS) {
+                //remove all screen stack and navigate
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  return Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => TutorRegisterSuccessfullyScreen(),
                     ),
                   );
                 });
