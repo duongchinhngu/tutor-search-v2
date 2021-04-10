@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/banned_screen/tutor_banned_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -23,8 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.pontanoSansTextTheme(),
       ),
-      home: TutorBannedScreen(),
-  // home: LoginScreen(),
+      home: LoginScreen(),
     );
   }
 }
