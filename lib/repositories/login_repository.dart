@@ -82,8 +82,10 @@ class LoginRepository {
 
   //load account by email; and then use RoleId to load Tutor or Tutee account info
   Future<Person> fetchPersonByEmail(String email) async {
-    final account =
-        await AccountRepository().fetchAccountByEmail(http.Client(), email);
+    final account = await AccountRepository().fetchAccountByEmail(
+      http.Client(),
+      email,
+    );
     //if account == null here means: account doesn't register yet
     if (account == null) {
       return null;

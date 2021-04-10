@@ -23,6 +23,12 @@ class TutorUpdateProfileRepository {
             "socialIdUrl": tutorUpdateProfile.socialIdUrl,
             "certificateImages": tutorUpdateProfile.certificateImages,
             "email": tutorUpdateProfile.email,
+            "description": tutorUpdateProfile.description,
+            "confirmedDate": tutorUpdateProfile.confirmedDate,
+            "points": tutorUpdateProfile.points,
+            "membershipId": tutorUpdateProfile.membershipId,
+            "roleId": tutorUpdateProfile.roleId,
+            "status": tutorUpdateProfile.status,
           },
         ));
     if (response.statusCode == 201 ||

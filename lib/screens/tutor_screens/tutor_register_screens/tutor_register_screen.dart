@@ -22,6 +22,7 @@ TextEditingController phoneController = TextEditingController();
 TextEditingController addressController = TextEditingController();
 TextEditingController educationLevelController = TextEditingController();
 TextEditingController schoolController = TextEditingController();
+TextEditingController descriptionController = TextEditingController();
 
 //validator for all input field
 GlobalKey<FormState> formkey = GlobalKey<FormState>();
@@ -308,6 +309,62 @@ class _InputBodyState extends State<InputBody> {
               ]),
               schoolController,
             ),
+            Container(
+              height: 150,
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(top: 15),
+              margin: EdgeInsets.only(left: 50),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      'Extra Information',
+                      style: TextStyle(
+                        color: mainColor,
+                        fontSize: titleFontSize,
+                      ),
+                    ),
+                  ),
+                  //description input
+                  Container(
+                    height: 100,
+                    padding: EdgeInsets.only(
+                      top: 10,
+                    ),
+                    child: TextFormField(
+                      controller: descriptionController,
+                      expands: true,
+                      maxLength: 500,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      textAlign: TextAlign.start,
+                      onChanged: (context) {},
+                      decoration: InputDecoration(
+                        labelText: '',
+                        labelStyle: textStyle,
+                        fillColor: Color(0xffF9F2F2),
+                        filled: true,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                              color: Colors.transparent, width: 0.0),
+                        ),
+                        hintText: 'Your experience',
+                        counterText: '',
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                          fontSize: textFontSize,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             //social id image selector
             Container(
               height: 250,

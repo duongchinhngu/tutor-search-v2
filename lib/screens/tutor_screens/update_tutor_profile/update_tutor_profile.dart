@@ -44,6 +44,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
     addressController.text = widget.tutor.address;
     educationLevelController.text = widget.tutor.educationLevel;
     universityController.text = widget.tutor.school;
+    descriptionController.text = widget.tutor.description;
   }
 
   void initImage() {
@@ -88,21 +89,25 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
             //
             certificationImages.removeAt(0);
             final TutorUpdateProfile tutorUpdateProfile = TutorUpdateProfile(
-                widget.tutor.id,
-                nameController.text,
-                genderController.text,
-                birthdayController.text,
-                widget.tutor.email,
-                phoneController.text,
-                addressController.text,
-                widget.tutor.status,
-                widget.tutor.roleId,
-                widget.tutor.description,
-                widget.tutor.avatarImageLink,
-                educationLevelController.text,
-                universityController.text,
-                avatarUpdateUrl,
-                certificationImages.toString());
+              widget.tutor.id,
+              nameController.text,
+              genderController.text,
+              birthdayController.text,
+              widget.tutor.email,
+              phoneController.text,
+              addressController.text,
+              widget.tutor.status,
+              widget.tutor.roleId,
+              descriptionController.text,
+              widget.tutor.avatarImageLink,
+              educationLevelController.text,
+              universityController.text,
+              avatarUpdateUrl,
+              certificationImages.toString(),
+              widget.tutor.confirmedDate,
+              widget.tutor.points,
+              widget.tutor.membershipId,
+            );
             //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushReplacement(
@@ -115,7 +120,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
             });
           }
         },
-        label: Text('Save'),
+        label: Text('Save Update'),
       ),
       body: Form(
         key: updateTutorFormkey,
@@ -483,6 +488,47 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                     ),
                   ),
                   Icons.school_outlined),
+              _buildDivider(),
+              //Description
+              buildTutorInfo(
+                  'Description',
+                  Container(
+                    height: 120,
+                    child: TextFormField(
+                      controller: descriptionController,
+                      expands: true,
+                      maxLength: 500,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      textAlign: TextAlign.start,
+                      onChanged: (context) {
+                        //set name = value of this textFormfield on change
+                        setState(() {
+                          // course.name = courseNameController.text;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: '',
+                        labelStyle: textStyle,
+                        fillColor: Color(0xffF9F2F2),
+                        filled: true,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                              color: Colors.transparent, width: 0.0),
+                        ),
+                        hintText: 'Where are you living',
+                        counterText: '',
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                          fontSize: textFontSize,
+                        ),
+                      ),
+                      validator: RequiredValidator(errorText: " is required"),
+                    ),
+                  ),
+                  Icons.description),
               _buildDivider(),
               //social id image selector
               Container(

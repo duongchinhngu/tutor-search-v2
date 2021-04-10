@@ -123,6 +123,12 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
                 'Confirmed Date',
                 Icons.calendar_today_sharp),
             buildDivider(),
+            buildCourseInformationListTile(
+              widget.tutor.description,
+              'Description',
+              Icons.description,
+            ),
+            buildDivider(),
             //soical id image
             Container(
               height: 250,
