@@ -21,7 +21,7 @@ class Membership {
     return Membership(
       id: json['id'],
       name: json['name'],
-      pointRate: json['pointRate'],
+      pointRate: json['pointRate'].toDouble(),
       pointAmount: json['pointAmount'],
       description: json['description'],
       status: json['status'],

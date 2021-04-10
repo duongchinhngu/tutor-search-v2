@@ -76,7 +76,8 @@ class _RoleRouterState extends State<RoleRouter> {
                     .fetchMembershipByMembershipId(
                         http.Client(), globals.authorizedTutor.membershipId)
                     .then((membership) {
-                  membershipName = membership.name;
+                      print('thí í memershoo: ' + membership.name);
+                    membershipName = membership.name;
                 });
 
                 //remove all screen stack and navigate

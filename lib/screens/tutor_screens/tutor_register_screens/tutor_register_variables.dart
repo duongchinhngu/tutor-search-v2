@@ -63,6 +63,7 @@ void resetTextController() {
   addressController.clear();
   educationLevelController.clear();
   schoolController.clear();
+  descriptionController.clear();
   avatarImage = null;
 //socialId image
   socialIdImage = null;

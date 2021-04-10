@@ -529,7 +529,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                     ),
                   ),
                   Icons.description),
-                   _buildDivider(),
+              _buildDivider(),
               //social id image selector
               Container(
                 height: 250,

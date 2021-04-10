@@ -39,6 +39,7 @@ class _TutorRegisterProccessingScreenState
     tutor.address = tutor_screen.addressController.text;
     tutor.educationLevel = tutor_screen.educationLevelController.text;
     tutor.school = tutor_screen.schoolController.text;
+    tutor.description = tutor_screen.descriptionController.text;
 
     //init account obj
     final account =
