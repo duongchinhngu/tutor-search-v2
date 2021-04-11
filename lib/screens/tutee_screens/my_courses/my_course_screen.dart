@@ -52,12 +52,10 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                   buildCourseStatusCard(0, 'All'),
                   buildCourseStatusCard(
                       1, globals.EnrollmentConstants.ACTIVE_STATUS),
-                  // buildCourseStatusCard(
-                  //     2, globals.EnrollmentConstants.UNPAID_STATUS),
-                  // buildCourseStatusCard(
-                  //     3, globals.EnrollmentConstants.DENIED_STATUS),
-                  // buildCourseStatusCard(
-                  //     4, globals.EnrollmentConstants.PENDING_STATUS),
+                  buildCourseStatusCard(
+                      2, globals.EnrollmentConstants.ONGOING_STATUS),
+                  buildCourseStatusCard(
+                      3, globals.EnrollmentConstants.INACTIVE_STATUS),
                 ],
               ),
             ),

@@ -40,16 +40,16 @@ Future<File> getImageFromCamera() async {
 
 //get status and return proper color for the status
 Color mapStatusToColor(String status) {
-  if (status == globals.CourseConstants.DENIED_STATUS) {
+  if (status == globals.StatusConstants.DENIED_STATUS) {
     return deniedColor;
-  } else if (status == globals.CourseConstants.ACTIVE_STATUS ||
-      status == globals.CourseConstants.ACCEPTED_STATUS) {
+  } else if (status == globals.StatusConstants.ACTIVE_STATUS ||
+      status == globals.StatusConstants.ACCEPTED_STATUS) {
     return activeColor;
-  } else if (status == globals.CourseConstants.PENDING_STATUS) {
+  } else if (status == globals.StatusConstants.PENDING_STATUS) {
     return pendingColor;
-  } if( status == globals.EnrollmentConstants.UNPAID_STATUS ){
+  } if( status == globals.StatusConstants.UNPAID_STATUS ){
     return Colors.grey;
-  } else if( status == globals.EnrollmentConstants.ACCEPTED_STATUS){
+  } else if( status == globals.StatusConstants.ACCEPTED_STATUS){
     return activeColor;
   }
   //this is error color for test

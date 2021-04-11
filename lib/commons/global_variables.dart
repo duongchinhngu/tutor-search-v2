@@ -82,15 +82,18 @@ class CourseConstants {
 
 // -------------------------enrollment status variables--------------------
 class EnrollmentConstants {
-  static const ACCEPTED_STATUS = 'Accepted';
-  static const UNPAID_STATUS = 'Unpaid';
-  static const ACTIVE_STATUS = 'Active';
-  static const DENIED_STATUS = 'Denied';
-  static const PENDING_STATUS = 'Pending';
+ static const ACTIVE_STATUS = 'Active';
+  static const INACTIVE_STATUS = 'Inactive';
+  static const ONGOING_STATUS = 'Ongoing';
 }
 
 //--------------------
 class StatusConstants {
   static const ACTIVE_STATUS = 'Active';
+  static const UNPAID_STATUS = 'Unpaid';
+  static const ACCEPTED_STATUS = 'Accepted';
+  static const DENIED_STATUS = 'Denied';
   static const INACTIVE_STATUS = 'Inactive';
+  static const PENDING_STATUS = 'Pending';
+  static const ONGOING_STATUS = 'Ongoing';
 }

@@ -50,11 +50,11 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               backgroundColor: backgroundColor,
               appBar: buildCourseDetailAppbar(context),
               body: buildCourseDetailBody(context, state.course),
-              floatingActionButton: Visibility(
-                child: buildPayNowButton(context, state.course),
-                visible: state.course.enrollmentStatus ==
-                    EnrollmentConstants.UNPAID_STATUS,
-              ),
+              // floatingActionButton: Visibility(
+              //   child: buildPayNowButton(context, state.course),
+              //   visible: state.course.enrollmentStatus ==
+              //       EnrollmentConstants.UNPAID_STATUS,
+              // ),
             );
           }
         },
