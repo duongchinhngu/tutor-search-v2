@@ -94,7 +94,7 @@ class TutorDetails extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(140, 60, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(140, 80, 0, 0),
                       child: Column(
                         children: [
                           Container(
@@ -124,85 +124,54 @@ class TutorDetails extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: backgroundColor,
-                                borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(12),
-                                  bottomLeft: Radius.circular(12),
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
-                                ),
-                                boxShadow: [
-                                  boxShadowStyle,
-                                ],
+                          Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: backgroundColor,
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(12),
+                                bottomLeft: Radius.circular(12),
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
                               ),
-                              width: 210,
-                              height: 70,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 17, 0, 0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "12",
-                                          style: TextStyle(
-                                            color: textGreyColor,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Courses",
-                                          style: TextStyle(
-                                            color: textGreyColor,
-                                            fontSize: 12,
-                                          ),
-                                        )
-                                      ],
+                              boxShadow: [
+                                boxShadowStyle,
+                              ],
+                            ),
+                            width: 210,
+                            height: 60,
+                            child: Container(
+                              // padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "12\nCourses",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: textGreyColor,
+                                      fontSize: 12,
                                     ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "125",
-                                          style: TextStyle(
-                                            color: textGreyColor,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Reviews",
-                                          style: TextStyle(
-                                            color: textGreyColor,
-                                            fontSize: 12,
-                                          ),
-                                        )
-                                      ],
+                                  ),
+                                  Text(
+                                    "137\nTutees",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: textGreyColor,
+                                      fontSize: 12,
                                     ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "176",
-                                          style: TextStyle(
-                                            color: textGreyColor,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Followers",
-                                          style: TextStyle(
-                                            color: textGreyColor,
-                                            fontSize: 12,
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  Text(
+                                    "125\nFeedbacks",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: textGreyColor,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           )
