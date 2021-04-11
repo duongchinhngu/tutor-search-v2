@@ -29,6 +29,7 @@ class TutorUpdateProfileRepository {
             "membershipId": tutorUpdateProfile.membershipId,
             "roleId": tutorUpdateProfile.roleId,
             "status": tutorUpdateProfile.status,
+            "createdDate": tutorUpdateProfile.createdDate,
           },
         ));
     if (response.statusCode == 201 ||

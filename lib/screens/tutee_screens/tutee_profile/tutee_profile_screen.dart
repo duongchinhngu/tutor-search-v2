@@ -29,28 +29,20 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (context) {
-              return <PopupMenuItem>[
-                PopupMenuItem(
-                  child: TextButton(
-                    child: Text('Call Report Center'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      launch('tel:0869631008');
-                    },
-                  ),
-                ),
-              ];
-            },
-            child: Icon(
-              Icons.flag_rounded,
-              color: Colors.amber,
+      backgroundColor: backgroundColor,
+      appBar: buildAppBar(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          //
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UpdateTuteeProfile(),
             ),
-          ),
-        ],
+          );
+        },
+        label: Text('Update Profile'),
+        backgroundColor: mainColor,
       ),
       body: Container(
         child: Container(
@@ -58,14 +50,14 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
             children: [
               Container(
                 width: double.infinity,
-                height: 170,
+                height: 120,
                 decoration: BoxDecoration(
                   color: mainColor,
                 ),
                 child: Container(),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(5, 60, 0, 0),
+                padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
                 child: Row(
                   children: [
                     Container(
@@ -80,7 +72,7 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(160, 100, 0, 0),
+                padding: const EdgeInsets.fromLTRB(160, 50, 0, 0),
                 child: Column(
                   children: [
                     Container(
@@ -109,38 +101,8 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
                   ],
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UpdateTuteeProfile(),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(22, 195, 0, 0),
-                  child: Container(
-                    height: 35,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.white,
-                      border: Border.all(width: 1, color: Colors.blue[900]),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Edit Profile',
-                        style: TextStyle(
-                            color: Colors.blue[900],
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               Container(
-                margin: const EdgeInsets.only(top: 230),
+                margin: const EdgeInsets.only(top: 140),
                 child: ListView(
                   children: [
                     Padding(
@@ -150,6 +112,9 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
                           buildCourseInformationListTile(
                               authorizedTutee.gender, 'Gender', Icons.gesture),
                           buildDivider(),
+                          buildCourseInformationListTile(
+                              authorizedTutee.birthday, 'Birthday', Icons.cake),
+                          buildDivider(),
                           buildCourseInformationListTile(authorizedTutee.phone,
                               'Phone Number', Icons.phone_android),
                           buildDivider(),
@@ -158,16 +123,47 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
                               'Address',
                               Icons.home_outlined),
                           buildDivider(),
-                          GestureDetector(
+                          //transactions
+                          InkWell(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       TuteeTransactionScreen()));
                             },
-                            child: buildCourseInformationListTile(
-                                '69', 'Transaction', Icons.money),
+                            child: ListTile(
+                              leading: Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                width: 43,
+                                height: 43,
+                                decoration: BoxDecoration(
+                                  color: backgroundColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.payment_rounded,
+                                  color: mainColor,
+                                ),
+                              ),
+                              title: Text(
+                                'My Transaction',
+                                style: TextStyle(
+                                  fontSize: titleFontSize,
+                                  color: textGreyColor,
+                                ),
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_forward_ios,
+                                color: textGreyColor,
+                                size: 18,
+                              ),
+                            ),
                           ),
                           buildDivider(),
+                          SizedBox(
+                            height: 40,
+                          )
                         ],
                       ),
                     ),
@@ -178,6 +174,35 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
           ),
         ),
       ),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      title: Text('My Profile'),
+      backgroundColor: mainColor,
+      elevation: 0,
+      actions: [
+        PopupMenuButton(
+          itemBuilder: (context) {
+            return <PopupMenuItem>[
+              PopupMenuItem(
+                child: TextButton(
+                  child: Text('Call Report Center'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    launch('tel:0869631008');
+                  },
+                ),
+              ),
+            ];
+          },
+          child: Icon(
+            Icons.flag_rounded,
+            color: Colors.amber,
+          ),
+        ),
+      ],
     );
   }
 }

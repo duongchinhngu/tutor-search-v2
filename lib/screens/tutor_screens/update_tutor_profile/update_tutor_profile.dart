@@ -107,7 +107,9 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
               widget.tutor.confirmedDate,
               widget.tutor.points,
               widget.tutor.membershipId,
+              widget.tutor.createdDate,
             );
+            print('thí í created date ò tutor: ' + widget.tutor.createdDate);
             //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushReplacement(

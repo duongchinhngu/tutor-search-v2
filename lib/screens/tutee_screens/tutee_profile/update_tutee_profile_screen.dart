@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
@@ -47,8 +48,10 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: buildDefaultCloseButton(context),
+        elevation: 0,
         backgroundColor: Colors.white,
         actions: <Widget>[
           GestureDetector(
@@ -165,90 +168,18 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                     ),
                   ),
                 ),
-
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: textGreyColor, width: 1))),
-                  width: double.infinity,
-                  height: 110,
-                  child: Row(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                          child: Image.asset('assets/images/study.png')),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              width: 200,
-                              height: 40,
-                              child: Text(
-                                'Fullname',
-                                style: TextStyle(color: textGreyColor),
-                              )),
-                          Container(
-                            width: 200,
-                            height: 50,
-                            // child: buildInputPhoneUpdateField(
-                            //     _currentphone,
-                            //     authorizedTutee.phone,
-                            //     TextInputType.phone,
-                            //     MultiValidator([
-                            //       RequiredValidator(
-                            //           errorText: 'Phone is required!'),
-                            //     ]),
-                            //     phoneController),
-                            child: editForm(
-                                authorizedTutee.fullname,
-                                TextInputType.text,
-                                50,
-                                fullnameController,
-                                fullnameController.text),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: textGreyColor, width: 1))),
-                  width: double.infinity,
-                  height: 100,
-                  child: Row(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                          child: Image.asset('assets/images/email.png')),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                              width: 200,
-                              child: Text(
-                                'Email',
-                                style: TextStyle(color: textGreyColor),
-                              )),
-                          Container(
-                              width: 200,
-                              child: Text(
-                                authorizedTutee.email,
-                                style: TextStyle(
-                                    color: textGreyColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17),
-                              )),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                //
+                //fullname
+                buildTutorInfo(
+                    'Fullname',
+                    editForm(authorizedTutee.fullname, TextInputType.text, 50,
+                        fullnameController, fullnameController.text),
+                    Icons.person_outline),
+                _buildDivider(),
+                //email
+                buildTutorInfo(
+                    'Email', Text('ngudcse130377@fpt.edu.vn'), Icons.email),
+                _buildDivider(),
 
                 Container(
                   margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
@@ -480,6 +411,33 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
       ),
     );
   }
+
+  //tutor info element
+  Container buildTutorInfo(String title, Widget content, IconData icon) {
+    return Container(
+      child: ListTile(
+          leading: Container(
+            // margin: EdgeInsets.symmetric(
+            //   horizontal: 20,
+            // ),
+            width: 43,
+            height: 43,
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              color: mainColor,
+            ),
+          ),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+          ),
+          subtitle: content),
+    );
+  }
 }
 
 Widget editForm(String hint, TextInputType inputType, int maxlengthInput,
@@ -582,5 +540,13 @@ Widget editFormAddress(String hint, TextInputType inputType, int maxlengthInput,
         ),
       ],
     ),
+  );
+}
+
+//divider
+Divider _buildDivider() {
+  return Divider(
+    indent: 30,
+    endIndent: 20,
   );
 }

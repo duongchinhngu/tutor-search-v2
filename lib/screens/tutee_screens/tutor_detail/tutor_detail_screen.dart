@@ -60,23 +60,26 @@ class TutorDetails extends StatelessWidget {
           //
           return Scaffold(
             backgroundColor: backgroundColor,
-            appBar: AppBar(
-              leading: buildDefaultBackButton(context),
-            ),
+
             body: Container(
               child: Container(
                 child: Stack(
                   children: [
                     Container(
                       width: double.infinity,
-                      height: 170,
+                      height: 175,
                       decoration: BoxDecoration(
                         color: mainColor,
                       ),
                       child: Container(),
                     ),
+                    Positioned(
+                        top: 20,
+                        left: 20,
+                        child: buildDefaultCustomBackButton(
+                            context, Colors.white)),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 60, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(5, 80, 0, 0),
                       child: Row(
                         children: [
                           Container(
@@ -382,7 +385,9 @@ class TutorInformation extends StatelessWidget {
                                                   ? titleStyle
                                                   : TextStyle(
                                                       fontSize: titleFontSize,
-                                                      color: textGreyColor,
+                                                      color: Colors.blue,
+                                                      decoration: TextDecoration
+                                                          .underline,
                                                     ),
                                             ),
                                           ),
@@ -436,13 +441,12 @@ class TutorInformation extends StatelessWidget {
                                             },
                                             child: Text(
                                               tutor.phone,
-                                              style: 'Phone number' ==
-                                                      'Course Name'
-                                                  ? titleStyle
-                                                  : TextStyle(
-                                                      fontSize: titleFontSize,
-                                                      color: textGreyColor,
-                                                    ),
+                                              style: TextStyle(
+                                                fontSize: titleFontSize,
+                                                color: Colors.blue,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
                                             ),
                                           ),
                                           Visibility(
@@ -521,12 +525,12 @@ class TutorInformation extends StatelessWidget {
                                             },
                                             child: Text(
                                               tutor.address,
-                                              style: 'Address' == 'Course Name'
-                                                  ? titleStyle
-                                                  : TextStyle(
-                                                      fontSize: titleFontSize,
-                                                      color: textGreyColor,
-                                                    ),
+                                              style: TextStyle(
+                                                fontSize: titleFontSize,
+                                                color: Colors.blue,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
                                             ),
                                           ),
                                           Visibility(
@@ -727,49 +731,57 @@ class TutorInformation extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          width: 260,
-                                          alignment: Alignment.centerLeft,
-                                          child: Wrap(
-                                            runAlignment:
-                                                WrapAlignment.spaceBetween,
-                                            runSpacing: 10,
-                                            spacing: 10,
-                                            children: List.generate(
-                                                tutor.certificationUrls.length,
-                                                (index) {
-                                              //view photo in fullscreen
-                                              return InkWell(
-                                                onTap: () {
-                                                  //
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          FullScreenImage(
-                                                        imageWidget:
-                                                            Image.network(
+                                        tutor.certificationUrls.length == 0
+                                            ? Container(
+                                                width: 260,
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                    'No certification image'),
+                                              )
+                                            : Container(
+                                                width: 260,
+                                                alignment: Alignment.centerLeft,
+                                                child: Wrap(
+                                                  runAlignment: WrapAlignment
+                                                      .spaceBetween,
+                                                  runSpacing: 10,
+                                                  spacing: 10,
+                                                  children: List.generate(
+                                                      tutor.certificationUrls
+                                                          .length, (index) {
+                                                    //view photo in fullscreen
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        //
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                FullScreenImage(
+                                                              imageWidget:
+                                                                  Image.network(
+                                                                tutor.certificationUrls[
+                                                                    index],
+                                                                fit: BoxFit
+                                                                    .fitWidth,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: Container(
+                                                        height: 125,
+                                                        width: 125,
+                                                        child: Image.network(
                                                           tutor.certificationUrls[
                                                               index],
-                                                          fit: BoxFit.fitWidth,
+                                                          fit: BoxFit.cover,
                                                         ),
                                                       ),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  height: 125,
-                                                  width: 125,
-                                                  child: Image.network(
-                                                    tutor.certificationUrls[
-                                                        index],
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                                    );
+                                                  }),
                                                 ),
-                                              );
-                                            }),
-                                          ),
-                                        ),
+                                              ),
                                       ],
                                     ),
                                   ),
@@ -785,6 +797,7 @@ class TutorInformation extends StatelessWidget {
                                         Container(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 10,
+                                            horizontal: 40,
                                           ),
                                           child: Text(
                                             'Feedback from Tutee(s)',
@@ -840,7 +853,11 @@ class GetFeedback extends StatelessWidget {
           } else if (state is InitialFeedbackState) {
             return buildLoadingIndicator();
           } else if (state is FeedbackNoDataState) {
-            return NoDataScreen();
+            return Container(
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.only(left: 40),
+              child: Text('No feedback'),
+            );
           } else if (state is FeedbackListLoadedState) {
             // return ListView.builder(
             //     itemCount: state.feedbacks.length,
