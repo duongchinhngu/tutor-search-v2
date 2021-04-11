@@ -20,8 +20,10 @@ class ExtendedTutor extends Tutor {
     int points,
     int membershipId,
     String socialIdUrl,
+     String createdDate,
+    String confirmedDate,
     this.certificationUrls,
-  ) : super.constructor(
+  ) : super.fromJsonConstructor(
           id,
           fullname,
           gender,
@@ -38,6 +40,8 @@ class ExtendedTutor extends Tutor {
           points,
           membershipId,
           socialIdUrl,
+          createdDate,
+          confirmedDate,
         );
   ExtendedTutor.fromJsonConstructor({
     int id,
@@ -56,8 +60,10 @@ class ExtendedTutor extends Tutor {
     int points,
     int membershipId,
     String socialIdUrl,
+    String createdDate,
+    String confirmedDate,
     this.certificationUrls,
-  }) : super.constructor(
+  }) : super.fromJsonConstructor(
           id,
           fullname,
           gender,
@@ -74,9 +80,11 @@ class ExtendedTutor extends Tutor {
           points,
           membershipId,
           socialIdUrl,
+          createdDate,
+          confirmedDate,
         );
 
-        factory ExtendedTutor.fromJson(Map<String, dynamic> json) {
+  factory ExtendedTutor.fromJson(Map<String, dynamic> json) {
     return ExtendedTutor.fromJsonConstructor(
       id: json['id'],
       fullname: json['fullname'],
@@ -85,16 +93,18 @@ class ExtendedTutor extends Tutor {
       email: json['email'],
       phone: json['phone'],
       address: json['address'],
-      status: json['status'],
+      status: json['status'].toString(),
       roleId: json['roleId'],
-      avatarImageLink: json['avatarImageLink'],
-      educationLevel: json['educationLevel'],
-      school: json['school'],
+      avatarImageLink: json['avatarImageLink'].toString(),
+      educationLevel: json['educationLevel'].toString(),
+      school: json['school'].toString(),
       points: json['points'],
       membershipId: json['membershipId'],
-      description: json['description'],
-      socialIdUrl: json['socialIdUrl'],
+      description: json['description'].toString(),
+      socialIdUrl: json['socialIdUrl'].toString(),
       certificationUrls: json['certificationUrls'],
+      createdDate: json['createdDate'].toString(),
+      confirmedDate: json['confirmedDate'],
     );
   }
 }

@@ -8,7 +8,7 @@ class TutorCubit extends Cubit<TutorState> {
   TutorRepository _repository;
   TutorCubit(this._repository) : super(TutorLoadingState());
 
-  //get all tutor
+  //get tutor
   Future getTutorByTutorId(int id) async {
     try {
       ExtendedTutor tutor = await _repository.fetchTutorByTutorId(http.Client(), id);

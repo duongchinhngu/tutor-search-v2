@@ -31,6 +31,28 @@ class Tutor extends Person {
   }) : super(id, fullname, gender, birthday, email, phone, address, status,
             roleId, description, avatarImageLink);
 
+  Tutor.fromJsonConstructor(
+    int id,
+    String fullname,
+    String gender,
+    String birthday,
+    String email,
+    String phone,
+    String address,
+    String status,
+    int roleId,
+    String description,
+    String avatarImageLink,
+    this.educationLevel,
+    this.school,
+    this.points,
+    this.membershipId,
+    this.socialIdUrl,
+    this.createdDate,
+    this.confirmedDate,
+  ) : super(id, fullname, gender, birthday, email, phone, address, status,
+            roleId, description, avatarImageLink);
+
   Tutor.constructor(
     int id,
     String fullname,

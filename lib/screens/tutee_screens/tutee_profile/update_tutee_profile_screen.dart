@@ -8,7 +8,6 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
-import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/tutee_processing_update_profile_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/register_elements.dart';
 
@@ -95,17 +94,7 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
           children: [
             Column(
               children: [
-                //Containner Avarta
-                // Container(
-                //   padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                //   child: CircleAvatar(
-                //     radius: 65,
-                //     backgroundImage: NetworkImage(
-                //         // state.tutor.avatarImageLink,
-                //         'http://www.gstatic.com/tv/thumb/persons/528854/528854_v9_bb.jpg'),
-                //   ),
-
-                // )
+                //avatar
                 GestureDetector(
                   onTap: () async {
                     // ignore: deprecated_member_use
@@ -172,238 +161,456 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                 //fullname
                 buildTutorInfo(
                     'Fullname',
-                    editForm(authorizedTutee.fullname, TextInputType.text, 50,
-                        fullnameController, fullnameController.text),
+                    Container(
+                      height: 43,
+                      child: TextFormField(
+                        controller: fullnameController,
+                        maxLength: 100,
+                        textAlign: TextAlign.start,
+                        onChanged: (context) {
+                          setState(() {
+                            // course.name = courseNameController.text;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: '',
+                          labelStyle: textStyle,
+                          fillColor: Color(0xffF9F2F2),
+                          filled: true,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                                color: Colors.transparent, width: 0.0),
+                          ),
+                          hintText: 'What should we call you',
+                          counterText: '',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                            fontSize: textFontSize,
+                          ),
+                        ),
+                        validator: RequiredValidator(errorText: " is required"),
+                      ),
+                    ),
                     Icons.person_outline),
                 _buildDivider(),
                 //email
                 buildTutorInfo(
                     'Email', Text('ngudcse130377@fpt.edu.vn'), Icons.email),
                 _buildDivider(),
-
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: textGreyColor, width: 1))),
-                  width: double.infinity,
-                  height: 80,
-                  child: Row(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                          child: Image.asset('assets/images/gender.png')),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        decoration: BoxDecoration(
-                          color: backgroundColor,
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(12),
-                            bottomLeft: Radius.circular(12),
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
+                //gender
+                buildTutorInfo(
+                  'Gender',
+                  InkWell(
+                    onTap: () {
+                      //
+                      showBottomUpSelector(context,
+                          [GENDER_MALE, GENDER_FEMALE], genderupdateController);
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 60,
+                      margin: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        right: 100,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 1,
+                            offset: Offset(1, 1),
                           ),
-                          boxShadow: [
-                            boxShadowStyle,
-                          ],
+                        ],
+                        color: Colors.white,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            genderupdateController.text,
+                            style: TextStyle(
+                              fontSize: titleFontSize,
+                              color: textGreyColor,
+                            ),
+                          ),
+                          Icon(
+                            Icons.edit,
+                            size: 20,
+                            color: mainColor,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Icons.gesture,
+                ),
+                //gender
+                // Container(
+                //   margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                //   decoration: BoxDecoration(
+                //       border: Border(
+                //           bottom: BorderSide(color: textGreyColor, width: 1))),
+                //   width: double.infinity,
+                //   height: 80,
+                //   child: Row(
+                //     children: [
+                //       Container(
+                //           padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
+                //           child: Image.asset('assets/images/gender.png')),
+                //       Container(
+                //         margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                //         decoration: BoxDecoration(
+                //           color: backgroundColor,
+                //           borderRadius: BorderRadius.only(
+                //             bottomRight: Radius.circular(12),
+                //             bottomLeft: Radius.circular(12),
+                //             topLeft: Radius.circular(12),
+                //             topRight: Radius.circular(12),
+                //           ),
+                //           boxShadow: [
+                //             boxShadowStyle,
+                //           ],
+                //         ),
+
+                //         //gender
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //           children: [
+                //             Container(
+                //                 margin: const EdgeInsets.only(left: 20),
+                //                 width: 150,
+                //                 child: Text(
+                //                   'Gender',
+                //                   style: TextStyle(color: textGreyColor),
+                //                 )),
+                //             Container(
+                //               margin: const EdgeInsets.only(left: 20),
+                //               width: 150,
+                //               // child: Text(
+                //               //   authorizedTutee.gender,
+                //               //   style: TextStyle(
+                //               //       color: textGreyColor,
+                //               //       fontWeight: FontWeight.bold,
+                //               //       fontSize: 17),
+                //               // )
+                //               child: DropdownButton(
+                //                 hint: _origingender == null
+                //                     ? Text('Dropdown')
+                //                     : Text(
+                //                         genderupdateController.text,
+                //                         style: TextStyle(color: Colors.blue),
+                //                       ),
+                //                 isExpanded: true,
+                //                 iconSize: 30.0,
+                //                 style: TextStyle(
+                //                   color: mainColor,
+                //                 ),
+                //                 items: ['Male', 'Female'].map(
+                //                   (val) {
+                //                     return DropdownMenuItem<String>(
+                //                       value: val,
+                //                       child: Text(val),
+                //                     );
+                //                   },
+                //                 ).toList(),
+                //                 onChanged: (val) {
+                //                   setState(
+                //                     () {
+                //                       genderupdateController.text = val;
+                //                     },
+                //                   );
+                //                 },
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                _buildDivider(),
+                //birthday
+                buildTutorInfo(
+                    'Birthday',
+                    InkWell(
+                      onTap: () async {
+                        DateTime selectedDate = await showDatePicker(
+                        context: context,
+                        // currentDate: defaultDatetime,
+                        initialDate: DateTime(1999, 01, 01, 0, 0, 0),
+                        firstDate: DateTime(1910, 01, 01, 0, 0, 0),
+                        lastDate: DateTime.now(),
+                      );
+                      //
+                      print('this is date birth');
+                      setState(() {
+                        birthdayUpdateController.text = selectedDate.toString().substring(0,10);
+                      });
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 60,
+                        margin: EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                          right: 100,
                         ),
-                        child: Column(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 1,
+                              offset: Offset(1, 1),
+                            ),
+                          ],
+                          color: Colors.white,
+                        ),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                width: 150,
-                                child: Text(
-                                  'Gender',
-                                  style: TextStyle(color: textGreyColor),
-                                )),
-                            Container(
-                              margin: const EdgeInsets.only(left: 20),
-                              width: 150,
-                              // child: Text(
-                              //   authorizedTutee.gender,
-                              //   style: TextStyle(
-                              //       color: textGreyColor,
-                              //       fontWeight: FontWeight.bold,
-                              //       fontSize: 17),
-                              // )
-                              child: DropdownButton(
-                                hint: _origingender == null
-                                    ? Text('Dropdown')
-                                    : Text(
-                                        genderupdateController.text,
-                                        style: TextStyle(color: Colors.blue),
-                                      ),
-                                isExpanded: true,
-                                iconSize: 30.0,
-                                style: TextStyle(
-                                  color: mainColor,
-                                ),
-                                items: ['Male', 'Female'].map(
-                                  (val) {
-                                    return DropdownMenuItem<String>(
-                                      value: val,
-                                      child: Text(val),
-                                    );
-                                  },
-                                ).toList(),
-                                onChanged: (val) {
-                                  setState(
-                                    () {
-                                      genderupdateController.text = val;
-                                    },
-                                  );
-                                },
+                            Text(
+                              birthdayUpdateController.text,
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                color: textGreyColor,
                               ),
                             ),
+                            Icon(
+                              Icons.edit,
+                              size: 20,
+                              color: mainColor,
+                            )
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                ),
+                      ),
+                    ),
+                    Icons.cake),
+                _buildDivider(),
+                // Container(
+                //   margin: const EdgeInsets.fromLTRB(10, 0, 10, 1),
+                //   padding: const EdgeInsets.only(bottom: 10),
+                //   decoration: BoxDecoration(
+                //       border: Border(
+                //           bottom: BorderSide(color: textGreyColor, width: 1))),
+                //   width: double.infinity,
+                //   height: 100,
+                //   child: Row(
+                //     children: [
+                //       Container(
+                //           padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
+                //           child:
+                //               Image.asset('assets/images/birthday-cake.png')),
+                //       Container(
+                //         padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                //         // margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                //         decoration: BoxDecoration(
+                //           color: backgroundColor,
+                //           borderRadius: BorderRadius.only(
+                //             bottomRight: Radius.circular(12),
+                //             bottomLeft: Radius.circular(12),
+                //             topLeft: Radius.circular(12),
+                //             topRight: Radius.circular(12),
+                //           ),
+                //           boxShadow: [
+                //             boxShadowStyle,
+                //           ],
+                //         ),
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //           children: [
+                //             Container(
+                //                 margin: const EdgeInsets.only(left: 20),
+                //                 width: 150,
+                //                 child: Text(
+                //                   'Birthday',
+                //                   style: TextStyle(color: textGreyColor),
+                //                 )),
+                //             Container(
+                //               margin: const EdgeInsets.only(left: 20),
+                //               width: 150,
+                //               height: 40,
+                //               // child: Text(
+                //               //   authorizedTutee.gender,
+                //               //   style: TextStyle(
+                //               //       color: textGreyColor,
+                //               //       fontWeight: FontWeight.bold,
+                //               //       fontSize: 17),
+                //               // )
 
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 1),
-                  padding: const EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: textGreyColor, width: 1))),
-                  width: double.infinity,
-                  height: 100,
-                  child: Row(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                          child:
-                              Image.asset('assets/images/birthday-cake.png')),
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        // margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        decoration: BoxDecoration(
-                          color: backgroundColor,
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(12),
-                            bottomLeft: Radius.circular(12),
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
+                //               child: OnPressableInputDateField(
+                //                 // title: authorizedTutee.birthday,
+                //                 controller: birthdayUpdateController,
+                //                 widthLength: 130,
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                //phone
+                buildTutorInfo(
+                    'Phone',
+                    Container(
+                      height: 43,
+                      child: TextFormField(
+                        controller: phoneUpdateController,
+                        maxLength: 100,
+                        textAlign: TextAlign.start,
+                        onChanged: (context) {
+                          //set name = value of this textFormfield on change
+                          setState(() {
+                            // course.name = courseNameController.text;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: '',
+                          labelStyle: textStyle,
+                          fillColor: Color(0xffF9F2F2),
+                          filled: true,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                                color: Colors.transparent, width: 0.0),
                           ),
-                          boxShadow: [
-                            boxShadowStyle,
-                          ],
+                          hintText: '',
+                          counterText: '',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                            fontSize: textFontSize,
+                          ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                width: 150,
-                                child: Text(
-                                  'Birthday',
-                                  style: TextStyle(color: textGreyColor),
-                                )),
-                            Container(
-                              margin: const EdgeInsets.only(left: 20),
-                              width: 150,
-                              height: 40,
-                              // child: Text(
-                              //   authorizedTutee.gender,
-                              //   style: TextStyle(
-                              //       color: textGreyColor,
-                              //       fontWeight: FontWeight.bold,
-                              //       fontSize: 17),
-                              // )
-
-                              child: OnPressableInputDateField(
-                                // title: authorizedTutee.birthday,
-                                controller: birthdayUpdateController,
-                                widthLength: 130,
-                              ),
-                            ),
-                          ],
+                        validator: RequiredValidator(errorText: "is required"),
+                      ),
+                    ),
+                    Icons.phone_android_outlined),
+                _buildDivider(),
+                // Container(
+                //   margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                //   decoration: BoxDecoration(
+                //       border: Border(
+                //           bottom: BorderSide(color: textGreyColor, width: 1))),
+                //   width: double.infinity,
+                //   height: 110,
+                //   child: Row(
+                //     children: [
+                //       Container(
+                //           padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
+                //           child: Image.asset('assets/images/phone.png')),
+                //       Column(
+                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //         children: [
+                //           Container(
+                //               margin: const EdgeInsets.only(top: 10),
+                //               width: 200,
+                //               height: 40,
+                //               child: Text(
+                //                 'Phone',
+                //                 style: TextStyle(color: textGreyColor),
+                //               )),
+                //           Container(
+                //             width: 200,
+                //             height: 50,
+                //             child: editForm(
+                //                 authorizedTutee.phone,
+                //                 TextInputType.phone,
+                //                 12,
+                //                 phoneUpdateController,
+                //                 phoneUpdateController.text),
+                //           ),
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
+                //address
+                buildTutorInfo(
+                    'Address',
+                    Container(
+                      height: 120,
+                      child: TextFormField(
+                        controller: addressUpdateController,
+                        expands: true,
+                        maxLength: 500,
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
+                        textAlign: TextAlign.start,
+                        onChanged: (context) {
+                          //set name = value of this textFormfield on change
+                          setState(() {
+                            // course.name = courseNameController.text;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: '',
+                          labelStyle: textStyle,
+                          fillColor: Color(0xffF9F2F2),
+                          filled: true,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                                color: Colors.transparent, width: 0.0),
+                          ),
+                          hintText: 'Where are you living',
+                          counterText: '',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                            fontSize: textFontSize,
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: textGreyColor, width: 1))),
-                  width: double.infinity,
-                  height: 110,
-                  child: Row(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                          child: Image.asset('assets/images/phone.png')),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              width: 200,
-                              height: 40,
-                              child: Text(
-                                'Phone',
-                                style: TextStyle(color: textGreyColor),
-                              )),
-                          Container(
-                            width: 200,
-                            height: 50,
-                            child: editForm(
-                                authorizedTutee.phone,
-                                TextInputType.phone,
-                                12,
-                                phoneUpdateController,
-                                phoneUpdateController.text),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: textGreyColor, width: 1))),
-                  width: double.infinity,
-                  height: 140,
-                  child: Row(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                          child: Image.asset('assets/images/pinlocation.png')),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                              margin: const EdgeInsets.only(top: 0),
-                              width: 200,
-                              height: 20,
-                              child: Text(
-                                'Address',
-                                style: TextStyle(color: textGreyColor),
-                              )),
-                          Container(
-                            width: 200,
-                            height: 60,
-                            child: editFormAddress(
-                                authorizedTutee.address,
-                                TextInputType.multiline,
-                                200,
-                                addressUpdateController,
-                                addressUpdateController.text),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                        validator: RequiredValidator(errorText: " is required"),
+                      ),
+                    ),
+                    Icons.home_outlined),
+                SizedBox(
+                  height: 30,
+                )
+                // Container(
+                //   margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                //   decoration: BoxDecoration(
+                //       border: Border(
+                //           bottom: BorderSide(color: textGreyColor, width: 1))),
+                //   width: double.infinity,
+                //   height: 140,
+                //   child: Row(
+                //     children: [
+                //       Container(
+                //           padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
+                //           child: Image.asset('assets/images/pinlocation.png')),
+                //       Column(
+                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //         children: [
+                //           Container(
+                //               margin: const EdgeInsets.only(top: 0),
+                //               width: 200,
+                //               height: 20,
+                //               child: Text(
+                //                 'Address',
+                //                 style: TextStyle(color: textGreyColor),
+                //               )),
+                //           Container(
+                //             width: 200,
+                //             height: 60,
+                //             child: editFormAddress(
+                //                 authorizedTutee.address,
+                //                 TextInputType.multiline,
+                //                 200,
+                //                 addressUpdateController,
+                //                 addressUpdateController.text),
+                //           ),
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ],
@@ -438,6 +645,48 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
           subtitle: content),
     );
   }
+
+  // this will be shown when press
+  Future<dynamic> showBottomUpSelector(BuildContext context, List<String> list,
+      TextEditingController controller) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return ListView.separated(
+            separatorBuilder: (BuildContext context, int index) => Divider(),
+            itemCount: list.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: Visibility(
+                  visible: list[index] == controller.text,
+                  child: Icon(
+                    Icons.check,
+                    color: mainColor,
+                    size: 15,
+                  ),
+                ),
+                title: Text(
+                  list[index],
+                  style: TextStyle(
+                    color: list[index] == controller.text
+                        ? mainColor
+                        : textGreyColor,
+                    fontSize: titleFontSize,
+                  ),
+                ),
+                onTap: () {
+                  //pop
+                  Navigator.pop(context);
+                  //set value
+                  setState(() {
+                    controller.text = list[index];
+                  });
+                },
+              );
+            },
+          );
+        });
+  }
 }
 
 Widget editForm(String hint, TextInputType inputType, int maxlengthInput,
@@ -468,7 +717,7 @@ Widget editForm(String hint, TextInputType inputType, int maxlengthInput,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(300),
                   ),
-                  height: 50,
+                  height: 30,
                   width: 400,
                   child: TextField(
                     onChanged: (text) {
@@ -478,6 +727,7 @@ Widget editForm(String hint, TextInputType inputType, int maxlengthInput,
                     keyboardType: inputType,
                     maxLength: maxlengthInput,
                     decoration: InputDecoration(
+                      counterText: '',
                       hintText: hint,
                     ),
                   ),

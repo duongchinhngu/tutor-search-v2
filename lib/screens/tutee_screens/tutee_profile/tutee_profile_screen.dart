@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/transaction_screens/tutee_transaction_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/update_tutee_profile_screen.dart';
@@ -183,6 +184,16 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
       backgroundColor: mainColor,
       elevation: 0,
       actions: [
+        IconButton(
+          icon: Icon(
+            Icons.power_settings_new_outlined,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            //show
+            showLogoutConfirmDialog(context);
+          },
+        ),
         PopupMenuButton(
           itemBuilder: (context) {
             return <PopupMenuItem>[

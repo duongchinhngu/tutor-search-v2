@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/tutor_transaction_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_transaction_cubit.dart';
@@ -79,8 +80,7 @@ class _TutorTransactionScreenState extends State<TutorTransactionScreen> {
           //
           final tutorTransactionCubit = context.watch<TutorTransactionCubit>();
           tutorTransactionCubit
-              // .getTuteeTransactionByTuteeId(authorizedTutor.id);
-              .getTutorTransactionByTutorId(1);
+              .getTutorTransactionByTutorId(authorizedTutor.id);
           //
           if (state is TutorTransactionErrorState) {
             return ErrorScreen();

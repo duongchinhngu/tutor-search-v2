@@ -15,10 +15,12 @@ import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/models/tutor_update_profile.dart';
 import 'package:tutor_search_system/repositories/image_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
+import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/update_tutee_profile_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_processing_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_variable.dart';
 import 'package:tutor_search_system/states/image_state.dart';
@@ -285,8 +287,19 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
               buildTutorInfo(
                   'Birthday',
                   InkWell(
-                    onTap: () {
-                      // classSelector(context, widget.selectedSubject);
+                    onTap: () async {
+                      DateTime selectedDate = await showDatePicker(
+                        context: context,
+                        // currentDate: defaultDatetime,
+                        initialDate: DateTime(1999, 01, 01, 0, 0, 0),
+                        firstDate: DateTime(1910, 01, 01, 0, 0, 0),
+                        lastDate: DateTime.now(),
+                      );
+                      //
+                      print('this is date birth');
+                      setState(() {
+                        birthdayController.text = selectedDate.toString().substring(0,10);
+                      });
                     },
                     child: Container(
                       height: 40,
@@ -720,147 +733,6 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                         ),
                       ),
                     )
-                    // BlocProvider(
-                    //   lazy: false,
-                    //   create: (BuildContext context) =>
-                    //       ImageCubit(ImageRepository()),
-                    //   child: BlocBuilder<ImageCubit, ImageState>(
-                    //     builder: (BuildContext context, state) {
-                    //       //
-                    //       final imageCubit = context.watch<ImageCubit>();
-                    //       imageCubit.getImageByEmail(
-                    //           widget.tutor.email, 'certification');
-                    //       //
-                    //       if (state is ImageErrorState) {
-                    //         return ErrorScreen();
-                    //         // return Text(state.errorMessage);
-                    //       } else if (state is InitialImageState) {
-                    //         return buildLoadingIndicator();
-                    //       } else if (state is ImageNoDataState) {
-                    //         // return NoDataScreen();
-                    //         return Center(
-                    //           child: Text('No certification'),
-                    //         );
-                    //       } else if (state is ImageListLoadedState) {
-                    //         print('jhii is mage kikkkkkk');
-                    //         //
-                    //         certificationImages = state.images
-                    //             .replaceFirst(']', '')
-                    //             .replaceFirst('[', '')
-                    //             .split(', ');
-                    //         certificationImages.insert(0, '');
-                    //         //
-                    //         return Container(
-                    //           width: 260,
-                    //           alignment: Alignment.centerLeft,
-                    //           child: Wrap(
-                    //             runAlignment: WrapAlignment.spaceBetween,
-                    //             runSpacing: 10,
-                    //             spacing: 10,
-                    //             children: List.generate(
-                    //               certificationImages.length,
-                    //               (index) {
-                    //                 //element is the first image; it is for take photo by camera
-                    //                 if (index == 0) {
-                    //                   return InkWell(
-                    //                     onTap: () async {
-                    //                       //select Photo from camera
-                    //                       var img = await getImageFromCamera();
-                    //                       String imageUrl =
-                    //                           await uploadFileOnFirebaseStorage(
-                    //                               img);
-                    //                       if (img != null) {
-                    //                         setState(() {
-                    //                           certificationImages.add(imageUrl);
-                    //                         });
-                    //                       }
-                    //                     },
-                    //                     child: Container(
-                    //                       height: 125,
-                    //                       width: 125,
-                    //                       alignment: Alignment.center,
-                    //                       child: Icon(
-                    //                         Icons.add_a_photo,
-                    //                         color: mainColor.withOpacity(0.7),
-                    //                       ),
-                    //                       decoration: BoxDecoration(
-                    //                         color:
-                    //                             Colors.blue[50].withOpacity(.4),
-                    //                         border: Border.all(
-                    //                           width: 1.0,
-                    //                           color: mainColor.withOpacity(0.5),
-                    //                         ),
-                    //                       ),
-                    //                     ),
-                    //                   );
-                    //                 } else {
-                    //                   //view photo in fullscreen
-                    //                   return Container(
-                    //                     height: 125,
-                    //                     width: 125,
-                    //                     child: PopupMenuButton(
-                    //                       child: Image.network(
-                    //                         certificationImages[index],
-                    //                         fit: BoxFit.cover,
-                    //                       ),
-                    //                       itemBuilder: (context) {
-                    //                         return <PopupMenuItem>[
-                    //                           PopupMenuItem(
-                    //                             child: TextButton(
-                    //                               child: Text('Detail'),
-                    //                               onPressed: () {
-                    //                                 //
-                    //                                 Navigator.pop(context);
-                    //                                 //
-                    //                                 Navigator.push(
-                    //                                   context,
-                    //                                   MaterialPageRoute(
-                    //                                     builder: (context) =>
-                    //                                         FullScreenImage(
-                    //                                       imageWidget:
-                    //                                           Image.network(
-                    //                                         certificationImages[
-                    //                                             index],
-                    //                                         fit: BoxFit.cover,
-                    //                                       ),
-                    //                                     ),
-                    //                                   ),
-                    //                                 );
-                    //                               },
-                    //                             ),
-                    //                           ),
-                    //                           PopupMenuItem(
-                    //                             child: TextButton(
-                    //                               child: Text(
-                    //                                 'Remove',
-                    //                                 textAlign: TextAlign.left,
-                    //                                 style: TextStyle(
-                    //                                   color: Colors.red
-                    //                                       .withOpacity(.8),
-                    //                                 ),
-                    //                               ),
-                    //                               onPressed: () {
-                    //                                 Navigator.pop(context);
-                    //                                 setState(() {
-                    //                                   certificationImages
-                    //                                       .removeAt(index);
-                    //                                 });
-                    //                               },
-                    //                             ),
-                    //                           )
-                    //                         ];
-                    //                       },
-                    //                     ),
-                    //                   );
-                    //                 }
-                    //               },
-                    //             ),
-                    //           ),
-                    //         );
-                    //       }
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
