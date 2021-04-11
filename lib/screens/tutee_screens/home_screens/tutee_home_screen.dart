@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -365,15 +366,22 @@ class _CourseCardState extends State<CourseCard> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/starsmall.png'),
-                  Image.asset('assets/images/starsmall.png'),
-                  Image.asset('assets/images/starsmall.png'),
-                  Image.asset('assets/images/starsmall.png'),
-                  Image.asset('assets/images/starsmall.png'),
-                ],
+              // //star rate
+              Container(
+                child: RatingBar.builder(
+                  itemSize: 25,
+                  ignoreGestures: true,
+                  initialRating: widget.course.averageRatingStar,
+                  direction: Axis.horizontal,
+                  itemCount: 5,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    // selectedRating = rating;
+                  },
+                ),
               ),
               Container(
                 child: Text(

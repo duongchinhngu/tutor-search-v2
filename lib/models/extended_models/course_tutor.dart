@@ -9,6 +9,7 @@ class CourseTutor extends Course {
   final String address;
   final String avatarImageLink;
   double distance;
+  final double averageRatingStar;
 
   CourseTutor.fromJsonConstructor( {
     int id,
@@ -38,6 +39,7 @@ class CourseTutor extends Course {
     this.address,
     this.avatarImageLink,
     this.distance,
+    this.averageRatingStar, 
   }) : super(
           id,
           name,
@@ -82,7 +84,7 @@ class CourseTutor extends Course {
     this.email,
     this.phone,
     this.address,
-    this.avatarImageLink,
+    this.avatarImageLink, this.averageRatingStar,
   ) : super(
           id,
           name,
@@ -129,6 +131,7 @@ class CourseTutor extends Course {
       distance: 0.0,
       location: json['location'],
       extraImages: json['extraImages'],
+      averageRatingStar: json['averageRatingStar'].toDouble(),
     );
   }
 }
