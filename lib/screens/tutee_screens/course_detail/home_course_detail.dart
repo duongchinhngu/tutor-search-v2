@@ -63,10 +63,13 @@ class _TuteeHomeCourseDetailScreenState
   Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
     List<String> extraImages = [];
     //
-    extraImages = course.extraImages
-        .replaceFirst(']', '')
-        .replaceFirst('[', '')
-        .split(', ');
+    if (course.extraImages != null) {
+      extraImages = course.extraImages
+          .replaceFirst(']', '')
+          .replaceFirst('[', '')
+          .split(', ');
+    }
+
     //
     return Container(
       // width: MediaQuery.of(context).size.width,
@@ -246,7 +249,7 @@ class _TuteeHomeCourseDetailScreenState
                   ),
                 ),
                 //
-                Wrap(
+                extraImages.length != 0? Wrap(
                   runAlignment: WrapAlignment.spaceBetween,
                   runSpacing: 5,
                   spacing: 5,
@@ -276,7 +279,7 @@ class _TuteeHomeCourseDetailScreenState
                       ),
                     );
                   }),
-                ),
+                ) : Text('No extra images')
               ],
             ),
           ),

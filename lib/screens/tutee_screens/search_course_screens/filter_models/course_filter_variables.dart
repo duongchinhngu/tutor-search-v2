@@ -88,4 +88,4 @@ class Filter {
   }
 }
 
-Filter filter = Filter(null, null, null, '', null, null, '');
+Filter filter = Filter(null, null, null, '', null, null, null);

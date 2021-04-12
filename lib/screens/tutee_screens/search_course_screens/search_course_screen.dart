@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
@@ -22,7 +23,10 @@ import 'course_filter_popup.dart';
 int numberOfSelected = 0;
 //
 String searchValue = '';
+//
+String sortValue = 'Default sort';
 
+//
 class SearchCourseScreen extends StatefulWidget {
   @override
   _SearchCourseScreenState createState() => _SearchCourseScreenState();
@@ -46,6 +50,89 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
           ],
         ),
       ),
+      floatingActionButton: _buildSignOutButton(context),
+    );
+  }
+
+  Widget _buildSignOutButton(BuildContext context) {
+    return SpeedDial(
+      /// both Default sort to 16
+      marginEnd: 18,
+      marginBottom: 20,
+      // animatedIcon: AnimatedIcons.menu_close,
+      // animatedIconTheme: IconThemeData(size: 22.0),
+      /// This is ignored if animatedIcon is non null
+      icon: Icons.sort_rounded,
+      activeIcon: Icons.remove,
+      // iconTheme: IconThemeData(color: Colors.grey[50], size: 30),
+      /// The label of the main button.
+      // label: Text("Open Speed Dial"),
+      /// The active label of the main button, Default sorts to label if not specified.
+      // activeLabel: Text("Close Speed Dial"),
+      /// Transition Builder between label and activeLabel, Default sorts to FadeTransition.
+      // labelTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),
+      /// The below button size Default sorts to 56 itself, its the FAB size + It also affects relative padding and other elements
+      buttonSize: 56.0,
+      visible: true,
+
+      /// If true user is forced to close dial manually
+      /// by tapping main button and overlay is not rendered.
+      closeManually: false,
+
+      /// If true overlay will render no matter what.
+      renderOverlay: false,
+      curve: Curves.bounceIn,
+      overlayColor: Colors.black.withOpacity(.1),
+      overlayOpacity: 0.5,
+      tooltip: 'Speed Dial',
+      heroTag: 'speed-dial-hero-tag',
+      backgroundColor: Colors.green,
+      foregroundColor: Colors.white,
+      elevation: 8.0,
+      shape: CircleBorder(),
+      // orientation: SpeedDialOrientation.Up,
+      // childMarginBottom: 2,
+      // childMarginTop: 2,
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.nature),
+          backgroundColor: Colors.orange,
+          label: 'Default sort',
+          labelBackgroundColor: Colors.white,
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            setState(() {
+              sortValue = 'Default sort';
+            });
+          },
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.arrow_downward_sharp),
+          backgroundColor: Colors.cyan,
+          label: 'Highest Study Fee',
+          labelBackgroundColor: Colors.white,
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            //
+            setState(() {
+              sortValue = 'Highest Study Fee';
+            });
+          },
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.arrow_upward_sharp),
+          label: 'Lowest Study Fee',
+          labelBackgroundColor: Colors.white,
+          backgroundColor: Colors.cyan,
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            //
+            setState(() {
+              sortValue = 'Lowest Study Fee';
+            });
+          },
+        ),
+      ],
     );
   }
 
@@ -198,7 +285,8 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
           BlocBuilder<ClassCubit, ClassState>(builder: (context, state) {
         //call class cubit and get all classes by subject id
         final classCubit = context.watch<ClassCubit>();
-        classCubit.getClassBySubjectIdStatus(widget.subject.id, StatusConstants.ACTIVE_STATUS);
+        classCubit.getClassBySubjectIdStatus(
+            widget.subject.id, StatusConstants.ACTIVE_STATUS);
         //render proper UI for each classes state
         if (state is ClassLoadingState) {
           return buildLoadingIndicator();
@@ -225,7 +313,7 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
         color: backgroundColor,
         child: Column(
           children: <Widget>[
-            //list all available classes
+            // //show course gridview by subject id and class id
             Container(
               height: 50,
               child: ListView.builder(
@@ -236,7 +324,8 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                 },
               ),
             ),
-            // //show course gridview by subject id and class id
+            // // buildCourseGridView(state),
+            //list all available classes
             BlocProvider(
               create: (context) => CourseCubit(CourseRepository()),
               child: BlocBuilder<CourseCubit, CourseState>(
@@ -253,7 +342,34 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                         .where((s) => s.name.contains(searchValue))
                         .toList();
                     //load all course and then load courses by class id
-                    return Expanded(child: buildCourseGridView(state));
+                    return Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                state.courses.length.toString() + ' result(s)',
+                                style: TextStyle(
+                                  fontSize: titleFontSize,
+                                ),
+                              ),
+                              //
+                              Text(
+                                sortValue,
+                                style: TextStyle(
+                                  fontSize: titleFontSize,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(child: buildCourseGridViewForSearch(state)),
+                      ],
+                    ));
                   } else if (state is CourseLoadFailedState) {
                     return Center(
                       child: Text(state.errorMessage),
@@ -263,8 +379,8 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                   }
                 },
               ),
-            )
-            // // buildCourseGridView(state),
+            ),
+            //
           ],
         ),
       ),
@@ -307,4 +423,28 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
           ),
         ));
   }
+}
+
+//course inn gridview UI style
+Container buildCourseGridViewForSearch(CourseTutorListLoadedState state) {
+  //
+  if( sortValue == 'Lowest Study Fee'){
+    //asc
+    state.courses.sort((a, b) => a.studyFee.compareTo(b.studyFee));
+  }else if( sortValue == 'Highest Study Fee'){
+    state.courses.sort((a, b) => b.studyFee.compareTo(a.studyFee));
+  }
+  //
+  return Container(
+    child: GridView.builder(
+      itemCount: state.courses.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 2 / 4,
+      ),
+      itemBuilder: (context, index) => CourseCard(
+        course: state.courses[index],
+      ),
+    ),
+  );
 }

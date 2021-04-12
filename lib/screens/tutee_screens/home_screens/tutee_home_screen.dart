@@ -130,28 +130,6 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
                   ),
                 ),
               ),
-              // actions: [
-              //   IconButton(
-              //     icon: const Icon(Icons.location_pin),
-              //     onPressed: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => TuteeSearchGoogleMap(),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              //   // InkWell(
-              //   //   onTap: () async {
-              //   //     //sign out
-              //   //     showLogoutConfirmDialog(context);
-              //   //   },
-              //   //   child: Center(
-              //   //     child: Text('Sign out'),
-              //   //   ),
-              //   // ),
-              // ],
             ),
             body: buildCourseGridView(state),
           );
