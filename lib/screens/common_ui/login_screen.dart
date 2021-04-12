@@ -115,7 +115,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     //sign up link
                     InkWell(
                       onTap: () async {
-                        
+                        // showDialog(
+                        //     context: context,
+                        //     builder: (context) => AlertDialog(
+                        //           content: Text(
+                        //               'You have just added 2 point(s) for the transaction'),
+                        //           title: Image.asset(
+                        //               'assets/images/27a319081c1987c70cdf014833880a5a.jpg'),
+                        //           actions: [
+                        //             TextButton(
+                        //               onPressed: () {
+                        //                 Navigator.of(context).pop();
+                        //               },
+                        //               child: Text(
+                        //                 'Ok',
+                        //                 style: TextStyle(
+                        //                     color: mainColor,
+                        //                     fontSize: titleFontSize),
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ));
+
                         //show role selector dialog
                         showDialog(
                           context: context,

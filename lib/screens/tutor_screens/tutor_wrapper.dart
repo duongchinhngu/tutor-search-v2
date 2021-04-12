@@ -37,7 +37,6 @@ class _TutorBottomNavigatorBarState extends State<TutorBottomNavigatorBar> {
       TutorProfileScreen(
         tutor: authorizedTutor,
       ),
-
       ReportRevenueScreen(),
     ];
     if (widget.selectedIndex != null) {

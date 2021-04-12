@@ -777,28 +777,29 @@ PreferredSize buildRevenueDetailAppbar(BuildContext context) {
   return PreferredSize(
     preferredSize: Size.fromHeight(70),
     child: AppBar(
-        elevation: 0.0,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/images/appbar.png',
-                // fit: BoxFit.fitWidth,
-              ),
-              fit: BoxFit.cover,
+      elevation: 0.0,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/images/appbar.png',
+              // fit: BoxFit.fitWidth,
             ),
+            fit: BoxFit.cover,
           ),
         ),
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-            size: 20,
-          ),
-          onPressed: () => TutorBottomNavigatorBar(
-            selectedIndex: 1,
-          ),
-        )),
+      ),
+      backgroundColor: Colors.transparent,
+      // leading: IconButton(
+      //   icon: Icon(
+      //     Icons.arrow_back_ios,
+      //     color: Colors.white,
+      //     size: 20,
+      //   ),
+      //   onPressed: () => TutorBottomNavigatorBar(
+      //     selectedIndex: 1,
+      //   ),
+      // ),
+    ),
   );
 }

@@ -8,6 +8,7 @@ import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/transaction_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/create_course_completed_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_paid_completed_screen.dart';
 
 //tutor payment processing screen
 //this screen process payment; navigate to result screen (error, complete successully; processing)
@@ -59,7 +60,9 @@ class _TutorPaymentProccessingScreenState
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                    builder: (context) => CreateCourseCompletedScreen()),
+                    builder: (context) => TutorPaidCompletedScreen(
+                      savePoint: widget.tutorTransaction.archievedPoints,
+                    )),
                 ModalRoute.withName('/Home'),
               );
             });

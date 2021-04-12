@@ -58,6 +58,10 @@
 
         <activity android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
         android:launchMode="singleTask">
+        <activity
+    android:showWhenLocked="true"
+    android:turnScreenOn="true">
+
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />

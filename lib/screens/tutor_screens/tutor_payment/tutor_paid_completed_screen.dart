@@ -7,14 +7,16 @@ import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_wrapper.dart';
 import 'package:http/http.dart' as http;
 
-class CreateCourseCompletedScreen extends StatefulWidget {
+class TutorPaidCompletedScreen extends StatefulWidget {
+  final int savePoint;
+
+  const TutorPaidCompletedScreen({Key key,@required this.savePoint}) : super(key: key);
   @override
-  _CreateCourseCompletedScreenState createState() =>
-      _CreateCourseCompletedScreenState();
+  _TutorPaidCompletedScreenState createState() =>
+      _TutorPaidCompletedScreenState();
 }
 
-class _CreateCourseCompletedScreenState
-    extends State<CreateCourseCompletedScreen> {
+class _TutorPaidCompletedScreenState extends State<TutorPaidCompletedScreen> {
   @override
   void initState() {
     super.initState();
@@ -25,8 +27,9 @@ class _CreateCourseCompletedScreenState
             showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                      content: Text(
-                          'You have just added 2 point(s) for the transaction'),
+                      content: Text('You have just added ' +
+                          widget.savePoint.toString() +
+                          ' point(s) for the transaction'),
                       title: Image.asset(
                           'assets/images/27a319081c1987c70cdf014833880a5a.jpg'),
                       actions: [
@@ -67,7 +70,7 @@ class _CreateCourseCompletedScreenState
                     color: Colors.greenAccent[700],
                   ),
                   Text(
-                    'Create Course Completed!',
+                    'Your Course has just activated!',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
@@ -87,7 +90,7 @@ class _CreateCourseCompletedScreenState
                 bottom: 20,
               ),
               child: Image.asset(
-                'assets/images/reading-concept-isometric-books-reading-people-illustration-study-free-time-entertainment-with-books-education-isometric-library-with-encyclopedia-learn_80590-8731.jpg',
+                'assets/images/happy-school-students-sitting-desk-classroom_179970-1290.jpg',
                 width: 300,
                 height: 300,
               ),
@@ -99,7 +102,7 @@ class _CreateCourseCompletedScreenState
                 bottom: 30,
               ),
               child: Text(
-                'Your course status is Pending now!\nManager will accept your course soon!',
+                'Your course status is Active now!\nTutee can register to your course. Enjoy your teaching!',
                 style: TextStyle(
                   fontSize: textFontSize,
                   color: Colors.grey,
