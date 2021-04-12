@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
-import 'package:tutor_search_system/models/commission.dart';
 import 'package:tutor_search_system/models/enrollment_course.dart';
 import 'package:tutor_search_system/repositories/commission_repository.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
@@ -56,107 +54,109 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
       create: (context) => EnrollmentCubit(EnrollmentRepository()),
       child: BlocBuilder<EnrollmentCubit, EnrollmentState>(
           builder: (context, state) {
+        //
         final courseenroll = context.watch<EnrollmentCubit>();
         courseenroll.getEnrollmentOfMonthByTutorIdDate(
             authorizedTutor.id, currentdate);
+        //
         if (state is CourseEnrollmentLoadingState) {
           return buildLoadingIndicator();
         } else if (state is CourseEnrollmentListLoadedState) {
           return Scaffold(
             backgroundColor: backgroundColor,
             appBar: buildRevenueDetailAppbar(context),
-            body: Container(
-              child: ListView(
-                children: [
-                  Column(
-                    children: [
-                      Center(
-                        child: Container(
-                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                            child: Text(
-                              'Detail Total Revenue',
-                              style: TextStyle(
-                                color: textGreyColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            )),
-                      ),
-                      Container(
-                        width: 320,
-                        height: 250,
-                        decoration: BoxDecoration(
-                          color: backgroundColor,
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(12),
-                            bottomLeft: Radius.circular(12),
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                          boxShadow: [
-                            boxShadowStyle,
-                          ],
+            body: ListView(
+              children: [
+                Column(
+                  children: [
+                    //
+                    Center(
+                      child: Container(
+                          padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                          child: Text(
+                            'Detail Total Revenue',
+                            style: TextStyle(
+                              color: textGreyColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          )),
+                    ),
+                    //
+                    Container(
+                      width: 320,
+                      height: 250,
+                      decoration: BoxDecoration(
+                        color: backgroundColor,
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
                         ),
-                        child: Column(
-                          children: [
-                            buildRevenueInformationListTile(
-                                '2021-$currentmonth-' +
-                                    '01' +
-                                    '     to    ' +
-                                    '$currentdate',
-                                'From Date - To Date',
-                                Icons.calendar_today),
-                            buildDivider(),
-                            // buildRevenueInformationListTile(
-                            //     '2', 'Quantity of Course', Icons.cast_for_education),
-                            // buildDivider(),
-                            buildRevenueInformationListTile(
-                                state.courseEnrollment.length.toString(),
-                                'Quantity of Enrollments',
-                                Icons.person_add),
-                            buildDivider(),
-                            // buildRevenueInformationListTile(
-                            //     '$current \$', 'Current revenue', Icons.money),
-                            _calTotalProfit(state),
-                          ],
+                        boxShadow: [
+                          boxShadowStyle,
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          buildRevenueInformationListTile(
+                              '2021-$currentmonth-' +
+                                  '01' +
+                                  '     to    ' +
+                                  '$currentdate',
+                              'From Date - To Date',
+                              Icons.calendar_today),
+                          buildDivider(),
+                          // buildRevenueInformationListTile(
+                          //     '2', 'Quantity of Course', Icons.cast_for_education),
+                          // buildDivider(),
+                          buildRevenueInformationListTile(
+                              state.courseEnrollment.length.toString(),
+                              'Quantity of Enrollments',
+                              Icons.person_add),
+                          buildDivider(),
+                          // buildRevenueInformationListTile(
+                          //     '$current \$', 'Current revenue', Icons.money),
+                          _calTotalProfit(state),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      child: Text(
+                        'Detail revenue of Enrollment (' +
+                            state.courseEnrollment.length.toString() +
+                            ')',
+                        style: TextStyle(
+                          color: textGreyColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                        child: Text(
-                          'Detail revenue of Enrollment (' +
-                              state.courseEnrollment.length.toString() +
-                              ')',
-                          style: TextStyle(
-                            color: textGreyColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                      width: 320,
+                      height: 400,
+                      decoration: BoxDecoration(
+                        color: backgroundColor,
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
                         ),
+                        // boxShadow: [
+                        //   boxShadowStyle,
+                        // ],
+                        border: Border.all(color: Colors.grey),
                       ),
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                        width: 320,
-                        height: 400,
-                        decoration: BoxDecoration(
-                          color: backgroundColor,
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(12),
-                            bottomLeft: Radius.circular(12),
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                          // boxShadow: [
-                          //   boxShadowStyle,
-                          // ],
-                          border: Border.all(color: Colors.grey),
-                        ),
-                        child: _buildListCourseEnrollment(state),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                      child: _buildListCourseEnrollment(state),
+                    ),
+                  ],
+                )
+              ],
             ),
           );
         } else if (state is CourseEnrollmentLoadFailedState) {

@@ -7,7 +7,7 @@ import 'package:tutor_search_system/states/enrollment_state.dart';
 
 class EnrollmentCubit extends Cubit<EnrollmentState> {
   final EnrollmentRepository _repository;
-  EnrollmentCubit(this._repository) : super(EnrollmentLoadingState());
+  EnrollmentCubit(this._repository) : super(CourseEnrollmentLoadingState());
 
   //get all active class
   Future getEnrollmentByCourseIdTuteeId(int courseId, int tuteeId) async {
