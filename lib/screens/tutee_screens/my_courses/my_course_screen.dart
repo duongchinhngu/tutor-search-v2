@@ -1,3 +1,4 @@
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
+
+String sortValue = 'Default sort';
 
 class MyCourseScreen extends StatefulWidget {
   @override
@@ -31,13 +34,13 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
         // titleTextStyle: TextStyle(color: mainColor),
         title: Text(
           'My Courses',
-          style: 
-          // GoogleFonts.kaushanScript(
-             TextStyle(
-              color: mainColor,
-              fontSize: headerFontSize + 2,
-              fontWeight: FontWeight.bold,
-            ),
+          style:
+              // GoogleFonts.kaushanScript(
+              TextStyle(
+            color: mainColor,
+            fontSize: headerFontSize + 2,
+            fontWeight: FontWeight.bold,
+          ),
           // ),
         ),
       ),
@@ -67,6 +70,89 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
           ],
         ),
       ),
+      floatingActionButton: _buildSignOutButton(context),
+    );
+  }
+
+  Widget _buildSignOutButton(BuildContext context) {
+    return SpeedDial(
+      /// both Default sort to 16
+      marginEnd: 18,
+      marginBottom: 20,
+      // animatedIcon: AnimatedIcons.menu_close,
+      // animatedIconTheme: IconThemeData(size: 22.0),
+      /// This is ignored if animatedIcon is non null
+      icon: Icons.sort_rounded,
+      activeIcon: Icons.remove,
+      // iconTheme: IconThemeData(color: Colors.grey[50], size: 30),
+      /// The label of the main button.
+      // label: Text("Open Speed Dial"),
+      /// The active label of the main button, Default sorts to label if not specified.
+      // activeLabel: Text("Close Speed Dial"),
+      /// Transition Builder between label and activeLabel, Default sorts to FadeTransition.
+      // labelTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),
+      /// The below button size Default sorts to 56 itself, its the FAB size + It also affects relative padding and other elements
+      buttonSize: 56.0,
+      visible: true,
+
+      /// If true user is forced to close dial manually
+      /// by tapping main button and overlay is not rendered.
+      closeManually: false,
+
+      /// If true overlay will render no matter what.
+      renderOverlay: false,
+      curve: Curves.bounceIn,
+      overlayColor: Colors.black.withOpacity(.1),
+      overlayOpacity: 0.5,
+      tooltip: 'Speed Dial',
+      heroTag: 'speed-dial-hero-tag',
+      backgroundColor: Colors.green,
+      foregroundColor: Colors.white,
+      elevation: 8.0,
+      shape: CircleBorder(),
+      // orientation: SpeedDialOrientation.Up,
+      // childMarginBottom: 2,
+      // childMarginTop: 2,
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.nature),
+          backgroundColor: Colors.orange,
+          label: 'Default sort',
+          labelBackgroundColor: Colors.white,
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            setState(() {
+              sortValue = 'Default sort';
+            });
+          },
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.arrow_downward_sharp),
+          backgroundColor: Colors.cyan,
+          label: 'Newest',
+          labelBackgroundColor: Colors.white,
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            //
+            setState(() {
+              sortValue = 'Newest';
+            });
+          },
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.arrow_upward_sharp),
+          label: 'Oldest',
+          labelBackgroundColor: Colors.white,
+          backgroundColor: Colors.cyan,
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            //
+            setState(() {
+              sortValue = 'Oldest';
+            });
+          },
+        ),
+      ],
     );
   }
 
@@ -135,25 +221,64 @@ class _CourseListViewState extends State<CourseListView> {
           //
           if (state is CourseLoadingState) {
             return buildLoadingIndicator();
-          } else if (state is CourseListLoadedState) {
+          } else if (state is ExtendedCourseListLoadedState) {
+            //
+            if (sortValue == 'Oldest') {
+              //asc
+              state.courses
+                  .sort((a, b) => a.followDate.compareTo(b.followDate));
+            } else if (sortValue == 'Newest') {
+              state.courses
+                  .sort((a, b) => b.followDate.compareTo(a.followDate));
+            }
+            //
             return Expanded(
-              child: ListView.builder(
-                itemCount: state.courses.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      //navigate to course detail screen
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => CourseDetailScreen(
-                            courseId: state.courses[index].id,
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          state.courses.length.toString() +
+                          ' result(s)',
+                          style: TextStyle(
+                            fontSize: titleFontSize,
                           ),
                         ),
-                      );
-                    },
-                    child: CourseCard(state.courses[index]),
-                  );
-                },
+                        //
+                        Text(
+                          sortValue,
+                          style: TextStyle(
+                            fontSize: titleFontSize,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.courses.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            //navigate to course detail screen
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => CourseDetailScreen(
+                                  courseId: state.courses[index].id,
+                                ),
+                              ),
+                            );
+                          },
+                          child: CourseCard(state.courses[index]),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             );
           } else if (state is CourseLoadFailedState) {

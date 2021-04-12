@@ -24,6 +24,12 @@ class CourseListLoadedState extends CourseState{
   CourseListLoadedState(this.courses);
 }
 
+class ExtendedCourseListLoadedState extends CourseState{
+  List<ExtendedCourse> courses;
+
+  ExtendedCourseListLoadedState(this.courses);
+}
+
 class CourseTutorListLoadedState extends CourseState{
   List<CourseTutor> courses;
 

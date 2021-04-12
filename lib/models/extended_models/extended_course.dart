@@ -118,7 +118,7 @@ class ExtendedCourse extends Course {
       maxTutee: json['maxTutee'],
       className: json['className'],
       subjectName: json['subjectName'],
-      followDate: json['followDate'].toString().replaceAll('T', '  '),
+      followDate: json['followDate'].toString(),
       enrollmentStatus: json['enrollmentStatus'].toString(),
       tutorAvatarUrl: json['tutorAvatarUrl'].toString(),
       tutorName: json['tutorName'].toString(),

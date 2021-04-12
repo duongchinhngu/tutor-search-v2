@@ -78,13 +78,13 @@ class CourseCubit extends Cubit<CourseState> {
   //get course by course Id
   Future getCoursesByEnrollmentStatus(int tuteeId, String status) async {
     try {
-      List<Course> courses;
+      List<ExtendedCourse> courses;
       courses = await _repository.fetchCoursesByEnrollmentStatus(
           http.Client(), status, tuteeId);
       if (courses == null) {
         emit(CourseNoDataState());
       } else {
-        emit(CourseListLoadedState(courses));
+        emit(ExtendedCourseListLoadedState(courses));
       }
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
