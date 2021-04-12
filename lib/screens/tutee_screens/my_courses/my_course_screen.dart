@@ -28,15 +28,17 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
       appBar: AppBar(
         backgroundColor: backgroundColor,
         elevation: 1.5,
+        // titleTextStyle: TextStyle(color: mainColor),
         title: Text(
           'My Courses',
-          style: GoogleFonts.kaushanScript(
-            textStyle: TextStyle(
+          style: 
+          // GoogleFonts.kaushanScript(
+             TextStyle(
               color: mainColor,
-              fontSize: headerFontSize,
+              fontSize: headerFontSize + 2,
               fontWeight: FontWeight.bold,
             ),
-          ),
+          // ),
         ),
       ),
       body: Container(

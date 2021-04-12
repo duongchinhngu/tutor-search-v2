@@ -6,12 +6,16 @@ class FilterItem extends SelectableObject {
 }
 
 //----study form list-----
-final _online = FilterItem('Online', false);
-final _tutorHome = FilterItem('Tutor Home', false);
+final _distanceRange1 = FilterItem('Below 3km', false);
+final _distanceRange2 = FilterItem('3km - 6km', false);
+final _distanceRange3 = FilterItem('6km - 10km', false);
+final _distanceRange4 = FilterItem('Above 10km', false);
 //
-List<FilterItem> studyForms = [
-  _online,
-  _tutorHome,
+List<FilterItem> distanceRanges = [
+  _distanceRange1,
+  _distanceRange2,
+  _distanceRange3,
+  _distanceRange4,
 ];
 //---fee range list-----
 final _feeRange1 = FilterItem(feeRangeContent1, false);
@@ -63,7 +67,7 @@ void resetToDefaultValue() {
     item.isSelected = false;
   }
   //
-  for (var item in studyForms) {
+  for (var item in distanceRanges) {
     item.isSelected = false;
   }
 }

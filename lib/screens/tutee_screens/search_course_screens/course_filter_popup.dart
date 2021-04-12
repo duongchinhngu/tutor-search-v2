@@ -90,15 +90,15 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
             Divider(),
             //study form
             buildFilterFieldListTitle(
-              filter.filterStudyForm != null,
-              'Study Form',
-              filter.filterStudyForm != null ? filter.filterStudyForm : '',
+              filter.filterDistance != null,
+              'Distance',
+              filter.filterDistance != null ? filter.filterDistance : '',
               () async {
                 //navigator to new page from right to left
                 Route route = CupertinoPageRoute(
                   builder: (context) => FilterForStringFieldScreen(
-                    filterItems: filter_items.studyForms,
-                    header: 'Study Form',
+                    filterItems: filter_items.distanceRanges,
+                    header: 'Distance',
                     isMultipleSelectable: false,
                   ),
                 );
@@ -106,7 +106,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 final selectedValue = await Navigator.push(context, route);
                 //set filter variable
                 setState(() {
-                  filter.filterStudyForm = selectedValue;
+                  filter.filterDistance = selectedValue;
                 });
               },
               true,

@@ -13,12 +13,20 @@ class FilterStudyFee {
   FilterStudyFee(this.from, this.to);
 }
 
+class FilterDistance {
+  int from;
+  int to;
+
+  FilterDistance(this.from, this.to);
+}
+
 //--------Filter model contains all attributes of the system filter
 class Filter {
   //study time filter----------------------
   TimeRange filterTimeRange;
-  //study form
-  String filterStudyForm;
+  //distance
+  FilterDistance filterDistance;
+  //
   FilterStudyFee filterStudyFee;
 //weeksday filter-------------------------------------
   String filterWeekdays;
@@ -35,7 +43,7 @@ class Filter {
 
   Filter(
       this.filterTimeRange,
-      this.filterStudyForm,
+      this.filterDistance,
       this.filterStudyFee,
       this.filterWeekdays,
       this.filterDateRange,
@@ -47,7 +55,7 @@ class Filter {
   //reset to default value
   void resetFilterVariables() {
     filterStudyFee = null;
-    filterStudyForm = null;
+    // filterStudyForm = null;
     filterDateRange = null;
     filterEducationLevel = null;
     filterGender = null;
@@ -72,9 +80,9 @@ class Filter {
     if (filterDateRange != null) {
       count += 1;
     }
-    if (filterStudyForm != null) {
-      count += 1;
-    }
+    // if (filterStudyForm != null) {
+    //   count += 1;
+    // }
     if (filterGender != null) {
       count += 1;
     }
@@ -85,4 +93,4 @@ class Filter {
   }
 }
 
-Filter filter = Filter(null, null, null, '', null, null, null, null, null);
+Filter filter = Filter(null, null, null, null, null, null, null, null, null);
