@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
@@ -12,6 +13,8 @@ import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
+
+String sortValue = 'Default sort';
 
 class TutorMyCourseScreen extends StatefulWidget {
   @override
@@ -63,6 +66,81 @@ class _TutorMyCourseScreenState extends State<TutorMyCourseScreen> {
           ],
         ),
       ),
+      floatingActionButton: _buildSSortButton(context),
+    );
+  }
+
+  Widget _buildSSortButton(BuildContext context) {
+    return SpeedDial(
+      /// both Default sort to 16
+      marginEnd: 18,
+      marginBottom: 20,
+      // animatedIcon: AnimatedIcons.menu_close,
+      // animatedIconTheme: IconThemeData(size: 22.0),
+      /// This is ignored if animatedIcon is non null
+      icon: Icons.sort_rounded,
+      activeIcon: Icons.remove,
+      buttonSize: 56.0,
+      visible: true,
+
+      /// If true user is forced to close dial manually
+      /// by tapping main button and overlay is not rendered.
+      closeManually: false,
+
+      /// If true overlay will render no matter what.
+      renderOverlay: false,
+      curve: Curves.bounceIn,
+      overlayColor: Colors.black.withOpacity(.1),
+      overlayOpacity: 0.5,
+      tooltip: 'Speed Dial',
+      heroTag: 'speed-dial-hero-tag',
+      backgroundColor: Colors.green,
+      foregroundColor: Colors.white,
+      elevation: 8.0,
+      shape: CircleBorder(),
+      // orientation: SpeedDialOrientation.Up,
+      // childMarginBottom: 2,
+      // childMarginTop: 2,
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.nature),
+          backgroundColor: Colors.orange,
+          label: 'Default sort',
+          labelBackgroundColor: Colors.white,
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            setState(() {
+              sortValue = 'Default sort';
+            });
+          },
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.arrow_downward_sharp),
+          backgroundColor: Colors.cyan,
+          label: 'Newest',
+          labelBackgroundColor: Colors.white,
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            //
+            setState(() {
+              sortValue = 'Newest';
+            });
+          },
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.arrow_upward_sharp),
+          label: 'Oldest',
+          labelBackgroundColor: Colors.white,
+          backgroundColor: Colors.cyan,
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            //
+            setState(() {
+              sortValue = 'Oldest';
+            });
+          },
+        ),
+      ],
     );
   }
 
@@ -132,23 +210,61 @@ class _CourseListViewState extends State<CourseListView> {
           if (state is CourseLoadingState) {
             return buildLoadingIndicator();
           } else if (state is CourseListLoadedState) {
+            //
+            if (sortValue == 'Oldest') {
+              //asc
+              state.courses
+                  .sort((a, b) => a.createdDate.compareTo(b.createdDate));
+            } else if (sortValue == 'Newest') {
+              state.courses
+                  .sort((a, b) => b.createdDate.compareTo(a.createdDate));
+            }
+            //
             return Expanded(
-              child: ListView.builder(
-                itemCount: state.courses.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      //navigate to course detail screen
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => CourseDetailScreen(
-                                  courseId: state.courses[index].id,
-                                )),
-                      );
-                    },
-                    child: TutorCourseCard(context, state.courses[index]),
-                  );
-                },
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          state.courses.length.toString() + ' result(s)',
+                          style: TextStyle(
+                            fontSize: titleFontSize,
+                          ),
+                        ),
+                        //
+                        Text(
+                          sortValue,
+                          style: TextStyle(
+                            fontSize: titleFontSize,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.courses.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            //navigate to course detail screen
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => CourseDetailScreen(
+                                        courseId: state.courses[index].id,
+                                      )),
+                            );
+                          },
+                          child: TutorCourseCard(context, state.courses[index]),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             );
           } else if (state is CourseLoadFailedState) {
@@ -237,7 +353,9 @@ Widget TutorCourseCard(BuildContext context, Course course) {
                 ),
                 //begin-end time
                 Text(
-                  course.beginTime.substring(0,5) + ' - ' + course.endTime.substring(0,5),
+                  course.beginTime.substring(0, 5) +
+                      ' - ' +
+                      course.endTime.substring(0, 5),
                   style: textStyle,
                 ),
                 //begin date and status
@@ -249,9 +367,8 @@ Widget TutorCourseCard(BuildContext context, Course course) {
                       Text(
                         'begin ',
                         style: TextStyle(
-                          fontSize: textFontSize,
-                          color: textGreyColor.withOpacity(0.7)
-                        ),
+                            fontSize: textFontSize,
+                            color: textGreyColor.withOpacity(0.7)),
                       ),
                       Expanded(
                         flex: 6,

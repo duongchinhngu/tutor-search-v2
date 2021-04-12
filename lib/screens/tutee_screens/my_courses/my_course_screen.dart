@@ -70,11 +70,11 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
           ],
         ),
       ),
-      floatingActionButton: _buildSignOutButton(context),
+      floatingActionButton: _buildSSortButton(context),
     );
   }
 
-  Widget _buildSignOutButton(BuildContext context) {
+  Widget _buildSSortButton(BuildContext context) {
     return SpeedDial(
       /// both Default sort to 16
       marginEnd: 18,
@@ -235,6 +235,7 @@ class _CourseListViewState extends State<CourseListView> {
             return Expanded(
               child: Column(
                 children: [
+                  //
                   Container(
                     padding: EdgeInsets.only(left: 15, right: 15, bottom: 5),
                     child: Row(
