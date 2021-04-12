@@ -117,7 +117,7 @@ class ExtendedTutor extends Tutor {
       certificationUrls: json['certificationUrls'],
       createdDate: json['createdDate'].toString(),
       confirmedDate: json['confirmedDate'],
-      averageRatingStar: json['averageRatingStar'],
+      averageRatingStar: json['averageRatingStar'].toDouble(),
       numberOfCourse: json['numberOfCourse'],
       numberOfTutee: json['numberOfTutee'],
       numberOfFeedback: json['numberOfFeedback'],

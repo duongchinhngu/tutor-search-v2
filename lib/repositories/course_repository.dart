@@ -54,8 +54,8 @@ class CourseRepository {
         'maxTime':
             convertTimeOfDayToAPIFormatString(filter.filterTimeRange.endTime),
       if (filter.filterGender != null) 'tutorGender': filter.filterGender,
-      if (filter.filterEducationLevel != null)
-        'educationLevel': filter.filterEducationLevel,
+      // if (filter.filterEducationLevel != null)
+      //   'educationLevel': filter.filterEducationLevel,
       if (filter.filterWeekdays != '') 'weekdays': filter.filterWeekdays,
     };
     //transform to queryTring

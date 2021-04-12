@@ -38,8 +38,8 @@ class Filter {
   Class filterClass;
 //gender filter------------------------------
   String filterGender;
-//education level filter-------------------------------
-  String filterEducationLevel;
+// //education level filter-------------------------------
+//   String filterEducationLevel;
 
   Filter(
       this.filterTimeRange,
@@ -47,20 +47,17 @@ class Filter {
       this.filterStudyFee,
       this.filterWeekdays,
       this.filterDateRange,
-      this.filterSubject,
       this.filterClass,
       this.filterGender,
-      this.filterEducationLevel);
+      );
 //
   //reset to default value
   void resetFilterVariables() {
     filterStudyFee = null;
     filterDistance = null;
     filterDateRange = null;
-    filterEducationLevel = null;
     filterGender = null;
     filterStudyFee = null;
-    // filterSubject = null;
     filterTimeRange = null;
     filterWeekdays = '';
   }
@@ -86,11 +83,9 @@ class Filter {
     if (filterGender != null) {
       count += 1;
     }
-    if (filter.filterEducationLevel != null) {
-      count += 1;
-    }
+
     return count;
   }
 }
 
-Filter filter = Filter(null, null, null, '', null, null, null, null, '');
+Filter filter = Filter(null, null, null, '', null, null, '');
