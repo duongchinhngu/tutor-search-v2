@@ -2,6 +2,10 @@ import '../tutor.dart';
 
 class ExtendedTutor extends Tutor {
   final List<dynamic> certificationUrls;
+  final double averageRatingStar;
+  final int numberOfCourse;
+  final int numberOfTutee;
+  final int numberOfFeedback;
 
   ExtendedTutor.constructor(
     int id,
@@ -20,9 +24,13 @@ class ExtendedTutor extends Tutor {
     int points,
     int membershipId,
     String socialIdUrl,
-     String createdDate,
+    String createdDate,
     String confirmedDate,
     this.certificationUrls,
+    this.averageRatingStar,
+    this.numberOfCourse,
+    this.numberOfTutee,
+    this.numberOfFeedback,
   ) : super.fromJsonConstructor(
           id,
           fullname,
@@ -63,6 +71,10 @@ class ExtendedTutor extends Tutor {
     String createdDate,
     String confirmedDate,
     this.certificationUrls,
+    this.averageRatingStar,
+    this.numberOfCourse,
+    this.numberOfTutee,
+    this.numberOfFeedback,
   }) : super.fromJsonConstructor(
           id,
           fullname,
@@ -105,6 +117,10 @@ class ExtendedTutor extends Tutor {
       certificationUrls: json['certificationUrls'],
       createdDate: json['createdDate'].toString(),
       confirmedDate: json['confirmedDate'],
+      averageRatingStar: json['averageRatingStar'],
+      numberOfCourse: json['numberOfCourse'],
+      numberOfTutee: json['numberOfTutee'],
+      numberOfFeedback: json['numberOfFeedback'],
     );
   }
 }

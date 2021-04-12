@@ -4,7 +4,8 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_fields/filter_class_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_fields/filter_string_fields_screen.dart';
 import 'filter_models/course_filter_variables.dart';
-import 'package:tutor_search_system/commons/functions/common_functions.dart' as converter;
+import 'package:tutor_search_system/commons/functions/common_functions.dart'
+    as converter;
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
@@ -88,11 +89,17 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
               false,
             ),
             Divider(),
-            //study form
+            //distance range
             buildFilterFieldListTitle(
               filter.filterDistance != null,
               'Distance',
-              filter.filterDistance != null ? filter.filterDistance : '',
+              filter.filterDistance != null
+                  ? filter.filterDistance.from.toString() +
+                      'km' +
+                      ' - ' +
+                      filter.filterDistance.to.toString() +
+                      'km'
+                  : '',
               () async {
                 //navigator to new page from right to left
                 Route route = CupertinoPageRoute(
@@ -104,9 +111,17 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 );
                 //
                 final selectedValue = await Navigator.push(context, route);
-                //set filter variable
+                //set filter variable = new object
                 setState(() {
-                  filter.filterDistance = selectedValue;
+                  if (selectedValue == distanceRange1.content) {
+                    filter.filterDistance = FilterDistance(0.0, 3.0);
+                  } else if (selectedValue == distanceRange2.content) {
+                    filter.filterDistance = FilterDistance(3.0, 6.0);
+                  } else if (selectedValue == distanceRange3.content) {
+                    filter.filterDistance = FilterDistance(6.0, 10.0);
+                  }else if (selectedValue == distanceRange4.content) {
+                    filter.filterDistance = FilterDistance(10.0, double.infinity);
+                  }
                 });
               },
               true,

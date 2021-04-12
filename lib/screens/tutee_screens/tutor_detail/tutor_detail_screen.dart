@@ -60,7 +60,6 @@ class TutorDetails extends StatelessWidget {
           //
           return Scaffold(
             backgroundColor: backgroundColor,
-
             body: Container(
               child: Container(
                 child: Stack(
@@ -94,13 +93,13 @@ class TutorDetails extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(140, 80, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(140, 85, 0, 0),
                       child: Column(
                         children: [
                           Container(
                             child: Container(
                               width: 200,
-                              height: 40,
+                              height: 30,
                               child: Text(
                                 state.tutor.fullname,
                                 style: TextStyle(
@@ -110,18 +109,26 @@ class TutorDetails extends StatelessWidget {
                               ),
                             ),
                           ),
+                          // //star rate
                           Container(
-                            width: 200,
-                            height: 20,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset('assets/images/starsmall.png'),
-                                Image.asset('assets/images/starsmall.png'),
-                                Image.asset('assets/images/starsmall.png'),
-                                Image.asset('assets/images/starsmall.png'),
-                                Image.asset('assets/images/starsmall.png'),
-                              ],
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.only(
+                              left: 10,
+                              bottom: 5,
+                            ),
+                            child: RatingBar.builder(
+                              itemSize: 25,
+                              ignoreGestures: true,
+                              initialRating: state.tutor.averageRatingStar,
+                              direction: Axis.horizontal,
+                              itemCount: 5,
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (rating) {
+                                // selectedRating = rating;
+                              },
                             ),
                           ),
                           Container(
@@ -145,10 +152,11 @@ class TutorDetails extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "12\nCourses",
+                                    state.tutor.numberOfCourse.toString() +
+                                        "\nCourses",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: textGreyColor,
@@ -156,7 +164,8 @@ class TutorDetails extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "137\nTutees",
+                                    state.tutor.numberOfTutee.toString() +
+                                        "\nTutees",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: textGreyColor,
@@ -164,7 +173,8 @@ class TutorDetails extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "125\nFeedbacks",
+                                    state.tutor.numberOfFeedback.toString() +
+                                        "\nFeedbacks",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: textGreyColor,
@@ -231,7 +241,7 @@ class TutorInformation extends StatelessWidget {
           }
           //
           return Padding(
-            padding: const EdgeInsets.only(top: 230),
+            padding: const EdgeInsets.only(top: 210),
             child: Container(
               decoration: BoxDecoration(),
               child: ListView(

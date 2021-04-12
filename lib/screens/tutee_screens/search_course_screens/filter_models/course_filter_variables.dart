@@ -14,8 +14,8 @@ class FilterStudyFee {
 }
 
 class FilterDistance {
-  int from;
-  int to;
+  double from;
+  double to;
 
   FilterDistance(this.from, this.to);
 }
@@ -55,7 +55,7 @@ class Filter {
   //reset to default value
   void resetFilterVariables() {
     filterStudyFee = null;
-    // filterStudyForm = null;
+    filterDistance = null;
     filterDateRange = null;
     filterEducationLevel = null;
     filterGender = null;
@@ -80,9 +80,9 @@ class Filter {
     if (filterDateRange != null) {
       count += 1;
     }
-    // if (filterStudyForm != null) {
-    //   count += 1;
-    // }
+    if (filterDistance != null) {
+      count += 1;
+    }
     if (filterGender != null) {
       count += 1;
     }
@@ -93,4 +93,4 @@ class Filter {
   }
 }
 
-Filter filter = Filter(null, null, null, null, null, null, null, null, null);
+Filter filter = Filter(null, null, null, '', null, null, null, null, '');
