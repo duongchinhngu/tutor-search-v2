@@ -37,6 +37,7 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
     var datenow = DateTime.now();
 
     currentdate = convertDayTimeToString(datenow);
+    currentmonth = datenow.month.toString();
     CommissionRepository()
         .fetchCommissionByCommissionId(http.Client(), 1)
         .then((value) => {
