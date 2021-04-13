@@ -5,6 +5,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
@@ -41,6 +42,8 @@ class UpdateTuteeProfile extends StatefulWidget {
 class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
   @override
   void initState() {
+    registerOnFirebase();
+    getMessage(context);
     super.initState();
   }
 

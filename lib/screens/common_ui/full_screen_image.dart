@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 
-class FullScreenImage extends StatelessWidget {
+class FullScreenImage extends StatefulWidget {
   final Widget imageWidget;
 
   const FullScreenImage({Key key, @required this.imageWidget})
       : super(key: key);
+
+  @override
+  _FullScreenImageState createState() => _FullScreenImageState();
+}
+
+class _FullScreenImageState extends State<FullScreenImage> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +41,7 @@ class FullScreenImage extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(child: imageWidget),
+      body: Center(child: widget.imageWidget),
     );
   }
 }

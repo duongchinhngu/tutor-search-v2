@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 
-class NoDataScreen extends StatelessWidget {
+class NoDataScreen extends StatefulWidget {
+  @override
+  _NoDataScreenState createState() => _NoDataScreenState();
+}
+
+class _NoDataScreenState extends State<NoDataScreen> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(

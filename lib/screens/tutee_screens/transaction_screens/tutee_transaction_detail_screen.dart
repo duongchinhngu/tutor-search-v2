@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 
-class TuteeTransactonDetailScreen extends StatelessWidget {
+class TuteeTransactonDetailScreen extends StatefulWidget {
   final TuteeTransaction tuteeTransaction;
 
   const TuteeTransactonDetailScreen({Key key, @required this.tuteeTransaction})
       : super(key: key);
+
+  @override
+  _TuteeTransactonDetailScreenState createState() =>
+      _TuteeTransactonDetailScreenState();
+}
+
+class _TuteeTransactonDetailScreenState
+    extends State<TuteeTransactonDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    @override
+    void initState() {
+      registerOnFirebase();
+      getMessage(context);
+      super.initState();
+    }
+
     //
     var defaultBoldStyle = TextStyle(
       fontSize: headerFontSize,
@@ -48,7 +64,7 @@ class TuteeTransactonDetailScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          tuteeTransaction.feeName,
+                          widget.tuteeTransaction.feeName,
                           style: TextStyle(
                               fontSize: headerFontSize + 3,
                               color: Color(0xff04046D),
@@ -64,7 +80,7 @@ class TuteeTransactonDetailScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(24),
                           ),
                           child: Text(
-                            tuteeTransaction.status,
+                            widget.tuteeTransaction.status,
                             style: TextStyle(
                               fontSize: titleFontSize,
                               color: textWhiteColor,
@@ -90,29 +106,31 @@ class TuteeTransactonDetailScreen extends StatelessWidget {
               endIndent: 20,
             ),
             //transfer to tutor
-            buildInfoElement('Transaction Id', tuteeTransaction.id.toString(),
-                defaultNormalStyle),
+            buildInfoElement('Transaction Id',
+                widget.tuteeTransaction.id.toString(), defaultNormalStyle),
             //
             buildInfoElement(
               'Total Amount',
-              '\$' + tuteeTransaction.totalAmount.toString(),
+              '\$' + widget.tuteeTransaction.totalAmount.toString(),
               defaultBoldStyle,
             ),
             //amount
             buildInfoElement(
               'Amount',
-              '\$' + tuteeTransaction.amount.toString(),
+              '\$' + widget.tuteeTransaction.amount.toString(),
               defaultNormalStyle,
             ),
             //fee
-            buildInfoElement('Fee', '\$' + tuteeTransaction.feePrice.toString(),
+            buildInfoElement(
+                'Fee',
+                '\$' + widget.tuteeTransaction.feePrice.toString(),
                 defaultNormalStyle),
             //transfer to tutor
-            buildInfoElement(
-                'To tutor', tuteeTransaction.tutorName, defaultNormalStyle),
+            buildInfoElement('To tutor', widget.tuteeTransaction.tutorName,
+                defaultNormalStyle),
             //datetime
-            buildInfoElement(
-                'Datetime', tuteeTransaction.dateTime, defaultNormalStyle),
+            buildInfoElement('Datetime', widget.tuteeTransaction.dateTime,
+                defaultNormalStyle),
             //
             Divider(
               indent: 20,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/cubits/feedback_cubit.dart';
 import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
@@ -16,6 +17,12 @@ class TutorFeedbackScreen extends StatefulWidget {
 }
 
 class _TutorFeedbackScreenState extends State<TutorFeedbackScreen> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

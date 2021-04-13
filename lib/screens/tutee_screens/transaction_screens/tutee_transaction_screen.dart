@@ -3,17 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/transaction_cubit.dart';
 import 'package:tutor_search_system/cubits/tutee_transaction_cubit.dart';
 import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/repositories/tutee_transaction_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
-import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/transaction_screens/tutee_transaction_detail_screen.dart';
-import 'package:tutor_search_system/states/transaction_state.dart';
 import 'package:tutor_search_system/states/tutee_transaction_state.dart';
 
 class TuteeTransactionScreen extends StatefulWidget {
@@ -22,6 +20,12 @@ class TuteeTransactionScreen extends StatefulWidget {
 }
 
 class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

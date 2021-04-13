@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
 import 'package:tutor_search_system/cubits/feedback_cubit.dart';
@@ -30,7 +31,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 FeedbackRepository feedbackRepository;
 
-class TutorDetails extends StatelessWidget {
+class TutorDetails extends StatefulWidget {
   final int tutorId;
   final Course course;
   final bool hasFollowButton;
@@ -42,6 +43,17 @@ class TutorDetails extends StatelessWidget {
       : super(key: key);
 
   @override
+  _TutorDetailsState createState() => _TutorDetailsState();
+}
+
+class _TutorDetailsState extends State<TutorDetails> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => TutorCubit(TutorRepository()),
@@ -50,7 +62,7 @@ class TutorDetails extends StatelessWidget {
           BlocBuilder<TutorCubit, TutorState>(builder: (context, state) {
         //call category cubit and get all course
         final tutorCubit = context.watch<TutorCubit>();
-        tutorCubit.getTutorByTutorId(tutorId);
+        tutorCubit.getTutorByTutorId(widget.tutorId);
         //render proper UI for each Course state
         if (state is TutorLoadingState) {
           return buildLoadingIndicator();
@@ -207,7 +219,7 @@ class TutorDetails extends StatelessWidget {
                     //tutor information
                     TutorInformation(
                       tutor: state.tutor,
-                      course: course,
+                      course: widget.course,
                     ),
                   ],
                 ),
@@ -215,8 +227,8 @@ class TutorDetails extends StatelessWidget {
             ),
             //follow button
             floatingActionButton: Visibility(
-                visible: hasFollowButton,
-                child: buildFollowButton(context, course)),
+                visible: widget.hasFollowButton,
+                child: buildFollowButton(context, widget.course)),
           );
         } else if (state is TutorLoadFailedState) {
           return Center(

@@ -47,6 +47,7 @@ class TutorUpdateProfileRepository {
 
   //delete tutor update profile by id
   Future<bool> deleteTutorUpdateProfilebyId(int id) async {
+    print('this is id: ' + id.toString());
     final http.Response response = await http.delete(
       Uri.parse('$TUTOR_UPDATE_PROFILE_API/$id'),
       headers: await AuthorizationContants().getAuthorizeHeader(),

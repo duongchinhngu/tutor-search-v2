@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
 import 'package:tutor_search_system/models/tutor.dart';
@@ -26,6 +27,12 @@ class TutorProfileScreen extends StatefulWidget {
 
 class _TutorProfileScreenState extends State<TutorProfileScreen> {
   @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -43,6 +50,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
           } else if (state is TutorLoadingState) {
             return buildLoadingIndicator();
           } else if (state is ExtendedTutorLoadedState) {
+            authorizedTutor = state.tutor;
             //
             return Container(
               child: ListView(

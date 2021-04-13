@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_fields/filter_class_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_fields/filter_string_fields_screen.dart';
 import 'filter_models/course_filter_variables.dart';
@@ -21,6 +22,12 @@ class CourseFilterPopup extends StatefulWidget {
 }
 
 class _CourseFilterPopupState extends State<CourseFilterPopup> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   //set end and begin time ui
   void setBeginAndEndTime(TimeRange timeRange) {
     //set start time if not null

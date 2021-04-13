@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutee_cubit.dart';
@@ -34,6 +35,12 @@ class TutorCourseDetailScreen extends StatefulWidget {
 }
 
 class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   //check whether or not show the course's tutee widget
   bool _checkShowNumberOfTuteeWidget(String status) {
     if (status == CourseConstants.ACTIVE_STATUS) {

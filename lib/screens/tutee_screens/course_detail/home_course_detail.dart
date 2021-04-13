@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
@@ -11,7 +12,6 @@ import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'package:tutor_search_system/screens/tutee_screens/course_follow_processing_screen/course_follow_processing_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/tutee_payment_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
@@ -30,6 +30,13 @@ class TuteeHomeCourseDetailScreen extends StatefulWidget {
 
 class _TuteeHomeCourseDetailScreenState
     extends State<TuteeHomeCourseDetailScreen> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -249,37 +256,39 @@ class _TuteeHomeCourseDetailScreenState
                   ),
                 ),
                 //
-                extraImages.length != 0? Wrap(
-                  runAlignment: WrapAlignment.spaceBetween,
-                  runSpacing: 5,
-                  spacing: 5,
-                  children: List.generate(extraImages.length, (index) {
-                    //view photo in fullscreen
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FullScreenImage(
-                              imageWidget: Image.network(
+                extraImages.length != 0
+                    ? Wrap(
+                        runAlignment: WrapAlignment.spaceBetween,
+                        runSpacing: 5,
+                        spacing: 5,
+                        children: List.generate(extraImages.length, (index) {
+                          //view photo in fullscreen
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FullScreenImage(
+                                    imageWidget: Image.network(
+                                      extraImages[index],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: 114,
+                              width: 114,
+                              child: Image.network(
                                 extraImages[index],
                                 fit: BoxFit.cover,
                               ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 114,
-                        width: 114,
-                        child: Image.network(
-                          extraImages[index],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  }),
-                ) : Text('No extra images')
+                          );
+                        }),
+                      )
+                    : Text('No extra images')
               ],
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
 import 'package:tutor_search_system/models/enrollment_course.dart';
@@ -30,9 +31,12 @@ class ReportRevenueScreen extends StatefulWidget {
 }
 
 class _ReportRevenue extends State<ReportRevenueScreen> {
+ 
   double current = 0;
 
   void initState() {
+    registerOnFirebase();
+    getMessage(context);
     super.initState();
     var datenow = DateTime.now();
 

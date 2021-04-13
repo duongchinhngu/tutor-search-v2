@@ -23,7 +23,7 @@ class _UpdateTutorProfileProcessingScreenState
   Future<bool> completeTutorUpdateProfile(TutorUpdateProfile tutorUpdateProfile) async {
     //
     await TutorUpdateProfileRepository().deleteTutorUpdateProfilebyId(tutorUpdateProfile.id);
-    //
+    
     String imageUrl = await uploadFileOnFirebaseStorage(avatarUpdate);
     tutorUpdateProfile.avatarImageLink = imageUrl;
     //

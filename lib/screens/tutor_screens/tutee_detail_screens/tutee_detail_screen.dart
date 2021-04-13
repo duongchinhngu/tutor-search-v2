@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
 import 'package:tutor_search_system/cubits/tutee_cubit.dart';
@@ -31,6 +32,12 @@ class TuteeDetailScreen extends StatefulWidget {
 }
 
 class _TuteeDetailScreenState extends State<TuteeDetailScreen> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

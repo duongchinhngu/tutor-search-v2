@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/fee_cubit.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
@@ -24,6 +25,12 @@ class TuteePaymentScreen extends StatefulWidget {
 }
 
 class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   //
   bool validateTotalAmount(double totalAmount) {
     if (totalAmount < 0) {

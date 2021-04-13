@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/tutor_transaction_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_transaction_cubit.dart';
@@ -21,6 +22,12 @@ class TutorTransactionScreen extends StatefulWidget {
 }
 
 class _TutorTransactionScreenState extends State<TutorTransactionScreen> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

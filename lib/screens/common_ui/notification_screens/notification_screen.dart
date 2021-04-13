@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/notification_cubit.dart';
 import 'package:tutor_search_system/repositories/notification_repository.dart';
@@ -11,10 +12,22 @@ import '../error_screen.dart';
 import '../no_data_screen.dart';
 import '../waiting_indicator.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
   final String receiverEmail;
 
   const NotificationScreen({Key key,@required this.receiverEmail}) : super(key: key);
+
+  @override
+  _NotificationScreenState createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +46,7 @@ class NotificationScreen extends StatelessWidget {
           builder: (context, state) {
             //
             final notiCubit = context.watch<NotificationCubit>();
-            notiCubit.getNotificationByEmail(receiverEmail);
+            notiCubit.getNotificationByEmail(widget.receiverEmail);
             //
             if (state is NotificationErrorState) {
               return ErrorScreen();
@@ -61,8 +74,7 @@ class NotificationScreen extends StatelessWidget {
       ),
     );
   }
-  
-  //
+
   ListTile buildNotificationCard(NotificationListLoadedState state, int index) {
     return ListTile(
                   leading: Container(

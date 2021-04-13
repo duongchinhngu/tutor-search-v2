@@ -4,6 +4,7 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/subject_cubit.dart';
 import 'package:tutor_search_system/models/subject.dart';
@@ -19,6 +20,12 @@ class InterestedSubjectSelectorDialog extends StatefulWidget {
 
 class _InterestedSubjectSelectorDialogState
     extends State<InterestedSubjectSelectorDialog> {
+      @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

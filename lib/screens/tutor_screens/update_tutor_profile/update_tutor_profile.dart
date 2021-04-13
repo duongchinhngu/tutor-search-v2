@@ -9,6 +9,7 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/image_cubit.dart';
 import 'package:tutor_search_system/models/tutor.dart';
@@ -53,6 +54,8 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
 
   @override
   void initState() {
+    registerOnFirebase();
+    getMessage(context);
     //
     initTextController();
     //
@@ -101,14 +104,14 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
               widget.tutor.avatarImageLink,
               educationLevelController.text,
               universityController.text,
-              '',
+              widget.tutor.avatarImageLink,
               certificationImages.toString(),
               widget.tutor.confirmedDate,
               widget.tutor.points,
               widget.tutor.membershipId,
               widget.tutor.createdDate,
             );
-            print('thí í created date ò tutor: ' + widget.tutor.createdDate);
+            print('thí í created date ò tutor: ' + widget.tutor.avatarImageLink);
             //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushReplacement(
@@ -134,8 +137,6 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                   var image =
                       // ignore: deprecated_member_use
                       await ImagePicker.pickImage(source: ImageSource.gallery);
-                  // String imageUrl = await uploadFileOnFirebaseStorage(image);
-                  // print('this is iamge avatar url: ' + imageUrl);
                   setState(() {
                     avatarUpdate = image;
                   });
@@ -156,16 +157,16 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                       ),
                       //avartar
                       CircleAvatar(
-                          foregroundColor: Colors.green,
-                          radius: 80,
-                          backgroundImage: avatarUpdate != null
-                              ? FileImage(
-                                  avatarUpdate,
-                                )
-                              : NetworkImage(
-                                  //         // state.tutor.avatarImageLink,
-                                  widget.tutor.avatarImageLink),
-                        ),
+                        foregroundColor: Colors.green,
+                        radius: 80,
+                        backgroundImage: avatarUpdate != null
+                            ? FileImage(
+                                avatarUpdate,
+                              )
+                            : NetworkImage(
+                                //         // state.tutor.avatarImageLink,
+                                widget.tutor.avatarImageLink),
+                      ),
                       //edit avartar icon
                       Positioned(
                         bottom: 15,
@@ -300,7 +301,8 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                       //
                       print('this is date birth');
                       setState(() {
-                        birthdayController.text = selectedDate.toString().substring(0,10);
+                        birthdayController.text =
+                            selectedDate.toString().substring(0, 10);
                       });
                     },
                     child: Container(

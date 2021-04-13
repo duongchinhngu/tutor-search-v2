@@ -11,7 +11,6 @@ import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'package:tutor_search_system/screens/tutee_screens/interested_subject_selector_dialog/interested_subject_selector_dialog.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/tutor_register_screen.dart';
 
@@ -115,28 +114,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     //sign up link
                     InkWell(
                       onTap: () async {
-                        // showDialog(
-                        //     context: context,
-                        //     builder: (context) => AlertDialog(
-                        //           content: Text(
-                        //               'You have just added 2 point(s) for the transaction'),
-                        //           title: Image.asset(
-                        //               'assets/images/27a319081c1987c70cdf014833880a5a.jpg'),
-                        //           actions: [
-                        //             TextButton(
-                        //               onPressed: () {
-                        //                 Navigator.of(context).pop();
-                        //               },
-                        //               child: Text(
-                        //                 'Ok',
-                        //                 style: TextStyle(
-                        //                     color: mainColor,
-                        //                     fontSize: titleFontSize),
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ));
-
                         //show role selector dialog
                         showDialog(
                           context: context,

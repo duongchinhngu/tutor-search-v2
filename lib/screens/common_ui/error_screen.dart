@@ -3,11 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_wrapper.dart';
 
-class ErrorScreen extends StatelessWidget {
+class ErrorScreen extends StatefulWidget {
+  @override
+  _ErrorScreenState createState() => _ErrorScreenState();
+}
+
+class _ErrorScreenState extends State<ErrorScreen> {
+  @override
+  void initState() {
+    registerOnFirebase();
+    getMessage(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
