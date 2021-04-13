@@ -13,10 +13,8 @@ void registerOnFirebase() {
 void getMessage(BuildContext context) {
   _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) async {
     print('Messsage here: $message');
-    // int msgJobId = int.parse(message["data"]["jobId"]);
     String msgBody = message["notification"]["body"];
     String msgTitle = message["notification"]["title"];
-    // String msgJobImage = message["data"]["jobImage"];
     showDialog(
         context: context,
         builder: (context) => Dialog(
@@ -89,5 +87,8 @@ void getMessage(BuildContext context) {
     print('on resume $message');
   }, onLaunch: (Map<String, dynamic> message) async {
     print('on launch $message');
+  },
+  onBackgroundMessage: (Map<String, dynamic> message) async {
+    print('on backgorund: $message');
   });
 }

@@ -248,90 +248,6 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                   ),
                   Icons.gesture,
                 ),
-                //gender
-                // Container(
-                //   margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                //   decoration: BoxDecoration(
-                //       border: Border(
-                //           bottom: BorderSide(color: textGreyColor, width: 1))),
-                //   width: double.infinity,
-                //   height: 80,
-                //   child: Row(
-                //     children: [
-                //       Container(
-                //           padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                //           child: Image.asset('assets/images/gender.png')),
-                //       Container(
-                //         margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                //         decoration: BoxDecoration(
-                //           color: backgroundColor,
-                //           borderRadius: BorderRadius.only(
-                //             bottomRight: Radius.circular(12),
-                //             bottomLeft: Radius.circular(12),
-                //             topLeft: Radius.circular(12),
-                //             topRight: Radius.circular(12),
-                //           ),
-                //           boxShadow: [
-                //             boxShadowStyle,
-                //           ],
-                //         ),
-
-                //         //gender
-                //         child: Column(
-                //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //           children: [
-                //             Container(
-                //                 margin: const EdgeInsets.only(left: 20),
-                //                 width: 150,
-                //                 child: Text(
-                //                   'Gender',
-                //                   style: TextStyle(color: textGreyColor),
-                //                 )),
-                //             Container(
-                //               margin: const EdgeInsets.only(left: 20),
-                //               width: 150,
-                //               // child: Text(
-                //               //   authorizedTutee.gender,
-                //               //   style: TextStyle(
-                //               //       color: textGreyColor,
-                //               //       fontWeight: FontWeight.bold,
-                //               //       fontSize: 17),
-                //               // )
-                //               child: DropdownButton(
-                //                 hint: _origingender == null
-                //                     ? Text('Dropdown')
-                //                     : Text(
-                //                         genderupdateController.text,
-                //                         style: TextStyle(color: Colors.blue),
-                //                       ),
-                //                 isExpanded: true,
-                //                 iconSize: 30.0,
-                //                 style: TextStyle(
-                //                   color: mainColor,
-                //                 ),
-                //                 items: ['Male', 'Female'].map(
-                //                   (val) {
-                //                     return DropdownMenuItem<String>(
-                //                       value: val,
-                //                       child: Text(val),
-                //                     );
-                //                   },
-                //                 ).toList(),
-                //                 onChanged: (val) {
-                //                   setState(
-                //                     () {
-                //                       genderupdateController.text = val;
-                //                     },
-                //                   );
-                //                 },
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       )
-                //     ],
-                //   ),
-                // ),
                 _buildDivider(),
                 //birthday
                 buildTutorInfo(
@@ -391,69 +307,6 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                     ),
                     Icons.cake),
                 _buildDivider(),
-                // Container(
-                //   margin: const EdgeInsets.fromLTRB(10, 0, 10, 1),
-                //   padding: const EdgeInsets.only(bottom: 10),
-                //   decoration: BoxDecoration(
-                //       border: Border(
-                //           bottom: BorderSide(color: textGreyColor, width: 1))),
-                //   width: double.infinity,
-                //   height: 100,
-                //   child: Row(
-                //     children: [
-                //       Container(
-                //           padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                //           child:
-                //               Image.asset('assets/images/birthday-cake.png')),
-                //       Container(
-                //         padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                //         // margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                //         decoration: BoxDecoration(
-                //           color: backgroundColor,
-                //           borderRadius: BorderRadius.only(
-                //             bottomRight: Radius.circular(12),
-                //             bottomLeft: Radius.circular(12),
-                //             topLeft: Radius.circular(12),
-                //             topRight: Radius.circular(12),
-                //           ),
-                //           boxShadow: [
-                //             boxShadowStyle,
-                //           ],
-                //         ),
-                //         child: Column(
-                //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //           children: [
-                //             Container(
-                //                 margin: const EdgeInsets.only(left: 20),
-                //                 width: 150,
-                //                 child: Text(
-                //                   'Birthday',
-                //                   style: TextStyle(color: textGreyColor),
-                //                 )),
-                //             Container(
-                //               margin: const EdgeInsets.only(left: 20),
-                //               width: 150,
-                //               height: 40,
-                //               // child: Text(
-                //               //   authorizedTutee.gender,
-                //               //   style: TextStyle(
-                //               //       color: textGreyColor,
-                //               //       fontWeight: FontWeight.bold,
-                //               //       fontSize: 17),
-                //               // )
-
-                //               child: OnPressableInputDateField(
-                //                 // title: authorizedTutee.birthday,
-                //                 controller: birthdayUpdateController,
-                //                 widthLength: 130,
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       )
-                //     ],
-                //   ),
-                // ),
                 //phone
                 buildTutorInfo(
                     'Phone',
@@ -492,44 +345,6 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                     ),
                     Icons.phone_android_outlined),
                 _buildDivider(),
-                // Container(
-                //   margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                //   decoration: BoxDecoration(
-                //       border: Border(
-                //           bottom: BorderSide(color: textGreyColor, width: 1))),
-                //   width: double.infinity,
-                //   height: 110,
-                //   child: Row(
-                //     children: [
-                //       Container(
-                //           padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                //           child: Image.asset('assets/images/phone.png')),
-                //       Column(
-                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //         children: [
-                //           Container(
-                //               margin: const EdgeInsets.only(top: 10),
-                //               width: 200,
-                //               height: 40,
-                //               child: Text(
-                //                 'Phone',
-                //                 style: TextStyle(color: textGreyColor),
-                //               )),
-                //           Container(
-                //             width: 200,
-                //             height: 50,
-                //             child: editForm(
-                //                 authorizedTutee.phone,
-                //                 TextInputType.phone,
-                //                 12,
-                //                 phoneUpdateController,
-                //                 phoneUpdateController.text),
-                //           ),
-                //         ],
-                //       )
-                //     ],
-                //   ),
-                // ),
                 //address
                 buildTutorInfo(
                     'Address',
@@ -573,44 +388,6 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                 SizedBox(
                   height: 30,
                 )
-                // Container(
-                //   margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-                //   decoration: BoxDecoration(
-                //       border: Border(
-                //           bottom: BorderSide(color: textGreyColor, width: 1))),
-                //   width: double.infinity,
-                //   height: 140,
-                //   child: Row(
-                //     children: [
-                //       Container(
-                //           padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                //           child: Image.asset('assets/images/pinlocation.png')),
-                //       Column(
-                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //         children: [
-                //           Container(
-                //               margin: const EdgeInsets.only(top: 0),
-                //               width: 200,
-                //               height: 20,
-                //               child: Text(
-                //                 'Address',
-                //                 style: TextStyle(color: textGreyColor),
-                //               )),
-                //           Container(
-                //             width: 200,
-                //             height: 60,
-                //             child: editFormAddress(
-                //                 authorizedTutee.address,
-                //                 TextInputType.multiline,
-                //                 200,
-                //                 addressUpdateController,
-                //                 addressUpdateController.text),
-                //           ),
-                //         ],
-                //       )
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ],
@@ -691,21 +468,11 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
 
 Widget editForm(String hint, TextInputType inputType, int maxlengthInput,
     TextEditingController _textFieldController, String currentText) {
-  // final TextEditingController _textFieldController = TextEditingController(
-  //   text: content,
-  // );
   return Container(
     height: 90,
     margin: EdgeInsets.only(top: 0),
     child: Column(
       children: <Widget>[
-        // Expanded(
-        //   flex: 2,
-        //   child: Container(
-        //     padding: EdgeInsets.only(left: 20),
-        //     alignment: Alignment.bottomLeft,
-        //   ),
-        // ),
         Expanded(
           flex: 3,
           child: Container(
@@ -743,21 +510,11 @@ Widget editForm(String hint, TextInputType inputType, int maxlengthInput,
 
 Widget editFormAddress(String hint, TextInputType inputType, int maxlengthInput,
     TextEditingController _textFieldController, String currentText) {
-  // final TextEditingController _textFieldController = TextEditingController(
-  //   text: content,
-  // );
   return Container(
     height: 150,
     margin: EdgeInsets.only(top: 0),
     child: Column(
       children: <Widget>[
-        // Expanded(
-        //   flex: 2,
-        //   child: Container(
-        //     padding: EdgeInsets.only(left: 20),
-        //     alignment: Alignment.bottomLeft,
-        //   ),
-        // ),
         Expanded(
           flex: 3,
           child: Container(

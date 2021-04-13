@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 //validator for all input field
 GlobalKey<FormState> updateTutorFormkey = GlobalKey<FormState>();
 
 //
-String avatarUpdateUrl = '';
+File avatarUpdate;
 //
 String socialIdUrl = '';
 //

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
 import 'package:tutor_search_system/models/tutor_update_profile.dart';
 import 'package:tutor_search_system/repositories/tutor_update_profile_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_variable.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/updated_pending_done_screen.dart';
 
 class UpdateTutorProfileProcessingScreen extends StatefulWidget {
@@ -21,6 +23,9 @@ class _UpdateTutorProfileProcessingScreenState
   Future<bool> completeTutorUpdateProfile(TutorUpdateProfile tutorUpdateProfile) async {
     //
     await TutorUpdateProfileRepository().deleteTutorUpdateProfilebyId(tutorUpdateProfile.id);
+    //
+    String imageUrl = await uploadFileOnFirebaseStorage(avatarUpdate);
+    tutorUpdateProfile.avatarImageLink = imageUrl;
     //
     await TutorUpdateProfileRepository().postUpdateProfile(tutorUpdateProfile);
     //

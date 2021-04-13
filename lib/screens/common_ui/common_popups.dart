@@ -49,7 +49,7 @@ Future<DateTimeRange> dateRangeSelector(
   return showDateRangePicker(
     context: context,
     initialDateRange: defaultRange,
-    firstDate: DateTime.now(),
+    firstDate: DateTime.now().add(Duration(days: 2)),
     lastDate: DateTime.now().add(
       new Duration(
         days: 365,

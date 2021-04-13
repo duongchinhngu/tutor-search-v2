@@ -20,10 +20,8 @@ import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/update_tutee_profile_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_processing_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_variable.dart';
-import 'package:tutor_search_system/states/image_state.dart';
 
 class UpdateTutorProfileScreen extends StatefulWidget {
   final Tutor tutor;
@@ -50,7 +48,6 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
   }
 
   void initImage() {
-    avatarUpdateUrl = widget.tutor.avatarImageLink;
     socialIdUrl = widget.tutor.socialIdUrl;
   }
 
@@ -104,7 +101,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
               widget.tutor.avatarImageLink,
               educationLevelController.text,
               universityController.text,
-              avatarUpdateUrl,
+              '',
               certificationImages.toString(),
               widget.tutor.confirmedDate,
               widget.tutor.points,
@@ -134,12 +131,13 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
               //avatar reset
               GestureDetector(
                 onTap: () async {
-                  // ignore: deprecated_member_use
                   var image =
+                      // ignore: deprecated_member_use
                       await ImagePicker.pickImage(source: ImageSource.gallery);
-                  String imageUrl = await uploadFileOnFirebaseStorage(image);
+                  // String imageUrl = await uploadFileOnFirebaseStorage(image);
+                  // print('this is iamge avatar url: ' + imageUrl);
                   setState(() {
-                    avatarUpdateUrl = imageUrl;
+                    avatarUpdate = image;
                   });
                 },
                 child: Container(
@@ -158,12 +156,16 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                       ),
                       //avartar
                       CircleAvatar(
-                        foregroundColor: Colors.green,
-                        radius: 80,
-                        backgroundImage: NetworkImage(
-                            //         // state.tutor.avatarImageLink,
-                            avatarUpdateUrl),
-                      ),
+                          foregroundColor: Colors.green,
+                          radius: 80,
+                          backgroundImage: avatarUpdate != null
+                              ? FileImage(
+                                  avatarUpdate,
+                                )
+                              : NetworkImage(
+                                  //         // state.tutor.avatarImageLink,
+                                  widget.tutor.avatarImageLink),
+                        ),
                       //edit avartar icon
                       Positioned(
                         bottom: 15,

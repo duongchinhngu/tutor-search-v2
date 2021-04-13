@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
@@ -15,35 +16,35 @@ class CreateCourseCompletedScreen extends StatefulWidget {
 
 class _CreateCourseCompletedScreenState
     extends State<CreateCourseCompletedScreen> {
+  final FirebaseMessaging fcm = FirebaseMessaging();
   @override
   void initState() {
+    //
     super.initState();
-    FeedbackRepository()
-        .fetchUnfeedbackTutorByTuteeId(http.Client(), authorizedTutee.id)
-        .then(
-          (value) => {
-            showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                      content: Text(
-                          'You have just added 2 point(s) for the transaction'),
-                      title: Image.asset(
-                          'assets/images/27a319081c1987c70cdf014833880a5a.jpg'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            'Ok',
-                            style: TextStyle(
-                                color: mainColor, fontSize: titleFontSize),
-                          ),
-                        ),
-                      ],
-                    )),
-          },
+    fcm.getToken().then((token){
+    print(token);
+  });
+  //
+    fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('onMessage: $message');
+        //
+        final snackBar = SnackBar(
+          content: Text(message['notification']['title']),
+          action: SnackBarAction(
+            label: 'Go',
+            onPressed: null,
+          ),
         );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('onMessage: $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('onMessage: $message');
+      },
+    );
   }
 
   @override
