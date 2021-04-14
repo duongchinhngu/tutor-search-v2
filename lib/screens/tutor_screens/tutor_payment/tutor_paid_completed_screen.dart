@@ -20,11 +20,7 @@ class _TutorPaidCompletedScreenState extends State<TutorPaidCompletedScreen> {
   @override
   void initState() {
     super.initState();
-    FeedbackRepository()
-        .fetchUnfeedbackTutorByTuteeId(http.Client(), authorizedTutee.id)
-        .then(
-          (value) => {
-            showDialog(
+    Future.delayed(Duration(seconds: 1)).then((value) => showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
                       content: Text('You have just added ' +
@@ -44,9 +40,8 @@ class _TutorPaidCompletedScreenState extends State<TutorPaidCompletedScreen> {
                           ),
                         ),
                       ],
-                    )),
-          },
-        );
+                    )),);
+    
   }
 
   @override

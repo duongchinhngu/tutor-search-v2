@@ -4,23 +4,23 @@ import 'extended_models/extended_course.dart';
 
 class Course {
   final int id;
-  String name;
-  String beginTime;
-  String endTime;
-  String location;
-  double studyFee;
-  String daysInWeek;
-  String beginDate;
-  String endDate;
-  String description;
-  String status;
-  int classHasSubjectId;
-  int createdBy;
-  String createdDate;
-  String confirmedDate;
-  int confirmedBy;
-  int maxTutee;
-  String extraImages;
+   String name;
+   String beginTime;
+   String endTime;
+   String location;
+   double studyFee;
+   String daysInWeek;
+   String beginDate;
+   String endDate;
+   String description;
+   String status;
+   int classHasSubjectId;
+   int createdBy;
+   String createdDate;
+   String confirmedDate;
+   int confirmedBy;
+   int maxTutee;
+   String extraImages;
 
   Course.fromJsonConstructor({
     this.id,
@@ -42,6 +42,27 @@ class Course {
     this.location,
     this.extraImages,
   });
+
+  Course.constructor(
+    this.id,
+    this.name,
+    this.beginTime,
+    this.endTime,
+    this.studyFee,
+    this.daysInWeek,
+    this.beginDate,
+    this.endDate,
+    this.description,
+    this.status,
+    this.classHasSubjectId,
+    this.createdBy,
+    this.maxTutee,
+    this.location,
+    this.extraImages,
+    this.createdDate,
+    this.confirmedDate,
+    this.confirmedBy,
+  );
 
   Course(
     this.id,

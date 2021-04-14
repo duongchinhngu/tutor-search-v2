@@ -97,7 +97,7 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
   }
 
   // Method for retrieving the current location
-  _getCurrentLocation() async {
+  getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) async {
       setState(() {
@@ -315,7 +315,7 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
   @override
   void initState() {
     super.initState();
-    // _getCurrentLocation();
+    // getCurrentLocation();
     _startAddress = widget.tuteeaddress;
     _destinationAddress = widget.tutoraddress;
     _calculateDistance();
@@ -540,7 +540,7 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
                           child: Icon(Icons.my_location),
                         ),
                         onTap: () {
-                          _getCurrentLocation();
+                          getCurrentLocation();
                         },
                       ),
                     ),

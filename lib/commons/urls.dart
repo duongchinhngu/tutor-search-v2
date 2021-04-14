@@ -17,7 +17,7 @@ const CLASS_BY_SUBJECT_ID_STATUS_API = "$CLASS_API/subject/status";
 //course api urls
 const COURSE_API = "$SERVER_NAME/courses";
 const ALL_COURSE_API = "$COURSE_API/all";
-const FILTER_COURSE_API = "$COURSE_API/filter/filter?";
+const FILTER_COURSE_API = "$COURSE_API/filter/";
 const UNREGISTERD_COURSE_BY_SUBJECT_CLASS_API =
     "$COURSE_API/tutee/subject/class/result?";
 const COURSES_BY_TUTEEID_API = "$COURSE_API/courses-by-tutee-id";

@@ -171,97 +171,97 @@ class CourseCard extends StatefulWidget {
 }
 
 class _CourseCardState extends State<CourseCard> {
-  GoogleMapController mapController;
-  TutorRepository tutorRepository;
-  Position _currentPosition;
-  String _currentAddress;
-  String _distance = '';
-  Set<Marker> markers = {};
-  PolylinePoints polylinePoints;
-  Map<PolylineId, Polyline> polylines = {};
-  List<LatLng> polylineCoordinates = [];
-  String _startAddress = authorizedTutee.address;
-  String _destinationAddress = '';
+  // GoogleMapController mapController;
+  // TutorRepository tutorRepository;
+  // Position _currentPosition;
+  // String _currentAddress;
+  // String _distance = '';
+  // Set<Marker> markers = {};
+  // PolylinePoints polylinePoints;
+  // Map<PolylineId, Polyline> polylines = {};
+  // List<LatLng> polylineCoordinates = [];
+  // String _startAddress = authorizedTutee.address;
+  // String _destinationAddress = '';
 
-  _createPolylines(Position start, Position destination) async {
-    polylinePoints = PolylinePoints();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      GKey.API_KEY, // Google Maps API Key
-      PointLatLng(start.latitude, start.longitude),
-      PointLatLng(destination.latitude, destination.longitude),
-      travelMode: TravelMode.transit,
-    );
+  // _createPolylines(Position start, Position destination) async {
+  //   polylinePoints = PolylinePoints();
+  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+  //     GKey.API_KEY, // Google Maps API Key
+  //     PointLatLng(start.latitude, start.longitude),
+  //     PointLatLng(destination.latitude, destination.longitude),
+  //     travelMode: TravelMode.transit,
+  //   );
 
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
-    }
+  //   if (result.points.isNotEmpty) {
+  //     result.points.forEach((PointLatLng point) {
+  //       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+  //     });
+  //   }
 
-    PolylineId id = PolylineId('poly');
-    Polyline polyline = Polyline(
-      polylineId: id,
-      color: Colors.red,
-      points: polylineCoordinates,
-      width: 3,
-    );
-    polylines[id] = polyline;
-  }
+  //   PolylineId id = PolylineId('poly');
+  //   Polyline polyline = Polyline(
+  //     polylineId: id,
+  //     color: Colors.red,
+  //     points: polylineCoordinates,
+  //     width: 3,
+  //   );
+  //   polylines[id] = polyline;
+  // }
 
-  double _coordinateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
-  }
+  // double _coordinateDistance(lat1, lon1, lat2, lon2) {
+  //   var p = 0.017453292519943295;
+  //   var c = cos;
+  //   var a = 0.5 -
+  //       c((lat2 - lat1) * p) / 2 +
+  //       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+  //   return 12742 * asin(sqrt(a));
+  // }
 
-  Future<bool> _calculateDistance(String start, String des) async {
-    try {
-      List<Location> startPlacemark = await locationFromAddress(start);
-      List<Location> destinationPlacemark = await locationFromAddress(des);
+  // Future<bool> _calculateDistance(String start, String des) async {
+  //   try {
+  //     List<Location> startPlacemark = await locationFromAddress(start);
+  //     List<Location> destinationPlacemark = await locationFromAddress(des);
 
-      if (startPlacemark != null && destinationPlacemark != null) {
-        // Use the retrieved coordinates of the current position,
-        // instead of the address if the start position is user's
-        // current position, as it results in better accuracy.
-        Position startCoordinates = start == _currentAddress
-            ? Position(
-                latitude: _currentPosition.latitude,
-                longitude: _currentPosition.longitude)
-            : Position(
-                latitude: startPlacemark[0].latitude,
-                longitude: startPlacemark[0].longitude);
-        Position destinationCoordinates = Position(
-            latitude: destinationPlacemark[0].latitude,
-            longitude: destinationPlacemark[0].longitude);
+  //     if (startPlacemark != null && destinationPlacemark != null) {
+  //       // Use the retrieved coordinates of the current position,
+  //       // instead of the address if the start position is user's
+  //       // current position, as it results in better accuracy.
+  //       Position startCoordinates = start == _currentAddress
+  //           ? Position(
+  //               latitude: _currentPosition.latitude,
+  //               longitude: _currentPosition.longitude)
+  //           : Position(
+  //               latitude: startPlacemark[0].latitude,
+  //               longitude: startPlacemark[0].longitude);
+  //       Position destinationCoordinates = Position(
+  //           latitude: destinationPlacemark[0].latitude,
+  //           longitude: destinationPlacemark[0].longitude);
 
-        await _createPolylines(startCoordinates, destinationCoordinates);
-        double totalDistance = 0.0;
-        // Calculating the total distance by adding the distance
-        // between small segments
-        for (int i = 0; i < polylineCoordinates.length - 1; i++) {
-          totalDistance += _coordinateDistance(
-            polylineCoordinates[i].latitude,
-            polylineCoordinates[i].longitude,
-            polylineCoordinates[i + 1].latitude,
-            polylineCoordinates[i + 1].longitude,
-          );
-        }
-        _distance = totalDistance.toStringAsFixed(1);
-        return true;
-      }
-    } catch (e) {
-      print(e);
-    }
-    return false;
-  }
+  //       await _createPolylines(startCoordinates, destinationCoordinates);
+  //       double totalDistance = 0.0;
+  //       // Calculating the total distance by adding the distance
+  //       // between small segments
+  //       for (int i = 0; i < polylineCoordinates.length - 1; i++) {
+  //         totalDistance += _coordinateDistance(
+  //           polylineCoordinates[i].latitude,
+  //           polylineCoordinates[i].longitude,
+  //           polylineCoordinates[i + 1].latitude,
+  //           polylineCoordinates[i + 1].longitude,
+  //         );
+  //       }
+  //       _distance = totalDistance.toStringAsFixed(1);
+  //       return true;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   return false;
+  // }
 
   void initState() {
     super.initState();
-    _destinationAddress = widget.course.address;
-    _calculateDistance(_startAddress, _destinationAddress);
+    // _destinationAddress = widget.course.address;
+    // _calculateDistance(_startAddress, _destinationAddress);
   }
 
   @override
@@ -418,7 +418,8 @@ class _CourseCardState extends State<CourseCard> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
-                              _distance + ' km',
+                              // _distance + ' km',
+                              widget.course.distance.toString()+ ' km',
                               style: textStyle,
                             ),
                           ),

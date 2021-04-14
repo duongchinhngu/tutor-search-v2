@@ -36,22 +36,26 @@ class ExtendedCourse extends Course {
     this.tutorAvatarUrl,
     this.tutorName,
     this.enrollmentId,
-  ) : super(
-            id,
-            name,
-            beginTime,
-            endTime,
-            studyFee,
-            daysInWeek,
-            beginDate,
-            endDate,
-            description,
-            status,
-            classHasSubjectId,
-            createdBy,
-            maxTutee,
-            location,
-            extraImages);
+  ) : super.constructor(
+          id,
+          name,
+          beginTime,
+          endTime,
+          studyFee,
+          daysInWeek,
+          beginDate,
+          endDate,
+          description,
+          status,
+          classHasSubjectId,
+          createdBy,
+          maxTutee,
+          location,
+          extraImages,
+          createdDate,
+          confirmedDate,
+          confirmedBy,
+        );
 
   ExtendedCourse.fromJsonConstructor({
     int id,
@@ -80,7 +84,7 @@ class ExtendedCourse extends Course {
     this.tutorAvatarUrl,
     this.tutorName,
     this.enrollmentId,
-  }) : super(
+  }) : super.constructor(
           id,
           name,
           beginTime,
@@ -95,7 +99,10 @@ class ExtendedCourse extends Course {
           createdBy,
           maxTutee,
           location,
-          extraImages
+          extraImages,
+          createdDate,
+          confirmedDate,
+          confirmedBy,
         );
 
   factory ExtendedCourse.fromJson(Map<String, dynamic> json) {
@@ -114,7 +121,6 @@ class ExtendedCourse extends Course {
       createdBy: json['createdBy'],
       confirmedBy: json['confirmedBy'],
       confirmedDate: json['confirmedDate'],
-      createdDate: json['createdDate'],
       maxTutee: json['maxTutee'],
       className: json['className'],
       subjectName: json['subjectName'],
@@ -125,6 +131,7 @@ class ExtendedCourse extends Course {
       enrollmentId: json['enrollmentId'],
       location: json['location'],
       extraImages: json['extraImages'],
+      createdDate: json['createdDate'],
     );
   }
 }

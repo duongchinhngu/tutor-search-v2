@@ -15,3 +15,5 @@ class CourseEnrollmentListLoadedState extends EnrollmentState {
 
   CourseEnrollmentListLoadedState(this.courseEnrollment);
 }
+
+class CourseEnrollmentListNoDataState extends EnrollmentState {}

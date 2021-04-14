@@ -40,6 +40,7 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
     getMessage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -348,6 +349,15 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                     state.courses = state.courses
                         .where((s) => s.name.contains(searchValue))
                         .toList();
+                    //filter by distance
+                    if (filter.filterDistance != null) {
+                      state.courses = state.courses
+                          .where((element) =>
+                              element.distance <= filter.filterDistance.to &&
+                              element.distance >= filter.filterDistance.from)
+                          .toList();
+                    }
+
                     //load all course and then load courses by class id
                     return Expanded(
                         child: Column(
@@ -435,10 +445,10 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
 //course inn gridview UI style
 Container buildCourseGridViewForSearch(CourseTutorListLoadedState state) {
   //
-  if( sortValue == 'Lowest Study Fee'){
+  if (sortValue == 'Lowest Study Fee') {
     //asc
     state.courses.sort((a, b) => a.studyFee.compareTo(b.studyFee));
-  }else if( sortValue == 'Highest Study Fee'){
+  } else if (sortValue == 'Highest Study Fee') {
     state.courses.sort((a, b) => b.studyFee.compareTo(a.studyFee));
   }
   //

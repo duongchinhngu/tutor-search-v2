@@ -42,6 +42,7 @@ class EnrollmentRepository {
       return jsonResponse
           .map((courseenroll) => new CourseEnrollment.fromJson(courseenroll))
           .toList();
+          
     } else if (response.statusCode == 404) {
       return null;
     } else {

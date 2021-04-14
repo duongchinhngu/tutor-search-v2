@@ -14,8 +14,11 @@ class CourseRepository {
   //fecth all courses : status = active and not registered by this tuteeId
   Future<List<CourseTutor>> fecthTuteeHomeCourses(http.Client client) async {
     final tuteeId = globals.authorizedTutee.id;
+    // final String currentLocation = await getCurrentLocation();
+    final String currentLocation = 'Dai Hoc FPT Ho Chi Minh';
+    print('thí í current location: ' + currentLocation);
     final response = await http.get(
-      '$TUTEE_HOME_COURSES/$tuteeId',
+      '$TUTEE_HOME_COURSES/$tuteeId/$currentLocation',
       headers: await AuthorizationContants().getAuthorizeHeader(),
     );
     if (response.statusCode == 200) {
@@ -24,6 +27,7 @@ class CourseRepository {
           .map((courses) => new CourseTutor.fromJson(courses))
           .toList();
     } else {
+      print('thí í body eror: ' + response.body);
       throw Exception('Failed to fetch all courses');
     }
   }
@@ -31,8 +35,10 @@ class CourseRepository {
   //fetch courses by status
   Future<List<CourseTutor>> fetchCourseByFilter(
       http.Client client, Filter filter) async {
+    // final String currentLocation = await getCurrentLocation();
+    final String currentLocation = 'Dai Hoc FPT Ho Chi Minh';
     //host url
-    String url = FILTER_COURSE_API;
+    String url = '$FILTER_COURSE_API/$currentLocation/filter?';
     //query parameters
     Map<String, String> queryParams = {
       'subjectId': filter.filterSubject.id.toString(),
@@ -271,6 +277,7 @@ class CourseRepository {
 
   //update course in db
   Future<bool> putCourse(Course course) async {
+    // print('this is created Date: ' + course.createdDate);
     final response = await http.put(
       '$COURSE_API/${course.id}',
       headers: await AuthorizationContants().getAuthorizeHeader(),
@@ -296,10 +303,12 @@ class CourseRepository {
       }),
     );
     if (response.statusCode == 204) {
+      print('course update body: ' + response.body);
       return true;
     } else {
       print('Error course update body: ' + response.body);
-      throw new Exception('Update course failed!: ${response.statusCode}');
+      return false;
+      // throw new Exception('Update course failed!: ${response.statusCode}');
     }
   }
 

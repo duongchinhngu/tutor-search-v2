@@ -25,7 +25,12 @@ class EnrollmentCubit extends Cubit<EnrollmentState> {
     try {
       List<CourseEnrollment> listCourseEnrollment = await _repository
           .fetchCourseEnrollmentByTutorIdForMonth(tutorId, currentdate);
-      emit(CourseEnrollmentListLoadedState(listCourseEnrollment));
+
+      if (listCourseEnrollment == null) {
+        emit(CourseEnrollmentListNoDataState());
+      } else {
+        emit(CourseEnrollmentListLoadedState(listCourseEnrollment));
+      }
     } catch (e) {
       emit(CourseEnrollmentLoadFailedState('$e'));
     }

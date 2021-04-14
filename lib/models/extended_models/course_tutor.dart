@@ -128,7 +128,7 @@ class CourseTutor extends Course {
       createdDate: json['createdDate'],
       maxTutee: json['maxTutee'],
       avatarImageLink: json['avatarImageLink'],
-      distance: 0.0,
+      distance: json['distance'].toDouble()/1000,
       location: json['location'],
       extraImages: json['extraImages'],
       averageRatingStar: json['averageRatingStar'].toDouble(),

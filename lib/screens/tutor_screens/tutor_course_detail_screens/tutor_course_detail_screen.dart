@@ -41,6 +41,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
     getMessage(context);
     super.initState();
   }
+
   //check whether or not show the course's tutee widget
   bool _checkShowNumberOfTuteeWidget(String status) {
     if (status == CourseConstants.ACTIVE_STATUS) {
@@ -52,6 +53,9 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
     }
     return false;
   }
+
+  //
+  int numberOfTutee = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +78,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
         } else if (state is CourseLoadFailedState) {
           return ErrorScreen();
         } else if (state is CourseLoadedState) {
+          print(state.course.createdDate);
           return buildCourseDetailBody(context, state.course);
         }
       }),
@@ -220,6 +225,9 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                                         );
                                       } else if (state
                                           is TuteeListLoadedState) {
+                                        //
+                                        numberOfTutee = state.tutees.length;
+                                        //
                                         return Container(
                                           child: Row(
                                             mainAxisAlignment:
@@ -308,6 +316,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               'Extra Information',
               Icons.description,
             ),
+
             buildDivider(),
             //extra images
             Container(
@@ -363,6 +372,20 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                 ],
               ),
             ),
+            buildDivider(),
+            //created Date
+            buildCourseInformationListTile(
+              course.createdDate.substring(0, 19).replaceAll('T', ' '),
+              'Created Date',
+              Icons.calendar_today_rounded,
+            ),
+            buildDivider(),
+            //confirmed Date
+            buildCourseInformationListTile(
+              course.confirmedDate.substring(0, 19).replaceAll('T', ' '),
+              'Confirmed Date',
+              Icons.calendar_view_day_sharp,
+            ),
             //
             //active/inactive switch
             Visibility(
@@ -386,47 +409,64 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                     showOnOff: true,
                     value: course.status == CourseConstants.ACTIVE_STATUS,
                     onToggle: (val) {
-                      //show confirm dialog
-                      showDefaultConfirmDialog(
-                          context,
-                          'Your course would be inactive forever!',
-                          'Are you sure to continue?', () {
-                        //change course status
-                        course.status = CourseConstants.INACTIVE_STATUS;
-                        //navigate to  my tutor course screen
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        //deactive courese function
-                        CourseRepository()
-                            .putCourse(course)
-                            .onError((error, stackTrace) {
-                          //show done message after done update course
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            buildDefaultSnackBar(
-                              Icons.error_outline_rounded,
-                              'Deactive Course Error!',
-                              'Please try again.',
-                              Colors.red,
-                            ),
-                          );
+                      if (numberOfTutee != 0) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title:
+                                      Text('Can not deactivate this course!'),
+                                  content: Text(
+                                      'Course can not be deactivated in case there is tutee in course.'),
+actions:[
+  TextButton(onPressed: (){
+    Navigator.of(context).pop();
+  }, child: Text('Ok'))
+],
+                                ), );
+                      } else {
+                        //show confirm dialog
+                        showDefaultConfirmDialog(
+                            context,
+                            'Your course would be inactive forever!',
+                            'Are you sure to continue?', () async {
+                          //change course status
+                          course.status = CourseConstants.INACTIVE_STATUS;
+                          //navigate to  my tutor course screen
+                          Navigator.pop(context);
+                          // Navigator.pop(context);
+                          //deactive courese function
+                          var result =
+                              await CourseRepository().putCourse(course);
+                          if (result) {
+                            //show done message after done update course
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              buildDefaultSnackBar(
+                                Icons.check_circle_outline_outlined,
+                                'Deactive Course Successfully!',
+                                'Your course status is Inactive now.',
+                                Colors.green,
+                              ),
+                            );
+                          } else {
+                            //show done message after done update course
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              buildDefaultSnackBar(
+                                Icons.error_outline_rounded,
+                                'Deactive Course Error!',
+                                'Please try again.',
+                                Colors.red,
+                              ),
+                            );
+                          }
                         });
-                        //show done message after done update course
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          buildDefaultSnackBar(
-                            Icons.check_circle_outline_outlined,
-                            'Deactive Course Successfully!',
-                            'Your course status is Inactive now.',
-                            Colors.green,
-                          ),
-                        );
-                      });
+                      }
                     },
                   ),
                 ),
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 40,
             )
           ],
         ),

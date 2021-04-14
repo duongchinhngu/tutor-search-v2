@@ -9,6 +9,8 @@ import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
 import 'package:tutor_search_system/models/enrollment_course.dart';
 import 'package:tutor_search_system/repositories/commission_repository.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:http/http.dart' as http;
@@ -66,7 +68,12 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
         //
         if (state is CourseEnrollmentLoadingState) {
           return buildLoadingIndicator();
-        } else if (state is CourseEnrollmentListLoadedState) {
+        } else if (state is CourseEnrollmentListNoDataState) {
+          return NoDataScreen();
+        } else if (state is CourseEnrollmentLoadFailedState) {
+            // return ErrorScreen();
+            return Text(state.errorMessage);
+          } else if (state is CourseEnrollmentListLoadedState) {
           return Scaffold(
             backgroundColor: backgroundColor,
             appBar: buildRevenueDetailAppbar(context),

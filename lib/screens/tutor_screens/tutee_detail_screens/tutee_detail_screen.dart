@@ -38,6 +38,7 @@ class _TuteeDetailScreenState extends State<TuteeDetailScreen> {
     getMessage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -54,8 +55,13 @@ class _TuteeDetailScreenState extends State<TuteeDetailScreen> {
         } else if (state is TuteeLoadedState) {
           //
           return Scaffold(
+            backgroundColor: backgroundColor,
             appBar: AppBar(
-              leading: buildDefaultBackButton(context),
+              elevation: 0,
+              backgroundColor: mainColor,
+              title: Text('Tutee Profile'),
+              centerTitle: true,
+              leading: buildDefaultCustomBackButton(context, Colors.white),
             ),
             body: Container(
               child: Container(
@@ -63,14 +69,14 @@ class _TuteeDetailScreenState extends State<TuteeDetailScreen> {
                   children: [
                     Container(
                       width: double.infinity,
-                      height: 170,
+                      height: 100,
                       decoration: BoxDecoration(
                         color: mainColor,
                       ),
                       child: Container(),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 60, 0, 20),
+                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 20),
                       child: Row(
                         children: [
                           Container(
@@ -84,27 +90,17 @@ class _TuteeDetailScreenState extends State<TuteeDetailScreen> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(140, 60, 0, 0),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 50, 20, 30),
-                            child: Container(
-                              child: Container(
-                                width: 200,
-                                height: 40,
-                                child: Text(
-                                  state.tutee.fullname,
-                                  style: TextStyle(
-                                      color: textWhiteColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                    Container(
+                      padding: const EdgeInsets.only(left: 80),
+                      alignment: Alignment.bottomCenter,
+                      width: double.infinity,
+                      height: 70,
+                      child: Text(
+                        state.tutee.fullname,
+                        style: TextStyle(
+                            color: textWhiteColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
                       ),
                     ),
                     //tutee information
@@ -161,7 +157,7 @@ class TuteeInformation extends StatelessWidget {
                 //
                 Container(
                   margin: const EdgeInsets.only(top: 0),
-                  padding: const EdgeInsets.fromLTRB(0, 180, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
                   child: Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
