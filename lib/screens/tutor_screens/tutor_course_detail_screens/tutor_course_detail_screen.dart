@@ -411,18 +411,20 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                     onToggle: (val) {
                       if (numberOfTutee != 0) {
                         showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  title:
-                                      Text('Can not deactivate this course!'),
-                                  content: Text(
-                                      'Course can not be deactivated in case there is tutee in course.'),
-actions:[
-  TextButton(onPressed: (){
-    Navigator.of(context).pop();
-  }, child: Text('Ok'))
-],
-                                ), );
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Can not deactivate this course!'),
+                            content: Text(
+                                'Course can not be deactivated in case there is tutee in course.'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Ok'))
+                            ],
+                          ),
+                        );
                       } else {
                         //show confirm dialog
                         showDefaultConfirmDialog(

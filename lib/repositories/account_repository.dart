@@ -27,7 +27,6 @@ class AccountRepository {
         headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
-            'id': account.id,
             'email': account.email,
             'roleId': account.roleId,
           },

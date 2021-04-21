@@ -43,7 +43,7 @@ class _TutorRegisterProccessingScreenState
 
     //init account obj
     final account =
-        Account.constructor(0, tutor.email, tutor.roleId);
+        Account.constructor(tutor.email, tutor.roleId);
     //post Account
     await AccountRepository().postAcount(account);
     //after post image on Firebase; get link and set to tutor
