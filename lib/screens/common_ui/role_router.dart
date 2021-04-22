@@ -12,6 +12,7 @@ import 'package:tutor_search_system/screens/common_ui/splash_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/banned_screen/tutor_banned_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/denied_screen/tutor_denied_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/tutor_register_successfully.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_wrapper.dart';
 import 'package:tutor_search_system/states/login_state.dart';
@@ -96,6 +97,16 @@ class _RoleRouterState extends State<RoleRouter> {
                   return Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => TutorBannedScreen(),
+                    ),
+                  );
+                });
+              } else if (globals.authorizedTutor.status ==
+                  StatusConstants.DENIED_STATUS) {
+                //remove all screen stack and navigate
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  return Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => TutorDeniedScreen(),
                     ),
                   );
                 });
