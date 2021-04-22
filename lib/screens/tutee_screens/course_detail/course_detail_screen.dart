@@ -33,6 +33,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
     getMessage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -214,7 +215,11 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
           buildDivider(),
           //location
           buildCourseInformationListTile(
-              course.location, 'Location', Icons.location_on_outlined),
+              course.location == course.tutorAddress
+                  ? 'At Tutor Home'
+                  : course.location,
+              'Location',
+              Icons.location_on_outlined),
           buildDivider(),
           //study time
           buildCourseInformationListTile(
@@ -405,6 +410,41 @@ ListTile buildCourseInformationListTile(
           : TextStyle(
               fontSize: titleFontSize,
               color: textGreyColor,
+            ),
+    ),
+  );
+}
+
+ListTile buildCourseInformationUrl(
+    String content, String title, IconData icon) {
+  return ListTile(
+    leading: Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      width: 43,
+      height: 43,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        shape: BoxShape.circle,
+      ),
+      child: Icon(
+        icon,
+        color: mainColor,
+      ),
+    ),
+    title: Text(
+      title,
+      style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+    ),
+    subtitle: Text(
+      content,
+      style: title == 'Course Name'
+          ? titleStyle
+          : TextStyle(
+              fontSize: titleFontSize,
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
             ),
     ),
   );

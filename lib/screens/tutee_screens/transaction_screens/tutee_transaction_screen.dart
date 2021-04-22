@@ -146,7 +146,7 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    state.tuteeTransactions[index].feeName,
+                    state.tuteeTransactions[index].commissionName,
                     style: TextStyle(
                         fontSize: titleFontSize,
                         color: Color(0xff04046D),
@@ -155,10 +155,10 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
                   Row(
                     children: [
                       Text(
-                        'to tutor ',
+                        'for course ',
                         style: textStyle,
                       ),
-                      Text('Duong Chinh Ngu'),
+                      Text( state.tuteeTransactions[index].courseName),
                     ],
                   ),
                   Row(

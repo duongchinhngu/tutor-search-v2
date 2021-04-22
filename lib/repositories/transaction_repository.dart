@@ -15,14 +15,14 @@ class TransactionRepository {
           <String, dynamic>{
             'id': tuteeTransaction.id,
             'dateTime': tuteeTransaction.dateTime,
-            'amount': tuteeTransaction.amount,
+            // 'amount': tuteeTransaction.amount,
             'totalAmount': tuteeTransaction.totalAmount,
             'description': tuteeTransaction.description,
             'status': tuteeTransaction.status,
             'tuteeId': tuteeTransaction.tuteeId,
-            'feeId': tuteeTransaction.feeId,
-            'feePrice': tuteeTransaction.feePrice,
-            'tutorId': tuteeTransaction.tutorId,
+            'commissionId': tuteeTransaction.commissionId,
+            'studyFee': tuteeTransaction.studyFee,
+            'courseId': tuteeTransaction.courseId,
           },
         ));
     if (response.statusCode == 201 ||
@@ -32,6 +32,7 @@ class TransactionRepository {
       return true;
     } else {
       print(response.statusCode);
+      print('this is: ' + response.body + response.statusCode.toString());
       throw Exception('Faild to post TuteeTransaction');
     }
   }

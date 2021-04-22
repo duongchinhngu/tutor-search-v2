@@ -5,17 +5,17 @@ import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/models/braintree.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
-import 'package:tutor_search_system/models/fee.dart';
+import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/repositories/braintree_repository.dart';
-import 'package:tutor_search_system/repositories/enrollment_repository.dart';
+import 'package:tutor_search_system/repositories/commission_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'tutee_payment_processing.dart';
 
 //show payment method: credit card ỏ debit card or Paypal
-Future checkOutTuteePayment(
-    BuildContext context, Fee fee, ExtendedCourse course, double totalAmount, Enrollment enrollment) async {
+Future checkOutTuteePayment(BuildContext context, ExtendedCourse course,
+    double totalAmount, Enrollment enrollment) async {
   //get braintree client token and prepare braintree model
   Braintree braintree = await prepareBraintreeCheckOut(totalAmount);
   //doCheckout() method
@@ -33,7 +33,7 @@ Future checkOutTuteePayment(
       //init model and navigate to process screen
       if (globals.authorizedTutee != null) {
         //post TuteeTransaction
-        _completeTuteeTransaction(context, fee, course, totalAmount, enrollment);
+        _completeTuteeTransaction(context, course, totalAmount, enrollment);
       }
     } else {
       //show alert undeconstruction
@@ -59,22 +59,24 @@ Future checkOutTuteePayment(
 }
 
 //complete tutee transaction
-Future<void> _completeTuteeTransaction(
-    BuildContext context,Fee fee, ExtendedCourse course, double totalAmount, Enrollment enrollment) async {
+Future<void> _completeTuteeTransaction(BuildContext context,
+    ExtendedCourse course, double totalAmount, Enrollment enrollment) async {
+  //get join course commission
+  final commission = await CommissionRepository().fetchCommissionByCommissionId(
+      http.Client(), globals.JOIN_COURSE_COMMISSION_ID);
 //init tuteeTransaction
   final tuteeTransaction = TuteeTransaction.modelConstructor(
-    0,
-    '1900-01-01',
-    course.studyFee,
-    totalAmount,
-    '',
-    'Successful',
-    globals.authorizedTutee.id,
-    fee.id,
-    //tutorId
-    course.createdBy,
-    fee.price
-  );
+      0,
+      '1900-01-01',
+      totalAmount,
+      '',
+      'Successful',
+      globals.authorizedTutee.id,
+      commission.id,
+      //courseId
+      course.id,
+      course.studyFee,
+      commission.rate);
   //
   WidgetsBinding.instance.addPostFrameCallback((_) {
     return Navigator.of(context).pushReplacement(

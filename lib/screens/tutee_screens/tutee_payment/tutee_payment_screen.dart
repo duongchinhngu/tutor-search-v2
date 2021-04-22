@@ -31,6 +31,7 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
     getMessage(context);
     super.initState();
   }
+
   //
   bool validateTotalAmount(double totalAmount) {
     if (totalAmount < 0) {
@@ -42,130 +43,101 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
   //
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FeeCubit(FeeRepository()),
-      child: BlocBuilder<FeeCubit, FeeState>(builder: (context, state) {
-        //init feeId
-        int feeId = 0;
-        //set proper feeId
-        //tutor payment has feeId = 2 (create course fee); tutee has feeId = 1 (joining course fee)
-        if (globals.authorizedTutee != null) {
-          feeId = 1;
-        }
-        //
-        //total amount
-        double totalAmount = 0;
-        //
-        final feeCubit = context.watch<FeeCubit>();
-        feeCubit.getFeeByFeeId(feeId);
-        //
-        //set total amount
-        if (state is FeeLoadedState) {
-          // set total amount for tutee
-          if (globals.authorizedTutee != null) {
-            totalAmount += state.fee.price + widget.course.studyFee;
-          }
-        }
-        //render ui
-        return Scaffold(
-          appBar: _buildAppBar(context),
-          body: SingleChildScrollView(
-            padding: EdgeInsetsDirectional.only(bottom: 100),
-            child: Container(
-              color: const Color(0xffC9CED4).withOpacity(0.35),
-              child: Stack(
-                children: [
-                  //for ui header color
-                  Container(
-                    height: 250,
-                    width: double.infinity,
-                    color: mainColor,
-                  ),
-
-                  Container(
-                    alignment: Alignment.center,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //payment method title
-                        buildPaymentMethodTitle(),
-                        //payment method
-                        buildPaymentMethod(),
-                        //transaction details title
-                        _buildTransactionDetailTitle(),
-                        //
-                        Container(
-                          width: 341,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              boxShadow: [boxShadowStyle]),
-                          child: Column(
-                            children: [
-                              //fee
-                              Container(
-                                width: 341,
-                                height: 60,
-                                alignment: Alignment.center,
-                                child: ListTile(
-                                  leading: Text(
-                                    'Fee name',
-                                    style: TextStyle(color: Colors.grey[400]),
-                                  ),
-                                  trailing: Text(
-                                    state is FeeLoadedState
-                                        ? state.fee.name
-                                        : 'Loading..',
-                                    style: textStyle,
-                                  ),
-                                ),
-                              ),
-                              //Transfer to tutor
-                              _buildTuteeTransferToTutor(),
-                              //amount
-                              _buildTuteeAmountToPay(),
-                              PaymentItemDivider(),
-                              //fee
-                              Container(
-                                width: 341,
-                                height: 60,
-                                alignment: Alignment.center,
-                                child: ListTile(
-                                  leading: Text(
-                                    'Fee',
-                                    style: TextStyle(color: Colors.grey[400]),
-                                  ),
-                                  trailing: Text(
-                                    state is FeeLoadedState
-                                        ? '\$' + state.fee.price.toString()
-                                        : 'Loading..',
-                                    style: textStyle,
-                                  ),
-                                ),
-                              ),
-                              //
-                              PaymentItemDivider(),
-                              //total amount
-                              _buildTotalAmount(totalAmount),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
+    //render ui
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      body: SingleChildScrollView(
+        padding: EdgeInsetsDirectional.only(bottom: 100),
+        child: Container(
+          color: const Color(0xffC9CED4).withOpacity(0.35),
+          child: Stack(
+            children: [
+              //for ui header color
+              Container(
+                height: 250,
+                width: double.infinity,
+                color: mainColor,
               ),
-            ),
+
+              Container(
+                alignment: Alignment.center,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //payment method title
+                    buildPaymentMethodTitle(),
+                    //payment method
+                    buildPaymentMethod(),
+                    //transaction details title
+                    _buildTransactionDetailTitle(),
+                    //
+                    Container(
+                      width: 341,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          boxShadow: [boxShadowStyle]),
+                      child: Column(
+                        children: [
+                          //fee
+                          Container(
+                            width: 341,
+                            height: 60,
+                            alignment: Alignment.center,
+                            child: ListTile(
+                              leading: Text(
+                                'Fee name',
+                                style: TextStyle(color: Colors.grey[400]),
+                              ),
+                              trailing: Text(
+                                "Join course fee",
+                                style: textStyle,
+                              ),
+                            ),
+                          ),
+                          //Transfer to tutor
+                          _buildTuteeTransferToTutor(),
+                          //amount
+                          _buildTuteeAmountToPay(),
+                          PaymentItemDivider(),
+                          // //fee
+                          // Container(
+                          //   width: 341,
+                          //   height: 60,
+                          //   alignment: Alignment.center,
+                          //   child: ListTile(
+                          //     leading: Text(
+                          //       'Fee',
+                          //       style: TextStyle(color: Colors.grey[400]),
+                          //     ),
+                          //     trailing: Text(
+                          //       state is FeeLoadedState
+                          //           ? '\$' + state.fee.price.toString()
+                          //           : 'Loading..',
+                          //       style: textStyle,
+                          //     ),
+                          //   ),
+                          // ),
+                          // //
+                          // PaymentItemDivider(),
+                          //total amount
+                          _buildTotalAmount(widget.course.studyFee)
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
-          floatingActionButton: _buildPayNowFAB(state, context, totalAmount),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-        );
-      }),
+        ),
+      ),
+      floatingActionButton: _buildPayNowFAB(context, widget.course.studyFee),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -227,14 +199,12 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
   }
 
   FloatingActionButton _buildPayNowFAB(
-      FeeState state, BuildContext context, double totalAmount) {
+      BuildContext context, double totalAmount) {
     return FloatingActionButton.extended(
       onPressed: () async {
         //set enable onPress function for FAB
-        if (state is FeeLoadedState) {
-          payment_methods.checkOutTuteePayment(
-              context, state.fee, widget.course, totalAmount, widget.enrollment);
-        }
+        payment_methods.checkOutTuteePayment(
+            context, widget.course, totalAmount, widget.enrollment);
         //disble FAB when fee is not loaded yet
       },
       isExtended: true,

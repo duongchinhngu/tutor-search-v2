@@ -64,7 +64,7 @@ class _TuteeTransactonDetailScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.tuteeTransaction.feeName,
+                          widget.tuteeTransaction.commissionName,
                           style: TextStyle(
                               fontSize: headerFontSize + 3,
                               color: Color(0xff04046D),
@@ -122,11 +122,11 @@ class _TuteeTransactonDetailScreenState
             ),
             //fee
             buildInfoElement(
-                'Fee',
-                '\$' + widget.tuteeTransaction.feePrice.toString(),
+                'Study Fee',
+                '\$' + widget.tuteeTransaction.studyFee.toString(),
                 defaultNormalStyle),
-            //transfer to tutor
-            buildInfoElement('To tutor', widget.tuteeTransaction.tutorName,
+            //transfer to course
+            buildInfoElement('To course', widget.tuteeTransaction.courseName,
                 defaultNormalStyle),
             //datetime
             buildInfoElement('Datetime', widget.tuteeTransaction.dateTime,

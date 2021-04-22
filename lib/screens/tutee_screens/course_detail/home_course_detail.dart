@@ -193,7 +193,11 @@ class _TuteeHomeCourseDetailScreenState
           buildDivider(),
           //location
           buildCourseInformationListTile(
-              course.location, 'Location', Icons.location_on_outlined),
+              course.location == course.tutorAddress
+                  ? 'At Tutor Home'
+                  : course.location,
+              'Location',
+              Icons.location_on_outlined),
           buildDivider(),
           //study time
           buildCourseInformationListTile(

@@ -10,8 +10,9 @@ class CourseTutor extends Course {
   final String avatarImageLink;
   double distance;
   final double averageRatingStar;
+  final int availableSlot;
 
-  CourseTutor.fromJsonConstructor( {
+  CourseTutor.fromJsonConstructor({
     int id,
     String name,
     String beginTime,
@@ -39,24 +40,24 @@ class CourseTutor extends Course {
     this.address,
     this.avatarImageLink,
     this.distance,
-    this.averageRatingStar, 
+    this.averageRatingStar,
+    this.availableSlot,
   }) : super(
-          id,
-          name,
-          beginTime,
-          endTime,
-          studyFee,
-          daysInWeek,
-          beginDate,
-          endDate,
-          description,
-          status,
-          classHasSubjectId,
-          createdBy,
-          maxTutee,
-          location,
-          extraImages
-        );
+            id,
+            name,
+            beginTime,
+            endTime,
+            studyFee,
+            daysInWeek,
+            beginDate,
+            endDate,
+            description,
+            status,
+            classHasSubjectId,
+            createdBy,
+            maxTutee,
+            location,
+            extraImages);
 
   CourseTutor(
     int id,
@@ -84,24 +85,25 @@ class CourseTutor extends Course {
     this.email,
     this.phone,
     this.address,
-    this.avatarImageLink, this.averageRatingStar,
+    this.avatarImageLink,
+    this.averageRatingStar,
+    this.availableSlot,
   ) : super(
-          id,
-          name,
-          beginTime,
-          endTime,
-          studyFee,
-          daysInWeek,
-          beginDate,
-          endDate,
-          description,
-          status,
-          classHasSubjectId,
-          createdBy,
-          maxTutee,
-          location,
-          extraImages
-        );
+            id,
+            name,
+            beginTime,
+            endTime,
+            studyFee,
+            daysInWeek,
+            beginDate,
+            endDate,
+            description,
+            status,
+            classHasSubjectId,
+            createdBy,
+            maxTutee,
+            location,
+            extraImages);
 
   factory CourseTutor.fromJson(Map<String, dynamic> json) {
     return CourseTutor.fromJsonConstructor(
@@ -128,10 +130,11 @@ class CourseTutor extends Course {
       createdDate: json['createdDate'],
       maxTutee: json['maxTutee'],
       avatarImageLink: json['avatarImageLink'],
-      distance: json['distance'].toDouble()/1000,
+      distance: json['distance'].toDouble() / 1000,
       location: json['location'],
       extraImages: json['extraImages'],
       averageRatingStar: json['averageRatingStar'].toDouble(),
+      availableSlot: json['availableSlot'],
     );
   }
 }

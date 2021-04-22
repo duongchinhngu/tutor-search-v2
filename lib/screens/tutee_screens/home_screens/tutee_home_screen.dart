@@ -407,7 +407,17 @@ class _CourseCardState extends State<CourseCard> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          
+                          //available slot
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                            child: Text(
+                              widget.course.availableSlot.toString() 
+                              // + '/' + widget.course.maxTutee.toString()
+                               + ' slot(s) left',
+                              style: textStyle,
+                            ),
+                          ),
+                          //
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
@@ -415,6 +425,7 @@ class _CourseCardState extends State<CourseCard> {
                               style: textStyle,
                             ),
                           ),
+                          //
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
@@ -423,6 +434,7 @@ class _CourseCardState extends State<CourseCard> {
                               style: textStyle,
                             ),
                           ),
+                          //
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(

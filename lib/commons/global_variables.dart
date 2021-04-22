@@ -75,3 +75,6 @@ class StatusConstants {
   static const PENDING_STATUS = 'Pending';
   static const ONGOING_STATUS = 'Ongoing';
 }
+
+//-------------------------commission id for join course----------
+const JOIN_COURSE_COMMISSION_ID = 1;

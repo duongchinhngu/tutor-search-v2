@@ -59,7 +59,7 @@ class _TuteeDetailScreenState extends State<TuteeDetailScreen> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: mainColor,
-              title: Text('Tutee Profile'),
+              // title: Text('Tutee Profile'),
               centerTitle: true,
               leading: buildDefaultCustomBackButton(context, Colors.white),
             ),
@@ -195,7 +195,7 @@ class TuteeInformation extends StatelessWidget {
                                             .toString()
                                             .replaceAll('+', ' '));
                                       },
-                                      child: buildCourseInformationListTile(
+                                      child: buildCourseInformationUrl(
                                           tutee.email, 'Email', Icons.mail),
                                     ),
                                     Visibility(
@@ -233,7 +233,7 @@ class TuteeInformation extends StatelessWidget {
                                                           tutee.address,
                                                     )));
                                       },
-                                      child: buildCourseInformationListTile(
+                                      child: buildCourseInformationUrl(
                                           tutee.address, 'Address', Icons.map),
                                     ),
                                     Visibility(
@@ -262,7 +262,7 @@ class TuteeInformation extends StatelessWidget {
                                       onTap: () {
                                         launch('tel:${tutee.phone}');
                                       },
-                                      child: buildCourseInformationListTile(
+                                      child: buildCourseInformationUrl(
                                           tutee.phone,
                                           'Phone number',
                                           Icons.phone_android),

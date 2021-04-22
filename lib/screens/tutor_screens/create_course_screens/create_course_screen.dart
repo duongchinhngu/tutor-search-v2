@@ -27,7 +27,6 @@ import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/class_state.dart';
 import 'package:tutor_search_system/states/commission_state.dart';
 import 'create_course_processing_screen.dart';
@@ -51,6 +50,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     getMessage(context);
     super.initState();
   }
+
   //validator for all input field
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   //
@@ -100,7 +100,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         onChanged: (context) {
                           //set name = value of this textFormfield on change
                           setState(() {
-                            course.name = courseNameController.text;
+                            course.name = courseNameController.text.trim();
                           });
                         },
                         decoration: InputDecoration(
@@ -373,15 +373,37 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 onTap: () async {
                   // //need to refactor
                   // //select time range
-
                   final range = await timeRangeSelector(
                       context, selectedTimeRange, 'Study Time');
-                  //
-                  if (range != null) {
-                    selectedTimeRange = range;
+                  final gap = range.endTime.minute +
+                      range.endTime.hour * 60 -
+                      range.startTime.minute -
+                      range.startTime.hour * 60;
+                      print(" gap is " + gap.toString());
+                  if (gap >= 30 && gap <= 16*60) {
+                    //
+                    if (range != null) {
+                      selectedTimeRange = range;
+                    }
+                    // //set tmpCourse begin and end time
+                    setBeginAndEndTime(selectedTimeRange);
+                  } else {
+                    //
+                    showDialog(
+                        context: context,
+                        builder: (context) => buildDefaultDialog(
+                                context,
+                                "Invalid!",
+                                "Course duration must be 30 min to 8 hours a day",
+                                [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Ok'),
+                                  ),
+                                ]));
                   }
-                  // //set tmpCourse begin and end time
-                  setBeginAndEndTime(selectedTimeRange);
                 },
                 child: Container(
                   height: 210,
@@ -602,6 +624,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                     ),
                     validator: MultiValidator([
+                      RangeValidator(min: 1, max: 100000, errorText: "must be from \$1 to \$100000"),
                       RequiredValidator(errorText: "Study Fee is required"),
                     ]),
                   ),
@@ -658,6 +681,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                     ),
                     validator: MultiValidator([
+                      RangeValidator(
+                          min: 1, max: 30, errorText: 'from 1 to 30'),
                       RequiredValidator(errorText: " is required"),
                     ]),
                   ),
@@ -1080,7 +1105,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                   //
                                   Align(
                                     alignment: Alignment.centerLeft,
-                                                                      child: Container(
+                                    child: Container(
                                       padding: EdgeInsets.only(
                                         bottom: 20,
                                       ),
@@ -1109,7 +1134,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                       TextButton(
                                         onPressed: () {
                                           //
-                                          course.location = locationController.text;
+                                          course.location =
+                                              locationController.text.trim();
                                           //set course status from 'isDraft' to 'Pending'
                                           course.status = 'Pending';
                                           //
