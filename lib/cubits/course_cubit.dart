@@ -13,14 +13,18 @@ class CourseCubit extends Cubit<CourseState> {
 
   //get courses for tutee home screen;
   //course status = active; not registered by this authorized tutee id
-  Future getTuteeHomeCourses() async {
+  Future getTuteeHomeCourses(String currentAddress) async {
     try {
-      List<CourseTutor> courses =
-          await _repository.fecthTuteeHomeCourses(http.Client());
-      if (courses != null) {
-        emit(CourseTutorListLoadedState(courses));
+      if (currentAddress == '') {
+        emit(CourseLoadingState());
       } else {
-        emit(CourseNoDataState());
+        List<CourseTutor> courses = await _repository.fecthTuteeHomeCourses(
+            http.Client(), currentAddress);
+        if (courses != null) {
+          emit(CourseTutorListLoadedState(courses));
+        } else {
+          emit(CourseNoDataState());
+        }
       }
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
@@ -28,10 +32,10 @@ class CourseCubit extends Cubit<CourseState> {
   }
 
   //
-  Future getCoursesByFilter(Filter filter) async {
+  Future getCoursesByFilter(Filter filter, String currentAddress) async {
     try {
       List<CourseTutor> courses =
-          await _repository.fetchCourseByFilter(http.Client(), filter);
+          await _repository.fetchCourseByFilter(http.Client(), filter, currentAddress);
       if (courses != null) {
         emit(CourseTutorListLoadedState(courses));
       } else {

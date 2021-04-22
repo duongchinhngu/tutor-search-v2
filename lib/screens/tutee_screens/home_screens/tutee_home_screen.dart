@@ -45,6 +45,49 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
   final loginRepository = LoginRepository();
   //
   final feedbackRepository = FeedbackRepository();
+
+  Position _currentPosition;
+  String _currentAddress = '';
+
+  _getCurrentLocation() async {
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) async {
+      setState(() {
+        _currentPosition = position;
+      });
+      await _getAddress();
+      // await _genCurrentAddress();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  _getAddress() async {
+    try {
+      List<Placemark> p = await placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+      print('latitude: ' + _currentPosition.latitude.toString());
+      print('longitude: ' + _currentPosition.longitude.toString());
+
+      Placemark place = p[0];
+
+      setState(() {
+        _currentAddress =
+            "${place.name}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}";
+        print('ALO ALO ALO ALO: ' + _currentAddress);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+  //
+  // _genCurrentAddress() async {
+  // final coordinates = new Coordinates(_currentPosition.latitude, _currentPosition.longitude);
+  //       var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+  //       var first = addresses.first;
+  //       print("${first.featureName} : ${first.addressLine}");
+  // }
+
   //
   @override
   void initState() {
@@ -88,6 +131,8 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
             builder: (context) => InterestedSubjectSelectorDialog());
       }
     });
+
+    _getCurrentLocation();
   }
 
   //
@@ -100,7 +145,7 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
           BlocBuilder<CourseCubit, CourseState>(builder: (context, state) {
         //call category cubit and get all course
         final classCubit = context.watch<CourseCubit>();
-        classCubit.getTuteeHomeCourses();
+        classCubit.getTuteeHomeCourses(_currentAddress);
         //render proper UI for each Course state
         if (state is CourseLoadingState) {
           return buildLoadingIndicator();
@@ -407,8 +452,7 @@ class _CourseCardState extends State<CourseCard> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          //available slot
-                          Padding(
+Padding(
                             padding: const EdgeInsets.fromLTRB(5, 5, 10, 10),
                             child: Text(
                               widget.course.availableSlot.toString() 
@@ -417,7 +461,6 @@ class _CourseCardState extends State<CourseCard> {
                               style: textStyle,
                             ),
                           ),
-                          //
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
@@ -425,16 +468,14 @@ class _CourseCardState extends State<CourseCard> {
                               style: textStyle,
                             ),
                           ),
-                          //
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
                               // _distance + ' km',
-                              widget.course.distance.toString()+ ' km',
+                              widget.course.distance.toString() + ' km',
                               style: textStyle,
                             ),
                           ),
-                          //
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(

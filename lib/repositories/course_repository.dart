@@ -12,11 +12,10 @@ import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/
 
 class CourseRepository {
   //fecth all courses : status = active and not registered by this tuteeId
-  Future<List<CourseTutor>> fecthTuteeHomeCourses(http.Client client) async {
+  Future<List<CourseTutor>> fecthTuteeHomeCourses(http.Client client, String currentAddress) async {
     final tuteeId = globals.authorizedTutee.id;
     // final String currentLocation = await getCurrentLocation();
-    final String currentLocation = 'Dai Hoc FPT Ho Chi Minh';
-    print('thí í current location: ' + currentLocation);
+    final String currentLocation = currentAddress;
     final response = await http.get(
       '$TUTEE_HOME_COURSES/$tuteeId/$currentLocation',
       headers: await AuthorizationContants().getAuthorizeHeader(),
@@ -34,9 +33,9 @@ class CourseRepository {
 
   //fetch courses by status
   Future<List<CourseTutor>> fetchCourseByFilter(
-      http.Client client, Filter filter) async {
+      http.Client client, Filter filter, String currentAddress) async {
     // final String currentLocation = await getCurrentLocation();
-    final String currentLocation = 'Dai Hoc FPT Ho Chi Minh';
+    final String currentLocation = currentAddress;
     //host url
     String url = '$FILTER_COURSE_API/$currentLocation/filter?';
     //query parameters

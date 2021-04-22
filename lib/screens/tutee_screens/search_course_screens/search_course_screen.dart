@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
@@ -275,6 +277,41 @@ class SearchCourseBody extends StatefulWidget {
 
 //Search Course body contain class horizontal list and course result
 class _SearchCourseBodyState extends State<SearchCourseBody> {
+  Position _currentPosition;
+  String _currentAddress = '';
+
+  _getCurrentLocation() async {
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) async {
+      setState(() {
+        _currentPosition = position;
+      });
+      await _getAddress();
+      // await _genCurrentAddress();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  _getAddress() async {
+    try {
+      List<Placemark> p = await placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+      print('latitude: ' + _currentPosition.latitude.toString());
+      print('longitude: ' + _currentPosition.longitude.toString());
+
+      Placemark place = p[0];
+
+      setState(() {
+        _currentAddress =
+            "${place.name}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}";
+        print('ALO ALO ALO ALO: ' + _currentAddress);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -282,6 +319,8 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
     if (filter.filterClass != null) {
       filter.filterClass = null;
     }
+
+    _getCurrentLocation();
   }
 
   @override
@@ -340,7 +379,7 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                 builder: (context, state) {
                   //
                   final courseCubit = context.watch<CourseCubit>();
-                  courseCubit.getCoursesByFilter(filter);
+                  courseCubit.getCoursesByFilter(filter, _currentAddress);
                   //render proper UI for each Course state
                   if (state is CourseLoadingState) {
                     return buildLoadingIndicator();
