@@ -9,6 +9,7 @@ class ExtendedCourse extends Course {
   final String tutorAvatarUrl;
   final String tutorName;
   final String tutorAddress;
+  final int availableSlot;
 
   ExtendedCourse(
     int id,
@@ -36,7 +37,9 @@ class ExtendedCourse extends Course {
     this.enrollmentStatus,
     this.tutorAvatarUrl,
     this.tutorName,
-    this.enrollmentId, this.tutorAddress,
+    this.enrollmentId,
+    this.tutorAddress,
+    this.availableSlot,
   ) : super.constructor(
           id,
           name,
@@ -58,7 +61,7 @@ class ExtendedCourse extends Course {
           confirmedBy,
         );
 
-  ExtendedCourse.fromJsonConstructor( {
+  ExtendedCourse.fromJsonConstructor({
     int id,
     String name,
     String beginTime,
@@ -86,6 +89,7 @@ class ExtendedCourse extends Course {
     this.tutorAvatarUrl,
     this.tutorName,
     this.enrollmentId,
+    this.availableSlot,
   }) : super.constructor(
           id,
           name,
@@ -135,6 +139,7 @@ class ExtendedCourse extends Course {
       extraImages: json['extraImages'],
       createdDate: json['createdDate'],
       tutorAddress: json['tutorAddress'].toString(),
+      availableSlot: json['availableSlot'],
     );
   }
 }

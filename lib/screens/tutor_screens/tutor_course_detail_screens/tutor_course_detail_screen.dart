@@ -309,6 +309,13 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               'Maximum tutee',
               Icons.person,
             ),
+             buildDivider(),
+            //available slots
+            buildCourseInformationListTile(
+              course.availableSlot.toString(),
+              'Available Slot(s)',
+              Icons.person,
+            ),
             buildDivider(),
             //description for this course
             buildCourseInformationListTile(
