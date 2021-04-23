@@ -380,8 +380,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       range.endTime.hour * 60 -
                       range.startTime.minute -
                       range.startTime.hour * 60;
-                      print(" gap is " + gap.toString());
-                  if (gap >= 30 && gap <= 16*60) {
+                  print(" gap is " + gap.toString());
+                  if (gap >= 30 && gap <= 16 * 60) {
                     //
                     if (range != null) {
                       selectedTimeRange = range;
@@ -625,7 +625,10 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                     ),
                     validator: MultiValidator([
-                      RangeValidator(min: 1, max: 100000, errorText: "must be from \$1 to \$100000"),
+                      RangeValidator(
+                          min: 1,
+                          max: 100000,
+                          errorText: "must be from \$1 to \$100000"),
                       RequiredValidator(errorText: "Study Fee is required"),
                     ]),
                   ),
@@ -1031,147 +1034,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             ]));
                 //
               } else {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => PreviewCourseScreen(course: course)));
-                //show policy (how much this system take from tutor by commission rate)
-                showDialog(
-                  context: context,
-                  builder: (context) => Dialog(
-                    child: BlocProvider(
-                      create: (BuildContext context) =>
-                          CommissionCubit(CommissionRepository()),
-                      child: BlocBuilder<CommissionCubit, CommissionState>(
-                        builder: (BuildContext context, state) {
-                          //
-                          final commissionCubit =
-                              context.watch<CommissionCubit>();
-                          commissionCubit
-                              // .getTuteeTransactionByTuteeId(authorizedTutor.id);
-                              .getCommissionByCommissionId(1);
-                          //
-                          if (state is CommissionErrorState) {
-                            return ErrorScreen();
-                            // return Text(state.errorMessage);
-                          } else if (state is CommissionLoadingState) {
-                            return buildLoadingIndicator();
-                          } else if (state is CommissionLoadedState) {
-                            return Container(
-                              height: 400,
-                              padding: EdgeInsets.only(left: 20, right: 20),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 10,
-                                    ),
-                                    child: Image.asset(
-                                      'assets\images\1200px-Paper_Plane_Vector.svg.png',
-                                      height: 110,
-                                    ),
-                                  ),
-                                  // License term
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 15,
-                                    ),
-                                    child: Text(
-                                      'License Term',
-                                      style: headerStyle,
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  ),
-                                  //license and policies
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                      bottom: 8,
-                                    ),
-                                    child: Text(
-                                        'Your course will be verified by managers, all information of this course must be obey our policies.'),
-                                  ),
-                                  //
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                      bottom: 8,
-                                    ),
-                                    child: Text('Easy Edu would take you ' +
-                                        (state.commission.rate * 100)
-                                            .toString() +
-                                        ' \% of your total revenue. It means ' +
-                                        (double.parse(
-                                                    courseFeeController.text) *
-                                                state.commission.rate)
-                                            .toString() +
-                                        ' \$ each tutee this course has.'),
-                                  ),
-                                  //
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                        bottom: 20,
-                                      ),
-                                      child: Text('Do you agree?'),
-                                    ),
-                                  ),
-
-                                  //agree and disagree
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      //
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                          'Disagree',
-                                          style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: titleFontSize),
-                                        ),
-                                      ),
-                                      //
-                                      TextButton(
-                                        onPressed: () {
-                                          //
-                                          course.location =
-                                              locationController.text.trim();
-                                          //set course status from 'isDraft' to 'Pending'
-                                          course.status = 'Pending';
-                                          //
-                                          WidgetsBinding.instance
-                                              .addPostFrameCallback((_) {
-                                            return Navigator.of(context)
-                                                .pushReplacement(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CreateCourseProcessingScreen(
-                                                  course: course,
-                                                ),
-                                              ),
-                                            );
-                                          });
-                                        },
-                                        child: Text(
-                                          'Agree',
-                                          style: TextStyle(
-                                              color: mainColor,
-                                              fontSize: titleFontSize),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                );
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => PreviewCourseScreen(
+                          course: course,
+                          className: selectedClassName,
+                          subjectName: widget.selectedSubject.name,
+                        )));
               }
             }
           },
@@ -1185,7 +1053,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   color: mainColor,
                 )),
             child: Text(
-              'Publish',
+              'Preview',
               style: TextStyle(
                 color: mainColor,
                 fontSize: titleFontSize,

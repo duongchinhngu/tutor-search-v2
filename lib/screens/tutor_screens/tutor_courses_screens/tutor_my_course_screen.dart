@@ -421,63 +421,70 @@ Widget TutorCourseCard(BuildContext context, Course course) {
             ),
           ),
           // tutee in course
-          Positioned(
-            top: 15,
-            right: 20,
-            child: Column(
-              children: [
-                Container(
-                  child: Image.asset(
-                    'assets/images/cute-boy-study-with-laptop-cartoon-icon-illustration-education-technology-icon-concept-isolated-flat-cartoon-style_138676-2107.jpg',
-                    height: 70,
-                  ),
-                ),
-                //
-                Container(
-                  // height: 30,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  // width: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: backgroundColor,
-                    // shape: BoxShape.circle,
-                    // border: Border.all(
-                    //     width: 2,
-                    //     color: mapStatusToColor(course.status).withOpacity(.2)),
-                  ),
-                  child: BlocProvider(
-                    create: (context) => TuteeCubit(TuteeRepository()),
-                    child: BlocBuilder<TuteeCubit, TuteeState>(
-                      builder: (context, state) {
-                        //
-                        final tuteeCubit = context.watch<TuteeCubit>();
-                        tuteeCubit.getTuteesByCourseId(course.id);
-                        //
-                        if (state is TuteeLoadingState) {
-                          return Text('loading..');
-                        } else if (state is TuteeNoDataState) {
-                          return Text(
-                            '0 tutee(s)',
-                            style: textStyle,
-                          );
-                        } else if (state is TuteeListLoadedState) {
-                          return Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  state.tutees.length.toString() + ' tutee(s)',
-                                  style: textStyle,
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      },
+          Visibility(
+            visible: course.status == StatusConstants.ACTIVE_STATUS ||
+                course.status == StatusConstants.ONGOING_STATUS ||
+                course.status == StatusConstants.INACTIVE_STATUS,
+            child: Positioned(
+              top: 15,
+              right: 20,
+              child: Column(
+                children: [
+                  Container(
+                    child: Image.asset(
+                      'assets/images/cute-boy-study-with-laptop-cartoon-icon-illustration-education-technology-icon-concept-isolated-flat-cartoon-style_138676-2107.jpg',
+                      height: 70,
                     ),
                   ),
-                ),
-              ],
+                  //
+                  Container(
+                    // height: 30,
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    // width: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: backgroundColor,
+                      // shape: BoxShape.circle,
+                      // border: Border.all(
+                      //     width: 2,
+                      //     color: mapStatusToColor(course.status).withOpacity(.2)),
+                    ),
+                    child: BlocProvider(
+                      create: (context) => TuteeCubit(TuteeRepository()),
+                      child: BlocBuilder<TuteeCubit, TuteeState>(
+                        builder: (context, state) {
+                          //
+                          final tuteeCubit = context.watch<TuteeCubit>();
+                          tuteeCubit.getTuteesByCourseId(course.id);
+                          //
+                          if (state is TuteeLoadingState) {
+                            return Text('loading..');
+                          } else if (state is TuteeNoDataState) {
+                            return Text(
+                              '0 tutee(s)',
+                              style: textStyle,
+                            );
+                          } else if (state is TuteeListLoadedState) {
+                            return Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    state.tutees.length.toString() +
+                                        ' tutee(s)',
+                                    style: textStyle,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

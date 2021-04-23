@@ -21,6 +21,8 @@ import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_sc
 import 'package:tutor_search_system/states/course_state.dart';
 import './course_detail_screen.dart';
 
+String _currentAddress = '';
+
 class TuteeHomeCourseDetailScreen extends StatefulWidget {
   final int courseId;
 
@@ -34,7 +36,7 @@ class TuteeHomeCourseDetailScreen extends StatefulWidget {
 class _TuteeHomeCourseDetailScreenState
     extends State<TuteeHomeCourseDetailScreen> {
   Position _currentPosition;
-  String _currentAddress = '';
+  
 
   _getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
