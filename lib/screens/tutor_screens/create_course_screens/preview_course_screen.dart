@@ -112,7 +112,7 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
                                   vertical: 10,
                                 ),
                                 child: Image.asset(
-                                  'assets\images\1200px-Paper_Plane_Vector.svg.png',
+                                  'assets/images/1200px-Paper_Plane_Vector.svg.png',
                                   height: 110,
                                 ),
                               ),

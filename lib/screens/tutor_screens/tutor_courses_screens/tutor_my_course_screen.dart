@@ -444,10 +444,6 @@ Widget TutorCourseCard(BuildContext context, Course course) {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: backgroundColor,
-                      // shape: BoxShape.circle,
-                      // border: Border.all(
-                      //     width: 2,
-                      //     color: mapStatusToColor(course.status).withOpacity(.2)),
                     ),
                     child: BlocProvider(
                       create: (context) => TuteeCubit(TuteeRepository()),
