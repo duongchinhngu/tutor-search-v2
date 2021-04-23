@@ -10,6 +10,7 @@ class ExtendedCourse extends Course {
   final String tutorName;
   final String tutorAddress;
   final bool isFeedback;
+  final int availableSlot
 
   ExtendedCourse(
       int id,
@@ -39,7 +40,9 @@ class ExtendedCourse extends Course {
       this.tutorName,
       this.enrollmentId,
       this.tutorAddress,
-      this.isFeedback)
+      this.isFeedback
+      this.availableSlot
+  )
       : super.constructor(
           id,
           name,
@@ -89,7 +92,9 @@ class ExtendedCourse extends Course {
       this.tutorAvatarUrl,
       this.tutorName,
       this.enrollmentId,
-      this.isFeedback})
+      this.isFeedback
+      this.availableSlot
+      })
       : super.constructor(
           id,
           name,
@@ -140,5 +145,6 @@ class ExtendedCourse extends Course {
         createdDate: json['createdDate'],
         tutorAddress: json['tutorAddress'].toString(),
         isFeedback: json['isTakeFeedback']);
+       availableSlot: json['availableSlot'],
   }
 }

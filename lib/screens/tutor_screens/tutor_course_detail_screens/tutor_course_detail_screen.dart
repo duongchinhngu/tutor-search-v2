@@ -205,7 +205,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                                   'Course\'s tutee(s)',
                                   style: textStyle,
                                 ),
-
+                                //
                                 BlocProvider(
                                   create: (context) =>
                                       TuteeCubit(TuteeRepository()),
@@ -307,6 +307,13 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
             buildCourseInformationListTile(
               course.maxTutee.toString(),
               'Maximum tutee',
+              Icons.person,
+            ),
+             buildDivider(),
+            //available slots
+            buildCourseInformationListTile(
+              course.availableSlot.toString(),
+              'Available Slot(s)',
               Icons.person,
             ),
             buildDivider(),

@@ -2,38 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
+import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/models/tutor_update_profile.dart';
+import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_update_profile_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/tutor_register_successfully.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_variable.dart';
-import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/updated_pending_done_screen.dart';
 
-class UpdateTutorProfileProcessingScreen extends StatefulWidget {
-  final TutorUpdateProfile tutorUpdateProfile;
+class ReUpdateTutorProfileProcessingScreen extends StatefulWidget {
+  final Tutor reupdateTutor;
 
-  const UpdateTutorProfileProcessingScreen(
-      {Key key, @required this.tutorUpdateProfile})
+  const ReUpdateTutorProfileProcessingScreen(
+      {Key key, @required this.reupdateTutor})
       : super(key: key);
   @override
-  _UpdateTutorProfileProcessingScreenState createState() =>
-      _UpdateTutorProfileProcessingScreenState();
+  _ReUpdateTutorProfileProcessingScreenState createState() =>
+      _ReUpdateTutorProfileProcessingScreenState();
 }
 
-class _UpdateTutorProfileProcessingScreenState
-    extends State<UpdateTutorProfileProcessingScreen> {
-  Future<bool> completeTutorUpdateProfile(
-      TutorUpdateProfile tutorUpdateProfile) async {
+class _ReUpdateTutorProfileProcessingScreenState
+    extends State<ReUpdateTutorProfileProcessingScreen> {
+  Future<bool> completeTutorUpdateProfile(Tutor reupdateTutor) async {
     //
-    await TutorUpdateProfileRepository()
-        .deleteTutorUpdateProfilebyId(tutorUpdateProfile.id);
     if (avatarUpdate != null) {
       String imageUrl = await uploadFileOnFirebaseStorage(avatarUpdate);
-      tutorUpdateProfile.avatarImageLink = imageUrl;
+      reupdateTutor.avatarImageLink = imageUrl;
       print('ti sí image link: ' + imageUrl);
     }
-
     //
-    await TutorUpdateProfileRepository().postUpdateProfile(tutorUpdateProfile);
+    await TutorRepository().putTutor(reupdateTutor);
     //
     return Future.value(true);
   }
@@ -41,7 +39,7 @@ class _UpdateTutorProfileProcessingScreenState
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: completeTutorUpdateProfile(widget.tutorUpdateProfile),
+      future: completeTutorUpdateProfile(widget.reupdateTutor),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return ErrorScreen();
@@ -50,7 +48,7 @@ class _UpdateTutorProfileProcessingScreenState
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                    builder: (context) => CompletedRequestUpdateScreen()),
+                    builder: (context) => TutorRegisterSuccessfullyScreen()),
                 ModalRoute.withName('/Home'),
               );
             });

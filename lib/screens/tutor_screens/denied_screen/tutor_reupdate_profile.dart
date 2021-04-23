@@ -1,7 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,24 +9,24 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/tutor.dart';
-import 'package:tutor_search_system/models/tutor_update_profile.dart';
 import 'package:tutor_search_system/repositories/image_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
-import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_processing_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_variable.dart';
+import 'package:tutor_search_system/screens/tutor_screens/denied_screen/tutor_reupdate_variable.dart';
+import 'package:tutor_search_system/screens/tutor_screens/denied_screen/tutor_reupdate_processing_screen.dart';
 
-class UpdateTutorProfileScreen extends StatefulWidget {
+class ReUpdateTutorProfileScreen extends StatefulWidget {
   final Tutor tutor;
 
-  const UpdateTutorProfileScreen({Key key, @required this.tutor})
+  const ReUpdateTutorProfileScreen({Key key, @required this.tutor})
       : super(key: key);
   @override
-  _UpdateTutorProfileScreenState createState() =>
-      _UpdateTutorProfileScreenState();
+  _ReUpdateTutorProfileScreenState createState() =>
+      _ReUpdateTutorProfileScreenState();
 }
 
-class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
+class _ReUpdateTutorProfileScreenState
+    extends State<ReUpdateTutorProfileScreen> {
   //init controllers
   void initTextController() {
     nameController.text = widget.tutor.fullname;
@@ -85,7 +82,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
             updateTutorFormkey.currentState.save();
             //
             certificationImages.removeAt(0);
-            final TutorUpdateProfile tutorUpdateProfile = TutorUpdateProfile(
+            final Tutor reupdatedTutor = Tutor.constructor(
               widget.tutor.id,
               nameController.text,
               genderController.text,
@@ -93,26 +90,44 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
               widget.tutor.email,
               phoneController.text,
               addressController.text,
-              widget.tutor.status,
+              StatusConstants.PENDING_STATUS,
               widget.tutor.roleId,
               descriptionController.text,
               widget.tutor.avatarImageLink,
               educationLevelController.text,
               universityController.text,
-              widget.tutor.avatarImageLink,
-              certificationImages.toString(),
-              widget.tutor.confirmedDate,
-              widget.tutor.points,
+              0,
               widget.tutor.membershipId,
-              widget.tutor.createdDate,
+              socialIdUrl,
             );
-            print('thí í created date ò tutor: ' + widget.tutor.avatarImageLink);
+            //   widget.tutor.id,
+            //   nameController.text,
+            //   genderController.text,
+            //   birthdayController.text,
+            //   widget.tutor.email,
+            //   phoneController.text,
+            //   addressController.text,
+            //   widget.tutor.status,
+            //   widget.tutor.roleId,
+            //   descriptionController.text,
+            //   widget.tutor.avatarImageLink,
+            //   educationLevelController.text,
+            //   universityController.text,
+            //   widget.tutor.avatarImageLink,
+            //   certificationImages.toString(),
+            //   widget.tutor.confirmedDate,
+            //   widget.tutor.points,
+            //   widget.tutor.membershipId,
+            //   widget.tutor.createdDate,
+            // );
+            print(
+                'image url avatar tutror:  ' + widget.tutor.avatarImageLink);
             //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => UpdateTutorProfileProcessingScreen(
-                    tutorUpdateProfile: tutorUpdateProfile,
+                  builder: (context) => ReUpdateTutorProfileProcessingScreen(
+                    reupdateTutor: reupdatedTutor,
                   ),
                 ),
               );

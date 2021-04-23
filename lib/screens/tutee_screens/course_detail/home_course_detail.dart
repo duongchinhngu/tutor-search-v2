@@ -304,6 +304,13 @@ class _TuteeHomeCourseDetailScreenState
             Icons.person,
           ),
           buildDivider(),
+          //Available slot(s)
+          buildCourseInformationListTile(
+            course.availableSlot.toString(),
+            'Available slot(s)',
+            Icons.person,
+          ),
+          buildDivider(),
           //description for this course
           buildCourseInformationListTile(
             course.description != '' ? course.description : 'No description',
