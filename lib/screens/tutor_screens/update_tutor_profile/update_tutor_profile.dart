@@ -84,7 +84,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
           if (updateTutorFormkey.currentState.validate()) {
             updateTutorFormkey.currentState.save();
             //
-            certificationImages.removeAt(0);
+            // certificationImages.removeAt(0);
             final TutorUpdateProfile tutorUpdateProfile = TutorUpdateProfile(
               widget.tutor.id,
               nameController.text,

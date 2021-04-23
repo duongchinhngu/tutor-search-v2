@@ -66,6 +66,9 @@ class _TuteeHomeCourseDetailScreenState
     );
   }
 
+
+}
+
   //course detail body
   Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
     List<String> extraImages = [];
@@ -311,7 +314,6 @@ class _TuteeHomeCourseDetailScreenState
       ),
     );
   }
-}
 
 FloatingActionButton buildFollowButton(
         BuildContext context, ExtendedCourse course) =>

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
+import 'package:tutor_search_system/repositories/account_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/notification_screens/notification_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/my_courses/my_course_screen.dart';
@@ -25,6 +27,13 @@ class _TuteeBottomNavigatorBarState extends State<TuteeBottomNavigatorBar> {
   @override
   void initState() {
     super.initState();
+    //
+    //reset token
+    getFCMToken().then((token){
+      AccountRepository().resetFCMToken( authorizedTutee.email ,token);
+      print('token has just reseted');
+    });
+    //
     screens = [
       TuteeHomeScreen(),
       MyCourseScreen(),

@@ -39,8 +39,10 @@ class FeedbackRepository {
   //return unfeedbacked tutor
   Future<Tutor> fetchUnfeedbackTutorByTuteeId(
       http.Client client, int tuteeId) async {
-    final response =
-        await http.get('$FEEDBACK_CHECK_API/result?tuteeId=$tuteeId', headers: await AuthorizationContants().getAuthorizeHeader(),);
+    final response = await http.get(
+      '$FEEDBACK_CHECK_API/result?tuteeId=$tuteeId',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       return Tutor.fromJson(json.decode(response.body));
     } else if (response.statusCode == 500) {
@@ -58,8 +60,7 @@ class FeedbackRepository {
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
-          .map((feedback) =>
-              new Feedbacks.fromJson(feedback))
+          .map((feedback) => new Feedbacks.fromJson(feedback))
           .toList();
     } else if (response.statusCode == 404) {
       return null;

@@ -31,6 +31,7 @@ import 'package:tutor_search_system/states/class_state.dart';
 import 'package:tutor_search_system/states/commission_state.dart';
 import 'create_course_processing_screen.dart';
 import 'create_course_variables.dart';
+import 'preview_course_screen.dart';
 
 //create course UI;
 //this is main ui
@@ -1030,6 +1031,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             ]));
                 //
               } else {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => PreviewCourseScreen(course: course)));
                 //show policy (how much this system take from tutor by commission rate)
                 showDialog(
                   context: context,
@@ -1063,8 +1065,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                     padding: EdgeInsets.symmetric(
                                       vertical: 10,
                                     ),
-                                    child: Image.network(
-                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Paper_Plane_Vector.svg/1200px-Paper_Plane_Vector.svg.png',
+                                    child: Image.asset(
+                                      'assets\images\1200px-Paper_Plane_Vector.svg.png',
                                       height: 110,
                                     ),
                                   ),

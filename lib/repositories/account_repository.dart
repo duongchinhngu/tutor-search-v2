@@ -58,4 +58,26 @@ class AccountRepository {
           response.statusCode.toString());
     }
   }
+
+   //post account
+  Future resetFCMToken(String email, String token ) async {
+    final http.Response response = await http.put('$ACCOUNT_API/resetFcmToken',
+        headers: await AuthorizationContants().getAuthorizeHeader(),
+        body: jsonEncode(
+          <String, dynamic>{
+            'email': email,
+            'token': token,
+          },
+        ));
+    if (response.statusCode == 201 ||
+        response.statusCode == 204 ||
+        response.statusCode == 404) {
+      print('this is: ' + response.body + response.statusCode.toString());
+      return true;
+    } else {
+      print('error body account repo: ' + response.body);
+      print(response.statusCode);
+      throw Exception('Faild to put Account, reset fcm token');
+    }
+  }
 }

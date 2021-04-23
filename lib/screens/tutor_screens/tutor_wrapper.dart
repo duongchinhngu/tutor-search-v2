@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
+import 'package:tutor_search_system/repositories/account_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/notification_screens/notification_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_welcome.dart';
 import 'package:tutor_search_system/screens/tutor_screens/report_revenue/report_revenue_screen.dart';
@@ -25,6 +27,11 @@ class _TutorBottomNavigatorBarState extends State<TutorBottomNavigatorBar> {
   @override
   void initState() {
     super.initState();
+    //reset token
+    getFCMToken().then((token){
+      AccountRepository().resetFCMToken( authorizedTutor.email ,token);
+    });
+    //init screen tab navigation bar
     screens = [
       TutorMyCourseScreen(),
       // TutorMyCourseScreen(),

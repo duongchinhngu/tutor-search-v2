@@ -12,6 +12,10 @@ void registerOnFirebase() {
       .then((token) => print('this is token: ' + token));
 }
 
+Future<String> getFCMToken() async {
+  return await _firebaseMessaging.getToken();
+}
+
 void getMessage(BuildContext context) {
   _firebaseMessaging.configure(
     // onBackgroundMessage: (Map<String, dynamic> message) async {
