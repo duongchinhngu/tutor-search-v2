@@ -205,7 +205,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                                   'Course\'s tutee(s)',
                                   style: textStyle,
                                 ),
-
+                                //
                                 BlocProvider(
                                   create: (context) =>
                                       TuteeCubit(TuteeRepository()),

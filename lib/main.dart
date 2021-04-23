@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.pontanoSansTextTheme(),
       ),
-      home: TutorDeniedScreen(),
+      home: LoginScreen(),
     );
   }
 }

@@ -7,13 +7,16 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
+import 'package:tutor_search_system/cubits/tutee_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
+import 'package:tutor_search_system/states/tutee_state.dart';
 
 String sortValue = 'Default sort';
 
@@ -29,6 +32,7 @@ class _TutorMyCourseScreenState extends State<TutorMyCourseScreen> {
     getMessage(context);
     super.initState();
   }
+
   //default selected status
   String _selectedStatus = 'All';
   //
@@ -309,6 +313,7 @@ Widget TutorCourseCard(BuildContext context, Course course) {
       child: Stack(
         alignment: Alignment.centerRight,
         children: <Widget>[
+          //
           Container(
             height: courseCardHeight,
             width: 335,
@@ -320,6 +325,7 @@ Widget TutorCourseCard(BuildContext context, Course course) {
                   boxShadowStyle,
                 ]),
           ),
+          //
           Container(
             height: courseCardHeight,
             width: 324,
@@ -409,6 +415,66 @@ Widget TutorCourseCard(BuildContext context, Course course) {
                         ),
                       ),
                     ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // tutee in course
+          Positioned(
+            top: 15,
+            right: 20,
+            child: Column(
+              children: [
+                Container(
+                  child: Image.asset(
+                    'assets/images/cute-boy-study-with-laptop-cartoon-icon-illustration-education-technology-icon-concept-isolated-flat-cartoon-style_138676-2107.jpg',
+                    height: 70,
+                  ),
+                ),
+                //
+                Container(
+                  // height: 30,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  // width: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: backgroundColor,
+                    // shape: BoxShape.circle,
+                    // border: Border.all(
+                    //     width: 2,
+                    //     color: mapStatusToColor(course.status).withOpacity(.2)),
+                  ),
+                  child: BlocProvider(
+                    create: (context) => TuteeCubit(TuteeRepository()),
+                    child: BlocBuilder<TuteeCubit, TuteeState>(
+                      builder: (context, state) {
+                        //
+                        final tuteeCubit = context.watch<TuteeCubit>();
+                        tuteeCubit.getTuteesByCourseId(course.id);
+                        //
+                        if (state is TuteeLoadingState) {
+                          return Text('loading..');
+                        } else if (state is TuteeNoDataState) {
+                          return Text(
+                            '0 tutee(s)',
+                            style: textStyle,
+                          );
+                        } else if (state is TuteeListLoadedState) {
+                          return Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  state.tutees.length.toString() + ' tutee(s)',
+                                  style: textStyle,
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ),
               ],
