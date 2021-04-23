@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
@@ -12,6 +14,7 @@ import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/tutee_payment_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
@@ -30,11 +33,58 @@ class TuteeHomeCourseDetailScreen extends StatefulWidget {
 
 class _TuteeHomeCourseDetailScreenState
     extends State<TuteeHomeCourseDetailScreen> {
+  Position _currentPosition;
+  String _currentAddress = '';
+
+  _getCurrentLocation() async {
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) async {
+      setState(() {
+        _currentPosition = position;
+      });
+      await _getAddress();
+      // await _genCurrentAddress();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  _getAddress() async {
+    try {
+      List<Placemark> p = await placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+      print('latitude: ' + _currentPosition.latitude.toString());
+      print('longitude: ' + _currentPosition.longitude.toString());
+
+      Placemark place = p[0];
+      print('1 ${place.name}');
+      print('2 ${place.administrativeArea}');
+      print('3 ${place.country}');
+      print('4 ${place.isoCountryCode}');
+      print('5 ${place.locality}');
+      print('6 ${place.postalCode}');
+      print('7 ${place.street}');
+      print('8 ${place.subAdministrativeArea}');
+      print('9 ${place.subLocality}');
+      print('10 ${place.subThoroughfare}');
+      print('11 ${place.thoroughfare}');
+
+      setState(() {
+        _currentAddress =
+            "${place.name}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}";
+        print('ALO ALO ALO ALO: ' + _currentAddress);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     registerOnFirebase();
     getMessage(context);
     super.initState();
+    _getCurrentLocation();
   }
 
   @override
@@ -192,12 +242,33 @@ class _TuteeHomeCourseDetailScreenState
               course.className, 'Class', Icons.grade),
           buildDivider(),
           //location
-          buildCourseInformationListTile(
-              course.location == course.tutorAddress
-                  ? 'At Tutor Home'
-                  : course.location,
-              'Location',
-              Icons.location_on_outlined),
+          Visibility(
+            visible: course.location != course.tutorAddress,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TuteeSearchGoogleMap(
+                          tutoraddress: course.location,
+                          tuteeaddress: _currentAddress,
+                        )));
+              },
+              child: buildCourseInformationUrl(
+                  course.location == course.tutorAddress
+                      ? 'At Tutor Home'
+                      : course.location,
+                  'Location',
+                  Icons.location_on_outlined),
+            ),
+          ),
+          Visibility(
+            visible: !(course.location != course.tutorAddress),
+            child: buildCourseInformationListTile(
+                course.location == course.tutorAddress
+                    ? 'At Tutor Home'
+                    : course.location,
+                'Location',
+                Icons.location_on_outlined),
+          ),
           buildDivider(),
           //study time
           buildCourseInformationListTile(
@@ -339,6 +410,29 @@ FloatingActionButton buildFollowButton(
       },
       label: Text(
         'Join',
+        style: TextStyle(
+          fontSize: titleFontSize,
+          color: textWhiteColor,
+        ),
+      ),
+      isExtended: true,
+      backgroundColor: mainColor,
+    );
+
+FloatingActionButton buildFeedbackButton(
+        BuildContext context, ExtendedCourse course) =>
+    FloatingActionButton.extended(
+      onPressed: () {
+        //
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => TuteePaymentScreen(course: course, enrollment: widg,),
+        //   ),
+        // );
+      },
+      label: Text(
+        'Feedback',
         style: TextStyle(
           fontSize: titleFontSize,
           color: textWhiteColor,

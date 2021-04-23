@@ -304,7 +304,7 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
 
       setState(() {
         _currentAddress =
-            "${place.name}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}";
+            "${place.name}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}";
         print('ALO ALO ALO ALO: ' + _currentAddress);
       });
     } catch (e) {

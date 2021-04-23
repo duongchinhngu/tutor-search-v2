@@ -70,10 +70,21 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
       print('longitude: ' + _currentPosition.longitude.toString());
 
       Placemark place = p[0];
+      print('1 ${place.name}');
+      print('2 ${place.administrativeArea}');
+      print('3 ${place.country}');
+      print('4 ${place.isoCountryCode}');
+      print('5 ${place.locality}');
+      print('6 ${place.postalCode}');
+      print('7 ${place.street}');
+      print('8 ${place.subAdministrativeArea}');
+      print('9 ${place.subLocality}');
+      print('10 ${place.subThoroughfare}');
+      print('11 ${place.thoroughfare}');
 
       setState(() {
         _currentAddress =
-            "${place.name}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}";
+            "${place.name}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}";
         print('ALO ALO ALO ALO: ' + _currentAddress);
       });
     } catch (e) {
@@ -452,12 +463,13 @@ class _CourseCardState extends State<CourseCard> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-Padding(
+                          Padding(
                             padding: const EdgeInsets.fromLTRB(5, 5, 10, 10),
                             child: Text(
-                              widget.course.availableSlot.toString() 
-                              // + '/' + widget.course.maxTutee.toString()
-                               + ' slot(s) left',
+                              widget.course.availableSlot.toString()
+                                  // + '/' + widget.course.maxTutee.toString()
+                                  +
+                                  ' slot(s) left',
                               style: textStyle,
                             ),
                           ),
