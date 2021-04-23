@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 
 import 'screens/tutor_screens/banned_screen/tutor_banned_screen.dart';
 import 'screens/tutor_screens/denied_screen/tutor_denied_screen.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.pontanoSansTextTheme(),
       ),
+
       home: LoginScreen(),
     );
   }
