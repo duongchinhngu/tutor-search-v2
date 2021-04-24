@@ -205,6 +205,8 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
         //set enable onPress function for FAB
         payment_methods.checkOutTuteePayment(
             context, widget.course, totalAmount, widget.enrollment);
+        //
+
         //disble FAB when fee is not loaded yet
       },
       isExtended: true,

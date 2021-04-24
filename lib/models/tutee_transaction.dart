@@ -1,4 +1,3 @@
-
 import 'package:tutor_search_system/models/transaction.dart';
 
 class TuteeTransaction extends Transaction {
@@ -19,8 +18,10 @@ class TuteeTransaction extends Transaction {
     String status,
     this.tuteeId,
     this.commissionId,
-    this.courseId, this.studyFee, this.commissionRate,
-  ) : super.constructor(id, dateTime,  totalAmount, description, status);
+    this.courseId,
+    this.studyFee,
+    this.commissionRate,
+  ) : super.constructor(id, dateTime, totalAmount, description, status);
 
   TuteeTransaction({
     int id,
@@ -34,8 +35,8 @@ class TuteeTransaction extends Transaction {
     this.commissionName,
     this.courseId,
     this.courseName,
-    this.studyFee, 
-    this.commissionRate, 
+    this.studyFee,
+    this.commissionRate,
   }) : super.constructor(id, dateTime, totalAmount, description, status);
 
   factory TuteeTransaction.fromJson(Map<String, dynamic> json) {
