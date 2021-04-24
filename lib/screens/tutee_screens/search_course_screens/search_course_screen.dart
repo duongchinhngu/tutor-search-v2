@@ -384,6 +384,9 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
                   if (state is CourseLoadingState) {
                     return buildLoadingIndicator();
                   } else if (state is CourseTutorListLoadedState) {
+                    //
+                    state.courses
+                        .sort((a, b) => a.distance.compareTo(b.distance));
                     //set subjectList var = this state subject list
                     state.courses = state.courses
                         .where((s) => s.name.contains(searchValue))

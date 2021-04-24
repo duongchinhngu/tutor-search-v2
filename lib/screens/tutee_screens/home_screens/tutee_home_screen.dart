@@ -1,16 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
@@ -20,15 +15,14 @@ import 'package:tutor_search_system/models/extended_models/course_tutor.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
+import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
 import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
+import 'package:tutor_search_system/screens/tutee_screens/home_screens/sort_course_function.dart';
 import 'package:tutor_search_system/screens/tutee_screens/interested_subject_selector_dialog/interested_subject_selector_dialog.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:http/http.dart' as http;
-import 'package:tutor_search_system/screens/tutee_screens/tutee_map/api_key.dart';
-import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
 
 //this var for check whether or not take feedback
 bool isTakeFeedback = false;
@@ -56,7 +50,6 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
         _currentPosition = position;
       });
       await _getAddress();
-      // await _genCurrentAddress();
     }).catchError((e) {
       print(e);
     });
@@ -91,13 +84,6 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
       print(e);
     }
   }
-  //
-  // _genCurrentAddress() async {
-  // final coordinates = new Coordinates(_currentPosition.latitude, _currentPosition.longitude);
-  //       var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-  //       var first = addresses.first;
-  //       print("${first.featureName} : ${first.addressLine}");
-  // }
 
   //
   @override
@@ -160,21 +146,29 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
         //render proper UI for each Course state
         if (state is CourseLoadingState) {
           return buildLoadingIndicator();
+        } else if (state is CourseNoDataState) {
+          return NoDataScreen();
         } else if (state is CourseTutorListLoadedState) {
+          //apply sort course by interested subjects first in list
+          // if (_interestedSubjects != null) {
+          //   state.courses =
+          //       sortByInterestedSubject(_interestedSubjects, state.courses);
+          // }
+
           //load all course and then load courses by class id
           return Scaffold(
             appBar: AppBar(
               backgroundColor: mainColor,
               title: GestureDetector(
-                // onTap: () async {
-                //   SharedPreferences prefs =
-                //       await SharedPreferences.getInstance();
-                //   List<String> ids = prefs.getStringList(
-                //       'interestedSubjectsOf' + authorizedTutee.id.toString());
-                //   for (var i in ids) {
-                //     print('this is id: ' + i);
-                //   }
-                // },
+                onTap: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  List<String> ids = prefs.getStringList(
+                      'interestedSubjectsOf' + authorizedTutee.id.toString());
+                  for (var i in ids) {
+                    print('this is id: ' + i);
+                  }
+                },
                 child: Text(
                   "EasyEdu",
                   style: GoogleFonts.kaushanScript(
@@ -202,7 +196,7 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
 //course inn gridview UI style
 Container buildCourseGridView(CourseTutorListLoadedState state) {
   //
-  state.courses.sort((a, b) => a.distance.compareTo(b.distance));
+  // state.courses.sort((a, b) => a.distance.compareTo(b.distance));
   //
   return Container(
     child: GridView.builder(
@@ -227,97 +221,8 @@ class CourseCard extends StatefulWidget {
 }
 
 class _CourseCardState extends State<CourseCard> {
-  // GoogleMapController mapController;
-  // TutorRepository tutorRepository;
-  // Position _currentPosition;
-  // String _currentAddress;
-  // String _distance = '';
-  // Set<Marker> markers = {};
-  // PolylinePoints polylinePoints;
-  // Map<PolylineId, Polyline> polylines = {};
-  // List<LatLng> polylineCoordinates = [];
-  // String _startAddress = authorizedTutee.address;
-  // String _destinationAddress = '';
-
-  // _createPolylines(Position start, Position destination) async {
-  //   polylinePoints = PolylinePoints();
-  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-  //     GKey.API_KEY, // Google Maps API Key
-  //     PointLatLng(start.latitude, start.longitude),
-  //     PointLatLng(destination.latitude, destination.longitude),
-  //     travelMode: TravelMode.transit,
-  //   );
-
-  //   if (result.points.isNotEmpty) {
-  //     result.points.forEach((PointLatLng point) {
-  //       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-  //     });
-  //   }
-
-  //   PolylineId id = PolylineId('poly');
-  //   Polyline polyline = Polyline(
-  //     polylineId: id,
-  //     color: Colors.red,
-  //     points: polylineCoordinates,
-  //     width: 3,
-  //   );
-  //   polylines[id] = polyline;
-  // }
-
-  // double _coordinateDistance(lat1, lon1, lat2, lon2) {
-  //   var p = 0.017453292519943295;
-  //   var c = cos;
-  //   var a = 0.5 -
-  //       c((lat2 - lat1) * p) / 2 +
-  //       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-  //   return 12742 * asin(sqrt(a));
-  // }
-
-  // Future<bool> _calculateDistance(String start, String des) async {
-  //   try {
-  //     List<Location> startPlacemark = await locationFromAddress(start);
-  //     List<Location> destinationPlacemark = await locationFromAddress(des);
-
-  //     if (startPlacemark != null && destinationPlacemark != null) {
-  //       // Use the retrieved coordinates of the current position,
-  //       // instead of the address if the start position is user's
-  //       // current position, as it results in better accuracy.
-  //       Position startCoordinates = start == _currentAddress
-  //           ? Position(
-  //               latitude: _currentPosition.latitude,
-  //               longitude: _currentPosition.longitude)
-  //           : Position(
-  //               latitude: startPlacemark[0].latitude,
-  //               longitude: startPlacemark[0].longitude);
-  //       Position destinationCoordinates = Position(
-  //           latitude: destinationPlacemark[0].latitude,
-  //           longitude: destinationPlacemark[0].longitude);
-
-  //       await _createPolylines(startCoordinates, destinationCoordinates);
-  //       double totalDistance = 0.0;
-  //       // Calculating the total distance by adding the distance
-  //       // between small segments
-  //       for (int i = 0; i < polylineCoordinates.length - 1; i++) {
-  //         totalDistance += _coordinateDistance(
-  //           polylineCoordinates[i].latitude,
-  //           polylineCoordinates[i].longitude,
-  //           polylineCoordinates[i + 1].latitude,
-  //           polylineCoordinates[i + 1].longitude,
-  //         );
-  //       }
-  //       _distance = totalDistance.toStringAsFixed(1);
-  //       return true;
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   return false;
-  // }
-
   void initState() {
     super.initState();
-    // _destinationAddress = widget.course.address;
-    // _calculateDistance(_startAddress, _destinationAddress);
   }
 
   @override

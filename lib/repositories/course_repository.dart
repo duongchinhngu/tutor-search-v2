@@ -1,20 +1,23 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/models/extended_models/course_tutor.dart';
+import 'package:tutor_search_system/screens/tutee_screens/home_screens/sort_course_function.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart';
 
 class CourseRepository {
   //fecth all courses : status = active and not registered by this tuteeId
-  Future<List<CourseTutor>> fecthTuteeHomeCourses(http.Client client, String currentAddress) async {
+  Future<List<CourseTutor>> fecthTuteeHomeCourses(
+      http.Client client, String currentAddress) async {
     final tuteeId = globals.authorizedTutee.id;
-    // final String currentLocation = await getCurrentLocation();
     final String currentLocation = currentAddress;
     final response = await http.get(
       '$TUTEE_HOME_COURSES/$tuteeId/$currentLocation',
@@ -22,9 +25,20 @@ class CourseRepository {
     );
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
-      return jsonResponse
+      List<CourseTutor> result = jsonResponse
           .map((courses) => new CourseTutor.fromJson(courses))
           .toList();
+      result.sort((a, b) => a.distance.compareTo(b.distance));
+      final prefs = await SharedPreferences.getInstance();
+      //
+      List<String> interestedSubjectIds = prefs.getStringList(
+          'interestedSubjectsOf' + authorizedTutee.id.toString());
+      //
+      if (interestedSubjectIds != null) {
+        return sortByInterestedSubject(interestedSubjectIds, result);
+      } else {
+        return result;
+      }
     } else {
       print('thí í body eror: ' + response.body);
       throw Exception('Failed to fetch all courses');
