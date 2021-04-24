@@ -24,6 +24,7 @@ class TransactionRepository {
             'commissionRate': tuteeTransaction.commissionRate,
             'studyFee': tuteeTransaction.studyFee,
             'courseId': tuteeTransaction.courseId,
+            'name': tuteeTransaction.name,
           },
         ));
     if (response.statusCode == 201 ||

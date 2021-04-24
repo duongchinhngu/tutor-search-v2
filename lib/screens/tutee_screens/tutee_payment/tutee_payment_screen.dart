@@ -94,7 +94,7 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
                                 style: TextStyle(color: Colors.grey[400]),
                               ),
                               trailing: Text(
-                                "Join course fee",
+                                "Study fee payment",
                                 style: textStyle,
                               ),
                             ),
@@ -104,26 +104,6 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
                           //amount
                           _buildTuteeAmountToPay(),
                           PaymentItemDivider(),
-                          // //fee
-                          // Container(
-                          //   width: 341,
-                          //   height: 60,
-                          //   alignment: Alignment.center,
-                          //   child: ListTile(
-                          //     leading: Text(
-                          //       'Fee',
-                          //       style: TextStyle(color: Colors.grey[400]),
-                          //     ),
-                          //     trailing: Text(
-                          //       state is FeeLoadedState
-                          //           ? '\$' + state.fee.price.toString()
-                          //           : 'Loading..',
-                          //       style: textStyle,
-                          //     ),
-                          //   ),
-                          // ),
-                          // //
-                          // PaymentItemDivider(),
                           //total amount
                           _buildTotalAmount(widget.course.studyFee)
                         ],

@@ -8,6 +8,7 @@ class TuteeTransaction extends Transaction {
   String courseName;
   final double studyFee;
   final double commissionRate;
+  final String name;
 
   TuteeTransaction.modelConstructor(
     int id,
@@ -20,10 +21,10 @@ class TuteeTransaction extends Transaction {
     this.commissionId,
     this.courseId,
     this.studyFee,
-    this.commissionRate,
+    this.commissionRate, this.name,
   ) : super.constructor(id, dateTime, totalAmount, description, status);
 
-  TuteeTransaction({
+  TuteeTransaction( {
     int id,
     String dateTime,
     // double amount,
@@ -37,6 +38,7 @@ class TuteeTransaction extends Transaction {
     this.courseName,
     this.studyFee,
     this.commissionRate,
+    this.name,
   }) : super.constructor(id, dateTime, totalAmount, description, status);
 
   factory TuteeTransaction.fromJson(Map<String, dynamic> json) {
@@ -53,6 +55,7 @@ class TuteeTransaction extends Transaction {
       commissionName: json['commissionName'],
       courseId: json['courseId'],
       courseName: json['courseName'],
+      name: json['name'],
       studyFee: json['studyFee'].toDouble(),
       commissionRate: json['commissionRate'].toDouble(),
     );

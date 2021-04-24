@@ -13,23 +13,18 @@ import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
-import 'package:tutor_search_system/cubits/commission_cubit.dart';
 import 'package:tutor_search_system/models/class_has_subject.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
-import 'package:tutor_search_system/repositories/commission_repository.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
-import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
 import 'package:tutor_search_system/states/class_state.dart';
-import 'package:tutor_search_system/states/commission_state.dart';
-import 'create_course_processing_screen.dart';
 import 'create_course_variables.dart';
 import 'preview_course_screen.dart';
 
@@ -47,6 +42,9 @@ class CreateCourseScreen extends StatefulWidget {
 class _CreateCourseScreenState extends State<CreateCourseScreen> {
   @override
   void initState() {
+    //
+    courseNameController.text = widget.selectedSubject.name + ' ';
+    //
     registerOnFirebase();
     getMessage(context);
     super.initState();
@@ -244,12 +242,32 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   //from date range get start date and end date
                   final range =
                       await dateRangeSelector(context, selectedDateRange);
+                  //validate dateRange lasts 7days at least
+
                   //
                   if (range != null) {
-                    selectedDateRange = range;
+                    if (range.duration.inDays < 7) {
+                      //
+                      showDialog(
+                          context: context,
+                          builder: (context) => buildDefaultDialog(
+                                  context,
+                                  "Invalid!",
+                                  "Course lasts at least 7 days or more.",
+                                  [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Ok'),
+                                    ),
+                                  ]));
+                    } else {
+                      selectedDateRange = range;
+                      //set end and start date
+                      setEndAndBeginDate(selectedDateRange);
+                    }
                   }
-                  //set end and start date
-                  setEndAndBeginDate(selectedDateRange);
                 },
                 child: Container(
                   height: 210,

@@ -146,7 +146,7 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    state.tuteeTransactions[index].commissionName,
+                    state.tuteeTransactions[index].name,
                     style: TextStyle(
                         fontSize: titleFontSize,
                         color: Color(0xff04046D),

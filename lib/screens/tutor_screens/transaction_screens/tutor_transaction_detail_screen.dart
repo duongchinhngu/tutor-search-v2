@@ -123,7 +123,7 @@ class _TutorTransactonDetailScreenState extends State<TutorTransactonDetailScree
                 defaultNormalStyle),
             //datetime
             buildInfoElement(
-                'Datetime', widget.tuteeTransaction.dateTime, defaultNormalStyle),
+                'Datetime', widget.tuteeTransaction.dateTime.substring(0,19).replaceFirst('T', ' '), defaultNormalStyle),
             //
             //// used point
             buildInfoElement(

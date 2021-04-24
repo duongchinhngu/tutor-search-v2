@@ -89,7 +89,8 @@ Future<void> _completeTuteeTransaction(BuildContext context,
       commission.id,
       course.id,
       course.studyFee,
-      commission.rate);
+      commission.rate,
+      'Join course payment');
   //
   //
 
