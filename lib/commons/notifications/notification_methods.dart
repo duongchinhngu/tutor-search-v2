@@ -31,7 +31,7 @@ void getMessage(BuildContext context) {
           backgroundColor: Colors.transparent,
           elevation: 0,
           child: Container(
-            height: 350,
+            height: 400,
             width: 350,
             padding: EdgeInsets.symmetric(horizontal: 10),
             alignment: Alignment.center,
@@ -42,7 +42,7 @@ void getMessage(BuildContext context) {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 Container(
                   child: Image.asset(
@@ -71,7 +71,7 @@ void getMessage(BuildContext context) {
                   ),
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 12,
                 ),
                 Text(
                   // 'Andrei Louis like your photos! Check it up now!',
@@ -82,7 +82,7 @@ void getMessage(BuildContext context) {
                   ),
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 30,
                 ),
                 Align(
                   alignment: Alignment.bottomRight,

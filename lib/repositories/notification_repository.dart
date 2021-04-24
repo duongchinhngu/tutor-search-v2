@@ -47,4 +47,28 @@ class NotificationRepository {
       throw Exception('Failed to post CreateCourseSuccessNotification');
     }
   }
+
+  Future postCreateAccountSuccessNotification() async {
+    final http.Response response = await http.post('$NOTIFICATION_API',
+        headers: await AuthorizationContants().getAuthorizeHeader(),
+        body: jsonEncode(<String, dynamic>{
+          'id': 0,
+          'title': 'Account Status',
+          'message':
+              'Have a new creating account tutor request need to approve !',
+          'createDate': '2021-04-24',
+          'sendToUser': 'datndse62825@fpt.edu.vn',
+          'isRead': true
+        }));
+    if (response.statusCode == 201 ||
+        response.statusCode == 204 ||
+        response.statusCode == 404) {
+      print('this is: ' + response.body + response.statusCode.toString());
+      return true;
+    } else {
+      print(response.statusCode);
+      print('this is: ' + response.body + response.statusCode.toString());
+      throw Exception('Failed to post CreateCourseSuccessNotification');
+    }
+  }
 }

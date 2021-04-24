@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
       ),
 
       // home: LoginScreen(),
-      // home: TuteeBottomNavigatorBar(),
-      home: TutorBottomNavigatorBar(),
+      home: TuteeBottomNavigatorBar(),
+      // home: TutorBottomNavigatorBar(),
     );
   }
 }
