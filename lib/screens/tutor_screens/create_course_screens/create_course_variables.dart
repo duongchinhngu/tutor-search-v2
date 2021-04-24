@@ -37,7 +37,7 @@ Course course = Course(
   globals.authorizedTutor.id,
   1,
   //location
-  '',
+  globals.authorizedTutor.address,
   //extraImages
   '[]'
 );
@@ -115,7 +115,7 @@ void resetEmptyCreateCourseScreen() {
       globals.authorizedTutor.id,
       1,
       //location
-      '',
+      globals.authorizedTutor.address,
       //extraImages
       '[]');
   //reset all text controllers text = empty

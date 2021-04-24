@@ -309,7 +309,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               'Maximum tutee',
               Icons.person,
             ),
-             buildDivider(),
+            buildDivider(),
             //available slots
             buildCourseInformationListTile(
               course.availableSlot.toString(),
@@ -388,11 +388,13 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
             ),
             buildDivider(),
             //confirmed Date
-            buildCourseInformationListTile(
-              course.confirmedDate.substring(0, 19).replaceAll('T', ' '),
-              'Confirmed Date',
-              Icons.calendar_view_day_sharp,
-            ),
+            course.confirmedDate != null
+                ? buildCourseInformationListTile(
+                    course.confirmedDate.substring(0, 19).replaceAll('T', ' '),
+                    'Confirmed Date',
+                    Icons.calendar_view_day_sharp,
+                  )
+                : Container(),
             //
             //active/inactive switch
             Visibility(

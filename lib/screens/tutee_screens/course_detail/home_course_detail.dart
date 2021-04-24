@@ -37,6 +37,7 @@ class _TuteeHomeCourseDetailScreenState
     extends State<TuteeHomeCourseDetailScreen> {
   Position _currentPosition;
 
+
   _getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) async {
