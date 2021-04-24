@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
@@ -7,6 +9,7 @@ import 'package:tutor_search_system/models/image.dart' as image;
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/image_repository.dart';
+import 'package:tutor_search_system/repositories/notification_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/create_course_completed_screen.dart';
 
@@ -32,6 +35,8 @@ class CreateCourseProcessingScreen extends StatelessWidget {
     course.extraImages = extraImagesTmp.toString();
     //post course
     await CourseRepository().postCourse(course);
+
+    await NotificationRepository().postCreateCourseSuccessNotification();
     //
     return Future.value(true);
   }

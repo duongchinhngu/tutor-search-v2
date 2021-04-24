@@ -53,6 +53,7 @@ class _TutorDetailsState extends State<TutorDetails> {
     getMessage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -93,11 +94,24 @@ class _TutorDetailsState extends State<TutorDetails> {
                       padding: const EdgeInsets.fromLTRB(5, 80, 0, 0),
                       child: Row(
                         children: [
-                          Container(
-                            child: CircleAvatar(
-                              radius: 65,
-                              backgroundImage: NetworkImage(
-                                state.tutor.avatarImageLink,
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FullScreenImage(
+                                            imageWidget: Image.network(
+                                          state.tutor.avatarImageLink,
+                                          fit: BoxFit.fitWidth,
+                                        ))),
+                              );
+                            },
+                            child: Container(
+                              child: CircleAvatar(
+                                radius: 65,
+                                backgroundImage: NetworkImage(
+                                  state.tutor.avatarImageLink,
+                                ),
                               ),
                             ),
                           ),

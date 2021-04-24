@@ -21,6 +21,8 @@ import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_sc
 import 'package:tutor_search_system/states/course_state.dart';
 import './course_detail_screen.dart';
 
+String _currentAddress = '';
+
 class TuteeHomeCourseDetailScreen extends StatefulWidget {
   final int courseId;
 
@@ -34,7 +36,6 @@ class TuteeHomeCourseDetailScreen extends StatefulWidget {
 class _TuteeHomeCourseDetailScreenState
     extends State<TuteeHomeCourseDetailScreen> {
   Position _currentPosition;
-  String _currentAddress = '';
 
   _getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
@@ -115,276 +116,273 @@ class _TuteeHomeCourseDetailScreenState
       ),
     );
   }
-
-
 }
 
-  //course detail body
-  Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
-    List<String> extraImages = [];
-    //
-    if (course.extraImages != null) {
-      extraImages = course.extraImages
-          .replaceFirst(']', '')
-          .replaceFirst('[', '')
-          .split(', ');
-    }
+//course detail body
+Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
+  List<String> extraImages = [];
+  //
+  if (course.extraImages != null) {
+    extraImages = course.extraImages
+        .replaceFirst(']', '')
+        .replaceFirst('[', '')
+        .split(', ');
+  }
 
-    //
-    return Container(
-      // width: MediaQuery.of(context).size.width,
-      child: ListView(
-        children: [
-          //course name title
-          Container(
-            alignment: Alignment.center,
-            height: 60,
-            padding: EdgeInsets.only(
-              top: 30,
-            ),
-            child: Text(
-              course.name,
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                  color: textGreyColor,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+  //
+  return Container(
+    // width: MediaQuery.of(context).size.width,
+    child: ListView(
+      children: [
+        //course name title
+        Container(
+          alignment: Alignment.center,
+          height: 60,
+          padding: EdgeInsets.only(
+            top: 30,
+          ),
+          child: Text(
+            course.name,
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                color: textGreyColor,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          SizedBox(
-            height: 20,
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        //
+        buildDivider(),
+        //tutor sumary and initro
+        Container(
+          height: 120,
+          width: 324,
+          padding: EdgeInsets.only(
+            left: 20,
           ),
-          //
-          buildDivider(),
-          //tutor sumary and initro
-          Container(
-            height: 120,
-            width: 324,
-            padding: EdgeInsets.only(
-              left: 20,
-            ),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => TutorDetails(
-                      tutorId: course.createdBy,
-                      course: course,
-                      hasFollowButton: true,
-                    ),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => TutorDetails(
+                    tutorId: course.createdBy,
+                    course: course,
+                    hasFollowButton: true,
                   ),
-                );
-              },
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  //tutee avatar
-                  Stack(
-                    alignment: Alignment.center,
+                ),
+              );
+            },
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                //tutee avatar
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    //avatar background color
+                    Container(
+                      height: 110,
+                      width: 110,
+                      decoration: BoxDecoration(
+                        color: Colors.tealAccent.withOpacity(.4),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    //avatar image
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(
+                        course.tutorAvatarUrl,
+                      ),
+                    ),
+                    //
+                  ],
+                ),
+                //
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(
+                    left: 20,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //avatar background color
-                      Container(
-                        height: 110,
-                        width: 110,
-                        decoration: BoxDecoration(
-                          color: Colors.tealAccent.withOpacity(.4),
-                          shape: BoxShape.circle,
-                        ),
+                      //tutee name
+                      Text(
+                        course.tutorName,
+                        style: titleStyle,
                       ),
-                      //avatar image
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage(
-                          course.tutorAvatarUrl,
-                        ),
-                      ),
-                      //
                     ],
                   ),
-                  //
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(
-                      left: 20,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //tutee name
-                        Text(
-                          course.tutorName,
-                          style: titleStyle,
-                        ),
-                      ],
-                    ),
+                ),
+                //arrow
+                Container(
+                  padding: EdgeInsets.only(left: 50),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: textGreyColor,
+                    size: 20,
                   ),
-                  //arrow
-                  Container(
-                    padding: EdgeInsets.only(left: 50),
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      color: textGreyColor,
-                      size: 20,
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
           ),
-          buildDivider(),
-          //course name
-          buildCourseInformationListTile(
-              course.subjectName, 'Subject', Icons.subject),
-          buildDivider(),
-          //course name
-          buildCourseInformationListTile(
-              course.className, 'Class', Icons.grade),
-          buildDivider(),
-          //location
-          Visibility(
-            visible: course.location != course.tutorAddress,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => TuteeSearchGoogleMap(
-                          tutoraddress: course.location,
-                          tuteeaddress: _currentAddress,
-                        )));
-              },
-              child: buildCourseInformationUrl(
-                  course.location == course.tutorAddress
-                      ? 'At Tutor Home'
-                      : course.location,
-                  'Location',
-                  Icons.location_on_outlined),
-            ),
-          ),
-          Visibility(
-            visible: !(course.location != course.tutorAddress),
-            child: buildCourseInformationListTile(
+        ),
+        buildDivider(),
+        //course name
+        buildCourseInformationListTile(
+            course.subjectName, 'Subject', Icons.subject),
+        buildDivider(),
+        //course name
+        buildCourseInformationListTile(course.className, 'Class', Icons.grade),
+        buildDivider(),
+        //location
+        Visibility(
+          visible: course.location != course.tutorAddress,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TuteeSearchGoogleMap(
+                        tutoraddress: course.location,
+                        tuteeaddress: _currentAddress,
+                      )));
+            },
+            child: buildCourseInformationUrl(
                 course.location == course.tutorAddress
                     ? 'At Tutor Home'
                     : course.location,
                 'Location',
                 Icons.location_on_outlined),
           ),
-          buildDivider(),
-          //study time
-          buildCourseInformationListTile(
-              course.beginTime + ' - ' + course.endTime,
-              'Study Time',
-              Icons.access_time),
-          buildDivider(),
-          //study week days
-          buildCourseInformationListTile(
-            course.daysInWeek.replaceFirst('[', '').replaceFirst(']', ''),
-            'Days In Week',
-            Icons.calendar_today,
-          ),
-          buildDivider(),
-          //begin and end date
-          buildCourseInformationListTile(
-            course.beginDate + ' to ' + course.endDate,
-            'Begin - End Date',
-            Icons.date_range,
-          ),
-          buildDivider(),
-          //price of the course
-          buildCourseInformationListTile(
-            '\$' + course.studyFee.toString(),
-            'Study Fee',
-            Icons.monetization_on,
-          ),
-          buildDivider(),
-          //maximun tutee in the course
-          buildCourseInformationListTile(
-            course.maxTutee.toString(),
-            'Maximum tutee',
-            Icons.person,
-          ),
-          buildDivider(),
-          //Available slot(s)
-          buildCourseInformationListTile(
-            course.availableSlot.toString(),
-            'Available slot(s)',
-            Icons.person,
-          ),
-          buildDivider(),
-          //description for this course
-          buildCourseInformationListTile(
-            course.description != '' ? course.description : 'No description',
-            'Extra Information',
-            Icons.description,
-          ),
-          buildDivider(),
-          //extra images
-          Container(
-            width: double.infinity,
-            alignment: Alignment.topLeft,
-            padding: EdgeInsets.only(top: 5, left: 5),
-            child: Column(
-              children: [
-                //
-                Container(
-                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 40),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Extra Images',
-                    style: TextStyle(
-                      fontSize: titleFontSize,
-                      color: mainColor,
-                    ),
+        ),
+        Visibility(
+          visible: !(course.location != course.tutorAddress),
+          child: buildCourseInformationListTile(
+              course.location == course.tutorAddress
+                  ? 'At Tutor Home'
+                  : course.location,
+              'Location',
+              Icons.location_on_outlined),
+        ),
+        buildDivider(),
+        //study time
+        buildCourseInformationListTile(
+            course.beginTime + ' - ' + course.endTime,
+            'Study Time',
+            Icons.access_time),
+        buildDivider(),
+        //study week days
+        buildCourseInformationListTile(
+          course.daysInWeek.replaceFirst('[', '').replaceFirst(']', ''),
+          'Days In Week',
+          Icons.calendar_today,
+        ),
+        buildDivider(),
+        //begin and end date
+        buildCourseInformationListTile(
+          course.beginDate + ' to ' + course.endDate,
+          'Begin - End Date',
+          Icons.date_range,
+        ),
+        buildDivider(),
+        //price of the course
+        buildCourseInformationListTile(
+          '\$' + course.studyFee.toString(),
+          'Study Fee',
+          Icons.monetization_on,
+        ),
+        buildDivider(),
+        //maximun tutee in the course
+        buildCourseInformationListTile(
+          course.maxTutee.toString(),
+          'Maximum tutee',
+          Icons.person,
+        ),
+        buildDivider(),
+        //Available slot(s)
+        buildCourseInformationListTile(
+          course.availableSlot.toString(),
+          'Available slot(s)',
+          Icons.person,
+        ),
+        buildDivider(),
+        //description for this course
+        buildCourseInformationListTile(
+          course.description != '' ? course.description : 'No description',
+          'Extra Information',
+          Icons.description,
+        ),
+        buildDivider(),
+        //extra images
+        Container(
+          width: double.infinity,
+          alignment: Alignment.topLeft,
+          padding: EdgeInsets.only(top: 5, left: 5),
+          child: Column(
+            children: [
+              //
+              Container(
+                padding: EdgeInsets.only(top: 10, bottom: 10, left: 40),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Extra Images',
+                  style: TextStyle(
+                    fontSize: titleFontSize,
+                    color: mainColor,
                   ),
                 ),
-                //
-                extraImages.length != 0
-                    ? Wrap(
-                        runAlignment: WrapAlignment.spaceBetween,
-                        runSpacing: 5,
-                        spacing: 5,
-                        children: List.generate(extraImages.length, (index) {
-                          //view photo in fullscreen
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FullScreenImage(
-                                    imageWidget: Image.network(
-                                      extraImages[index],
-                                      fit: BoxFit.cover,
-                                    ),
+              ),
+              //
+              extraImages.length != 0
+                  ? Wrap(
+                      runAlignment: WrapAlignment.spaceBetween,
+                      runSpacing: 5,
+                      spacing: 5,
+                      children: List.generate(extraImages.length, (index) {
+                        //view photo in fullscreen
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FullScreenImage(
+                                  imageWidget: Image.network(
+                                    extraImages[index],
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              );
-                            },
-                            child: Container(
-                              height: 114,
-                              width: 114,
-                              child: Image.network(
-                                extraImages[index],
-                                fit: BoxFit.cover,
                               ),
+                            );
+                          },
+                          child: Container(
+                            height: 114,
+                            width: 114,
+                            child: Image.network(
+                              extraImages[index],
+                              fit: BoxFit.cover,
                             ),
-                          );
-                        }),
-                      )
-                    : Text('No extra images')
-              ],
-            ),
+                          ),
+                        );
+                      }),
+                    )
+                  : Text('No extra images')
+            ],
           ),
-          //this widget for being nice only
-          SizedBox(
-            height: 40,
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+        //this widget for being nice only
+        SizedBox(
+          height: 40,
+        ),
+      ],
+    ),
+  );
+}
 
 FloatingActionButton buildFollowButton(
         BuildContext context, ExtendedCourse course) =>
