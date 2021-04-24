@@ -115,6 +115,7 @@ class ExtendedCourse extends Course {
 
   factory ExtendedCourse.fromJson(Map<String, dynamic> json) {
     return ExtendedCourse.fromJsonConstructor(
+
       id: json['id'],
       status: json['status'],
       name: json['name'],

@@ -21,6 +21,7 @@ class TransactionRepository {
             'status': tuteeTransaction.status,
             'tuteeId': tuteeTransaction.tuteeId,
             'commissionId': tuteeTransaction.commissionId,
+            'commissionRate': tuteeTransaction.commissionRate,
             'studyFee': tuteeTransaction.studyFee,
             'courseId': tuteeTransaction.courseId,
           },

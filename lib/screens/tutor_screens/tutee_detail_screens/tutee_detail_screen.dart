@@ -13,6 +13,7 @@ import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
+import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
@@ -79,11 +80,24 @@ class _TuteeDetailScreenState extends State<TuteeDetailScreen> {
                       padding: const EdgeInsets.fromLTRB(5, 0, 0, 20),
                       child: Row(
                         children: [
-                          Container(
-                            child: CircleAvatar(
-                              radius: 65,
-                              backgroundImage: NetworkImage(
-                                state.tutee.avatarImageLink,
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FullScreenImage(
+                                            imageWidget: Image.network(
+                                          state.tutee.avatarImageLink,
+                                          fit: BoxFit.fitWidth,
+                                        ))),
+                              );
+                            },
+                            child: Container(
+                              child: CircleAvatar(
+                                radius: 65,
+                                backgroundImage: NetworkImage(
+                                  state.tutee.avatarImageLink,
+                                ),
                               ),
                             ),
                           ),
