@@ -126,7 +126,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               floatingActionButton: Visibility(
                 child: buildFeedbackButton(context, state.course),
                 visible: state.course.enrollmentStatus == 'Inactive' &&
-                    state.course.isFeedback == 'false',
+                    state.course.isFeedback == false,
               ),
             );
           }
@@ -621,7 +621,7 @@ class _FeedbackDialogBodyState extends State<FeedbackDialogBody> {
                         children: [
                           //tutor name
                           Container(
-                            width: 120,
+                            width: 150,
                             child: Text(
                               widget.course.tutorName,
                               style: titleStyle,
@@ -630,7 +630,7 @@ class _FeedbackDialogBodyState extends State<FeedbackDialogBody> {
                           //
                           Container(
                             alignment: Alignment.centerLeft,
-                            width: 120,
+                            width: 150,
                             child: Text(
                               widget.course.name,
                               style: textStyle,

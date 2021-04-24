@@ -25,7 +25,8 @@ Tutee authorizedTutee ;
 //tutor id for all page can access;
 //  this will be reseted when tutor login succeeded
 //authorized tutor
-Tutor authorizedTutor ;
+Tutor authorizedTutor;
+
 //membershipname of signedin tutor
 String membershipName = '';
 //
