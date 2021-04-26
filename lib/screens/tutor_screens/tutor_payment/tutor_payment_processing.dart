@@ -7,7 +7,6 @@ import 'package:tutor_search_system/models/tutor_transaction.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/transaction_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/create_course_completed_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_paid_completed_screen.dart';
 
 //tutor payment processing screen
@@ -35,7 +34,7 @@ class _TutorPaymentProccessingScreenState
       TutorTransaction tuteeTransaction, Course course) async {
     //post tutor transaction
     await transactionRepository.postTutorTransaction(widget.tutorTransaction);
-    
+
     //get course by Id
     Course _course = await CourseRepository().fetchCourseById(course.id);
     //put course
@@ -61,8 +60,8 @@ class _TutorPaymentProccessingScreenState
               return Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (context) => TutorPaidCompletedScreen(
-                      savePoint: widget.tutorTransaction.archievedPoints,
-                    )),
+                          savePoint: widget.tutorTransaction.archievedPoints,
+                        )),
                 ModalRoute.withName('/Home'),
               );
             });

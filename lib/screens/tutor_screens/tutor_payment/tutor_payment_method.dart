@@ -6,9 +6,11 @@ import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/fee.dart';
 import 'package:tutor_search_system/models/tutor_transaction.dart';
 import 'package:tutor_search_system/repositories/braintree_repository.dart';
+import 'package:tutor_search_system/repositories/membership_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'tutor_payment_processing.dart';
+import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 
 //show payment method: credit card ỏ debit card or Paypal
@@ -59,6 +61,8 @@ Future checkOutTutorPayment(BuildContext context, Course course,
 //
 void _completeTutorTransaction(BuildContext context, Course course,
     double totalAmount, int usePoint, Fee fee) async {
+      //get mêmberhsip
+      final membership = await MembershipRepository().fetchMembershipByMembershipId(http.Client(), globals.authorizedTutor.membershipId);
 //init tutorTransaction
   final tutorTransaction = TutorTransaction.modelConstructor(
     0,
@@ -71,7 +75,7 @@ void _completeTutorTransaction(BuildContext context, Course course,
     //feeId
     fee.id,
     //achievedPoint
-    0,
+    (totalAmount*membership.pointRate).round(),
     //used points
     usePoint,
     //need to refactor
