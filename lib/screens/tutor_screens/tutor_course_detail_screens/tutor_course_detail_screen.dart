@@ -112,10 +112,14 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
   Widget buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
     List<String> extraImages = [];
     //
-    extraImages = course.extraImages
-        .replaceFirst(']', '')
-        .replaceFirst('[', '')
-        .split(', ');
+    //
+    if (course.extraImages != '[]') {
+      extraImages = course.extraImages
+          .replaceFirst(']', '')
+          .replaceFirst('[', '')
+          .split(', ');
+    }
+
     //
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -345,37 +349,39 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                     ),
                   ),
                   //
-                  Wrap(
-                    runAlignment: WrapAlignment.spaceBetween,
-                    runSpacing: 5,
-                    spacing: 5,
-                    children: List.generate(extraImages.length, (index) {
-                      //view photo in fullscreen
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FullScreenImage(
-                                imageWidget: Image.network(
+                  extraImages.length != 0
+                      ? Wrap(
+                          runAlignment: WrapAlignment.spaceBetween,
+                          runSpacing: 5,
+                          spacing: 5,
+                          children: List.generate(extraImages.length, (index) {
+                            //view photo in fullscreen
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FullScreenImage(
+                                      imageWidget: Image.network(
+                                        extraImages[index],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                height: 114,
+                                width: 114,
+                                child: Image.network(
                                   extraImages[index],
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: 114,
-                          width: 114,
-                          child: Image.network(
-                            extraImages[index],
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
+                            );
+                          }),
+                        )
+                      : Text('No extra images', style: textStyle),
                 ],
               ),
             ),

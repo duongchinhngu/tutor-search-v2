@@ -37,7 +37,6 @@ class _TuteeHomeCourseDetailScreenState
     extends State<TuteeHomeCourseDetailScreen> {
   Position _currentPosition;
 
-
   _getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) async {
@@ -123,7 +122,7 @@ class _TuteeHomeCourseDetailScreenState
 Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
   List<String> extraImages = [];
   //
-  if (course.extraImages != null) {
+  if (course.extraImages != '[]') {
     extraImages = course.extraImages
         .replaceFirst(']', '')
         .replaceFirst('[', '')
@@ -372,7 +371,7 @@ Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
                         );
                       }),
                     )
-                  : Text('No extra images')
+                  : Text('No extra images', style: textStyle),
             ],
           ),
         ),
