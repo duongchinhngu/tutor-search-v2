@@ -93,6 +93,7 @@ class EnrollmentRepository {
         'status': enrollment.status,
         'createdDate': enrollment.createdDate,
         'confirmedDate': enrollment.confirmedDate,
+        'isTakeFeedback': true,
       }),
     );
     if (response.statusCode == 204) {

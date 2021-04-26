@@ -39,7 +39,7 @@ class FeedbackCard extends StatelessWidget {
                       feedbacks.tuteeName,
                       style: headerStyle,
                     ),
-                    ////rate star
+                    //rate star
                     Container(
                       child: RatingBar.builder(
                         ignoreGestures: true,

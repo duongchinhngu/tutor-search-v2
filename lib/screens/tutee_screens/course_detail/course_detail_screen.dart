@@ -15,6 +15,7 @@ import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/models/feedback.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
@@ -750,6 +751,15 @@ class _FeedbackDialogBodyState extends State<FeedbackDialogBody> {
                                 ),
                               ),
                             });
+                    //
+                    final enrollment = await EnrollmentRepository()
+                        .fetchEnrollmentById(widget.course.enrollmentId);
+                    //
+                    await EnrollmentRepository()
+                        .putEnrollment(enrollment)
+                        .then((value) {
+                      isSending = false;
+                    });
                   },
                   child: Container(
                     width: 94,
