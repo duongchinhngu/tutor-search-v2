@@ -7,7 +7,7 @@ import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/notification_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/create_course_completed_screen.dart';
-
+import 'package:http/http.dart' as http;
 import 'create_course_variables.dart';
 
 class CreateCourseProcessingScreen extends StatelessWidget {
@@ -30,8 +30,14 @@ class CreateCourseProcessingScreen extends StatelessWidget {
     course.extraImages = extraImagesTmp.toString();
     //post course
     await CourseRepository().postCourse(course);
+    String managerEmail = await CourseRepository()
+        .getManagerBySubjectId(http.Client(), course.classHasSubjectId);
 
-    await NotificationRepository().postCreateCourseSuccessNotification();
+    await NotificationRepository().postCreateCourseSuccessNotification(
+      'Course Status',
+      'Have a create course request need to approve!',
+      managerEmail,
+    );
     //
     return Future.value(true);
   }

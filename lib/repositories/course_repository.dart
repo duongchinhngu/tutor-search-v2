@@ -129,6 +129,24 @@ class CourseRepository {
     }
   }
 
+  Future<String> getManagerBySubjectId(
+      http.Client client, int subjectId) async {
+    String test =
+        'https://tutorsearchsystem.azurewebsites.net/api/managers/get-manager-email-by-subject/$subjectId';
+    print('$test');
+    final response = await http.get(
+      'https://tutorsearchsystem.azurewebsites.net/api/managers/get-manager-email-by-subject/$subjectId',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
+    print('body ne: ' + response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print('body ne: ' + response.body);
+      return response.body;
+    } else {
+      throw Exception('Failed to fetch manager by course id');
+    }
+  }
+
   //fetch extedned courses by courseId
   Future<ExtendedCourse> fetchCourseByCourseId(
       http.Client client, int id) async {
