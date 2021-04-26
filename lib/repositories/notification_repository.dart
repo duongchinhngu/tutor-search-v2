@@ -25,15 +25,16 @@ class NotificationRepository {
     }
   }
 
-  Future postCreateCourseSuccessNotification() async {
+  Future postCreateCourseSuccessNotification(
+      String title, String message, String email) async {
     final http.Response response = await http.post('$NOTIFICATION_API',
         headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(<String, dynamic>{
           'id': 0,
-          'title': 'Course Status',
-          'message': 'Have a new creating course request need to approve !',
+          'title': title,
+          'message': message,
           'createDate': '2021-04-24',
-          'sendToUser': 'datndse62825@fpt.edu.vn',
+          'sendToUser': email,
           'isRead': true
         }));
     if (response.statusCode == 201 ||
