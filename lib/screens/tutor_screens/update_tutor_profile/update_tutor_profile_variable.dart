@@ -10,6 +10,7 @@ File avatarUpdate;
 //
 String socialIdUrl = '';
 //
+File socialIdImageFile;
 //list of certificationImg
 List<String> certificationImages = [];
 

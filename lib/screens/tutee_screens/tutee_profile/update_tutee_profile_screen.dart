@@ -10,7 +10,6 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/tutee_processing_update_profile_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/register_elements.dart';
 
 String _origingender = authorizedTutee.gender;
 
@@ -200,7 +199,7 @@ class _UpdateTuteeProfileState extends State<UpdateTuteeProfile> {
                 _buildDivider(),
                 //email
                 buildTutorInfo(
-                    'Email', Text('ngudcse130377@fpt.edu.vn'), Icons.email),
+                    'Email', Text(authorizedTutee.email), Icons.email),
                 _buildDivider(),
                 //gender
                 buildTutorInfo(

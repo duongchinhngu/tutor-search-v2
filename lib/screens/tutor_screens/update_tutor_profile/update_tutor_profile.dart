@@ -99,14 +99,13 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
               widget.tutor.avatarImageLink,
               educationLevelController.text,
               universityController.text,
-              widget.tutor.avatarImageLink,
+              widget.tutor.socialIdUrl,
               certificationImages.toString(),
               widget.tutor.confirmedDate,
               widget.tutor.points,
               widget.tutor.membershipId,
               widget.tutor.createdDate,
             );
-            print('thí í created date ò tutor: ' + widget.tutor.avatarImageLink);
             //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushReplacement(
@@ -227,8 +226,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                   Icons.person_outline),
               _buildDivider(),
               //email
-              buildTutorInfo(
-                  'Email', Text(widget.tutor.email), Icons.email),
+              buildTutorInfo('Email', Text(widget.tutor.email), Icons.email),
               _buildDivider(),
               //gender
               //
@@ -581,7 +579,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                           //
                           if (img != null) {
                             setState(() {
-                              socialIdUrl = imageUrl;
+                              socialIdImageFile = img;
                             });
                           }
                         },
@@ -590,11 +588,17 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                           child: Stack(
                             children: [
                               //
-                              Center(
-                                  child: Image.network(
-                                socialIdUrl,
-                                fit: BoxFit.cover,
-                              )),
+                              socialIdImageFile != null
+                                  ? Center(
+                                      child: Image.file(
+                                      socialIdImageFile,
+                                      fit: BoxFit.cover,
+                                    ))
+                                  : Center(
+                                      child: Image.network(
+                                      socialIdUrl,
+                                      fit: BoxFit.cover,
+                                    )),
                               //                                  //
                               Align(
                                 alignment: Alignment.center,
@@ -802,9 +806,14 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
         })
       ],
       // leading: buildDefaultCloseButton(context),
-      title: Text(
-        'Update Profile',
-        style: headerStyle,
+      title: GestureDetector(
+          onTap: (){
+            print('this is tutor update profile: ' + certificationImages.toString());
+        },
+              child: Text(
+          'Update Profile',
+          style: headerStyle,
+        ),
       ),
       centerTitle: true,
     );

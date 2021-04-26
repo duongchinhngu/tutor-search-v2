@@ -23,15 +23,22 @@ class _UpdateTutorProfileProcessingScreenState
     extends State<UpdateTutorProfileProcessingScreen> {
   Future<bool> completeTutorUpdateProfile(
       TutorUpdateProfile tutorUpdateProfile) async {
+    tutorUpdateProfile.certificateImages =
+        certificationImages.toString().replaceFirst(',', '').trim();
+        print('thí í cerit: ' + tutorUpdateProfile.certificateImages);
     //
-    await TutorUpdateProfileRepository()
-        .deleteTutorUpdateProfilebyId(tutorUpdateProfile.id);
     if (avatarUpdate != null) {
       String imageUrl = await uploadFileOnFirebaseStorage(avatarUpdate);
       tutorUpdateProfile.avatarImageLink = imageUrl;
-      print('ti sí image link: ' + imageUrl);
     }
-
+    //
+    if (socialIdImageFile != null) {
+      String imageUrl = await uploadFileOnFirebaseStorage(socialIdImageFile);
+      tutorUpdateProfile.socialIdUrl = imageUrl;
+    }
+    //
+    await TutorUpdateProfileRepository()
+        .deleteTutorUpdateProfilebyId(tutorUpdateProfile.id);
     //
     await TutorUpdateProfileRepository().postUpdateProfile(tutorUpdateProfile);
     //

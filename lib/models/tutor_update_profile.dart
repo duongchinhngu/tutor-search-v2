@@ -3,8 +3,8 @@ import 'package:tutor_search_system/models/person.dart';
 class TutorUpdateProfile extends Person {
   final String educationLevel;
   final String school;
-  final String socialIdUrl;
-  final String certificateImages;
+  String socialIdUrl;
+  String certificateImages;
   final String confirmedDate;
   final int points;
   final int membershipId;
