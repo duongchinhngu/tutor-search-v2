@@ -83,7 +83,8 @@ class CourseRepository {
     print('this is query url: ' + url);
     //merge to url
 
-    final response = await http.get(url);
+    final response = await http.get(url,
+        headers: await AuthorizationContants().getAuthorizeHeader());
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse

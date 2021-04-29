@@ -42,7 +42,6 @@ class EnrollmentRepository {
       return jsonResponse
           .map((courseenroll) => new CourseEnrollment.fromJson(courseenroll))
           .toList();
-          
     } else if (response.statusCode == 404) {
       return null;
     } else {
@@ -54,8 +53,10 @@ class EnrollmentRepository {
   //get enrollment by tuteeId and courseId
   Future<Enrollment> fetchEnrollmentByCourseIdTuteeId(
       int courseId, int tuteeId) async {
-    final response =
-        await http.get('$ENROLLMENT_API/course/tutee/$courseId/$tuteeId');
+    final response = await http.get(
+      '$ENROLLMENT_API/course/tutee/$courseId/$tuteeId',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       return Enrollment.fromJson(json.decode(response.body));
     } else if (response.statusCode == 404) {
@@ -68,7 +69,10 @@ class EnrollmentRepository {
 
   //get enrollment by enroolemntId
   Future<Enrollment> fetchEnrollmentById(int id) async {
-    final response = await http.get('$ENROLLMENT_API/$id');
+    final response = await http.get(
+      '$ENROLLMENT_API/$id',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       return Enrollment.fromJson(json.decode(response.body));
     } else if (response.statusCode == 404) {
@@ -82,9 +86,7 @@ class EnrollmentRepository {
   Future<bool> putEnrollment(Enrollment enrollment) async {
     final response = await http.put(
       '$ENROLLMENT_API/${enrollment.id}',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: await AuthorizationContants().getAuthorizeHeader(),
       body: jsonEncode(<String, dynamic>{
         'id': enrollment.id,
         'tuteeId': enrollment.tuteeId,
@@ -108,9 +110,7 @@ class EnrollmentRepository {
   Future<bool> checkFullCourse(int courseId) async {
     final response = await http.put(
       '$ENROLLMENT_API/check-full-course/$courseId',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: await AuthorizationContants().getAuthorizeHeader(),
       body: jsonEncode(<String, dynamic>{
         'courseId': courseId,
       }),

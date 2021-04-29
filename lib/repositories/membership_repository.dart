@@ -21,4 +21,20 @@ class MembershipRepository {
       throw Exception('Failed to fetch membership by membership id');
     }
   }
+
+  Future<List<Membership>> fetchMembershipByStatus(String status) async {
+    final response = await http.get(
+      '$MEMBERSHIP_API/status/$status',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((membershipes) => new Membership.fromJson(membershipes))
+          .toList();
+    } else {
+      print('this is error body: ' + response.body);
+      throw Exception('Failed to fetch Membershipes by Membership satus');
+    }
+  }
 }

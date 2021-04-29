@@ -8,7 +8,10 @@ class TuteeTransactionRepository {
   //fetch classes by subject id
   Future<List<TuteeTransaction>> fetchTuteeTransactionByTuteeId(
       http.Client client, int tuteeId) async {
-    final response = await http.get('$TUTEE_TRANSACTION_API/tutee/$tuteeId', headers: await AuthorizationContants().getAuthorizeHeader(),);
+    final response = await http.get(
+      '$TUTEE_TRANSACTION_API/tutee/$tuteeId',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse

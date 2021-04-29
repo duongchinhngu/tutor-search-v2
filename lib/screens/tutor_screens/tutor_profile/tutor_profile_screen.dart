@@ -9,6 +9,7 @@ import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/membership_screens/membership_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/certification_image_screen/certification_image_screen.dart';
@@ -32,6 +33,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
     getMessage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +115,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
                       )
                     ],
                   ),
-                  
+
                   buildCourseInformationListTile(
                       state.tutor.gender, 'Gender', Icons.gesture),
                   buildDivider(),
@@ -138,18 +140,54 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
                   buildCourseInformationListTile(state.tutor.points.toString(),
                       'Available Point(s)', Icons.donut_large_sharp),
                   buildDivider(),
-                  buildCourseInformationListTile(membershipName,
-                      'Current Membership', Icons.card_membership_outlined),
+
+                  //certification images
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MembershipScreen()));
+                    },
+                    child: ListTile(
+                      leading: Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                        width: 43,
+                        height: 43,
+                        decoration: BoxDecoration(
+                          color: backgroundColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.card_membership_outlined,
+                          color: mainColor,
+                        ),
+                      ),
+                      title: Text(
+                        'Current Membership',
+                        style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                      ),
+                      subtitle: Text(
+                        membershipName,
+                        style: TextStyle(
+                                fontSize: titleFontSize,
+                                color: textGreyColor,
+                              ),
+                      ),
+                      
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: textGreyColor,
+                        size: 18,
+                      ),
+                    ),
+                  ),
                   buildDivider(),
-                  buildCourseInformationListTile(
-                      state.tutor.createdDate,
-                      'Created Date',
-                      Icons.calendar_today_outlined),
+                  buildCourseInformationListTile(state.tutor.createdDate,
+                      'Created Date', Icons.calendar_today_outlined),
                   buildDivider(),
-                  buildCourseInformationListTile(
-                      state.tutor.confirmedDate,
-                      'Confirmed Date',
-                      Icons.calendar_today_sharp),
+                  buildCourseInformationListTile(state.tutor.confirmedDate,
+                      'Confirmed Date', Icons.calendar_today_sharp),
                   buildDivider(),
                   buildCourseInformationListTile(
                     state.tutor.description,

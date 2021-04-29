@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:tutor_search_system/models/notification.dart';
-import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/repositories/notification_repository.dart';
-import 'package:tutor_search_system/repositories/tutee_transaction_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/states/notification_state.dart';
 

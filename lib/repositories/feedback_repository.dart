@@ -56,7 +56,10 @@ class FeedbackRepository {
   //get feedback by tutorid
   Future<List<Feedbacks>> fetchFeedbackByTutorId(
       http.Client client, int tutorId) async {
-    final response = await http.get('$FEEDBACK_API/tutor/$tutorId');
+    final response = await http.get(
+      '$FEEDBACK_API/tutor/$tutorId',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse

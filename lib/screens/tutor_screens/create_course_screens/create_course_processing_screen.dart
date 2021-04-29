@@ -32,7 +32,7 @@ class CreateCourseProcessingScreen extends StatelessWidget {
     await CourseRepository().postCourse(course);
     String managerEmail = await CourseRepository()
         .getManagerBySubjectId(http.Client(), course.classHasSubjectId);
-
+    //
     await NotificationRepository().postCreateCourseSuccessNotification(
       'Course Status',
       'Have a create course request need to approve!',
