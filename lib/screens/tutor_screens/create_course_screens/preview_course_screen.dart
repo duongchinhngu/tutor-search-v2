@@ -67,6 +67,7 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
         false,
         widget.course.maxTutee);
     //
+    print('this is length: ' + widget.course.extraImages.length.toString());
     super.initState();
   }
 
@@ -426,7 +427,7 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
                   ),
                 ),
                 //
-                vars.extraImages.length != 0
+                vars.extraImages.length != 1
                     ? Wrap(
                         runAlignment: WrapAlignment.spaceBetween,
                         runSpacing: 5,

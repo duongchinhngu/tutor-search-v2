@@ -44,9 +44,7 @@ class _RoleRouterState extends State<RoleRouter> {
           } else if (state is SignedInFailedState) {
             return ErrorScreen();
           } else if (state is SignInSucceededState) {
-            if (state.person == null ||
-                state.person.status ==
-                    globals.StatusConstants.INACTIVE_STATUS) {
+            if (state.person == null) {
               //remove all screen stack and navigate
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 return Navigator.of(context).pushReplacement(
@@ -114,14 +112,32 @@ class _RoleRouterState extends State<RoleRouter> {
             } else if (state.person is Tutee) {
               //set authorized tutee
               globals.authorizedTutee = state.person;
-              //remove all screen stack and navigate
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                return Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => TuteeBottomNavigatorBar(),
-                  ),
-                );
-              });
+              if (globals.authorizedTutee.status ==
+                  StatusConstants.INACTIVE_STATUS) {
+                //remove all screen stack and navigate
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  return Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(
+                        snackBarIcon: Icons.error_outline,
+                        snackBarContent: "Invalid Email! Please try again!",
+                        snackBarThemeColor: Colors.red[900],
+                        snackBarTitle: 'Error',
+                      ),
+                    ),
+                  );
+                });
+              } else if (globals.authorizedTutee.status ==
+                  StatusConstants.ACTIVE_STATUS) {
+                //remove all screen stack and navigate
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  return Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => TuteeBottomNavigatorBar(),
+                    ),
+                  );
+                });
+              }
             }
             return SplashScreen();
           }

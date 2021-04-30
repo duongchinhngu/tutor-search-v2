@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:month_picker_strip/month_picker_strip.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
@@ -9,7 +9,6 @@ import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
 import 'package:tutor_search_system/models/enrollment_course.dart';
 import 'package:tutor_search_system/repositories/commission_repository.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:http/http.dart' as http;
@@ -19,8 +18,6 @@ import 'package:tutor_search_system/states/enrollment_state.dart';
 double commissionRate;
 List<CourseEnrollment> listEnrollment = new List();
 double currentRevenue = 0;
-String currentdate = '';
-String currentmonth = '';
 
 class ReportRevenueScreen extends StatefulWidget {
   @override
@@ -28,16 +25,17 @@ class ReportRevenueScreen extends StatefulWidget {
 }
 
 class _ReportRevenue extends State<ReportRevenueScreen> {
+  DateTime currentDate;
   double current = 0;
 
   void initState() {
+    //
+    currentDate = DateTime.now();
+    //
     registerOnFirebase();
     getMessage(context);
     super.initState();
-    var datenow = DateTime.now();
-
-    currentdate = convertDayTimeToString(datenow);
-    currentmonth = datenow.month.toString();
+    //
     CommissionRepository()
         .fetchCommissionByCommissionId(http.Client(), 1)
         .then((value) => {
@@ -58,21 +56,41 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
         //
         final courseenroll = context.watch<EnrollmentCubit>();
         courseenroll.getEnrollmentOfMonthByTutorIdDate(
-            authorizedTutor.id, currentdate);
+            authorizedTutor.id, currentDate.toString());
+
         //
         if (state is CourseEnrollmentLoadingState) {
           return buildLoadingIndicator();
         } else if (state is CourseEnrollmentListNoDataState) {
-          return NoDataScreen();
-        } else if (state is CourseEnrollmentLoadFailedState) {
-          // return ErrorScreen();
-          return Text(state.errorMessage);
-        } else if (state is CourseEnrollmentListLoadedState) {
           return Scaffold(
             backgroundColor: backgroundColor,
             appBar: buildRevenueDetailAppbar(context),
-            body: ListView(
-              children: [
+            body: Column(
+              children: <Widget>[
+                //month stripe
+                new Divider(
+                  height: 1.0,
+                ),
+                new MonthStrip(
+                  format: 'MMM yyyy',
+                  from: new DateTime(
+                      int.parse(authorizedTutor.createdDate.substring(0, 4)),
+                      int.parse(authorizedTutor.createdDate.substring(6, 7))),
+                  to: new DateTime.now(),
+                  initialMonth: currentDate,
+                  height: 48.0,
+                  viewportFraction: 0.25,
+                  onMonthChanged: (v) {
+                    setState(() {
+                      currentDate = v;
+                    });
+                  },
+                ),
+                new Divider(
+                  height: 1.0,
+                ),
+                //month stripe
+                //
                 Column(
                   children: [
                     //
@@ -91,7 +109,7 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
                     //
                     Container(
                       width: 320,
-                      height: 250,
+                      height: 170,
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         borderRadius: BorderRadius.only(
@@ -106,103 +124,20 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
                       ),
                       child: Column(
                         children: [
-                          ListTile(
-                            leading: Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 5,
-                              ),
-                              width: 43,
-                              height: 43,
-                              decoration: BoxDecoration(
-                                color: backgroundColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.date_range,
-                                color: mainColor,
-                              ),
-                            ),
-                            title: GestureDetector(
-                              onTap: () {
-                                // showMonthPicker(
-                                //   context: context,
-                                //   firstDate: DateTime(
-                                //       int.parse(authorizedTutor.confirmedDate
-                                //           .substring(0, 1)),
-                                //       int.parse(authorizedTutor.confirmedDate
-                                //           .substring(3, 4))),
-                                //   lastDate: DateTime.now(),
-                                //   initialDate: DateTime.now(),
-                                //   locale: Locale("en"),
-                                // ).then((date) {
-                                //   if (date != null) {
-                                //     setState(() {
-                                //       // selectedDate = date;
-                                //     });
-                                //   }
-                                // });
-                              },
-                              child: Container(
-                                height: 40,
-                                width: 60,
-                                margin: EdgeInsets.only(
-                                  top: 5,
-                                  bottom: 5,
-                                  right: 100,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 1,
-                                      offset: Offset(1, 1),
-                                    ),
-                                  ],
-                                  color: Colors.white,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      DateTime.now().toString().substring(0, 7),
-                                      style: TextStyle(
-                                        fontSize: titleFontSize,
-                                        color: textGreyColor,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.edit,
-                                      size: 20,
-                                      color: mainColor,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          buildDivider(),
-                          // buildRevenueInformationListTile(
-                          //     '2', 'Quantity of Course', Icons.cast_for_education),
-                          // buildDivider(),
+                          //
                           buildRevenueInformationListTile(
-                              state.courseEnrollment.length.toString(),
-                              'Quantity of Enrollments',
-                              Icons.person_add),
+                              '0', 'Quantity of Enrollments', Icons.person_add),
                           buildDivider(),
-                          // buildRevenueInformationListTile(
-                          //     '$current \$', 'Current revenue', Icons.money),
-                          _calTotalProfit(state),
+                          buildRevenueInformationListTile(
+                              '$current \$', 'Current revenue', Icons.money),
+                          // _calTotalProfit(state),
                         ],
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                       child: Text(
-                        'Detail revenue of Enrollment (' +
-                            state.courseEnrollment.length.toString() +
-                            ')',
+                        'Detail revenue of Enrollment (' + '0' + ')',
                         style: TextStyle(
                           color: textGreyColor,
                           fontWeight: FontWeight.bold,
@@ -210,30 +145,130 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      width: 320,
-                      height: 400,
-                      decoration: BoxDecoration(
-                        color: backgroundColor,
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(12),
-                          bottomLeft: Radius.circular(12),
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        // boxShadow: [
-                        //   boxShadowStyle,
-                        // ],
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: _buildListCourseEnrollment(state),
-                    ),
+                    Text('No Enrollment')
                   ],
                 )
+                //
               ],
             ),
           );
+        } else if (state is CourseEnrollmentLoadFailedState) {
+          // return ErrorScreen();
+          return Text(state.errorMessage);
+        } else if (state is CourseEnrollmentListLoadedState) {
+          print('this is tutor createdDate: ' + authorizedTutor.createdDate + authorizedTutor.confirmedDate);
+          return Scaffold(
+              backgroundColor: backgroundColor,
+              appBar: buildRevenueDetailAppbar(context),
+              body: ListView(children: [
+                Column(
+                  children: <Widget>[
+                    //month stripe
+                    new Divider(
+                      height: 1.0,
+                    ),
+                    new MonthStrip(
+                      format: 'MMM yyyy',
+                      from: new DateTime(
+                          int.parse(
+                              authorizedTutor.createdDate.substring(0, 4)),
+                          int.parse(
+                              authorizedTutor.createdDate.substring(6, 7))),
+                      to: new DateTime.now(),
+                      initialMonth: currentDate,
+                      height: 48.0,
+                      viewportFraction: 0.25,
+                      onMonthChanged: (v) {
+                        setState(() {
+                          currentDate = v;
+                        });
+                      },
+                    ),
+                    new Divider(
+                      height: 1.0,
+                    ),
+                    //month stripe
+                    //
+                    Column(
+                      children: [
+                        //
+                        Center(
+                          child: Container(
+                              padding:
+                                  const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                              child: Text(
+                                'Detail Total Revenue',
+                                style: TextStyle(
+                                  color: textGreyColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              )),
+                        ),
+                        //
+                        Container(
+                          width: 320,
+                          height: 170,
+                          decoration: BoxDecoration(
+                            color: backgroundColor,
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(12),
+                              bottomLeft: Radius.circular(12),
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                            ),
+                            boxShadow: [
+                              boxShadowStyle,
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              //
+                              buildRevenueInformationListTile(
+                                  state.courseEnrollment.length.toString(),
+                                  'Quantity of Enrollments',
+                                  Icons.person_add),
+                              buildDivider(),
+                              //
+                              _calTotalProfit(state),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                          child: Text(
+                            'Detail revenue of Enrollment (' +
+                                state.courseEnrollment.length.toString() +
+                                ')',
+                            style: TextStyle(
+                              color: textGreyColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                          width: 320,
+                          height: 400,
+                          decoration: BoxDecoration(
+                            color: backgroundColor,
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(12),
+                              bottomLeft: Radius.circular(12),
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                            ),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: _buildListCourseEnrollment(state),
+                        ),
+                      ],
+                    )
+                    //
+                  ],
+                ),
+              ]));
         } else if (state is CourseEnrollmentLoadFailedState) {
           return Center(
             child: Text(state.errorMessage),
@@ -463,7 +498,7 @@ ListTile buildRevenueInformationListTile(
 
 PreferredSize buildRevenueDetailAppbar(BuildContext context) {
   return PreferredSize(
-    preferredSize: Size.fromHeight(50),
+    preferredSize: Size.fromHeight(40),
     child: AppBar(
       elevation: 0.0,
       flexibleSpace: Container(
@@ -471,7 +506,6 @@ PreferredSize buildRevenueDetailAppbar(BuildContext context) {
           image: DecorationImage(
             image: AssetImage(
               'assets/images/appbar.png',
-              // fit: BoxFit.fitWidth,
             ),
             fit: BoxFit.cover,
           ),

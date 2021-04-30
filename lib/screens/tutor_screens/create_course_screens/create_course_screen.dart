@@ -43,7 +43,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   @override
   void initState() {
     //
-    courseNameController.text = widget.selectedSubject.name + ' ';
+    courseNameController.text = widget.selectedSubject.name;
     //
     registerOnFirebase();
     getMessage(context);
@@ -253,15 +253,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           builder: (context) => buildDefaultDialog(
                                   context,
                                   "Invalid!",
-                                  "Course lasts at least 7 days or more.",
-                                  [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Ok'),
-                                    ),
-                                  ]));
+                                  "Course lasts at least 7 days or more.", [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Ok'),
+                                ),
+                              ]));
                     } else {
                       selectedDateRange = range;
                       //set end and start date
@@ -1052,6 +1051,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             ]));
                 //
               } else {
+                //
+                course.name = courseNameController.text.trim();
+                //
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => PreviewCourseScreen(
                           course: course,
@@ -1187,6 +1189,10 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                 setState(() {
                                   course.classHasSubjectId = classHasSubject.id;
                                   selectedClassName = state.classes[index].name;
+                                  courseNameController.text =
+                                      courseNameController.text +
+                                          ' ' +
+                                          selectedClassName;
                                 });
                               },
                             );
