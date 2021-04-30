@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
@@ -352,10 +353,17 @@ Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => FullScreenImage(
-                                  imageWidget: Image.network(
-                                    extraImages[index],
-                                    fit: BoxFit.cover,
+                                  imageWidget: CachedNetworkImage(
+                                    imageUrl: extraImages[index],
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
+                                  // Image.network(
+                                  //   extraImages[index],
+                                  //   fit: BoxFit.cover,
+                                  // ),
                                 ),
                               ),
                             );
@@ -363,10 +371,17 @@ Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
                           child: Container(
                             height: 114,
                             width: 114,
-                            child: Image.network(
-                              extraImages[index],
-                              fit: BoxFit.cover,
+                            child: CachedNetworkImage(
+                              imageUrl: extraImages[index],
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
+                            // Image.network(
+                            //   extraImages[index],
+                            //   fit: BoxFit.cover,
+                            // ),
                           ),
                         );
                       }),

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -586,11 +587,23 @@ class TutorInformation extends StatelessWidget {
                                                       child: Container(
                                                         height: 125,
                                                         width: 125,
-                                                        child: Image.network(
-                                                          tutor.certificationUrls[
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: tutor
+                                                                  .certificationUrls[
                                                               index],
-                                                          fit: BoxFit.cover,
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              CircularProgressIndicator(),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Icon(Icons.error),
                                                         ),
+                                                        // Image.network(
+                                                        //   tutor.certificationUrls[
+                                                        //       index],
+                                                        //   fit: BoxFit.cover,
+                                                        // ),
                                                       ),
                                                     );
                                                   }),

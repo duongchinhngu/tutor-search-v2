@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
@@ -23,6 +24,7 @@ class _CertificationImageScreenState extends State<CertificationImageScreen> {
     getMessage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,10 +71,17 @@ class _CertificationImageScreenState extends State<CertificationImageScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => FullScreenImage(
-                              imageWidget: Image.network(
-                                certificationImages[index],
-                                fit: BoxFit.cover,
+                              imageWidget: CachedNetworkImage(
+                                imageUrl: certificationImages[index],
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
+                              // Image.network(
+                              //   certificationImages[index],
+                              //   fit: BoxFit.cover,
+                              // ),
                             ),
                           ),
                         );
@@ -80,10 +89,17 @@ class _CertificationImageScreenState extends State<CertificationImageScreen> {
                       child: Container(
                         height: 114,
                         width: 114,
-                        child: Image.network(
-                          certificationImages[index],
-                          fit: BoxFit.cover,
+                        child: CachedNetworkImage(
+                          imageUrl: certificationImages[index],
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
+                        // Image.network(
+                        //   certificationImages[index],
+                        //   fit: BoxFit.cover,
+                        // ),
                       ),
                     );
                   }),

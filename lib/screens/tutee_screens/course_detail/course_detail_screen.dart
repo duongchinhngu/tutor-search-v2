@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -364,10 +365,17 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => FullScreenImage(
-                                    imageWidget: Image.network(
-                                      extraImages[index],
-                                      fit: BoxFit.cover,
+                                    imageWidget: CachedNetworkImage(
+                                      imageUrl: extraImages[index],
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
                                     ),
+                                    // Image.network(
+                                    //   extraImages[index],
+                                    //   fit: BoxFit.cover,
+                                    // ),
                                   ),
                                 ),
                               );
@@ -375,10 +383,17 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                             child: Container(
                               height: 114,
                               width: 114,
-                              child: Image.network(
-                                extraImages[index],
-                                fit: BoxFit.cover,
+                              child: CachedNetworkImage(
+                                imageUrl: extraImages[index],
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
+                              // Image.network(
+                              //   extraImages[index],
+                              //   fit: BoxFit.cover,
+                              // ),
                             ),
                           );
                         }),
