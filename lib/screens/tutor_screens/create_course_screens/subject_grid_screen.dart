@@ -125,6 +125,11 @@ class SearchSubjectBox extends StatefulWidget {
 
 class _SearchSubjectBoxState extends State<SearchSubjectBox> {
   @override
+  void initState() {
+    searchValue = '';
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topCenter,
