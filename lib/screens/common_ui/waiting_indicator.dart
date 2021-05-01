@@ -16,3 +16,17 @@ Container buildLoadingIndicator() {
     ),
   );
 }
+
+Container buildCustomizedLoadingIndicator(Color backgroundColor, Color indicatorColor) {
+  return Container(
+    color: backgroundColor,
+    child: Center(
+      // child: CircularProgressIndicator(
+      //   backgroundColor: mainColor,
+      // ),
+      child: SpinKitWave(
+        color: indicatorColor,
+      ),
+    ),
+  );
+}

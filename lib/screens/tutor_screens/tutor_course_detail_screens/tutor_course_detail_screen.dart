@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -362,10 +363,17 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => FullScreenImage(
-                                      imageWidget: Image.network(
-                                        extraImages[index],
-                                        fit: BoxFit.cover,
+                                      imageWidget: CachedNetworkImage(
+                                        imageUrl: extraImages[index],
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                       ),
+                                      //   Image.network(
+                                      //     extraImages[index],
+                                      //     fit: BoxFit.cover,
+                                      //   ),
                                     ),
                                   ),
                                 );
@@ -373,10 +381,17 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                               child: Container(
                                 height: 114,
                                 width: 114,
-                                child: Image.network(
-                                  extraImages[index],
-                                  fit: BoxFit.cover,
+                                child: CachedNetworkImage(
+                                  imageUrl: extraImages[index],
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
+                                // Image.network(
+                                //   extraImages[index],
+                                //   fit: BoxFit.cover,
+                                // ),
                               ),
                             );
                           }),

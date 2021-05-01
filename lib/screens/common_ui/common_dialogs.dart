@@ -80,15 +80,23 @@ Future showDefaultConfirmDialog(BuildContext context, String title,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
+            TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: Text('Cancel',
+                  style: TextStyle(
+                    color: mainColor,
+                  )),
             ),
-            ElevatedButton(
+            TextButton(
               onPressed: continueFunction,
-              child: Text('Ok'),
+              child: Text(
+                'Ok',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
             )
           ],
         ),

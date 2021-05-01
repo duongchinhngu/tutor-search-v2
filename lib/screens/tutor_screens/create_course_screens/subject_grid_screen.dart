@@ -34,6 +34,7 @@ class _SubjectGridScreenState extends State<SubjectGridScreen> {
     getMessage(context);
     super.initState();
   }
+
   //login repo
   final loginRepository = LoginRepository();
   //
@@ -129,6 +130,7 @@ class _SearchSubjectBoxState extends State<SearchSubjectBox> {
     searchValue = '';
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -198,7 +200,7 @@ class _SubjectGridViewState extends State<SubjectGridView> {
         subjectCubit.getSubjectsByStatus(globals.StatusConstants.ACTIVE_STATUS);
         //
         if (state is SubjectLoadingState) {
-          return buildLoadingIndicator();
+          return buildCustomizedLoadingIndicator(mainColor, backgroundColor);
         } else if (state is SubjectLoadFailedState) {
           return Center(
             child: Text(state.errorMessage),
