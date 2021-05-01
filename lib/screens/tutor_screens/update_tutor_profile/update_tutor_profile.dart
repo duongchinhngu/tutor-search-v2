@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -678,10 +679,17 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                                 height: 125,
                                 width: 125,
                                 child: PopupMenuButton(
-                                  child: Image.network(
-                                    certificationImages[index],
-                                    fit: BoxFit.cover,
+                                  child: CachedNetworkImage(
+                                    imageUrl: certificationImages[index],
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
+                                  // Image.network(
+                                  //   certificationImages[index],
+                                  //   fit: BoxFit.cover,
+                                  // ),
                                   itemBuilder: (context) {
                                     return <PopupMenuItem>[
                                       PopupMenuItem(
@@ -696,10 +704,22 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     FullScreenImage(
-                                                  imageWidget: Image.network(
-                                                    certificationImages[index],
-                                                    fit: BoxFit.cover,
+                                                  imageWidget:
+                                                      CachedNetworkImage(
+                                                    imageUrl:
+                                                        certificationImages[
+                                                            index],
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        CircularProgressIndicator(),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(Icons.error),
                                                   ),
+                                                  //   Image.network(
+                                                  //     certificationImages[index],
+                                                  //     fit: BoxFit.cover,
+                                                  //   ),
                                                 ),
                                               ),
                                             );

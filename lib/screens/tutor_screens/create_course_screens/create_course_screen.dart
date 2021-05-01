@@ -991,7 +991,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
             size: 20,
           ),
           onPressed: () {
-            //
             //reset empty all fields
             showDialog(
               context: context,
@@ -1003,20 +1002,30 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(
+                      TextButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text('Cancel'),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: mainColor,
+                          ),
+                        ),
                       ),
-                      ElevatedButton(
+                      TextButton(
                         onPressed: () async {
                           resetEmptyCreateCourseScreen();
                           //
                           Navigator.pop(context);
                           Navigator.pop(context);
                         },
-                        child: Text('Continue'),
+                        child: Text(
+                          'Continue',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
                       )
                     ],
                   ),

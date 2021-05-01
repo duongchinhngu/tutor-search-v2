@@ -109,7 +109,12 @@ class _TutorRegisterScreenState extends State<TutorRegisterScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel'),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: mainColor,
+                  ),
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -118,8 +123,14 @@ class _TutorRegisterScreenState extends State<TutorRegisterScreen> {
                   //2 times pop to back to home screen
                   Navigator.pop(context);
                   Navigator.pop(context);
+                  Navigator.pop(context);
                 },
-                child: Text('Continue'),
+                child: Text(
+                  'Continue',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
               ),
             ],
           ),

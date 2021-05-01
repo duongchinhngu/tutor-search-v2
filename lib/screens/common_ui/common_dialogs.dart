@@ -68,7 +68,8 @@ AlertDialog buildDefaultDialog(
 }
 
 //confirm dialog default
-Future showDefaultConfirmDialog(BuildContext context, String title, String subtitle, Function continueFunction) {
+Future showDefaultConfirmDialog(BuildContext context, String title,
+    String subtitle, Function continueFunction) {
   return showDialog(
     context: context,
     builder: (context) => buildDefaultDialog(
@@ -96,7 +97,6 @@ Future showDefaultConfirmDialog(BuildContext context, String title, String subti
   );
 }
 
-
 //sign out function common
 Future showLogoutConfirmDialog(BuildContext context) {
   return showDialog(
@@ -109,13 +109,16 @@ Future showLogoutConfirmDialog(BuildContext context) {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
+            TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: Colors.blue),
+              ),
             ),
-            ElevatedButton(
+            TextButton(
               onPressed: () async {
                 try {
                   final loginRepository = LoginRepository();
@@ -125,7 +128,10 @@ Future showLogoutConfirmDialog(BuildContext context) {
                   print('You are not allowed! $error');
                 }
               },
-              child: Text('Sign out'),
+              child: Text(
+                'Sign out',
+                style: TextStyle(color: Colors.red),
+              ),
             )
           ],
         ),

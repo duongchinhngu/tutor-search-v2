@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         //show role selector dialog
                         showDialog(
                           context: context,
-                        builder: (context) => buildDefaultDialog(
+                          builder: (context) => buildDefaultDialog(
                             context,
                             'You\'d like to be Tutor or Tutee?',
                             'Choose role for registration',
@@ -125,7 +125,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  ElevatedButton(
+                                  //tutor
+                                  TextButton(
                                     onPressed: () {
                                       Navigator.push(
                                         context,
@@ -135,9 +136,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       );
                                     },
-                                    child: Text('Tutor'),
+                                    child: Text('Tutor',
+                                        style: TextStyle(
+                                          color: mainColor,
+                                          fontSize: headerFontSize - 1,
+                                        )),
                                   ),
-                                  ElevatedButton(
+                                  //tutee
+                                  TextButton(
                                     onPressed: () {
                                       Navigator.push(
                                         context,
@@ -147,7 +153,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       );
                                     },
-                                    child: Text('Tutee'),
+                                    child: Text(
+                                      'Tutee',
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: headerFontSize - 1,
+                                      ),
+                                    ),
                                   )
                                 ],
                               ),
