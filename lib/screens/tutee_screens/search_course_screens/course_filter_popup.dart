@@ -219,7 +219,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 }
                 //choose date range
                 final dateRange =
-                    await dateRangeSelector(context, defaultDateRange);
+                    await dateRangePicker(context, defaultDateRange);
                 //set filter item this date range
                 setBeginAndEndDate(dateRange);
               },

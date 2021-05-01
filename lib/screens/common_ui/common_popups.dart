@@ -43,6 +43,20 @@ Future<TimeRange> timeRangeSelector(
   );
 }
 
+Future<DateTimeRange> dateRangePicker(
+    BuildContext context, DateTimeRange defaultRange) {
+  return showDateRangePicker(
+    context: context,
+    initialDateRange: defaultRange,
+    firstDate: DateTime.now(),
+    lastDate: DateTime.now().add(
+      new Duration(
+        days: 365,
+      ),
+    ),
+  );
+}
+
 //get date range and get end and start date;
 //default range here is the default value dateRange
 Future<DateTimeRange> dateRangeSelector(
