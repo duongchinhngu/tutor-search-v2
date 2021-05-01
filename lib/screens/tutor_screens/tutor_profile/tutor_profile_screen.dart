@@ -145,7 +145,10 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MembershipScreen()));
+                          builder: (context) => MembershipScreen(
+                                currentMembershipId:
+                                    authorizedTutor.membershipId,
+                              )));
                     },
                     child: ListTile(
                       leading: Container(
@@ -170,11 +173,10 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
                       subtitle: Text(
                         membershipName,
                         style: TextStyle(
-                                fontSize: titleFontSize,
-                                color: textGreyColor,
-                              ),
+                          fontSize: titleFontSize,
+                          color: textGreyColor,
+                        ),
                       ),
-                      
                       trailing: Icon(
                         Icons.arrow_forward_ios,
                         color: textGreyColor,
@@ -183,11 +185,15 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
                     ),
                   ),
                   buildDivider(),
-                  buildCourseInformationListTile(state.tutor.createdDate,
-                      'Created Date', Icons.calendar_today_outlined),
+                  buildCourseInformationListTile(
+                      state.tutor.createdDate.substring(0, 10),
+                      'Created Date',
+                      Icons.calendar_today_outlined),
                   buildDivider(),
-                  buildCourseInformationListTile(state.tutor.confirmedDate,
-                      'Confirmed Date', Icons.calendar_today_sharp),
+                  buildCourseInformationListTile(
+                      state.tutor.confirmedDate.substring(0, 10),
+                      'Confirmed Date',
+                      Icons.calendar_today_sharp),
                   buildDivider(),
                   buildCourseInformationListTile(
                     state.tutor.description,

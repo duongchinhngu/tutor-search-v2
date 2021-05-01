@@ -243,10 +243,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   final range =
                       await dateRangeSelector(context, selectedDateRange);
                   //validate dateRange lasts 7days at least
-
                   //
                   if (range != null) {
-                    if (range.duration.inDays < 7) {
+                    if (range.duration.inDays < 6) {
                       //
                       showDialog(
                           context: context,
@@ -393,12 +392,28 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   // //select time range
                   final range = await timeRangeSelector(
                       context, selectedTimeRange, 'Study Time');
-                  final gap = range.endTime.minute +
-                      range.endTime.hour * 60 -
-                      range.startTime.minute -
-                      range.startTime.hour * 60;
-                  print(" gap is " + gap.toString());
-                  if (gap >= 30 && gap <= 16 * 60) {
+                  //calculate difference between 2 time picked
+                  final currentDatetime = DateTime.now();
+                  final startTime = DateTime(currentDatetime.year, 1, 1,
+                      range.startTime.hour, range.startTime.minute);
+                  //
+                  DateTime endTime = DateTime(currentDatetime.year, 1, 1,
+                      range.endTime.hour, range.endTime.minute);
+                  //
+                  if (startTime.isAfter(endTime)) {
+                    endTime = DateTime(currentDatetime.year, 1, 2,
+                        range.endTime.hour, range.endTime.minute);
+                  }
+                  //
+                  int diffGap = endTime.difference(startTime).inMinutes;
+                  //
+                  // print('this is 60 and 16: ${60 * 16}');
+                  // print('this is start start: ' + startTime.toString());
+                  // print('this is end endtime: ' + endTime.toString());
+                  // //
+                  // print(" gap is " + diffGap.toString());
+                  //
+                  if (diffGap >= 30 && diffGap <= 16 * 60) {
                     //
                     if (range != null) {
                       selectedTimeRange = range;
@@ -412,7 +427,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         builder: (context) => buildDefaultDialog(
                                 context,
                                 "Invalid!",
-                                "Course duration must be 30 min to 8 hours a day",
+                                "Course duration must be 30 min to 16 hours a day",
                                 [
                                   ElevatedButton(
                                     onPressed: () {

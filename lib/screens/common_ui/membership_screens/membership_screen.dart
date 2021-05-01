@@ -9,6 +9,9 @@ import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_d
 import '../error_screen.dart';
 
 class MembershipScreen extends StatefulWidget {
+  final int currentMembershipId;
+
+  const MembershipScreen({Key key,@required this.currentMembershipId}) : super(key: key);
   @override
   _MembershipScreenState createState() => _MembershipScreenState();
 }
@@ -26,6 +29,8 @@ class _MembershipScreenState extends State<MembershipScreen>
         .fetchMembershipByStatus(StatusConstants.ACTIVE_STATUS);
     return Future.value(memberships);
   }
+
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +58,18 @@ class _MembershipScreenState extends State<MembershipScreen>
             return ErrorScreen();
           } else {
             if (snapshot.hasData) {
+              //
+              for (var i = 0; i < snapshot.data.length; i++) {
+                if( snapshot.data[i] is Membership && snapshot.data[i].id == widget.currentMembershipId){
+                  selectedIndex = i;
+                  break;
+                }
+              }
+              //
               _tabController = new TabController(
                 vsync: this,
                 length: snapshot.data.length,
-                initialIndex: 0,
+                initialIndex: selectedIndex,
               );
               //
               return Column(
