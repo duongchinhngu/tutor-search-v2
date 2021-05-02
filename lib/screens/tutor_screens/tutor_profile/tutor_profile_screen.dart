@@ -6,6 +6,7 @@ import 'package:tutor_search_system/commons/notifications/notification_methods.d
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
 import 'package:tutor_search_system/models/tutor.dart';
+import 'package:tutor_search_system/repositories/membership_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
@@ -17,6 +18,7 @@ import 'package:tutor_search_system/screens/tutor_screens/feeback/tutor_feedback
 import 'package:tutor_search_system/screens/tutor_screens/transaction_screens/tutor_transaction_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
+import 'package:http/http.dart' as http;
 
 class TutorProfileScreen extends StatefulWidget {
   final Tutor tutor;
@@ -31,6 +33,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
   void initState() {
     registerOnFirebase();
     getMessage(context);
+    
     super.initState();
   }
 
