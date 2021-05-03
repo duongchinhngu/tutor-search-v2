@@ -231,9 +231,10 @@ class _CourseCardState extends State<CourseCard> {
         //navigate to course detail screen
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) => TuteeHomeCourseDetailScreen(
-                    courseId: widget.course.id,
-                  )),
+            builder: (context) => TuteeHomeCourseDetailScreen(
+              courseId: widget.course.id,
+            ),
+          ),
         );
       },
       child: Padding(
@@ -253,6 +254,7 @@ class _CourseCardState extends State<CourseCard> {
           ),
           width: 60,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 flex: 0,
@@ -345,21 +347,21 @@ class _CourseCardState extends State<CourseCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(10, 3, 10, 15),
+                            padding: const EdgeInsets.fromLTRB(10, 3, 10, 20),
                             margin: const EdgeInsets.only(top: 5),
                             child: Image.asset('assets/images/studyicon.png'),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
                             child: Image.asset('assets/images/clockicon.png'),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
                             child:
                                 Image.asset('assets/images/distanceicon.png'),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
                             child: Image.asset('assets/images/pricetag.png'),
                           ),
                         ],
@@ -368,35 +370,55 @@ class _CourseCardState extends State<CourseCard> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 5, 10, 10),
-                            child: Text(
-                              widget.course.availableSlot.toString()
-                                  // + '/' + widget.course.maxTutee.toString()
-                                  +
-                                  ' slot(s) left',
-                              style: textStyle,
+                            padding: const EdgeInsets.fromLTRB(5, 5, 10, 20),
+                            child: Container(
+                              width: 130,
+                              child: Text(
+                                widget.course.availableSlot.toString()
+                                    // + '/' + widget.course.maxTutee.toString()
+                                    +
+                                    ' slot(s) left',
+                                style: TextStyle(color: textGreyColor,
+                                
+                                fontSize: 15),
+                              ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                            child: Text(
-                              widget.course.beginTime,
-                              style: textStyle,
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
+                            child: Container(
+                              width: 130,
+                              child: Text(
+                                widget.course.beginTime,
+                                 style: TextStyle(color: textGreyColor,
+                                
+                                fontSize: 15),
+                              ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                            child: Text(
-                              // _distance + ' km',
-                              widget.course.distance.toString() + ' km',
-                              style: textStyle,
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
+                            child: Container(
+                              width: 130,
+                              child: Text(
+                                // _distance + ' km',
+                                widget.course.distance.toString() + ' km',
+                                 style: TextStyle(color: textGreyColor,
+                                
+                                fontSize: 15),
+                              ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                            child: Text(
-                              '\$' + widget.course.studyFee.toString(),
-                              style: textStyle,
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
+                            child: Container(
+                              width: 130,
+                              child: Text(
+                                '\$' + widget.course.studyFee.toString(),
+                                 style: TextStyle(color: textGreyColor,
+                                
+                                fontSize: 15),
+                              ),
                             ),
                           ),
                         ],

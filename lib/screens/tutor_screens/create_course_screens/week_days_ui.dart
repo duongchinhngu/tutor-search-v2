@@ -37,15 +37,15 @@ class _WeekDaysComponentState extends State<WeekDaysComponent> {
     // 
     selectedWeekdays.clear();
     //
-    weekdays = [
-      new Weekday('Mon', false),
-      new Weekday('Tues', false),
-      new Weekday('Wed', false),
-      new Weekday('Thu', false),
-      new Weekday('Fri', false),
-      new Weekday('Sat', false),
-      new Weekday('Sun', false),
-    ];
+    // weekdays = [
+    //   new Weekday('Mon', false),
+    //   new Weekday('Tues', false),
+    //   new Weekday('Wed', false),
+    //   new Weekday('Thu', false),
+    //   new Weekday('Fri', false),
+    //   new Weekday('Sat', false),
+    //   new Weekday('Sun', false),
+    // ];
     super.dispose();
   }
 

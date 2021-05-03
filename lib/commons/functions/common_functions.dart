@@ -51,6 +51,10 @@ Color mapStatusToColor(String status) {
     return Colors.grey;
   } else if( status == globals.StatusConstants.ACCEPTED_STATUS){
     return activeColor;
+  } else if( status == globals.StatusConstants.ONGOING_STATUS){
+    return ongoingColor;
+  }else if( status == globals.StatusConstants.INACTIVE_STATUS){
+    return inactiveColor;
   }
   //this is error color for test
   return Colors.tealAccent;
