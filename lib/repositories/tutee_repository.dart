@@ -37,7 +37,10 @@ class TuteeRepository {
   Future postTutee(Tutee tutee) async {
     tutee.showAttributes();
     final http.Response response = await http.post('$TUTEE_API',
-        headers: await AuthorizationContants().getAuthorizeHeader(),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
         body: jsonEncode(
           <String, dynamic>{
             'id': tutee.id,

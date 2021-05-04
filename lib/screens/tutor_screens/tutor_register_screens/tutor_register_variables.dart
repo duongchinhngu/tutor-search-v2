@@ -46,7 +46,7 @@ Tutor registerTutor = Tutor.constructor(
   //pointsave
   0,
   //membershipId
-  6,
+  9,
   //social id url
   '',
   //certification url
@@ -82,37 +82,72 @@ resetRegisterTutor() {
   resetTextController();
   //
   registerTutor = Tutor.constructor(
-    0,
-    //fullname
-    '',
-    //gender
-    '',
-    //birthday
-    '',
-    //email
-    '',
-    //phone
-    '',
-    //address
-    '',
-    //status
-    'Pending',
-    //roleId
-    3,
-    //desription
-    '',
-    //avatar imale link
-    '',
-    //edu level
-    '',
-    //school
-    '',
-    //pointsave
-    0,
-    //membershipId
-    1,
-    //social id url
-    '',
-    //certification url
-  );
+  0,
+  //fullname
+  '',
+  //gender
+  '',
+  //birthday
+  '',
+  //email
+  '',
+  //phone
+  '',
+  //address
+  '',
+  //status
+  'Pending',
+  //roleId
+  3,
+  //desription
+  '',
+  //avatar imale link
+  '',
+  //edu level
+  '',
+  //school
+  '',
+  //pointsave
+  0,
+  //membershipId
+  9,
+  //social id url
+  '',
+  //certification url
+);
+  
+  // Tutor.constructor(
+  //   0,
+  //   //fullname
+  //   '',
+  //   //gender
+  //   '',
+  //   //birthday
+  //   '',
+  //   //email
+  //   '',
+  //   //phone
+  //   '',
+  //   //address
+  //   '',
+  //   //status
+  //   'Pending',
+  //   //roleId
+  //   3,
+  //   //desription
+  //   '',
+  //   //avatar imale link
+  //   '',
+  //   //edu level
+  //   '',
+  //   //school
+  //   '',
+  //   //pointsave
+  //   0,
+  //   //membershipId
+  //   1,
+  //   //social id url
+  //   '',
+  //   //certification url
+  // );
 }

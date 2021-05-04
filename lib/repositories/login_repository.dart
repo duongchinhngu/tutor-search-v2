@@ -61,7 +61,8 @@ class LoginRepository {
       return true;
     } else {
       print('atuthenticate error: ' + response.statusCode.toString());
-      throw ('Failed to Authenticate');
+      // throw ('Failed to Authenticate');
+      return false;
     }
   }
 

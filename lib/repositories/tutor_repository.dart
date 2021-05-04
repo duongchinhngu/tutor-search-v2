@@ -36,7 +36,10 @@ class TutorRepository {
   //post tutor
   Future postTutor(Tutor tutor) async {
     final http.Response response = await http.post('$TUTOR_API',
-        headers: await AuthorizationContants().getAuthorizeHeader(),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
         body: jsonEncode(
           <String, dynamic>{
             'id': tutor.id,

@@ -62,7 +62,7 @@ class _ReUpdateTutorProfileScreenState
             .replaceFirst(']', '')
             .replaceFirst('[', '')
             .split(', ');
-        certificationImages.insert(0, '');
+        // certificationImages.insert(0, '');
       });
     });
     //
@@ -512,6 +512,7 @@ class _ReUpdateTutorProfileScreenState
                         //set name = value of this textFormfield on change
                         setState(() {
                           // course.name = courseNameController.text;
+                          widget.tutor.description = descriptionController.text;
                         });
                       },
                       decoration: InputDecoration(
@@ -532,7 +533,6 @@ class _ReUpdateTutorProfileScreenState
                           fontSize: textFontSize,
                         ),
                       ),
-                      validator: RequiredValidator(errorText: " is required"),
                     ),
                   ),
                   Icons.description),

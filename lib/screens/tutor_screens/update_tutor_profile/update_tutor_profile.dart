@@ -62,11 +62,12 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
             .toString()
             .replaceFirst(']', '')
             .replaceFirst('[', '')
-            .split(', ');
-        certificationImages.insert(0, '');
+            .split(', ');        
       });
     });
     //
+    
+
     super.initState();
   }
 
@@ -528,14 +529,13 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                           borderSide: const BorderSide(
                               color: Colors.transparent, width: 0.0),
                         ),
-                        hintText: 'Where are you living',
+                        hintText: 'Your experience,..',
                         counterText: '',
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontSize: textFontSize,
                         ),
                       ),
-                      validator: RequiredValidator(errorText: " is required"),
                     ),
                   ),
                   Icons.description),
