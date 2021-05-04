@@ -515,7 +515,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                       onChanged: (context) {
                         //set name = value of this textFormfield on change
                         setState(() {
-                          // course.name = courseNameController.text;
+                          widget.tutor.description = descriptionController.text;
                         });
                       },
                       decoration: InputDecoration(
