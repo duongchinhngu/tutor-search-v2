@@ -5,42 +5,42 @@ import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/common_model.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 
 //this is default course (when tutor does not choose fields for new course)
 //default value of unchosen field is "No Select"
 Course course = Course(
-  0,
-  // name
-  '',
-  //begintime
-  globals.DEFAULT_NO_SELECT,
-  // endtime
-  globals.DEFAULT_NO_SELECT,
-  //study fee
-  null,
-  //days in week
-  '[]',
-  //begin date
-  globals.DEFAULT_NO_SELECT,
-  // end date
-  globals.DEFAULT_NO_SELECT,
-  //description
-  '',
-  //status
-  'isDraft',
-  //class has subject
-  //this is hard code need to refactor
-  0,
-  //thi sis hard code
-  //createdBy
-  globals.authorizedTutor.id,
-  1,
-  //location
-  globals.authorizedTutor.address,
-  //extraImages
-  '[]'
-);
+    0,
+    // name
+    '',
+    //begintime
+    globals.DEFAULT_NO_SELECT,
+    // endtime
+    globals.DEFAULT_NO_SELECT,
+    //study fee
+    null,
+    //days in week
+    '[]',
+    //begin date
+    globals.DEFAULT_NO_SELECT,
+    // end date
+    globals.DEFAULT_NO_SELECT,
+    //description
+    '',
+    //status
+    'isDraft',
+    //class has subject
+    //this is hard code need to refactor
+    0,
+    //thi sis hard code
+    //createdBy
+    globals.authorizedTutor.id,
+    1,
+    //location
+    globals.authorizedTutor.address,
+    //extraImages
+    '[]');
 
 //course name field controller
 TextEditingController courseNameController = TextEditingController();
@@ -131,6 +131,16 @@ void resetEmptyCreateCourseScreen() {
   usePointController.clear();
   //clear list of extra images
   extraImages = [File('')];
+  //
+  weekdays = [
+    new Weekday('Mon', false),
+    new Weekday('Tues', false),
+    new Weekday('Wed', false),
+    new Weekday('Thu', false),
+    new Weekday('Fri', false),
+    new Weekday('Sat', false),
+    new Weekday('Sun', false),
+  ];
 }
 
 //default date range ( contains beginDate and endDate)

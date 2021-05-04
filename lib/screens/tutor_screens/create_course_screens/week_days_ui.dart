@@ -34,18 +34,9 @@ class WeekDaysComponent extends StatefulWidget {
 class _WeekDaysComponentState extends State<WeekDaysComponent> {
   @override
   void dispose() {
-    // 
+    //
     selectedWeekdays.clear();
     //
-    // weekdays = [
-    //   new Weekday('Mon', false),
-    //   new Weekday('Tues', false),
-    //   new Weekday('Wed', false),
-    //   new Weekday('Thu', false),
-    //   new Weekday('Fri', false),
-    //   new Weekday('Sat', false),
-    //   new Weekday('Sun', false),
-    // ];
     super.dispose();
   }
 
@@ -217,7 +208,8 @@ class WeekDayButton extends StatefulWidget {
   final String label;
   final bool isSelected;
 
-  const WeekDayButton({Key key, @required this.label, this.isSelected}) : super(key: key);
+  const WeekDayButton({Key key, @required this.label, this.isSelected})
+      : super(key: key);
 
   @override
   _WeekDayButtonState createState() => _WeekDayButtonState();
@@ -251,4 +243,3 @@ class _WeekDayButtonState extends State<WeekDayButton> {
     );
   }
 }
-

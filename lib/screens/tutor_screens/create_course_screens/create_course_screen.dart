@@ -1211,12 +1211,19 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                 //
                                 Navigator.pop(context);
                                 setState(() {
+                                  //
+                                  courseNameController.text =
+                                      courseNameController.text.replaceAll(
+                                          ' ' + selectedClassName, '');
+                                  //
                                   course.classHasSubjectId = classHasSubject.id;
                                   selectedClassName = state.classes[index].name;
+                                  //
                                   courseNameController.text =
                                       courseNameController.text +
                                           ' ' +
                                           selectedClassName;
+                                  //
                                 });
                               },
                             );
