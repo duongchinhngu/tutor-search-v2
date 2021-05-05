@@ -283,7 +283,7 @@ class _CourseCardState extends State<CourseCard> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: textWhiteColor,
-                                  fontSize: titleFontSize,
+                                  fontSize: 12,
                                 ),
                               ),
                             ),
@@ -347,21 +347,21 @@ class _CourseCardState extends State<CourseCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(10, 3, 10, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 3, 10, 10),
                             margin: const EdgeInsets.only(top: 5),
                             child: Image.asset('assets/images/studyicon.png'),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Image.asset('assets/images/clockicon.png'),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                             child:
                                 Image.asset('assets/images/distanceicon.png'),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                             child: Image.asset('assets/images/pricetag.png'),
                           ),
                         ],
@@ -370,9 +370,9 @@ class _CourseCardState extends State<CourseCard> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 5, 10, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 5, 10, 10),
                             child: Container(
-                              width: 130,
+                              width: 100,
                               child: Text(
                                 widget.course.availableSlot.toString()
                                     // + '/' + widget.course.maxTutee.toString()
@@ -380,44 +380,44 @@ class _CourseCardState extends State<CourseCard> {
                                     ' slot(s) left',
                                 style: TextStyle(color: textGreyColor,
                                 
-                                fontSize: 15),
+                                fontSize: 12),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Container(
-                              width: 130,
+                              width: 100,
                               child: Text(
                                 widget.course.beginTime,
                                  style: TextStyle(color: textGreyColor,
                                 
-                                fontSize: 15),
+                                fontSize: 12),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Container(
-                              width: 130,
+                              width: 100,
                               child: Text(
                                 // _distance + ' km',
                                 widget.course.distance.toString() + ' km',
                                  style: TextStyle(color: textGreyColor,
                                 
-                                fontSize: 15),
+                                fontSize: 12),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Container(
-                              width: 130,
+                              width: 100,
                               child: Text(
                                 '\$' + widget.course.studyFee.toString(),
                                  style: TextStyle(color: textGreyColor,
                                 
-                                fontSize: 15),
+                                fontSize: 12),
                               ),
                             ),
                           ),
