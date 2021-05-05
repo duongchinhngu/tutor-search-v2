@@ -107,7 +107,7 @@ class EnrollmentRepository {
   }
 
   //update enrollment in db
-  Future<bool> checkFullCourse(int courseId) async {
+  Future<String> checkFullCourse(int courseId) async {
     final response = await http.put(
       '$ENROLLMENT_API/check-full-course/$courseId',
       headers: await AuthorizationContants().getAuthorizeHeader(),
@@ -115,8 +115,8 @@ class EnrollmentRepository {
         'courseId': courseId,
       }),
     );
-    if (response.statusCode == 204) {
-      return true;
+    if (response.statusCode == 200) {
+      return response.body;
     } else {
       print('Error enrollment check full course: ' + response.body);
       throw new Exception('check full course failed!: ${response.statusCode}');

@@ -10,6 +10,7 @@ import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/notification_repository.dart';
 import 'package:tutor_search_system/repositories/transaction_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/customized_error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/follow_completed_screen.dart';
 import 'package:http/http.dart' as http;
@@ -39,14 +40,15 @@ class _TuteePaymentProccessingScreenState
     await tuteeTransactionRepository
         .postTuteeTransaction(widget.tuteeTransaction);
     //
+    
     await enrollmentRepository.postEnrollment(enrollment);
-
-    // ExtendedCourse currentCourse = await CourseRepository().fetchCourseByCourseId(http.Client(), widget.enrollment.courseId);
-
-    // ExtendedTutor currentTutor = await TutorRepository().fetchTutorByTutorId(http.Client(), currentCourse.createdBy);
-    // await NotificationRepository().postEnrollmentNotification('New Enrollment', 'You have new enrollment!', currentTutor.email);
-    // //
-    // await enrollmentRepository.checkFullCourse(enrollment.courseId);
+    //
+    ExtendedCourse currentCourse = await CourseRepository()
+        .fetchCourseByCourseId(http.Client(), widget.enrollment.courseId);
+    ExtendedTutor currentTutor = await TutorRepository()
+        .fetchTutorByTutorId(http.Client(), currentCourse.createdBy);
+    await NotificationRepository().postEnrollmentNotification(
+        'New Enrollment', 'You have new enrollment!', currentTutor.email);
     // //
     return Future.value(true);
   }

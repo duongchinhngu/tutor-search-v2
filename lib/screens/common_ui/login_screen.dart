@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
@@ -113,6 +114,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     //sign up link
                     InkWell(
                       onTap: () async {
+                        // var value = await EnrollmentRepository
+                        // ().checkFullCourse(85);
+                        // // if( value){
+                        //   print('this is richardmile: ' + value.toString());
+                        // // }else{
+                        // //   print('this is false: ');
+                        // // }
                         //show role selector dialog
                         showDialog(
                           context: context,
