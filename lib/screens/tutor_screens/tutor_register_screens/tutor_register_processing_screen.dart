@@ -72,8 +72,8 @@ class _TutorRegisterProccessingScreenState
       }
     }
     //
-    await NotificationRepository().postAllManagerNotification(
-        'New registration', 'Tutor registration request!');
+    // await NotificationRepository().postAllManagerNotification(
+    //     'New registration', 'Tutor registration request!');
     //
     return Future.value(true);
   }

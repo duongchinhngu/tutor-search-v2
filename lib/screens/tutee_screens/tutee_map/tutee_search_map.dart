@@ -314,7 +314,8 @@ class _TuteeSearchGoogleMapState extends State<TuteeSearchGoogleMap> {
   @override
   void initState() {
     super.initState();
-    // getCurrentLocation();
+    getCurrentLocation();
+    // _startAddress = widget.tuteeaddress;
     _startAddress = widget.tuteeaddress;
     _destinationAddress = widget.tutoraddress;
     _calculateDistance();

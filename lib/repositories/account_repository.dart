@@ -61,6 +61,10 @@ class AccountRepository {
   //post account
   Future resetFCMToken(String email, String token) async {
     final http.Response response = await http.put('$ACCOUNT_API/resetFcmToken',
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
         body: jsonEncode(
           <String, dynamic>{
             'email': email,

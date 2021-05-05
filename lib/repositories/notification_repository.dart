@@ -28,7 +28,37 @@ class NotificationRepository {
   Future postCreateCourseSuccessNotification(
       String title, String message, String email) async {
     final http.Response response = await http.post('$NOTIFICATION_API',
-        headers: await AuthorizationContants().getAuthorizeHeader(),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
+        body: jsonEncode(<String, dynamic>{
+          'id': 0,
+          'title': title,
+          'message': message,
+          'createDate': '2021-04-24',
+          'sendToUser': email,
+          'isRead': true
+        }));
+    if (response.statusCode == 201 ||
+        response.statusCode == 204 ||
+        response.statusCode == 404) {
+      print('this is: ' + response.body + response.statusCode.toString());
+      return true;
+    } else {
+      print(response.statusCode);
+      print('this is: ' + response.body + response.statusCode.toString());
+      throw Exception('Failed to post CreateCourseSuccessNotification');
+    }
+  }
+
+  Future postEnrollmentNotification(
+      String title, String message, String email) async {
+    final http.Response response = await http.post('$NOTIFICATION_API',
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
         body: jsonEncode(<String, dynamic>{
           'id': 0,
           'title': title,
@@ -51,7 +81,10 @@ class NotificationRepository {
 
   Future postCreateAccountSuccessNotification() async {
     final http.Response response = await http.post('$NOTIFICATION_API',
-        headers: await AuthorizationContants().getAuthorizeHeader(),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
         body: jsonEncode(<String, dynamic>{
           'id': 0,
           'title': 'Account Status',
@@ -73,14 +106,15 @@ class NotificationRepository {
     }
   }
 
+  
+
   Future postAllManagerNotification(String title, String message) async {
     final http.Response response = await http.post(
       '$NOTIFICATION_API/all-manager?title=$title&&message=$message',
-      headers: await AuthorizationContants().getAuthorizeHeader(),
-      // body: jsonEncode(<String, dynamic>{
-      //   'title': title,
-      //   'message': message,
-      // }
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      },
     );
 
     print('ahihi ${response.request.url}');

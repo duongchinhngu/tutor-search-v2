@@ -44,8 +44,8 @@ class _UpdateTutorProfileProcessingScreenState
     //
     await TutorUpdateProfileRepository().postUpdateProfile(tutorUpdateProfile);
     //
-    await NotificationRepository().postAllManagerNotification(
-        'Update profile', 'Update profile request!');
+    // await NotificationRepository().postAllManagerNotification(
+    //     'Update profile', 'Update profile request!');
     //
     return Future.value(true);
   }
