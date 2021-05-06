@@ -133,13 +133,14 @@ class CourseTutor extends Course {
       createdDate: json['createdDate'],
       maxTutee: json['maxTutee'],
       avatarImageLink: json['avatarImageLink'],
-      distance: json['distance'].toDouble() / 1000,
+      distance:
+          double.parse((json['distance'].toDouble() / 1000).toStringAsFixed(1)),
+      //  (json['distance'].toDouble() / 1000).toPrecision(1),
       location: json['location'],
       extraImages: json['extraImages'],
       averageRatingStar: json['averageRatingStar'].toDouble(),
       availableSlot: json['availableSlot'],
       subjectId: json['subjectId'],
-      
     );
   }
 }
