@@ -15,6 +15,7 @@ import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/certification_image_screen/certification_image_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/feeback/tutor_feedback_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/report_screen/report_dialog.dart';
 import 'package:tutor_search_system/screens/tutor_screens/transaction_screens/tutor_transaction_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
@@ -33,7 +34,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
   void initState() {
     registerOnFirebase();
     getMessage(context);
-    
+
     super.initState();
   }
 
@@ -349,6 +350,40 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
                         color: textGreyColor,
                         size: 18,
                       ),
+                    ),
+                  ),
+                  ////
+                  buildDivider(),
+                  //report
+                  InkWell(
+                    onTap: () {
+                      showReportDialog(context);
+                    },
+                    child: ListTile(
+                      leading: Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                        width: 43,
+                        height: 43,
+                        decoration: BoxDecoration(
+                          color: backgroundColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(Icons.flag, color: Colors.amber),
+                      ),
+                      title: Text(
+                        'Report',
+                        style: TextStyle(
+                          fontSize: titleFontSize,
+                          color: textGreyColor,
+                        ),
+                      ),
+                      // trailing: Icon(
+                      //   Icons.arrow_forward_ios,
+                      //   color: textGreyColor,
+                      //   size: 18,
+                      // ),
                     ),
                   ),
                   ////

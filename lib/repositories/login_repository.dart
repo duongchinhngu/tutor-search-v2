@@ -68,7 +68,15 @@ class LoginRepository {
 
 //sign out (log out)
   Future handleSignOut(BuildContext context) async {
-    await _googleSignIn.signOut().whenComplete(() {
+    await _googleSignIn.signOut().whenComplete(() async {
+      //reset empty noti token for this account
+      if (globals.authorizedTutor != null) {
+        await AccountRepository()
+            .resetFCMToken(globals.authorizedTutor.email, '');
+      } else if (globals.authorizedTutee != null) {
+        await AccountRepository()
+            .resetFCMToken(globals.authorizedTutee.email, '');
+      }
       //set global tutor (tutee) is null
       globals.authorizedTutor = null;
       globals.authorizedTutee = null;

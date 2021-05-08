@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:tutor_search_system/models/image.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/repositories/image_repository.dart';
 import 'package:tutor_search_system/states/image_state.dart';

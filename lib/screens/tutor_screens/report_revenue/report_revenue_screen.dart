@@ -76,7 +76,8 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
                   from: new DateTime(
                       int.parse(authorizedTutor.createdDate.substring(0, 4)),
                       int.parse(authorizedTutor.createdDate.substring(6, 7))),
-                  to: new DateTime.now(),
+                  to: new DateTime(
+                      DateTime.now().year, DateTime.now().month - 1, 1),
                   initialMonth: currentDate,
                   height: 48.0,
                   viewportFraction: 0.25,
@@ -156,7 +157,9 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
           // return ErrorScreen();
           return Text(state.errorMessage);
         } else if (state is CourseEnrollmentListLoadedState) {
-          print('this is tutor createdDate: ' + authorizedTutor.createdDate + authorizedTutor.confirmedDate);
+          print('this is tutor createdDate: ' +
+              authorizedTutor.createdDate +
+              authorizedTutor.confirmedDate);
           return Scaffold(
               backgroundColor: backgroundColor,
               appBar: buildRevenueDetailAppbar(context),
