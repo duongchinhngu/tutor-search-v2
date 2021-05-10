@@ -73,3 +73,5 @@ const COMMISSION_API = "$SERVER_NAME/commissions";
 const TUTOR_UPDATE_PROFILE_API = '$SERVER_NAME/tutor-update-profile';
 //report type api url
 const REPORT_TYPE_API = '$SERVER_NAME/report-type';
+//tutor report api url
+const TUTOR_REPORT_API = '$SERVER_NAME/TutorReport';
