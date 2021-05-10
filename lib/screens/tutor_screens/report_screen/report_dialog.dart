@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 
 //sending status
 bool isSending = false;
 //
 Future showReportDialog(BuildContext context) {
   return showDialog(
-    barrierDismissible: !isSending,
     context: context,
     builder: (context) => Dialog(
       backgroundColor: backgroundColor,
@@ -26,6 +24,15 @@ class TutorReportDialog extends StatefulWidget {
 }
 
 class _TutorReportDialogState extends State<TutorReportDialog> {
+  //
+  String selectedReportType = 'Select report type';
+  //
+  @override
+  void initState() {
+    super.initState();
+    isSending = false;
+  }
+
   //text controller for comment
   TextEditingController commentController = TextEditingController();
   @override
@@ -35,7 +42,7 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
         ignoring: isSending,
         ignoringSemantics: true,
         child: Container(
-          height: 400,
+          // height: 460,
           width: 200,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -43,10 +50,43 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
               //title and icon label
               _buildReportTitle(),
               //report type
-              
+              ListTile(
+                title: InkWell(
+                  onTap: () {
+                    // classSelector(context, widget.selectedSubject);
+                  },
+                  child: Container(
+                    height: 40,
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                          width: 1, color: textGreyColor.withOpacity(.5)),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          selectedReportType,
+                          style: TextStyle(
+                            fontSize: titleFontSize - 1,
+                            color: textGreyColor,
+                          ),
+                        ),
+                        Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: mainColor,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               //comment
               Container(
-                height: 180,
+                height: 280,
                 alignment: Alignment.center,
                 padding: EdgeInsets.only(top: 10, bottom: 0),
                 margin: EdgeInsets.symmetric(
@@ -118,6 +158,13 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
                   ),
                 ),
               ),
+              // SizedBox(
+              //   height: 100,
+              // ),
+              // SizedBox(
+              //   height: 100,
+              // ),
+
               // send button
               Align(
                 alignment: Alignment.centerRight,
@@ -178,9 +225,7 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
                     width: 94,
                     height: 38,
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(
-                      right: 20,
-                    ),
+                    margin: EdgeInsets.only(right: 20, bottom: 20),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: mainColor,
@@ -208,6 +253,7 @@ Container _buildReportTitle() {
   return Container(
     alignment: Alignment.centerLeft,
     width: double.infinity,
+    height: 80,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -222,7 +268,7 @@ Container _buildReportTitle() {
         ),
         //label
         Text(
-          'Report!',
+          'Report your problems',
           style: TextStyle(
             fontSize: headerFontSize,
             fontWeight: FontWeight.bold,
@@ -230,6 +276,85 @@ Container _buildReportTitle() {
           ),
         ),
       ],
+    ),
+  );
+}
+
+Future<dynamic> showFeedbackCompletedDialog(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (context) => Dialog(
+      child: Container(
+        height: 300,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            //complete icon
+            Container(
+              height: 100,
+              alignment: Alignment.topCenter,
+              child: Icon(
+                Icons.check_circle_outlined,
+                size: 80,
+                color: Colors.greenAccent[700],
+              ),
+            ),
+            //thank you title
+            Container(
+              child: Text(
+                'Your report will be verified soon!',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                    color: textGreyColor,
+                    fontSize: headerFontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            //explanation text field
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(
+                top: 10,
+                bottom: 30,
+              ),
+              child: Text(
+                'Your problem is on processing by manager and admin.\n We will notify you soon. Please wait',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: textFontSize,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            //
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 94,
+                height: 38,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: mainColor,
+                ),
+                child: Text(
+                  'Ok',
+                  style: TextStyle(
+                    fontSize: titleFontSize,
+                    color: textWhiteColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     ),
   );
 }
