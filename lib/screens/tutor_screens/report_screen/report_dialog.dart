@@ -1,7 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/functions/common_functions.dart';
+import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/cubits/report_type_cubit.dart';
+import 'package:tutor_search_system/cubits/report_type_cubit.dart';
+import 'package:tutor_search_system/models/report_type.dart';
+import 'package:tutor_search_system/repositories/report_type_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
+import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
+import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/states/report_type_state.dart';
 
 //sending status
 bool isSending = false;
@@ -25,7 +40,10 @@ class TutorReportDialog extends StatefulWidget {
 
 class _TutorReportDialogState extends State<TutorReportDialog> {
   //
-  String selectedReportType = 'Select report type';
+  List<File> reportPhoto = [];
+  //
+  ReportType selectedReportType ;
+  //  'Select report type';
   //
   @override
   void initState() {
@@ -53,11 +71,14 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
               ListTile(
                 title: InkWell(
                   onTap: () {
-                    // classSelector(context, widget.selectedSubject);
+                    //select report type bottom sheet
+                    reportTypeSelector(context);
                   },
                   child: Container(
                     height: 40,
+                    width: 100,
                     margin: EdgeInsets.symmetric(horizontal: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
@@ -65,19 +86,26 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
                       color: Colors.white,
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                          selectedReportType,
-                          style: TextStyle(
-                            fontSize: titleFontSize - 1,
-                            color: textGreyColor,
+                        Expanded(
+                          flex: 9,
+                          child: Text(
+                            selectedReportType != null? selectedReportType.name : 'Select report type',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: titleFontSize - 1,
+                              color: textGreyColor,
+                            ),
                           ),
                         ),
-                        Icon(
-                          Icons.edit,
-                          size: 20,
-                          color: mainColor,
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.edit,
+                            size: 20,
+                            color: mainColor,
+                          ),
                         )
                       ],
                     ),
@@ -120,7 +148,16 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
               ),
               //
               InkWell(
-                onTap: () {},
+                onTap: () async {
+                  //select photo from galary
+                  var img = await getImageFromGallery();
+                  //
+                  if (img != null) {
+                    setState(() {
+                      reportPhoto.add(img);
+                    });
+                  }
+                },
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
@@ -158,12 +195,72 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
                   ),
                 ),
               ),
-              // SizedBox(
-              //   height: 100,
-              // ),
-              // SizedBox(
-              //   height: 100,
-              // ),
+              //
+              Container(
+                width: 260,
+                alignment: Alignment.centerLeft,
+                child: Wrap(
+                  runAlignment: WrapAlignment.spaceBetween,
+                  runSpacing: 10,
+                  spacing: 10,
+                  children: List.generate(
+                    reportPhoto.length,
+                    (index) {
+                      //view photo in fullscreen
+                      return Container(
+                        height: 125,
+                        width: 125,
+                        child: PopupMenuButton(
+                          child: Image.file(
+                            reportPhoto[index],
+                          ),
+                          itemBuilder: (context) {
+                            return <PopupMenuItem>[
+                              PopupMenuItem(
+                                child: TextButton(
+                                  child: Text('Detail'),
+                                  onPressed: () {
+                                    //
+                                    Navigator.pop(context);
+                                    //
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => FullScreenImage(
+                                            imageWidget: Image.file(
+                                              reportPhoto[index],
+                                            ),
+                                          ),
+                                        ));
+                                  },
+                                ),
+                              ),
+                              PopupMenuItem(
+                                child: TextButton(
+                                  child: Text(
+                                    'Remove',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: Colors.red.withOpacity(.8),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    setState(() {
+                                      reportPhoto.removeAt(index);
+                                    });
+                                  },
+                                ),
+                              )
+                            ];
+                          },
+                        ),
+                      );
+                      // }
+                    },
+                  ),
+                ),
+              ),
 
               // send button
               Align(
@@ -247,6 +344,69 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
       ),
     );
   }
+
+  //load all classes by api
+  Future<dynamic> reportTypeSelector(BuildContext context) =>
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Container(
+              child: BlocProvider(
+                create: (context) => ReportTypeCubit(ReportTypeRepository()),
+                child: BlocBuilder<ReportTypeCubit, ReportTypeState>(
+                  builder: (context, state) {
+                    //
+                    final reportTypeCubit = context.watch<ReportTypeCubit>();
+                    reportTypeCubit.getReportType(authorizedTutor.roleId);
+                    //
+                    if (state is ReportTypeLoadingState) {
+                      return buildLoadingIndicator();
+                    } else if (state is ReportTypeLoadFailedState) {
+                      return ErrorScreen();
+                    } else if (state is ReportTypeNoDataState) {
+                      return NoDataScreen();
+                    } else if (state is ReportTypeListLoadedState) {
+                      return Container(
+                          child: ListView.separated(
+                        separatorBuilder: (BuildContext context, int index) =>
+                            Divider(),
+                        itemCount: state.reportTypes.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                              leading: Visibility(
+                                visible: selectedReportType?.id ==
+                                    state.reportTypes[index].id,
+                                child: Icon(
+                                  Icons.check,
+                                  color: mainColor,
+                                  size: 15,
+                                ),
+                              ),
+                              title: Text(
+                                state.reportTypes[index].name,
+                                style: TextStyle(
+                                  color: selectedReportType?.id ==
+                                          state.reportTypes[index].id
+                                      ? mainColor
+                                      : textGreyColor,
+                                  fontSize: titleFontSize,
+                                ),
+                              ),
+                              onTap: () async {
+                                setState(() {
+                                  selectedReportType =
+                                      state.reportTypes[index];
+                                });
+                                Navigator.pop(context);
+                              });
+                        },
+                      ));
+                    }
+                  },
+                ),
+              ),
+            );
+          });
 }
 
 Container _buildReportTitle() {

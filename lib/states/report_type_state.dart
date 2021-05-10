@@ -4,6 +4,8 @@ abstract class ReportTypeState {}
 
 class ReportTypeLoadingState extends ReportTypeState {}
 
+class ReportTypeNoDataState extends ReportTypeState {}
+
 class ReportTypeLoadedState extends ReportTypeState {
   final ReportType reportType;
 

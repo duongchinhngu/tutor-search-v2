@@ -752,7 +752,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                           },
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
