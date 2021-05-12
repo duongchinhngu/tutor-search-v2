@@ -14,6 +14,7 @@ import 'package:tutor_search_system/cubits/report_type_cubit.dart';
 import 'package:tutor_search_system/models/report_type.dart';
 import 'package:tutor_search_system/models/tutee_report.dart';
 import 'package:tutor_search_system/models/tutor_report.dart';
+import 'package:tutor_search_system/repositories/notification_repository.dart';
 import 'package:tutor_search_system/repositories/report_type_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_report_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_report_repository.dart';
@@ -333,6 +334,11 @@ class _TuteeReportDialogState extends State<TuteeReportDialog> {
                           showCompletedDialog(context);
                           //
 
+                          await NotificationRepository()
+                              .postCreateCourseSuccessNotification(
+                                  'Tutee Report',
+                                  'Have a new report from Tutee',
+                                  'datndse62825@fpt.edu.vn');
                         }
                       }
                     },
