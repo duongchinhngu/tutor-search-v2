@@ -75,3 +75,5 @@ const TUTOR_UPDATE_PROFILE_API = '$SERVER_NAME/tutor-update-profile';
 const REPORT_TYPE_API = '$SERVER_NAME/report-type';
 //tutor report api url
 const TUTOR_REPORT_API = '$SERVER_NAME/TutorReport';
+
+const TUTEE_REPORT_API = '$SERVER_NAME/tutee-report';

@@ -10,17 +10,18 @@ class AuthorizationContants {
   }
 
   //return header with bearing token for all apis
-  Future<Map<String,String>> getAuthorizeHeader() async {
+  Future<Map<String, String>> getAuthorizeHeader() async {
     //
     String token;
     await getToken().then((value) {
       token = value;
+      print('token ne: $token');
     });
     //
-    Map<String,String> authorizeHeader = <String, String>{
-          HttpHeaders.authorizationHeader: "Bearer $token",
-          'Content-Type': 'application/json; charset=UTF-8',
-        };
+    Map<String, String> authorizeHeader = <String, String>{
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
     return authorizeHeader;
   }
 }

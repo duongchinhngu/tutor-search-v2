@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
+import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
@@ -41,6 +42,7 @@ class CourseRepository {
       }
     } else {
       print('thí í body eror: ' + response.body);
+      print(response.statusCode.toString());
       throw Exception('Failed to fetch all courses');
     }
   }
@@ -72,7 +74,8 @@ class CourseRepository {
       if (filter.filterTimeRange != null)
         'maxTime':
             convertTimeOfDayToAPIFormatString(filter.filterTimeRange.endTime),
-      if (filter.filterGender != null && filter.filterGender != 'All') 'tutorGender': filter.filterGender,
+      if (filter.filterGender != null && filter.filterGender != 'All')
+        'tutorGender': filter.filterGender,
       // if (filter.filterEducationLevel != null)
       //   'educationLevel': filter.filterEducationLevel,
       if (filter.filterWeekdays != '') 'weekdays': filter.filterWeekdays,
