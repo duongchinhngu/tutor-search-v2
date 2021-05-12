@@ -27,10 +27,15 @@ class ReportRevenueScreen extends StatefulWidget {
 class _ReportRevenue extends State<ReportRevenueScreen> {
   DateTime currentDate;
   double current = 0;
+  int test;
 
   void initState() {
     //
     currentDate = DateTime.now();
+
+    test = int.parse(currentDate.month.toString());
+    test = test - 1;
+    print('test current month: $test');
     //
     registerOnFirebase();
     getMessage(context);
