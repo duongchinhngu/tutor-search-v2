@@ -40,7 +40,11 @@ Course course = Course(
     //location
     globals.authorizedTutor.address,
     //extraImages
-    '[]');
+    '[]',
+      //learning outcome
+      '',
+      //precondition
+      '');
 
 //course name field controller
 TextEditingController courseNameController = TextEditingController();
@@ -118,7 +122,11 @@ void resetEmptyCreateCourseScreen() {
       //location
       globals.authorizedTutor.address,
       //extraImages
-      '[]');
+      '[]',
+      //learning outcome
+      '',
+      //precondition
+      '');
   //reset all text controllers text = empty
   resetInputFields();
   //reset all bottom up selected value

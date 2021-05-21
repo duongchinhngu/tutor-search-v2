@@ -4,23 +4,25 @@ import 'extended_models/extended_course.dart';
 
 class Course {
   final int id;
-   String name;
-   String beginTime;
-   String endTime;
-   String location;
-   double studyFee;
-   String daysInWeek;
-   String beginDate;
-   String endDate;
-   String description;
-   String status;
-   int classHasSubjectId;
-   int createdBy;
-   String createdDate;
-   String confirmedDate;
-   int confirmedBy;
-   int maxTutee;
-   String extraImages;
+  String name;
+  String beginTime;
+  String endTime;
+  String location;
+  double studyFee;
+  String daysInWeek;
+  String beginDate;
+  String endDate;
+  String description;
+  String status;
+  int classHasSubjectId;
+  int createdBy;
+  String createdDate;
+  String confirmedDate;
+  int confirmedBy;
+  int maxTutee;
+  String extraImages;
+  final String learningOutcome;
+  final String precondition;
 
   Course.fromJsonConstructor({
     this.id,
@@ -41,6 +43,8 @@ class Course {
     this.maxTutee,
     this.location,
     this.extraImages,
+    this.learningOutcome,
+    this.precondition,
   });
 
   Course.constructor(
@@ -62,6 +66,8 @@ class Course {
     this.createdDate,
     this.confirmedDate,
     this.confirmedBy,
+    this.learningOutcome,
+    this.precondition,
   );
 
   Course(
@@ -80,6 +86,8 @@ class Course {
     this.maxTutee,
     this.location,
     this.extraImages,
+    this.learningOutcome,
+    this.precondition,
   );
 
   void showAttributes(ExtendedCourse course) {
@@ -134,6 +142,8 @@ class Course {
       maxTutee: json['maxTutee'],
       location: json['location'],
       extraImages: json['extraImages'],
+      learningOutcome: json['learningOutcome'],
+      precondition: json['precondition'],
     );
   }
 }

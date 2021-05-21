@@ -31,6 +31,8 @@ class ExtendedCourse extends Course {
       int maxTutee,
       String location,
       String extraImages,
+      String learningOutcome,
+      String precondition,
       this.className,
       this.subjectName,
       this.followDate,
@@ -60,6 +62,8 @@ class ExtendedCourse extends Course {
           createdDate,
           confirmedDate,
           confirmedBy,
+          learningOutcome,
+          precondition,
         );
 
   ExtendedCourse.fromJsonConstructor(
@@ -82,6 +86,8 @@ class ExtendedCourse extends Course {
       int maxTutee,
       String location,
       String extraImages,
+      String learningOutcome,
+      String precondition,
       this.tutorAddress,
       this.className,
       this.subjectName,
@@ -111,6 +117,8 @@ class ExtendedCourse extends Course {
           createdDate,
           confirmedDate,
           confirmedBy,
+          learningOutcome,
+          precondition,
         );
 
   factory ExtendedCourse.fromJson(Map<String, dynamic> json) {

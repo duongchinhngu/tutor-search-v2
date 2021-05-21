@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutor_search_system/commons/authorization.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
-import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
@@ -296,7 +295,9 @@ class CourseRepository {
             'status': course.status,
             'maxTutee': course.maxTutee,
             'location': course.location,
-            'extraImages': course.extraImages
+            'extraImages': course.extraImages,
+            "learningOutcome": ,
+  "precondition": ,
           },
         ));
     if (response.statusCode == 201 ||

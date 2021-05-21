@@ -58,6 +58,8 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
         widget.course.extraImages,
         widget.subjectName,
         widget.className,
+        widget.course.learningOutcome,
+        widget.course.precondition,
         'followDate',
         'enrollmentStatus',
         authorizedTutor.avatarImageLink,
@@ -144,7 +146,8 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
                                 child: Text('Easy Edu would take you ' +
                                     (state.commission.rate * 100).toString() +
                                     ' \% of your total revenue. It means ' +
-                                    (double.parse(vars.courseFeeController.text) *
+                                    (double.parse(
+                                                vars.courseFeeController.text) *
                                             state.commission.rate)
                                         .toString() +
                                     ' \$ each tutee this course has.'),
