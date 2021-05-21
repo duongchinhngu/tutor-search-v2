@@ -50,7 +50,8 @@ TextEditingController courseMaxTuteeController =
     TextEditingController(text: '1');
 TextEditingController locationController =
     TextEditingController(text: globals.authorizedTutor.address);
-
+//
+List<String> targets = [];
 // ----course extra images-------------------
 List<File> extraImages = [File('')];
 

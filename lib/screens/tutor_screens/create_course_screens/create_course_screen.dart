@@ -23,6 +23,7 @@ import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/course_schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
 import 'package:tutor_search_system/states/class_state.dart';
 import 'create_course_variables.dart';
@@ -779,6 +780,443 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     validator: MultiValidator([
                       RequiredValidator(errorText: "is required"),
                     ]),
+                  ),
+                ),
+              ),
+              //course target
+              Container(
+                // height: 200,
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(right: 0, top: 20, bottom: 20),
+                margin: EdgeInsets.only(left: 0, top: 20, bottom: 0),
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  boxShadow: [boxShadowStyle],
+                ),
+                child: ListTile(
+                  leading: GestureDetector(
+                    onTap: () {
+                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CourseScheduleScreen(
+                            numberOfWeek: 13,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      child: Icon(
+                        Icons.track_changes,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ),
+                  minLeadingWidth: 15,
+                  title: Text(
+                    'What would tutee gain from this course?',
+                    style: titleStyle,
+                  ),
+                  subtitle: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //
+                        Column(
+                          children: List.generate(targets.length, (index) {
+                            return ListTile(
+                              leading: Icon(
+                                Icons.drag_handle,
+                                size: 25,
+                                color: Colors.red[300],
+                              ),
+                              title: Text(
+                                targets[index],
+                              ),
+                              trailing: Icon(
+                                Icons.more_vert_outlined,
+                                size: 25,
+                                color: Colors.red[300],
+                              ),
+                            );
+                          }),
+                        ),
+                        //
+                        SizedBox(
+                          height: 20,
+                        ),
+                        //add target button
+                        GestureDetector(
+                          onTap: () {
+                            TextEditingController targetController =
+                                TextEditingController();
+                            GlobalKey<FormState> _formKey =
+                                GlobalKey<FormState>();
+                            //
+                            showDialog(
+                                context: context,
+                                builder: (context) => Dialog(
+                                    backgroundColor: backgroundColor,
+                                    elevation: 1.0,
+                                    insetAnimationCurve: Curves.ease,
+                                    child: Form(
+                                      key: _formKey,
+                                      child: SingleChildScrollView(
+                                        child: Container(
+                                          height: 350,
+                                          width: 200,
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              //title
+                                              Container(
+                                                alignment: Alignment.centerLeft,
+                                                padding: EdgeInsets.only(
+                                                  left: 20,
+                                                ),
+                                                child: Text(
+                                                  'Target for this course',
+                                                  style: titleStyle,
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ),
+                                              //text field
+                                              Container(
+                                                height: 200,
+                                                alignment: Alignment.center,
+                                                padding: EdgeInsets.only(
+                                                    right: 20, bottom: 20),
+                                                margin: EdgeInsets.only(
+                                                    left: 20,
+                                                    top: 20,
+                                                    bottom: 0),
+                                                child: TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.multiline,
+                                                  expands: true,
+                                                  maxLength: 500,
+                                                  maxLines: null,
+                                                  controller: targetController,
+                                                  textAlign: TextAlign.start,
+                                                  onChanged: (context) {},
+                                                  decoration: InputDecoration(
+                                                    filled: true,
+                                                    focusedBorder:
+                                                        InputBorder.none,
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color: Colors
+                                                                  .transparent,
+                                                              width: 0.0),
+                                                    ),
+                                                    hintText:
+                                                        'What you want your tutee gain from this course!?',
+                                                    hintStyle: TextStyle(
+                                                      color: Colors.grey[400],
+                                                      fontSize: textFontSize,
+                                                    ),
+                                                  ),
+                                                  validator: RequiredValidator(
+                                                      errorText: 'is required'),
+                                                ),
+                                              ),
+                                              //actions
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  //Cancel
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text('Cancel',
+                                                        style: TextStyle(
+                                                          color: Colors.red,
+                                                          fontSize:
+                                                              textFontSize + 1,
+                                                        )),
+                                                  ),
+                                                  //ok
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      //
+                                                      if (_formKey.currentState
+                                                          .validate()) {
+                                                        //
+                                                        setState(() {
+                                                          targets.add(
+                                                              targetController
+                                                                  .text);
+                                                        });
+                                                        Navigator.pop(context);
+                                                      }
+                                                    },
+                                                    child: Text(
+                                                      'Ok',
+                                                      style: TextStyle(
+                                                        color: mainColor,
+                                                        fontSize:
+                                                            textFontSize + 1,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )));
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 180,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Add target',
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(width: 1, color: Colors.redAccent),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                        //
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              //condition to join this course
+              Container(
+                // height: 200,
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(right: 0, top: 20, bottom: 20),
+                margin: EdgeInsets.only(left: 0, top: 20, bottom: 0),
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  boxShadow: [boxShadowStyle],
+                ),
+                child: ListTile(
+                  leading: GestureDetector(
+                    onTap: () {
+                      //
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CourseScheduleScreen(
+                                    numberOfWeek: 13,
+                                  )));
+                    },
+                    child: Container(
+                      // width: 43,
+                      // height: 43,
+                      child: Icon(
+                        Icons.color_lens_outlined,
+                        color: mainColor,
+                      ),
+                    ),
+                  ),
+                  minLeadingWidth: 15,
+                  title: Text(
+                    'Precondition to learn this course',
+                    style: titleStyle,
+                  ),
+                  subtitle: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //
+                        Column(
+                          children: List.generate(targets.length, (index) {
+                            return ListTile(
+                              leading: Icon(
+                                Icons.drag_handle,
+                                size: 25,
+                                color: Colors.red[300],
+                              ),
+                              title: Text(
+                                targets[index],
+                              ),
+                              trailing: Icon(
+                                Icons.more_vert_outlined,
+                                size: 25,
+                                color: Colors.red[300],
+                              ),
+                            );
+                          }),
+                        ),
+                        //
+                        SizedBox(
+                          height: 20,
+                        ),
+                        //add condition button
+                        GestureDetector(
+                          onTap: () {
+                            TextEditingController targetController =
+                                TextEditingController();
+                            GlobalKey<FormState> _formKey =
+                                GlobalKey<FormState>();
+                            //
+                            showDialog(
+                                context: context,
+                                builder: (context) => Dialog(
+                                    backgroundColor: backgroundColor,
+                                    elevation: 1.0,
+                                    insetAnimationCurve: Curves.ease,
+                                    child: Form(
+                                      key: _formKey,
+                                      child: SingleChildScrollView(
+                                        child: Container(
+                                          height: 350,
+                                          width: 200,
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              //title
+                                              Container(
+                                                alignment: Alignment.centerLeft,
+                                                padding: EdgeInsets.only(
+                                                  left: 20,
+                                                ),
+                                                child: Text(
+                                                  'Target for this course',
+                                                  style: titleStyle,
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ),
+                                              //text field
+                                              Container(
+                                                height: 200,
+                                                alignment: Alignment.center,
+                                                padding: EdgeInsets.only(
+                                                    right: 20, bottom: 20),
+                                                margin: EdgeInsets.only(
+                                                    left: 20,
+                                                    top: 20,
+                                                    bottom: 0),
+                                                child: TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.multiline,
+                                                  expands: true,
+                                                  maxLength: 500,
+                                                  maxLines: null,
+                                                  controller: targetController,
+                                                  textAlign: TextAlign.start,
+                                                  onChanged: (context) {},
+                                                  decoration: InputDecoration(
+                                                    filled: true,
+                                                    focusedBorder:
+                                                        InputBorder.none,
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color: Colors
+                                                                  .transparent,
+                                                              width: 0.0),
+                                                    ),
+                                                    hintText:
+                                                        'What you want your tutee gain from this course!?',
+                                                    hintStyle: TextStyle(
+                                                      color: Colors.grey[400],
+                                                      fontSize: textFontSize,
+                                                    ),
+                                                  ),
+                                                  validator: RequiredValidator(
+                                                      errorText: 'is required'),
+                                                ),
+                                              ),
+                                              //actions
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  //Cancel
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text('Cancel',
+                                                        style: TextStyle(
+                                                          color: Colors.red,
+                                                          fontSize:
+                                                              textFontSize + 1,
+                                                        )),
+                                                  ),
+                                                  //ok
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      //
+                                                      if (_formKey.currentState
+                                                          .validate()) {
+                                                        //
+                                                        setState(() {
+                                                          targets.add(
+                                                              targetController
+                                                                  .text);
+                                                        });
+                                                        Navigator.pop(context);
+                                                      }
+                                                    },
+                                                    child: Text(
+                                                      'Ok',
+                                                      style: TextStyle(
+                                                        color: mainColor,
+                                                        fontSize:
+                                                            textFontSize + 1,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )));
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 180,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Add condition',
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                color: mainColor,
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: mainColor),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                        //
+                      ],
+                    ),
                   ),
                 ),
               ),
