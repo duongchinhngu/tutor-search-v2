@@ -13,6 +13,7 @@ import 'package:tutor_search_system/cubits/report_type_cubit.dart';
 import 'package:tutor_search_system/cubits/report_type_cubit.dart';
 import 'package:tutor_search_system/models/report_type.dart';
 import 'package:tutor_search_system/models/tutor_report.dart';
+import 'package:tutor_search_system/repositories/notification_repository.dart';
 import 'package:tutor_search_system/repositories/report_type_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_report_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
@@ -327,9 +328,14 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
                           await TutorReportRepository()
                               .postTutorReport(tutorReport);
                           //
+                          Navigator.pop(context);
                           showCompletedDialog(context);
                           //
-                          Navigator.pop(context);
+                          await NotificationRepository()
+                              .postCreateCourseSuccessNotification(
+                                  'Tutor Report!',
+                                  'Have a new report from Tutor',
+                                  'datndse62825@fpt.edu.vn');
                         }
                       }
                     },

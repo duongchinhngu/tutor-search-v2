@@ -21,6 +21,7 @@ import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_report_screen/report_dialog.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
@@ -116,11 +117,29 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               backgroundColor: backgroundColor,
               appBar: buildCourseDetailAppbar(context),
               body: buildCourseDetailBody(context, state.course),
-              floatingActionButton: Visibility(
-                child: buildFeedbackButton(context, state.course),
-                visible: state.course.enrollmentStatus == 'Inactive' &&
-                    state.course.isFeedback == false,
-              ),
+              // floatingActionButton: Row(
+              //   children: [
+              //     Visibility(
+              //       child: buildFeedbackButton(context, state.course),
+              //       visible: state.course.enrollmentStatus == 'Inactive' &&
+              //           state.course.isFeedback == false,
+              //     ),
+              //     Visibility(
+              //       child: buildReportButton(context, state.course),
+              //       visible: state.course.enrollmentStatus == 'Ongoing',
+              //     ),
+              //   ],
+              // ),
+              floatingActionButton: state.course.enrollmentStatus == "Inactive"
+                  ? Visibility(
+                      child: buildFeedbackButton(context, state.course),
+                      visible: state.course.enrollmentStatus == 'Inactive' &&
+                          state.course.isFeedback == false,
+                    )
+                  : Visibility(
+                      child: buildReportButton(context, state.course),
+                      visible: state.course.enrollmentStatus == 'Ongoing',
+                    ),
             );
           }
         },
@@ -814,6 +833,21 @@ FloatingActionButton buildFeedbackButton(
       isExtended: true,
       backgroundColor: mainColor,
     );
+
+FloatingActionButton buildReportButton(
+        BuildContext context, ExtendedCourse course) =>
+    FloatingActionButton.extended(
+        onPressed: () =>
+            {showReportDialogForTutee(context, course.enrollmentId)},
+        label: Text(
+          'Report Course!',
+          style: TextStyle(
+            fontSize: titleFontSize,
+            color: textWhiteColor,
+          ),
+        ),
+        isExtended: true,
+        backgroundColor: Colors.red);
 
 FloatingActionButton buildPayNowButton(
         BuildContext context, ExtendedCourse course) =>
