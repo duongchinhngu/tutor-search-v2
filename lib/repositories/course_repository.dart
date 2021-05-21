@@ -296,8 +296,8 @@ class CourseRepository {
             'maxTutee': course.maxTutee,
             'location': course.location,
             'extraImages': course.extraImages,
-            "learningOutcome": ,
-  "precondition": ,
+            "learningOutcome": course.learningOutcome,
+            "precondition": course.precondition,
           },
         ));
     if (response.statusCode == 201 ||
