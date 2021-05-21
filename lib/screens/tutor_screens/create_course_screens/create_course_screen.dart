@@ -24,6 +24,7 @@ import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/course_schedule_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
 import 'package:tutor_search_system/states/class_state.dart';
 import 'create_course_variables.dart';
@@ -1473,6 +1474,34 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
             //
           }),
       actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreateCourseSchedule(),
+              ),
+            );
+          },
+          child: Container(
+            width: 100,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  width: 1,
+                  color: mainColor,
+                )),
+            child: Text(
+              'Create Shedule',
+              style: TextStyle(
+                color: mainColor,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
         TextButton(
           onPressed: () async {
             //
