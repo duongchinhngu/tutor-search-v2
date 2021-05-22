@@ -312,6 +312,13 @@ Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
           'Available slot(s)',
           Icons.person,
         ),
+        
+        buildDivider(),
+        buildCourseInformationListTile(
+          course.precondition,
+          'Precondition',
+          Icons.description,
+        ),
         buildDivider(),
         //description for this course
         buildCourseInformationListTile(

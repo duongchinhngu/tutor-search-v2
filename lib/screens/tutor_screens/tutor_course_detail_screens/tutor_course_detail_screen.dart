@@ -322,6 +322,12 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               Icons.person,
             ),
             buildDivider(),
+            buildCourseInformationListTile(
+              course.precondition,
+              'Precondition',
+              Icons.color_lens_outlined,
+            ),
+            buildDivider(),
             //description for this course
             buildCourseInformationListTile(
               course.description != '' ? course.description : 'No description',

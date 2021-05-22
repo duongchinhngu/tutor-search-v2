@@ -41,10 +41,8 @@ Course course = Course(
     globals.authorizedTutor.address,
     //extraImages
     '[]',
-      //learning outcome
-      '',
-      //precondition
-      '');
+    //precondition
+    '');
 
 //course name field controller
 TextEditingController courseNameController = TextEditingController();
@@ -56,6 +54,8 @@ TextEditingController locationController =
     TextEditingController(text: globals.authorizedTutor.address);
 //
 List<String> targets = [];
+//
+List<String> preconditions = [];
 // ----course extra images-------------------
 List<File> extraImages = [File('')];
 
@@ -123,8 +123,6 @@ void resetEmptyCreateCourseScreen() {
       globals.authorizedTutor.address,
       //extraImages
       '[]',
-      //learning outcome
-      '',
       //precondition
       '');
   //reset all text controllers text = empty
@@ -150,6 +148,10 @@ void resetEmptyCreateCourseScreen() {
     new Weekday('Sat', false),
     new Weekday('Sun', false),
   ];
+  //
+  targets = [];
+//
+  preconditions = [];
 }
 
 //default date range ( contains beginDate and endDate)

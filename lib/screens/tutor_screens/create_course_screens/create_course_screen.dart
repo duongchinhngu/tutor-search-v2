@@ -1044,7 +1044,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       children: [
                         //
                         Column(
-                          children: List.generate(targets.length, (index) {
+                          children:
+                              List.generate(preconditions.length, (index) {
                             return ListTile(
                               leading: Icon(
                                 Icons.drag_handle,
@@ -1052,7 +1053,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                 color: Colors.red[300],
                               ),
                               title: Text(
-                                targets[index],
+                                preconditions[index],
                               ),
                               trailing: Icon(
                                 Icons.more_vert_outlined,
@@ -1069,7 +1070,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         //add condition button
                         GestureDetector(
                           onTap: () {
-                            TextEditingController targetController =
+                            TextEditingController preconditionController =
                                 TextEditingController();
                             GlobalKey<FormState> _formKey =
                                 GlobalKey<FormState>();
@@ -1098,7 +1099,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                                   left: 20,
                                                 ),
                                                 child: Text(
-                                                  'Target for this course',
+                                                  'Precondition to join this course',
                                                   style: titleStyle,
                                                   textAlign: TextAlign.left,
                                                 ),
@@ -1119,7 +1120,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                                   expands: true,
                                                   maxLength: 500,
                                                   maxLines: null,
-                                                  controller: targetController,
+                                                  controller:
+                                                      preconditionController,
                                                   textAlign: TextAlign.start,
                                                   onChanged: (context) {},
                                                   decoration: InputDecoration(
@@ -1138,7 +1140,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                                               width: 0.0),
                                                     ),
                                                     hintText:
-                                                        'What you want your tutee gain from this course!?',
+                                                        'What do tutee need to join your course!?',
                                                     hintStyle: TextStyle(
                                                       color: Colors.grey[400],
                                                       fontSize: textFontSize,
@@ -1174,8 +1176,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                                           .validate()) {
                                                         //
                                                         setState(() {
-                                                          targets.add(
-                                                              targetController
+                                                          preconditions.add(
+                                                              preconditionController
                                                                   .text);
                                                         });
                                                         Navigator.pop(context);
@@ -1545,12 +1547,15 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 //
                 course.name = courseNameController.text.trim();
                 //
-                Navigator.of(context).push(MaterialPageRoute(
+                Navigator.of(context).push(
+                  MaterialPageRoute(
                     builder: (context) => PreviewCourseScreen(
-                          course: course,
-                          className: selectedClassName,
-                          subjectName: widget.selectedSubject.name,
-                        )));
+                      course: course,
+                      className: selectedClassName,
+                      subjectName: widget.selectedSubject.name,
+                    ),
+                  ),
+                );
               }
             }
           },
@@ -1606,7 +1611,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
         course.beginDate = converter.convertDayTimeToString(range.start);
       });
     }
-
     //set tmpCourse.endDate = end date
     if (range.end != null) {
       setState(() {

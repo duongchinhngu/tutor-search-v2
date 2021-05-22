@@ -117,19 +117,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               backgroundColor: backgroundColor,
               appBar: buildCourseDetailAppbar(context),
               body: buildCourseDetailBody(context, state.course),
-              // floatingActionButton: Row(
-              //   children: [
-              //     Visibility(
-              //       child: buildFeedbackButton(context, state.course),
-              //       visible: state.course.enrollmentStatus == 'Inactive' &&
-              //           state.course.isFeedback == false,
-              //     ),
-              //     Visibility(
-              //       child: buildReportButton(context, state.course),
-              //       visible: state.course.enrollmentStatus == 'Ongoing',
-              //     ),
-              //   ],
-              // ),
               floatingActionButton: state.course.enrollmentStatus == "Inactive"
                   ? Visibility(
                       child: buildFeedbackButton(context, state.course),
@@ -159,7 +146,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
     }
     //
     return Container(
-      // width: MediaQuery.of(context).size.width,
       child: ListView(
         children: [
           //course name title
@@ -335,6 +321,12 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             '\$' + course.studyFee.toString(),
             'Study Fee',
             Icons.monetization_on,
+          ),
+          buildDivider(),
+          buildCourseInformationListTile(
+            course.precondition,
+            'Precondition',
+            Icons.description,
           ),
           buildDivider(),
           //description for this course

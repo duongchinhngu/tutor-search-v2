@@ -185,6 +185,7 @@ class CourseRepository {
       '$COURSE_API/$id?tuteeId=$tuteeId',
       headers: await AuthorizationContants().getAuthorizeHeader(),
     );
+    print('this is url: $COURSE_API/$id?tuteeId=$tuteeId');
     if (response.statusCode == 200) {
       return ExtendedCourse.fromJson(json.decode(response.body));
     } else {
@@ -296,7 +297,7 @@ class CourseRepository {
             'maxTutee': course.maxTutee,
             'location': course.location,
             'extraImages': course.extraImages,
-            "learningOutcome": course.learningOutcome,
+            // "learningOutcome": course.learningOutcome,
             "precondition": course.precondition,
           },
         ));
