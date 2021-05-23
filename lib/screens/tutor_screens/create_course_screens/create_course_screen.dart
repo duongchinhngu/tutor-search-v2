@@ -25,6 +25,7 @@ import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/course_schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_schedule_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/schedule_v2.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
 import 'package:tutor_search_system/states/class_state.dart';
 import 'create_course_variables.dart';
@@ -797,15 +798,64 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 child: ListTile(
                   leading: GestureDetector(
                     onTap: () {
-                      //
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CourseScheduleScreen(
-                            numberOfWeek: 13,
+                      //set plan and calculate number of week if begin and end date were seleted
+                      if (selectedDateRange != null) {
+                        //
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CourseScheduleScreenV2(
+                              numberOfWeek:
+                                  calculateNumberOfWeek(selectedDateRange),
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      } else {
+                        //show alert when datetime is null
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            content:
+                                Text('Please choose begin and end date first!'),
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  //
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  'Ok',
+                                  style: TextStyle(
+                                    color: mainColor,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (context) => buildDefaultDialog(
+                        //     context,
+                        //     'Please choose begin and end date first!',
+                        //     '',
+                        //     [
+                        //       TextButton(
+                        //         onPressed: () async {
+                        //           //
+                        //           Navigator.pop(context);
+                        //         },
+                        //         child: Text(
+                        //           'Ok',
+                        //           style: TextStyle(
+                        //             color: mainColor,
+                        //           ),
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // );
+                      }
                     },
                     child: Container(
                       child: Icon(
@@ -1605,6 +1655,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
   //setstate for tmpcourse end and begin date
   void setEndAndBeginDate(DateTimeRange range) {
+    //
+
     //set tmpCourse.beginDate = start date
     if (range.start != null) {
       setState(() {

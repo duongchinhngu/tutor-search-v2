@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:calendart/calendart.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/common_model.dart';
@@ -158,3 +159,8 @@ void resetEmptyCreateCourseScreen() {
 DateTimeRange selectedDateRange;
 //default date range ( contains beginDate and endDate)
 TimeRange selectedTimeRange;
+
+//method to calculate number of week throughout the course
+int calculateNumberOfWeek(DateTimeRange range) {
+  return (range.duration.inDays / 7).ceil();
+}
