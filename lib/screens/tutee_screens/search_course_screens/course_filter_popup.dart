@@ -139,11 +139,11 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
               filter.filterStudyFee != null,
               'Study Fee',
               filter.filterStudyFee != null
-                  ? '\$' +
-                      filter.filterStudyFee.from.toString() +
+                  ? 
+                      filter.filterStudyFee.from.toString() + ' vnd' +
                       ' - ' +
-                      '\$' +
-                      filter.filterStudyFee.to.toString()
+                      
+                      filter.filterStudyFee.to.toString() + ' vnd'
                   : '',
               () async {
                 //navigator to new page from right to left
@@ -159,11 +159,11 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                 //set filter variable = new object
                 setState(() {
                   if (selectedValue == feeRangeContent1) {
-                    filter.filterStudyFee = FilterStudyFee(0, 25);
+                    filter.filterStudyFee = FilterStudyFee(0, 50000);
                   } else if (selectedValue == feeRangeContent2) {
-                    filter.filterStudyFee = FilterStudyFee(25, 50);
+                    filter.filterStudyFee = FilterStudyFee(50000, 100000);
                   } else if (selectedValue == feeRangeContent3) {
-                    filter.filterStudyFee = FilterStudyFee(50, double.infinity);
+                    filter.filterStudyFee = FilterStudyFee(100000, double.infinity);
                   }
                 });
               },

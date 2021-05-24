@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/common_model.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/models/course.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 
 //this is default course (when tutor does not choose fields for new course)
@@ -57,10 +55,12 @@ List<String> targets = [];
 //
 List<String> preconditions = [];
 // ----course extra images-------------------
-List<File> extraImages = [File('')];
+List<String> extraImages = [''];
 
 //selectedClassName
 String selectedClassName = globals.DEFAULT_NO_SELECT;
+//selectedSubjectName
+String selectedSubjectName = globals.DEFAULT_NO_SELECT;
 
 //this class inorder to check wether or not this field selected;
 class CreateCourseItem extends SelectableObject {
@@ -137,7 +137,7 @@ void resetEmptyCreateCourseScreen() {
   //reset use point input = null
   usePointController.clear();
   //clear list of extra images
-  extraImages = [File('')];
+  extraImages = [''];
   //
   weekdays = [
     new Weekday('Mon', false),

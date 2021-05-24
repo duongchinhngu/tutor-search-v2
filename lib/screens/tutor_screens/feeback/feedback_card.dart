@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/feedback.dart';
 
@@ -38,6 +39,22 @@ class FeedbackCard extends StatelessWidget {
                     Text(
                       feedbacks.tuteeName,
                       style: headerStyle,
+                    ),
+                    //studied
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          'studied ',
+                          style: TextStyle(
+                              fontSize: textFontSize, color: textGreyColor),
+                        ),
+                        Text(
+                          feedbacks.subjectName + ' ' + feedbacks.className,
+                          style: TextStyle(
+                              fontSize: headerFontSize, color: textGreyColor),
+                        ),
+                      ],
                     ),
                     //rate star
                     Container(

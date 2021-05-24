@@ -11,7 +11,9 @@ import 'package:tutor_search_system/commons/notifications/notification_methods.d
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutee_cubit.dart';
+import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
+import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
@@ -20,6 +22,11 @@ import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/filter_item.dart';
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_variables.dart'
+    as course_var;
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/course_tutee_screens/course_tutee_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
@@ -79,7 +86,31 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
         } else if (state is CourseLoadFailedState) {
           return ErrorScreen();
         } else if (state is CourseLoadedState) {
-          print(state.course.createdDate);
+          //
+          course_var.courseNameController.text = state.course.name;
+          course_var.course = state.course;
+          course_var.selectedClassName = state.course.className;
+          course_var.courseFeeController.text =
+              state.course.studyFee.toString();
+          course_var.courseDescriptionController.text =
+              state.course.description;
+          course_var.selectedSubjectName = state.course.subjectName;
+          //
+          selectedWeekdays = course_var.course.daysInWeek
+              .replaceFirst(']', '')
+              .replaceFirst('[', '')
+              .split(', ');
+          //
+          if (course_var.course.extraImages != '[]') {
+            print('this is extra images before: ' +
+                course_var.extraImages.toString());
+            course_var.extraImages = course_var.course.extraImages
+                .replaceFirst(']', '')
+                .replaceFirst('[', '')
+                .split(', ');
+            print('this is extra images: ' + course_var.extraImages.toString());
+          }
+          //
           return buildCourseDetailBody(context, state.course);
         }
       }),
@@ -303,7 +334,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
             buildDivider(),
             //price of the course
             buildCourseInformationListTile(
-              '\$' + course.studyFee.toString(),
+              course.studyFee.toString() + ' vnd',
               'Study Fee',
               Icons.monetization_on,
             ),
@@ -376,10 +407,6 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
                                         errorWidget: (context, url, error) =>
                                             Icon(Icons.error),
                                       ),
-                                      //   Image.network(
-                                      //     extraImages[index],
-                                      //     fit: BoxFit.cover,
-                                      //   ),
                                     ),
                                   ),
                                 );
@@ -518,26 +545,40 @@ PreferredSize buildCourseDetailAppbar(BuildContext context) {
   return PreferredSize(
     preferredSize: Size.fromHeight(70),
     child: AppBar(
-        elevation: 0.0,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/images/top-instructional-design-theories-models-next-elearning-course.jpg',
-                // fit: BoxFit.fitWidth,
-              ),
-              fit: BoxFit.cover,
+      elevation: 0.0,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/images/top-instructional-design-theories-models-next-elearning-course.jpg',
+              // fit: BoxFit.fitWidth,
             ),
+            fit: BoxFit.cover,
           ),
         ),
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-            size: 20,
-          ),
-          onPressed: () => Navigator.pop(context),
-        )),
+      ),
+      backgroundColor: Colors.transparent,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+          size: 20,
+        ),
+        onPressed: () => Navigator.pop(context),
+      ),
+      actions: [
+        FlatButton.icon(
+          color: mainColor,
+          onPressed: () {
+            //
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CloneCourseScreen()));
+          },
+          icon: Icon(Icons.copy),
+          label: Text('Clone'),
+        ),
+        // FlatButton.icon(onPressed: onPressed, icon: icon, label: label)
+      ],
+    ),
   );
 }

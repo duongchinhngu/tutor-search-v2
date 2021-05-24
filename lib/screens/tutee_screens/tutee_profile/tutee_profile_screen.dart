@@ -134,44 +134,6 @@ class _TuteeProfileManagementState extends State<TuteeProfileManagement> {
                               'Address',
                               Icons.home_outlined),
                           buildDivider(),
-                          //transactions
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      TuteeTransactionScreen()));
-                            },
-                            child: ListTile(
-                              leading: Container(
-                                margin: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                ),
-                                width: 43,
-                                height: 43,
-                                decoration: BoxDecoration(
-                                  color: backgroundColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.payment_rounded,
-                                  color: mainColor,
-                                ),
-                              ),
-                              title: Text(
-                                'My Transaction',
-                                style: TextStyle(
-                                  fontSize: titleFontSize,
-                                  color: textGreyColor,
-                                ),
-                              ),
-                              trailing: Icon(
-                                Icons.arrow_forward_ios,
-                                color: textGreyColor,
-                                size: 18,
-                              ),
-                            ),
-                          ),
-                          buildDivider(),
                           SizedBox(
                             height: 40,
                           )

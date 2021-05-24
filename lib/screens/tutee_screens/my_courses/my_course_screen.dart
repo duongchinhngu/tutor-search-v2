@@ -15,6 +15,9 @@ import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_d
 import 'package:tutor_search_system/states/course_state.dart';
 
 String sortValue = 'Default sort';
+  //default seelcted status
+  String selectedStatus = 'All';
+  //
 
 class MyCourseScreen extends StatefulWidget {
   @override
@@ -28,9 +31,8 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
     getMessage(context);
     super.initState();
   }
-  //default seelcted status
-  String _selectedStatus = 'All';
-  //
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,11 +69,13 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                       2, globals.EnrollmentConstants.ONGOING_STATUS),
                   buildCourseStatusCard(
                       3, globals.EnrollmentConstants.INACTIVE_STATUS),
+                  buildCourseStatusCard(
+                      4, globals.StatusConstants.PENDING_STATUS),
                 ],
               ),
             ),
             CourseListView(
-              currentStatus: _selectedStatus,
+              currentStatus: selectedStatus,
             ),
           ],
         ),
@@ -167,7 +171,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
       onTap: () {
         setState(() {
           // set selected class UI
-          _selectedStatus = status;
+          selectedStatus = status;
         });
       },
       child: Container(
@@ -183,12 +187,12 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
             Text(
               status,
               style: TextStyle(
-                color: _selectedStatus == status ? mainColor : textGreyColor,
+                color: selectedStatus == status ? mainColor : textGreyColor,
                 fontSize: titleFontSize,
               ),
             ),
             Visibility(
-              visible: _selectedStatus == status,
+              visible: selectedStatus == status,
               child: Divider(
                 color: mainColor,
                 thickness: 1,
@@ -249,8 +253,7 @@ class _CourseListViewState extends State<CourseListView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          state.courses.length.toString() +
-                          ' result(s)',
+                          state.courses.length.toString() + ' result(s)',
                           style: TextStyle(
                             fontSize: titleFontSize,
                           ),

@@ -265,9 +265,10 @@ class _CourseListViewState extends State<CourseListView> {
                             //navigate to course detail screen
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => CourseDetailScreen(
-                                        courseId: state.courses[index].id,
-                                      )),
+                                builder: (context) => CourseDetailScreen(
+                                  courseId: state.courses[index].id,
+                                ),
+                              ),
                             );
                           },
                           child: TutorCourseCard(context, state.courses[index]),

@@ -15,6 +15,7 @@ class FeedbackRepository {
             'id': feedback.id,
             'comment': feedback.comment,
             'tutorId': feedback.tutorId,
+            'courseId': feedback.courseId,
             // 'createdDate': feedback.createdDate,
             // 'confirmedDate': feedback.confirmedDate,
             // 'confirmedBy': feedback.confirmedBy,
