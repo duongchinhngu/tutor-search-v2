@@ -365,7 +365,6 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               'Extra Information',
               Icons.description,
             ),
-
             buildDivider(),
             //extra images
             Container(

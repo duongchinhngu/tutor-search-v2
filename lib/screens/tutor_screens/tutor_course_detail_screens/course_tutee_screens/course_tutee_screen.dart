@@ -217,7 +217,7 @@ class TuteeCard extends StatelessWidget {
                       ],
                     ),
                   );
-                } else {
+                } else if( state.enrollment.status == StatusConstants.ACTIVE_STATUS) {
                   //navigate to tutee detail
                   Navigator.push(
                       context,
