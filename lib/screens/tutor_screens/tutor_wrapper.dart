@@ -85,10 +85,10 @@ class _TutorBottomNavigatorBarState extends State<TutorBottomNavigatorBar> {
             icon: Icon(Icons.person),
             title: Text('Profile'),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
-            title: Text('Revenue Report'),
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.attach_money),
+          //   title: Text('Revenue Report'),
+          // ),
         ],
       ),
     );

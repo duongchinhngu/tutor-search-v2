@@ -568,16 +568,30 @@ PreferredSize buildCourseDetailAppbar(BuildContext context) {
       ),
       actions: [
         FlatButton.icon(
-          color: mainColor,
+          height: 30,
+          minWidth: 110,
+          shape: RoundedRectangleBorder(
+            // side: BorderSide(
+            //   color: Colors.blue,
+            //   width: 1,
+            //   style: BorderStyle.solid,
+            // ),
+            borderRadius: BorderRadius.circular(70),
+          ),
+          color: Colors.white.withOpacity(.4),
           onPressed: () {
             //
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CloneCourseScreen()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CloneCourseScreen(),
+              ),
+            );
           },
           icon: Icon(Icons.copy),
           label: Text('Clone'),
+          textColor: Colors.white,
         ),
-        // FlatButton.icon(onPressed: onPressed, icon: icon, label: label)
       ],
     ),
   );
