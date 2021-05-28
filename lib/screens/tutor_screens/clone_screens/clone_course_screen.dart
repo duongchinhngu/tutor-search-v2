@@ -1592,6 +1592,8 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => PreviewCourseScreen(
+                      courseDetail: [],
+                      precondition: "",
                       course: vars.course,
                       className: vars.selectedClassName,
                       subjectName: vars.selectedSubjectName,

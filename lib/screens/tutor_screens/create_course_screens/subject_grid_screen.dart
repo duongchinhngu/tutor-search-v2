@@ -248,6 +248,8 @@ class SubjectGridCard extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => CreateCourseScreen(
                 selectedSubject: subject,
+                listCourseDetail: [],
+                listWeek: [],
               ),
             ),
           );

@@ -29,7 +29,7 @@ Course course = Course(
     //description
     '',
     //status
-    'isDraft',
+    'Pending',
     //class has subject
     //this is hard code need to refactor
     0,
@@ -61,6 +61,7 @@ List<File> extraImages = [File('')];
 
 //selectedClassName
 String selectedClassName = globals.DEFAULT_NO_SELECT;
+String precondition = '';
 
 //this class inorder to check wether or not this field selected;
 class CreateCourseItem extends SelectableObject {
@@ -111,7 +112,7 @@ void resetEmptyCreateCourseScreen() {
       //description
       '',
       //status
-      'isDraft',
+      'Pending',
       //class has subject
       //this is hard code need to refactor
       0,

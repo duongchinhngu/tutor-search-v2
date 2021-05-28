@@ -77,3 +77,5 @@ const REPORT_TYPE_API = '$SERVER_NAME/report-type';
 const TUTOR_REPORT_API = '$SERVER_NAME/TutorReport';
 
 const TUTEE_REPORT_API = '$SERVER_NAME/tutee-report';
+
+const COURSE_DETAIL_API = "$SERVER_NAME/course-detail";

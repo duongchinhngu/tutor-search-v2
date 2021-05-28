@@ -15,6 +15,7 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
 import 'package:tutor_search_system/models/class_has_subject.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
@@ -23,8 +24,10 @@ import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/screens/draft/create_schedule_draft.dart';
+import 'package:tutor_search_system/screens/tutor_screens/course_schedule/preview_course_schedule.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/course_schedule_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_schedule_screen.dart';
+// import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/schedule_v2.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
 import 'package:tutor_search_system/states/class_state.dart';
@@ -35,8 +38,11 @@ import 'preview_course_screen.dart';
 //this is main ui
 class CreateCourseScreen extends StatefulWidget {
   final Subject selectedSubject;
+  final List<CourseDetail> listCourseDetail;
+  final List<String> listWeek;
 
-  const CreateCourseScreen({Key key, @required this.selectedSubject})
+  const CreateCourseScreen(
+      {Key key, this.selectedSubject, this.listCourseDetail, this.listWeek})
       : super(key: key);
   @override
   _CreateCourseScreenState createState() => _CreateCourseScreenState();
@@ -807,6 +813,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             builder: (context) => CourseScheduleScreenV2(
                               numberOfWeek:
                                   calculateNumberOfWeek(selectedDateRange),
+                              subject: widget.selectedSubject,
                             ),
                           ),
                         );
@@ -844,7 +851,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                   minLeadingWidth: 15,
                   title: Text(
-                    'What would tutee gain from this course?',
+                    'Please create the schedule for this course',
                     style: titleStyle,
                   ),
                   subtitle: Container(
@@ -876,155 +883,135 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           height: 20,
                         ),
                         //add target button
-                        GestureDetector(
-                          onTap: () {
-                            TextEditingController targetController =
-                                TextEditingController();
-                            GlobalKey<FormState> _formKey =
-                                GlobalKey<FormState>();
-                            //
-                            showDialog(
-                                context: context,
-                                builder: (context) => Dialog(
-                                    backgroundColor: backgroundColor,
-                                    elevation: 1.0,
-                                    insetAnimationCurve: Curves.ease,
-                                    child: Form(
-                                      key: _formKey,
-                                      child: SingleChildScrollView(
-                                        child: Container(
-                                          height: 350,
-                                          width: 200,
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              //title
-                                              Container(
-                                                alignment: Alignment.centerLeft,
-                                                padding: EdgeInsets.only(
-                                                  left: 20,
-                                                ),
-                                                child: Text(
-                                                  'Target for this course',
-                                                  style: titleStyle,
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                              ),
-                                              //text field
-                                              Container(
-                                                height: 200,
-                                                alignment: Alignment.center,
-                                                padding: EdgeInsets.only(
-                                                    right: 20, bottom: 20),
-                                                margin: EdgeInsets.only(
-                                                    left: 20,
-                                                    top: 20,
-                                                    bottom: 0),
-                                                child: TextFormField(
-                                                  keyboardType:
-                                                      TextInputType.multiline,
-                                                  expands: true,
-                                                  maxLength: 500,
-                                                  maxLines: null,
-                                                  controller: targetController,
-                                                  textAlign: TextAlign.start,
-                                                  onChanged: (context) {},
-                                                  decoration: InputDecoration(
-                                                    filled: true,
-                                                    focusedBorder:
-                                                        InputBorder.none,
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color: Colors
-                                                                  .transparent,
-                                                              width: 0.0),
-                                                    ),
-                                                    hintText:
-                                                        'What you want your tutee gain from this course!?',
-                                                    hintStyle: TextStyle(
-                                                      color: Colors.grey[400],
-                                                      fontSize: textFontSize,
-                                                    ),
-                                                  ),
-                                                  validator: RequiredValidator(
-                                                      errorText: 'is required'),
-                                                ),
-                                              ),
-                                              //actions
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  //Cancel
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text('Cancel',
-                                                        style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontSize:
-                                                              textFontSize + 1,
-                                                        )),
-                                                  ),
-                                                  //ok
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      //
-                                                      if (_formKey.currentState
-                                                          .validate()) {
-                                                        //
-                                                        setState(() {
-                                                          targets.add(
-                                                              targetController
-                                                                  .text);
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }
-                                                    },
-                                                    child: Text(
-                                                      'Ok',
-                                                      style: TextStyle(
-                                                        color: mainColor,
-                                                        fontSize:
-                                                            textFontSize + 1,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
+                        widget.listCourseDetail.length <= 0
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    //set plan and calculate number of week if begin and end date were seleted
+                                    if (selectedDateRange != null) {
+                                      listCourseDetail = [];
+                                      //
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              CourseScheduleScreenV2(
+                                            numberOfWeek: calculateNumberOfWeek(
+                                                selectedDateRange),
+                                            subject: widget.selectedSubject,
                                           ),
                                         ),
-                                      ),
-                                    )));
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 180,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Add target',
-                              style: TextStyle(
-                                fontSize: titleFontSize,
-                                color: Colors.redAccent,
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(width: 1, color: Colors.redAccent),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                        ),
+                                      );
+                                    } else {
+                                      //show alert when datetime is null
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          content: Text(
+                                              'Please choose begin and end date first!'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () async {
+                                                //
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                'Ok',
+                                                style: TextStyle(
+                                                  color: mainColor,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 180,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Create Schedule',
+                                    style: TextStyle(
+                                      fontSize: titleFontSize,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1, color: Colors.redAccent),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    print(widget.listCourseDetail.length);
+                                    print(
+                                        '=============================================');
+                                    print(widget.listWeek.length);
+                                    //set plan and calculate number of week if begin and end date were seleted
+                                    if (selectedDateRange != null) {
+                                      //
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              PreviewCourseSchedule(
+                                            listSchedule:
+                                                widget.listCourseDetail,
+                                            listweek: widget.listWeek,
+                                            subject: widget.selectedSubject,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      //show alert when datetime is null
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          content: Text(
+                                              'Please choose begin and end date first!'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () async {
+                                                //
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                'Ok',
+                                                style: TextStyle(
+                                                  color: mainColor,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 180,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Preview Schedule',
+                                    style: TextStyle(
+                                      fontSize: titleFontSize,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1, color: Colors.redAccent),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                              )
                         //
                       ],
                     ),
@@ -1504,34 +1491,35 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
             //
           }),
       actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CreateCourseSchedule(),
-              ),
-            );
-          },
-          child: Container(
-            width: 100,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  width: 1,
-                  color: mainColor,
-                )),
-            child: Text(
-              'Create Shedule',
-              style: TextStyle(
-                color: mainColor,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
+        // TextButton(
+        //   onPressed: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context) =>
+        //             CourseScheduleScreenDraft(numberOfWeek: 5),
+        //       ),
+        //     );
+        //   },
+        //   child: Container(
+        //     width: 100,
+        //     alignment: Alignment.center,
+        //     decoration: BoxDecoration(
+        //         borderRadius: BorderRadius.circular(10),
+        //         border: Border.all(
+        //           width: 1,
+        //           color: mainColor,
+        //         )),
+        //     child: Text(
+        //       'Create Shedule',
+        //       style: TextStyle(
+        //         color: mainColor,
+        //         fontSize: 14,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        //     ),
+        //   ),
+        // ),
         TextButton(
           onPressed: () async {
             //
@@ -1571,9 +1559,29 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                               ),
                             ]));
                 //
+              } else if (listCourseDetail.length <= 0 ||
+                  preconditions.length <= 0) {
+                showDialog(
+                    context: context,
+                    builder: (context) => buildDefaultDialog(
+                            context,
+                            "Cannot Preview!",
+                            "Course must have the schedule and the preconditions for tutee",
+                            [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Ok'),
+                              ),
+                            ]));
               } else {
                 //
                 course.name = courseNameController.text.trim();
+                precondition = '';
+                for (int i = 0; i < preconditions.length; i++) {
+                  precondition = precondition + preconditions[i] + '\n';
+                }
                 //
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -1581,6 +1589,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       course: course,
                       className: selectedClassName,
                       subjectName: widget.selectedSubject.name,
+                      precondition: precondition,
+                      courseDetail: listCourseDetail,
                     ),
                   ),
                 );
