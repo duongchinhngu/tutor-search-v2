@@ -40,9 +40,16 @@ class CreateCourseScreen extends StatefulWidget {
   final Subject selectedSubject;
   final List<CourseDetail> listCourseDetail;
   final List<String> listWeek;
+  final List<CourseDetail> listPlan;
+  final List<CourseDetail> listOutcome;
 
   const CreateCourseScreen(
-      {Key key, this.selectedSubject, this.listCourseDetail, this.listWeek})
+      {Key key,
+      this.selectedSubject,
+      this.listCourseDetail,
+      this.listWeek,
+      this.listPlan,
+      this.listOutcome})
       : super(key: key);
   @override
   _CreateCourseScreenState createState() => _CreateCourseScreenState();
@@ -899,6 +906,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                             numberOfWeek: calculateNumberOfWeek(
                                                 selectedDateRange),
                                             subject: widget.selectedSubject,
+                                            plan: [],
+                                            outcome: [],
                                           ),
                                         ),
                                       );
@@ -959,14 +968,16 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              PreviewCourseSchedule(
-                                            listSchedule:
-                                                widget.listCourseDetail,
-                                            listweek: widget.listWeek,
-                                            subject: widget.selectedSubject,
-                                          ),
-                                        ),
+                                            builder: (context) =>
+                                                CourseScheduleScreenV2(
+                                                  numberOfWeek:
+                                                      calculateNumberOfWeek(
+                                                          selectedDateRange),
+                                                  subject:
+                                                      widget.selectedSubject,
+                                                  plan: widget.listPlan,
+                                                  outcome: widget.listOutcome,
+                                                )),
                                       );
                                     } else {
                                       //show alert when datetime is null
@@ -999,7 +1010,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                   width: 180,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Preview Schedule',
+                                    'Edit Schedule',
                                     style: TextStyle(
                                       fontSize: titleFontSize,
                                       color: Colors.redAccent,

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -26,9 +24,15 @@ CourseDetail courseDetail = CourseDetail('', '', '');
 class CourseScheduleScreenV2 extends StatefulWidget {
   final int numberOfWeek;
   final Subject subject;
+  final List<CourseDetail> plan;
+  final List<CourseDetail> outcome;
 
   const CourseScheduleScreenV2(
-      {Key key, @required this.numberOfWeek, this.subject})
+      {Key key,
+      @required this.numberOfWeek,
+      this.subject,
+      this.plan,
+      this.outcome})
       : super(key: key);
 
   @override
@@ -49,8 +53,14 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
       length: widget.numberOfWeek,
       initialIndex: selectedPageIndex,
     );
-    listOutcome = [];
-    listPlan = [];
+    if (widget.plan.length > 0 && widget.outcome.length > 0) {
+      listOutcome = widget.outcome;
+      listPlan = widget.plan;
+    } else {
+      listOutcome = [];
+      listPlan = [];
+    }
+
     listWeek = [];
     listCourseDetail = [];
     listWeek.add('Week $weekIndex');
@@ -242,18 +252,68 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                         } else {
                           setState(() {
                             //set for progress indicator
-                            weekIndex += 1;
-                            //set for page view index
-                            bool dup = false;
-                            for (int i = 0; i < listWeek.length; i++) {
-                              if (listWeek[i] == 'Week $weekIndex') {
-                                dup = true;
+                            for (int i = 0; i < listCourseDetail.length; i++) {
+                              if (listCourseDetail[i].period ==
+                                  'Week $weekIndex') {
+                                listCourseDetail.remove(listCourseDetail[i]);
                               }
                             }
-                            if (dup == false) {
-                              listWeek.add('Week $weekIndex');
+                            bool checkEmptyPlan = true;
+                            bool checkEmptyOutcome = true;
+                            for (int i = 0; i < listPlan.length; i++) {
+                              if (listPlan[i].period == 'Week $weekIndex') {
+                                checkEmptyPlan = false;
+                              }
                             }
-                            selectedPageIndex += 1;
+                            for (int i = 0; i < listOutcome.length; i++) {
+                              if (listOutcome[i].period == 'Week $weekIndex') {
+                                checkEmptyOutcome = false;
+                              }
+                            }
+                            if (checkEmptyOutcome == false &&
+                                checkEmptyPlan == false) {
+                              String plan = '';
+                              String outcome = '';
+                              for (int i = 0; i < listPlan.length; i++) {
+                                if (listPlan[i].period == 'Week $weekIndex')
+                                  plan = plan + listPlan[i].schedule + '\n';
+                              }
+                              for (int i = 0; i < listOutcome.length; i++) {
+                                if (listOutcome[i].period == 'Week $weekIndex')
+                                  outcome = outcome +
+                                      listOutcome[i].learningOutcome +
+                                      '\n';
+                              }
+                              CourseDetail newCourseDetail = CourseDetail(
+                                  'Week $weekIndex', plan, outcome);
+                              listCourseDetail.add(newCourseDetail);
+                              weekIndex += 1;
+                              //set for page view index
+                              bool dup = false;
+                              for (int i = 0; i < listWeek.length; i++) {
+                                if (listWeek[i] == 'Week $weekIndex') {
+                                  dup = true;
+                                }
+                              }
+                              if (dup == false) {
+                                listWeek.add('Week $weekIndex');
+                              }
+                              selectedPageIndex += 1;
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => buildDefaultDialog(
+                                          context,
+                                          'Cannot Next',
+                                          'All week must be filled the plan and the learning outcome!',
+                                          [
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('OK')),
+                                          ]));
+                            }
                           });
                           planController.text = '';
                           learningOutcomeController.text = '';
@@ -344,6 +404,8 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                                   listweek: listWeek,
                                   subject: widget.subject,
                                   numOfWeek: widget.numberOfWeek,
+                                  listPlan: listPlan,
+                                  listOutcome: listOutcome,
                                 ),
                               ),
                             );
@@ -363,94 +425,6 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                                         ]));
                           }
                         }
-                        //     setState(() {
-                        //       int check;
-                        //       for (int i = 0; i < listWeek.length; i++) {
-                        //         check = 0;
-                        //         for (int j = 0; j < listCourseDetail.length; j++) {
-                        //           if (listCourseDetail[j].period == listWeek[i]) {
-                        //             check = check + 1;
-                        //           }
-                        //         }
-                        //       }
-                        //       print(check);
-                        //       if (check == 0) {
-                        //         showDialog(
-                        //             context: context,
-                        //             builder: (context) => buildDefaultDialog(
-                        //                     context,
-                        //                     'Cannot Finish',
-                        //                     'All week must be filled the plan!', [
-                        //                   ElevatedButton(
-                        //                       onPressed: () {
-                        //                         Navigator.pop(context);
-                        //                       },
-                        //                       child: Text('OK')),
-                        //                 ]));
-                        //       } else {
-                        //         bool checkEmptyPlan = true;
-                        // bool checkEmptyOutcome = true;
-                        // for (int i = 0; i < listPlan.length; i++) {
-                        //   if (listPlan[i].period == 'Week $weekIndex') {
-                        //     checkEmptyPlan = false;
-                        //   }
-                        // }
-                        // for (int i = 0; i < listOutcome.length; i++) {
-                        //   if (listOutcome[i].period == 'Week $weekIndex') {
-                        //     checkEmptyOutcome = false;
-                        //   }
-                        // }
-                        // if (checkEmptyOutcome == false && checkEmptyPlan == false) {
-                        //   String plan = '';
-                        //   String outcome = '';
-                        //   for (int i = 0; i < listPlan.length; i++) {
-                        //     if (listPlan[i].period == 'Week $weekIndex')
-                        //       plan = plan + listPlan[i].schedule + '\n';
-                        //   }
-                        //   for (int i = 0; i < listOutcome.length; i++) {
-                        //     if (listOutcome[i].period == 'Week $weekIndex')
-                        //       outcome =
-                        //           outcome + listOutcome[i].learningOutcome + '\n';
-                        //   }
-                        //   CourseDetail newCourseDetail =
-                        //       CourseDetail('Week $weekIndex', plan, outcome);
-                        //   listCourseDetail.add(newCourseDetail);
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => PreviewCourseSchedule(
-                        //         listSchedule: listCourseDetail,
-                        //         listweek: listWeek,
-                        //       ),
-                        //     ),
-                        //   );
-                        // } else {
-                        //   showDialog(
-                        //       context: context,
-                        //       builder: (context) => buildDefaultDialog(
-                        //               context,
-                        //               'Cannot Preview',
-                        //               'All week must be filled the plan and the learning outcome!',
-                        //               [
-                        //                 ElevatedButton(
-                        //                     onPressed: () {
-                        //                       Navigator.pop(context);
-                        //                     },
-                        //                     child: Text('OK')),
-                        //               ]));
-                        // }
-
-                        //         Navigator.push(
-                        //             context,
-                        //             MaterialPageRoute(
-                        //               builder: (context) => PreviewCourseSchedule(
-                        //                 listSchedule: listCourseDetail,
-                        //                 listweek: listWeek,
-                        //                 subject: widget.subject,
-                        //               ),
-                        //             ));
-                        //       }
-                        //     });
                       },
                       icon: Icon(
                         Icons.check_circle_outline,
