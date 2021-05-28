@@ -103,7 +103,7 @@ Future<void> _completeTuteeTransaction(BuildContext context,
     return Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => TuteePaymentProccessingScreen(
-          tuteeTransaction: tuteeTransaction,
+          
           enrollment: enrollment,
         ),
       ),

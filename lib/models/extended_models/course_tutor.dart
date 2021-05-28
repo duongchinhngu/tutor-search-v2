@@ -33,7 +33,6 @@ class CourseTutor extends Course {
     int maxTutee,
     String location,
     String extraImages,
-    String learningOutcome,
     String precondition,
     this.fullname,
     this.gender,
@@ -62,7 +61,7 @@ class CourseTutor extends Course {
           maxTutee,
           location,
           extraImages,
-          learningOutcome,
+          // learningOutcome,
           precondition,
         );
 
@@ -86,7 +85,6 @@ class CourseTutor extends Course {
     int maxTutee,
     String location,
     String extraImages,
-    String learningOutcome,
     String precondition,
     this.fullname,
     this.gender,
@@ -114,7 +112,7 @@ class CourseTutor extends Course {
           maxTutee,
           location,
           extraImages,
-          learningOutcome,
+          // learningOutcome,
           precondition,
         );
 
@@ -148,8 +146,8 @@ class CourseTutor extends Course {
       //  (json['distance'].toDouble() / 1000).toPrecision(1),
       location: json['location'],
       extraImages: json['extraImages'],
-      learningOutcome: json['learningOutcome'],
-      precondition: json['precondition'],
+      // learningOutcome: json['learningOutcome'],
+      precondition: json['precondition'].toString(),
       averageRatingStar: json['averageRatingStar'].toDouble(),
       availableSlot: json['availableSlot'],
       subjectId: json['subjectId'],

@@ -21,7 +21,6 @@ class Course {
   int confirmedBy;
   int maxTutee;
   String extraImages;
-  final String learningOutcome;
   final String precondition;
 
   Course.fromJsonConstructor({
@@ -43,7 +42,6 @@ class Course {
     this.maxTutee,
     this.location,
     this.extraImages,
-    this.learningOutcome,
     this.precondition,
   });
 
@@ -66,7 +64,6 @@ class Course {
     this.createdDate,
     this.confirmedDate,
     this.confirmedBy,
-    this.learningOutcome,
     this.precondition,
   );
 
@@ -86,7 +83,6 @@ class Course {
     this.maxTutee,
     this.location,
     this.extraImages,
-    this.learningOutcome,
     this.precondition,
   );
 
@@ -142,8 +138,7 @@ class Course {
       maxTutee: json['maxTutee'],
       location: json['location'],
       extraImages: json['extraImages'],
-      learningOutcome: json['learningOutcome'],
-      precondition: json['precondition'],
+      precondition: json['precondition'].toString(),
     );
   }
 }

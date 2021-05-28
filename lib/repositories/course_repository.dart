@@ -178,6 +178,20 @@ class CourseRepository {
     }
   }
 
+  Future<ExtendedCourse> fetchCurrentCourseByTutorId(int tutorId) async {
+    final response = await http.get(
+      '$COURSE_API/get-by-tutor-latest/$tutorId',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
+    if (response.statusCode == 200) {
+      print('Success here: ' + response.body);
+
+      return ExtendedCourse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to fetch current course by tutor id');
+    }
+  }
+
   //fetch courses by courseId and tuteeId enroolemnt
   Future<ExtendedCourse> fetchCourseByCourseIdTuteeId(
       http.Client client, int id, int tuteeId) async {
@@ -185,6 +199,7 @@ class CourseRepository {
       '$COURSE_API/$id?tuteeId=$tuteeId',
       headers: await AuthorizationContants().getAuthorizeHeader(),
     );
+    print('this is url: $COURSE_API/$id?tuteeId=$tuteeId');
     if (response.statusCode == 200) {
       return ExtendedCourse.fromJson(json.decode(response.body));
     } else {
@@ -296,7 +311,7 @@ class CourseRepository {
             'maxTutee': course.maxTutee,
             'location': course.location,
             'extraImages': course.extraImages,
-            "learningOutcome": course.learningOutcome,
+            // "learningOutcome": course.learningOutcome,
             "precondition": course.precondition,
           },
         ));
@@ -307,7 +322,7 @@ class CourseRepository {
     } else {
       print('this is: ' + response.body + response.statusCode.toString());
       print(response.statusCode);
-      throw Exception('Faild to post Course');
+      throw Exception('Faild to post Course r nè Huy');
     }
   }
 

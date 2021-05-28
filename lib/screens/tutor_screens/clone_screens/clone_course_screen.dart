@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +10,13 @@ import 'package:tutor_search_system/commons/functions/common_functions.dart'
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/common_functions.dart';
+import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
 import 'package:tutor_search_system/models/class_has_subject.dart';
 import 'package:tutor_search_system/models/course.dart';
-import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
@@ -24,35 +25,25 @@ import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'package:tutor_search_system/screens/draft/create_schedule_draft.dart';
-import 'package:tutor_search_system/screens/tutor_screens/course_schedule/preview_course_schedule.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/course_schedule_screen.dart';
-// import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_schedule_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_variables.dart'
+    as vars;
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_schedule_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/preview_course_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/schedule_v2.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
 import 'package:tutor_search_system/states/class_state.dart';
-import 'create_course_variables.dart';
-import 'preview_course_screen.dart';
 
 //create course UI;
 //this is main ui
-class CreateCourseScreen extends StatefulWidget {
-  final Subject selectedSubject;
-  final List<CourseDetail> listCourseDetail;
-  final List<String> listWeek;
-
-  const CreateCourseScreen(
-      {Key key, this.selectedSubject, this.listCourseDetail, this.listWeek})
-      : super(key: key);
+class CloneCourseScreen extends StatefulWidget {
   @override
-  _CreateCourseScreenState createState() => _CreateCourseScreenState();
+  _CloneCourseScreenState createState() => _CloneCourseScreenState();
 }
 
-class _CreateCourseScreenState extends State<CreateCourseScreen> {
+class _CloneCourseScreenState extends State<CloneCourseScreen> {
   @override
   void initState() {
-    //
-    courseNameController.text = widget.selectedSubject.name;
     //
     registerOnFirebase();
     getMessage(context);
@@ -102,13 +93,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         ),
                       ),
                       title: TextFormField(
-                        controller: courseNameController,
+                        controller: vars.courseNameController,
                         maxLength: 100,
                         textAlign: TextAlign.start,
                         onChanged: (context) {
                           //set name = value of this textFormfield on change
                           setState(() {
-                            course.name = courseNameController.text.trim();
+                            vars.course.name =
+                                vars.courseNameController.text.trim();
                           });
                         },
                         decoration: InputDecoration(
@@ -160,7 +152,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                       subtitle: InkWell(
                         onTap: () {
-                          classSelector(context, widget.selectedSubject);
+                          // classSelector(context, vars.selectedSubjectName);
                         },
                         child: Container(
                           height: 50,
@@ -180,7 +172,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text(
-                                selectedClassName,
+                                vars.selectedClassName,
                                 style: TextStyle(
                                   fontSize: titleFontSize,
                                   color: textGreyColor,
@@ -233,7 +225,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          widget.selectedSubject.name,
+                          vars.selectedSubjectName,
                           style: TextStyle(
                               fontSize: titleFontSize,
                               color: mainColor,
@@ -250,7 +242,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   //date range;
                   //from date range get start date and end date
                   final range =
-                      await dateRangeSelector(context, selectedDateRange);
+                      await dateRangeSelector(context, vars.selectedDateRange);
                   //validate dateRange lasts 7days at least
                   //
                   if (range != null) {
@@ -270,9 +262,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                 ),
                               ]));
                     } else {
-                      selectedDateRange = range;
+                      vars.selectedDateRange = range;
                       //set end and start date
-                      setEndAndBeginDate(selectedDateRange);
+                      setEndAndBeginDate(vars.selectedDateRange);
                     }
                   }
                 },
@@ -338,7 +330,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             color: Colors.white,
                           ),
                           child: Text(
-                            course.beginDate,
+                            vars.course.beginDate,
                             style: TextStyle(
                               fontSize: titleFontSize,
                               color: textGreyColor,
@@ -382,7 +374,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             color: Colors.white,
                           ),
                           child: Text(
-                            course.endDate,
+                            vars.course.endDate,
                             style: TextStyle(
                               fontSize: titleFontSize,
                               color: textGreyColor,
@@ -400,7 +392,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   // //need to refactor
                   // //select time range
                   final range = await timeRangeSelector(
-                      context, selectedTimeRange, 'Study Time');
+                      context, vars.selectedTimeRange, 'Study Time');
                   //calculate difference between 2 time picked
                   final currentDatetime = DateTime.now();
                   final startTime = DateTime(currentDatetime.year, 1, 1,
@@ -425,10 +417,10 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   if (diffGap >= 30 && diffGap <= 16 * 60) {
                     //
                     if (range != null) {
-                      selectedTimeRange = range;
+                      vars.selectedTimeRange = range;
                     }
                     // //set tmpCourse begin and end time
-                    setBeginAndEndTime(selectedTimeRange);
+                    setBeginAndEndTime(vars.selectedTimeRange);
                   } else {
                     //
                     showDialog(
@@ -512,7 +504,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             ),
                             alignment: Alignment.center,
                             child: Text(
-                              course.beginTime,
+                              vars.course.beginTime,
                               style: TextStyle(
                                 fontSize: titleFontSize,
                                 color: textGreyColor,
@@ -560,7 +552,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             ),
                             alignment: Alignment.center,
                             child: Text(
-                              course.endTime,
+                              vars.course.endTime,
                               style: TextStyle(
                                 fontSize: titleFontSize,
                                 color: textGreyColor,
@@ -639,13 +631,13 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     ),
                   ),
                   title: TextFormField(
-                    controller: courseFeeController,
+                    controller: vars.courseFeeController,
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.start,
                     onChanged: (context) {
                       setState(() {
-                        course.studyFee =
-                            double.parse(courseFeeController.text);
+                        vars.course.studyFee =
+                            double.parse(vars.courseFeeController.text);
                       });
                     },
                     decoration: InputDecoration(
@@ -669,7 +661,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       RangeValidator(
                           min: 1000,
                           max: 100000000,
-                          errorText: "must be from 1000 vnd to 100000000 vnd"),
+                          errorText: "must be 1000 vnd to 100000000 vnd"),
                       RequiredValidator(errorText: "Study Fee is required"),
                     ]),
                   ),
@@ -699,13 +691,13 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     ),
                   ),
                   title: TextFormField(
-                    controller: courseMaxTuteeController,
+                    controller: vars.courseMaxTuteeController,
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.start,
                     onChanged: (context) {
                       setState(() {
-                        course.maxTutee =
-                            int.parse(courseMaxTuteeController.text);
+                        vars.course.maxTutee =
+                            int.parse(vars.courseMaxTuteeController.text);
                       });
                     },
                     decoration: InputDecoration(
@@ -761,11 +753,11 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     expands: true,
                     maxLength: 500,
                     maxLines: null,
-                    controller: locationController,
+                    controller: vars.locationController,
                     textAlign: TextAlign.start,
                     onChanged: (context) {
                       setState(() {
-                        course.location = locationController.text;
+                        vars.course.location = vars.locationController.text;
                       });
                     },
                     decoration: InputDecoration(
@@ -805,15 +797,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   leading: GestureDetector(
                     onTap: () {
                       //set plan and calculate number of week if begin and end date were seleted
-                      if (selectedDateRange != null) {
+                      if (vars.selectedDateRange != null) {
                         //
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => CourseScheduleScreenV2(
-                              numberOfWeek:
-                                  calculateNumberOfWeek(selectedDateRange),
-                              subject: widget.selectedSubject,
+                              numberOfWeek: vars.calculateNumberOfWeek(
+                                  vars.selectedDateRange),
                             ),
                           ),
                         );
@@ -851,7 +842,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                   minLeadingWidth: 15,
                   title: Text(
-                    'Please create the schedule for this course',
+                    'What would tutee gain from this course?',
                     style: titleStyle,
                   ),
                   subtitle: Container(
@@ -860,7 +851,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       children: [
                         //
                         Column(
-                          children: List.generate(targets.length, (index) {
+                          children: List.generate(vars.targets.length, (index) {
                             return ListTile(
                               leading: Icon(
                                 Icons.drag_handle,
@@ -868,7 +859,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                 color: Colors.red[300],
                               ),
                               title: Text(
-                                targets[index],
+                                vars.targets[index],
                               ),
                               trailing: Icon(
                                 Icons.more_vert_outlined,
@@ -883,134 +874,155 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           height: 20,
                         ),
                         //add target button
-                        widget.listCourseDetail.length <= 0
-                            ? GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    //set plan and calculate number of week if begin and end date were seleted
-                                    if (selectedDateRange != null) {
-                                      //
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              CourseScheduleScreenV2(
-                                            numberOfWeek: calculateNumberOfWeek(
-                                                selectedDateRange),
-                                            subject: widget.selectedSubject,
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      //show alert when datetime is null
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          content: Text(
-                                              'Please choose begin and end date first!'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () async {
-                                                //
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(
-                                                'Ok',
-                                                style: TextStyle(
-                                                  color: mainColor,
+                        GestureDetector(
+                          onTap: () {
+                            TextEditingController targetController =
+                                TextEditingController();
+                            GlobalKey<FormState> _formKey =
+                                GlobalKey<FormState>();
+                            //
+                            showDialog(
+                                context: context,
+                                builder: (context) => Dialog(
+                                    backgroundColor: backgroundColor,
+                                    elevation: 1.0,
+                                    insetAnimationCurve: Curves.ease,
+                                    child: Form(
+                                      key: _formKey,
+                                      child: SingleChildScrollView(
+                                        child: Container(
+                                          height: 350,
+                                          width: 200,
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              //title
+                                              Container(
+                                                alignment: Alignment.centerLeft,
+                                                padding: EdgeInsets.only(
+                                                  left: 20,
+                                                ),
+                                                child: Text(
+                                                  'Target for this course',
+                                                  style: titleStyle,
+                                                  textAlign: TextAlign.left,
                                                 ),
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 180,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Create Schedule',
-                                    style: TextStyle(
-                                      fontSize: titleFontSize,
-                                      color: Colors.redAccent,
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: Colors.redAccent),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                ),
-                              )
-                            : GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    print(widget.listCourseDetail.length);
-                                    print(
-                                        '=============================================');
-                                    print(widget.listWeek.length);
-                                    //set plan and calculate number of week if begin and end date were seleted
-                                    if (selectedDateRange != null) {
-                                      //
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              PreviewCourseSchedule(
-                                            listSchedule:
-                                                widget.listCourseDetail,
-                                            listweek: widget.listWeek,
-                                            subject: widget.selectedSubject,
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      //show alert when datetime is null
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          content: Text(
-                                              'Please choose begin and end date first!'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () async {
-                                                //
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(
-                                                'Ok',
-                                                style: TextStyle(
-                                                  color: mainColor,
+                                              //text field
+                                              Container(
+                                                height: 200,
+                                                alignment: Alignment.center,
+                                                padding: EdgeInsets.only(
+                                                    right: 20, bottom: 20),
+                                                margin: EdgeInsets.only(
+                                                    left: 20,
+                                                    top: 20,
+                                                    bottom: 0),
+                                                child: TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.multiline,
+                                                  expands: true,
+                                                  maxLength: 500,
+                                                  maxLines: null,
+                                                  controller: targetController,
+                                                  textAlign: TextAlign.start,
+                                                  onChanged: (context) {},
+                                                  decoration: InputDecoration(
+                                                    filled: true,
+                                                    focusedBorder:
+                                                        InputBorder.none,
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color: Colors
+                                                                  .transparent,
+                                                              width: 0.0),
+                                                    ),
+                                                    hintText:
+                                                        'What you want your tutee gain from this course!?',
+                                                    hintStyle: TextStyle(
+                                                      color: Colors.grey[400],
+                                                      fontSize: textFontSize,
+                                                    ),
+                                                  ),
+                                                  validator: RequiredValidator(
+                                                      errorText: 'is required'),
                                                 ),
                                               ),
-                                            )
-                                          ],
+                                              //actions
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  //Cancel
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text('Cancel',
+                                                        style: TextStyle(
+                                                          color: Colors.red,
+                                                          fontSize:
+                                                              textFontSize + 1,
+                                                        )),
+                                                  ),
+                                                  //ok
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      //
+                                                      if (_formKey.currentState
+                                                          .validate()) {
+                                                        //
+                                                        setState(() {
+                                                          vars.targets.add(
+                                                              targetController
+                                                                  .text);
+                                                        });
+                                                        Navigator.pop(context);
+                                                      }
+                                                    },
+                                                    child: Text(
+                                                      'Ok',
+                                                      style: TextStyle(
+                                                        color: mainColor,
+                                                        fontSize:
+                                                            textFontSize + 1,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      );
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 180,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Preview Schedule',
-                                    style: TextStyle(
-                                      fontSize: titleFontSize,
-                                      color: Colors.redAccent,
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: Colors.redAccent),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                ),
-                              )
+                                      ),
+                                    )));
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 180,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Add target',
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(width: 1, color: Colors.redAccent),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
                         //
                       ],
                     ),
@@ -1059,7 +1071,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         //
                         Column(
                           children:
-                              List.generate(preconditions.length, (index) {
+                              List.generate(vars.preconditions.length, (index) {
                             return ListTile(
                               leading: Icon(
                                 Icons.drag_handle,
@@ -1067,7 +1079,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                 color: Colors.red[300],
                               ),
                               title: Text(
-                                preconditions[index],
+                                vars.preconditions[index],
                               ),
                               trailing: Icon(
                                 Icons.more_vert_outlined,
@@ -1190,7 +1202,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                                           .validate()) {
                                                         //
                                                         setState(() {
-                                                          preconditions.add(
+                                                          vars.preconditions.add(
                                                               preconditionController
                                                                   .text);
                                                         });
@@ -1265,11 +1277,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     expands: true,
                     maxLength: 500,
                     maxLines: null,
-                    controller: courseDescriptionController,
+                    controller: vars.courseDescriptionController,
                     textAlign: TextAlign.start,
                     onChanged: (context) {
                       setState(() {
-                        course.description = courseDescriptionController.text;
+                        vars.course.description =
+                            vars.courseDescriptionController.text;
                       });
                     },
                     decoration: InputDecoration(
@@ -1302,10 +1315,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 decoration: BoxDecoration(
                   color: backgroundColor,
                   boxShadow: [boxShadowStyle],
-                  // borderRadius: BorderRadius.only(
-                  //   topLeft: Radius.circular(10),
-                  //   bottomLeft: Radius.circular(10),
-                  // ),
                 ),
                 child: Container(
                   alignment: Alignment.center,
@@ -1328,99 +1337,118 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       Container(
                         width: 260,
                         alignment: Alignment.centerLeft,
-                        child: Wrap(
-                          runAlignment: WrapAlignment.spaceBetween,
-                          runSpacing: 10,
-                          spacing: 10,
-                          children: List.generate(
-                            extraImages.length,
-                            (index) {
-                              //element is the first image; it is for take photo by camera
-                              if (index == 0) {
-                                return InkWell(
-                                  onTap: () async {
-                                    //select Photo from camera
-                                    var img = await getImageFromCamera();
-                                    if (img != null) {
-                                      setState(() {
-                                        extraImages.add(img);
-                                      });
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 125,
-                                    width: 125,
-                                    alignment: Alignment.center,
-                                    child: Icon(
-                                      Icons.add_a_photo,
-                                      color: mainColor.withOpacity(0.7),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.blue[50].withOpacity(.4),
-                                      border: Border.all(
-                                        width: 1.0,
-                                        color: mainColor.withOpacity(0.5),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                //view photo in fullscreen
-                                return Container(
+                        child: Column(
+                          children: [
+                            //
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: InkWell(
+                                onTap: () async {
+                                  //select Photo from camera
+                                  var img = await getImageFromCamera();
+                                  var url =
+                                      await uploadFileOnFirebaseStorage(img);
+                                  if (img != null) {
+                                    setState(() {
+                                      vars.extraImages.add(url);
+                                    });
+                                  }
+                                },
+                                child: Container(
                                   height: 125,
                                   width: 125,
-                                  child: PopupMenuButton(
-                                    child: Image.file(
-                                      extraImages[index],
-                                      fit: BoxFit.cover,
+                                  margin: EdgeInsets.only(bottom: 10),
+                                  child: Icon(
+                                    Icons.add_a_photo,
+                                    color: mainColor.withOpacity(0.7),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue[50].withOpacity(.4),
+                                    border: Border.all(
+                                      width: 1.0,
+                                      color: mainColor.withOpacity(0.5),
                                     ),
-                                    itemBuilder: (context) {
-                                      return <PopupMenuItem>[
-                                        PopupMenuItem(
-                                          child: TextButton(
-                                            child: Text('Detail'),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      FullScreenImage(
-                                                    imageWidget: Image.file(
-                                                      extraImages[index],
-                                                      fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            //
+                            Wrap(
+                              runAlignment: WrapAlignment.spaceBetween,
+                              runSpacing: 10,
+                              spacing: 10,
+                              children: List.generate(
+                                vars.extraImages.length,
+                                (index) {
+                                  //element is the first image; it is for take photo by camera
+                                  //view photo in fullscreen
+                                  return Container(
+                                    height: 125,
+                                    width: 125,
+                                    child: PopupMenuButton(
+                                      child: CachedNetworkImage(
+                                        imageUrl: vars.extraImages[index],
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
+                                      itemBuilder: (context) {
+                                        return <PopupMenuItem>[
+                                          PopupMenuItem(
+                                            child: TextButton(
+                                              child: Text('Detail'),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        FullScreenImage(
+                                                      imageWidget:
+                                                          CachedNetworkImage(
+                                                        imageUrl: vars
+                                                            .extraImages[index],
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            CircularProgressIndicator(),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(Icons.error),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          child: TextButton(
-                                            child: Text(
-                                              'Remove',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                color:
-                                                    Colors.red.withOpacity(.8),
-                                              ),
+                                                );
+                                              },
                                             ),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              setState(() {
-                                                extraImages.removeAt(index);
-                                              });
-                                            },
                                           ),
-                                        )
-                                      ];
-                                    },
-                                  ),
-                                );
-                              }
-                            },
-                          ),
+                                          PopupMenuItem(
+                                            child: TextButton(
+                                              child: Text(
+                                                'Remove',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  color: Colors.red
+                                                      .withOpacity(.8),
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                                setState(() {
+                                                  vars.extraImages
+                                                      .removeAt(index);
+                                                });
+                                              },
+                                            ),
+                                          )
+                                        ];
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -1470,7 +1498,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          resetEmptyCreateCourseScreen();
+                          vars.resetEmptyCreateCourseScreen();
                           //
                           Navigator.pop(context);
                           Navigator.pop(context);
@@ -1490,52 +1518,51 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
             //
           }),
       actions: [
-        // TextButton(
-        //   onPressed: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (context) =>
-        //             CourseScheduleScreenDraft(numberOfWeek: 5),
-        //       ),
-        //     );
-        //   },
-        //   child: Container(
-        //     width: 100,
-        //     alignment: Alignment.center,
-        //     decoration: BoxDecoration(
-        //         borderRadius: BorderRadius.circular(10),
-        //         border: Border.all(
-        //           width: 1,
-        //           color: mainColor,
-        //         )),
-        //     child: Text(
-        //       'Create Shedule',
-        //       style: TextStyle(
-        //         color: mainColor,
-        //         fontSize: 14,
-        //         fontWeight: FontWeight.bold,
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreateCourseSchedule(),
+              ),
+            );
+          },
+          child: Container(
+            width: 100,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  width: 1,
+                  color: mainColor,
+                )),
+            child: Text(
+              'Create Shedule',
+              style: TextStyle(
+                color: mainColor,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
         TextButton(
           onPressed: () async {
             //
             //check whether or nowt begin/end date and begin/end time cos bi trung khong
             //neu bi trung thi khong cho tao => inavalid
             Course redundantCourse =
-                await CourseRepository().checkValidate(course);
+                await CourseRepository().checkValidate(vars.course);
             //
             if (formkey.currentState.validate()) {
               formkey.currentState.save();
               //
-              if (course.classHasSubjectId == 0 ||
-                  course.beginDate == globals.DEFAULT_NO_SELECT ||
-                  course.beginTime == globals.DEFAULT_NO_SELECT ||
-                  course.endTime == globals.DEFAULT_NO_SELECT ||
-                  course.daysInWeek == '[]' ||
-                  course.classHasSubjectId == 0) {
+              if (vars.course.classHasSubjectId == 0 ||
+                  vars.course.beginDate == globals.DEFAULT_NO_SELECT ||
+                  vars.course.beginTime == globals.DEFAULT_NO_SELECT ||
+                  vars.course.endTime == globals.DEFAULT_NO_SELECT ||
+                  vars.course.daysInWeek == '[]' ||
+                  vars.course.classHasSubjectId == 0) {
                 showDialog(
                     context: context,
                     builder: (context) => buildAlertDialog(
@@ -1558,38 +1585,16 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                               ),
                             ]));
                 //
-              } else if (listCourseDetail.length <= 0 ||
-                  preconditions.length <= 0) {
-                showDialog(
-                    context: context,
-                    builder: (context) => buildDefaultDialog(
-                            context,
-                            "Cannot Preview!",
-                            "Course must have the schedule and the preconditions for tutee",
-                            [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Ok'),
-                              ),
-                            ]));
               } else {
                 //
-                course.name = courseNameController.text.trim();
-                precondition = '';
-                for (int i = 0; i < preconditions.length; i++) {
-                  precondition = precondition + preconditions[i] + '\n';
-                }
+                vars.course.name = vars.courseNameController.text.trim();
                 //
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => PreviewCourseScreen(
-                      course: course,
-                      className: selectedClassName,
-                      subjectName: widget.selectedSubject.name,
-                      precondition: precondition,
-                      courseDetail: listCourseDetail,
+                      course: vars.course,
+                      className: vars.selectedClassName,
+                      subjectName: vars.selectedSubjectName,
                     ),
                   ),
                 );
@@ -1625,7 +1630,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     if (timeRange.startTime != null) {
       setState(() {
         //set start time ui
-        course.beginTime =
+        vars.course.beginTime =
             converter.convertTimeOfDayToString(timeRange.startTime);
         // globals.timeFormatter.format(new DateTime(1990, 1, 1,
         // timeRange.startTime.hour, timeRange.startTime.minute, 0);
@@ -1635,7 +1640,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     if (timeRange.endTime != null) {
       setState(() {
         //set entime UI
-        course.endTime = converter.convertTimeOfDayToString(timeRange.endTime);
+        vars.course.endTime =
+            converter.convertTimeOfDayToString(timeRange.endTime);
       });
     }
   }
@@ -1647,13 +1653,13 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     //set tmpCourse.beginDate = start date
     if (range.start != null) {
       setState(() {
-        course.beginDate = converter.convertDayTimeToString(range.start);
+        vars.course.beginDate = converter.convertDayTimeToString(range.start);
       });
     }
     //set tmpCourse.endDate = end date
     if (range.end != null) {
       setState(() {
-        course.endDate = converter.convertDayTimeToString(range.end);
+        vars.course.endDate = converter.convertDayTimeToString(range.end);
       });
     }
   }
@@ -1688,7 +1694,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               leading: Visibility(
-                                visible: selectedClassName ==
+                                visible: vars.selectedClassName ==
                                     state.classes[index].name,
                                 child: Icon(
                                   Icons.check,
@@ -1699,7 +1705,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                               title: Text(
                                 state.classes[index].name,
                                 style: TextStyle(
-                                  color: selectedClassName ==
+                                  color: vars.selectedClassName ==
                                           state.classes[index].name
                                       ? mainColor
                                       : textGreyColor,
@@ -1722,17 +1728,19 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                 Navigator.pop(context);
                                 setState(() {
                                   //
-                                  courseNameController.text =
-                                      courseNameController.text.replaceAll(
-                                          ' ' + selectedClassName, '');
+                                  vars.courseNameController.text =
+                                      vars.courseNameController.text.replaceAll(
+                                          ' ' + vars.selectedClassName, '');
                                   //
-                                  course.classHasSubjectId = classHasSubject.id;
-                                  selectedClassName = state.classes[index].name;
+                                  vars.course.classHasSubjectId =
+                                      classHasSubject.id;
+                                  vars.selectedClassName =
+                                      state.classes[index].name;
                                   //
-                                  courseNameController.text =
-                                      courseNameController.text +
+                                  vars.courseNameController.text =
+                                      vars.courseNameController.text +
                                           ' ' +
-                                          selectedClassName;
+                                          vars.selectedClassName;
                                   //
                                 });
                               },

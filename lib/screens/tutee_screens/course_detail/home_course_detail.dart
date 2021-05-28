@@ -12,10 +12,12 @@ import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/tutee_payment_processing.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/tutee_payment_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
@@ -117,6 +119,36 @@ class _TuteeHomeCourseDetailScreenState
       ),
     );
   }
+}
+
+//appbar with background image
+PreferredSize buildCourseDetailAppbar(BuildContext context) {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(70),
+    child: AppBar(
+      elevation: 0.0,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/images/top-instructional-design-theories-models-next-elearning-course.jpg',
+              // fit: BoxFit.fitWidth,
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+          size: 20,
+        ),
+        onPressed: () => Navigator.pop(context),
+      ),
+    ),
+  );
 }
 
 //course detail body
@@ -294,7 +326,7 @@ Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
         buildDivider(),
         //price of the course
         buildCourseInformationListTile(
-          '\$' + course.studyFee.toString(),
+          course.studyFee.toString() + ' vnd',
           'Study Fee',
           Icons.monetization_on,
         ),
@@ -311,6 +343,13 @@ Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
           course.availableSlot.toString(),
           'Available slot(s)',
           Icons.person,
+        ),
+
+        buildDivider(),
+        buildCourseInformationListTile(
+          course.precondition,
+          'Precondition',
+          Icons.description,
         ),
         buildDivider(),
         //description for this course
@@ -411,17 +450,29 @@ FloatingActionButton buildFollowButton(
           authorizedTutee.id,
           course.id,
           '',
-          EnrollmentConstants.ACTIVE_STATUS,
+          StatusConstants.PENDING_STATUS,
         );
         //
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            // builder: (context) => CourseFollowProcessingScreen(enrollment: enrollment),
-            builder: (context) =>
-                TuteePaymentScreen(course: course, enrollment: enrollment),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     // builder: (context) => CourseFollowProcessingScreen(enrollment: enrollment),
+        //     builder: (context) =>
+        //         TuteePaymentScreen(course: course, enrollment: enrollment),
+        //   ),
+        // );
+        showDefaultConfirmDialog(context, 'Join this course', 'Are you sure?',
+            () {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            return Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => TuteePaymentProccessingScreen(
+                  enrollment: enrollment,
+                ),
+              ),
+            );
+          });
+        });
       },
       label: Text(
         'Join',

@@ -18,10 +18,8 @@ import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
-import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
 import 'package:tutor_search_system/screens/tutee_screens/interested_subject_selector_dialog/interested_subject_selector_dialog.dart';
 import 'package:tutor_search_system/states/course_state.dart';
-import 'package:http/http.dart' as http;
 
 //this var for check whether or not take feedback
 bool isTakeFeedback = false;
@@ -90,25 +88,6 @@ class _TuteeHomeScreenState extends State<TuteeHomeScreen> {
     registerOnFirebase();
     getMessage(context);
     super.initState();
-    //check feedback for this authorized tutee
-    if (!isTakeFeedback) {
-      feedbackRepository
-          .fetchUnfeedbackTutorByTuteeId(http.Client(), authorizedTutee.id)
-          .then(
-            (value) => {
-              if (value != null)
-                {
-                  showFeedbackDialog(context, value).then((value) => {
-                        isTakeFeedback = true,
-                        //set isSending is false when sended feedback to DB
-                        isSending = false,
-                        //
-                      }),
-                }
-            },
-          );
-    }
-    //
     //show dialog for choosing interested subject seletor
     // Future<SharedPreferences> prefs =
     SharedPreferences.getInstance().then((prefs) {
@@ -378,9 +357,8 @@ class _CourseCardState extends State<CourseCard> {
                                     // + '/' + widget.course.maxTutee.toString()
                                     +
                                     ' slot(s) left',
-                                style: TextStyle(color: textGreyColor,
-                                
-                                fontSize: 12),
+                                style: TextStyle(
+                                    color: textGreyColor, fontSize: 12),
                               ),
                             ),
                           ),
@@ -390,9 +368,8 @@ class _CourseCardState extends State<CourseCard> {
                               width: 100,
                               child: Text(
                                 widget.course.beginTime,
-                                 style: TextStyle(color: textGreyColor,
-                                
-                                fontSize: 12),
+                                style: TextStyle(
+                                    color: textGreyColor, fontSize: 12),
                               ),
                             ),
                           ),
@@ -403,9 +380,8 @@ class _CourseCardState extends State<CourseCard> {
                               child: Text(
                                 // _distance + ' km',
                                 widget.course.distance.toString() + ' km',
-                                 style: TextStyle(color: textGreyColor,
-                                
-                                fontSize: 12),
+                                style: TextStyle(
+                                    color: textGreyColor, fontSize: 12),
                               ),
                             ),
                           ),
@@ -414,10 +390,9 @@ class _CourseCardState extends State<CourseCard> {
                             child: Container(
                               width: 100,
                               child: Text(
-                                '\$' + widget.course.studyFee.toString(),
-                                 style: TextStyle(color: textGreyColor,
-                                
-                                fontSize: 12),
+                                widget.course.studyFee.toString() + ' vnd',
+                                style: TextStyle(
+                                    color: textGreyColor, fontSize: 12),
                               ),
                             ),
                           ),

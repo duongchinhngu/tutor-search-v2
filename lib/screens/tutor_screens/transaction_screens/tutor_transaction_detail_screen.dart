@@ -108,17 +108,17 @@ class _TutorTransactonDetailScreenState extends State<TutorTransactonDetailScree
             //
             buildInfoElement(
               'Total Amount',
-              '\$' + widget.tuteeTransaction.totalAmount.toString(),
+              widget.tuteeTransaction.totalAmount.toString() + ' vnd',
               defaultBoldStyle,
             ),
             //amount
             buildInfoElement(
               'Amount',
-              '\$' + widget.tuteeTransaction.amount.toString(),
+              widget.tuteeTransaction.amount.toString()+ ' vnd',
               defaultNormalStyle,
             ),
             //fee
-            buildInfoElement('Fee', '\$' + widget.tuteeTransaction.feePrice.toString(),
+            buildInfoElement('Fee', widget.tuteeTransaction.feePrice.toString()+ ' vnd',
                 defaultNormalStyle),
             //datetime
             buildInfoElement(

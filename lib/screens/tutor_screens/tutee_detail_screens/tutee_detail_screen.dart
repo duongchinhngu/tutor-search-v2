@@ -59,8 +59,8 @@ class _TuteeDetailScreenState extends State<TuteeDetailScreen> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: mainColor,
-              // title: Text('Tutee Profile'),
-              centerTitle: true,
+              title: Text('Tutee Profile'),
+              // centerTitle: true,
               leading: buildDefaultCustomBackButton(context, Colors.white),
             ),
             body: Container(

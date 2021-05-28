@@ -62,7 +62,6 @@ class ExtendedCourse extends Course {
           createdDate,
           confirmedDate,
           confirmedBy,
-          learningOutcome,
           precondition,
         );
 
@@ -117,7 +116,6 @@ class ExtendedCourse extends Course {
           createdDate,
           confirmedDate,
           confirmedBy,
-          learningOutcome,
           precondition,
         );
 
@@ -151,6 +149,8 @@ class ExtendedCourse extends Course {
       tutorAddress: json['tutorAddress'].toString(),
       isFeedback: json['isTakeFeedback'],
       availableSlot: json['availableSlot'],
+      // learningOutcome: json['learningOutcome'],
+      precondition: json['precondition'].toString(),
     );
   }
 }

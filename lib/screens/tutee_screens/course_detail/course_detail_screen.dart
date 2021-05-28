@@ -20,9 +20,9 @@ import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
+import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_report_screen/report_dialog.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
@@ -117,19 +117,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               backgroundColor: backgroundColor,
               appBar: buildCourseDetailAppbar(context),
               body: buildCourseDetailBody(context, state.course),
-              // floatingActionButton: Row(
-              //   children: [
-              //     Visibility(
-              //       child: buildFeedbackButton(context, state.course),
-              //       visible: state.course.enrollmentStatus == 'Inactive' &&
-              //           state.course.isFeedback == false,
-              //     ),
-              //     Visibility(
-              //       child: buildReportButton(context, state.course),
-              //       visible: state.course.enrollmentStatus == 'Ongoing',
-              //     ),
-              //   ],
-              // ),
               floatingActionButton: state.course.enrollmentStatus == "Inactive"
                   ? Visibility(
                       child: buildFeedbackButton(context, state.course),
@@ -159,7 +146,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
     }
     //
     return Container(
-      // width: MediaQuery.of(context).size.width,
       child: ListView(
         children: [
           //course name title
@@ -332,9 +318,15 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
           buildDivider(),
           //price of the course
           buildCourseInformationListTile(
-            '\$' + course.studyFee.toString(),
+            course.studyFee.toString() + ' vnd',
             'Study Fee',
             Icons.monetization_on,
+          ),
+          buildDivider(),
+          buildCourseInformationListTile(
+            course.precondition,
+            'Precondition',
+            Icons.description,
           ),
           buildDivider(),
           //description for this course
@@ -422,41 +414,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             ),
           ),
           buildDivider(),
-          //course status
-          // Container(
-          //   padding: EdgeInsets.only(
-          //     left: 30,
-          //     right: 30,
-          //   ),
-          //   child: ListTile(
-          //     leading: Text(
-          //       'Course status',
-          //       style: titleStyle,
-          //     ),
-          //     trailing: Container(
-          //       height: 35,
-          //       width: 80,
-          //       alignment: Alignment.center,
-          //       decoration: BoxDecoration(
-          //         color: mapStatusToColor(course.status),
-          //         borderRadius: BorderRadius.circular(24),
-          //       ),
-          //       child: Text(
-          //         course.status,
-          //         style: TextStyle(
-          //           fontSize: textFontSize,
-          //           color: textWhiteColor,
-          //           fontWeight: FontWeight.bold,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
-          // Visibility(
-          //   visible: canFeedback,
-          //   child: buildFeedbackButton(context),
-          // ),
           //this widget for being nice only
           SizedBox(
             height: 40,
@@ -738,25 +695,26 @@ class _FeedbackDialogBodyState extends State<FeedbackDialogBody> {
                     //init feedback dto
                     //tutorId here is 1; temporary
                     final feedback = Feedbacks.constructor(
-                      //id
-                      0,
-                      //comment
-                      commentController.text,
-                      //to tutorId
-                      widget.course.createdBy,
-                      // //create date
-                      // defaultDatetime,
-                      //status
-                      'Pending',
-                      //tutee id
-                      authorizedTutee.id,
-                      //rate
-                      selectedRating,
-                      //this is temporary value; back end will process this
-                      // defaultDatetime,
-                      //this is temporary value; back end will process this
-                      // 0,
-                    );
+                        //id
+                        0,
+                        //comment
+                        commentController.text,
+                        //to tutorId
+                        widget.course.createdBy,
+                        // //create date
+                        // defaultDatetime,
+                        //status
+                        'Pending',
+                        //tutee id
+                        authorizedTutee.id,
+                        //rate
+                        selectedRating,
+                        //this is temporary value; back end will process this
+                        // defaultDatetime,
+                        //this is temporary value; back end will process this
+                        // 0,
+                        //courseId
+                        widget.course.id);
                     //post feedback
                     await feedbackRepository
                         .postFeedback(feedback)
