@@ -4,13 +4,10 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/models/extended_models/extended_tutor.dart';
-import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/notification_repository.dart';
-import 'package:tutor_search_system/repositories/transaction_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/customized_error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/follow_completed_screen.dart';
 import 'package:http/http.dart' as http;
@@ -18,11 +15,11 @@ import 'package:http/http.dart' as http;
 //tutee payment processing screen
 //this screen process payment; navigate to result screen (error, complete successully; processing)
 class TuteePaymentProccessingScreen extends StatefulWidget {
-  final TuteeTransaction tuteeTransaction;
+  // final TuteeTransaction tuteeTransaction;
   final Enrollment enrollment;
 
   const TuteePaymentProccessingScreen(
-      {Key key, @required this.tuteeTransaction, @required this.enrollment})
+      {Key key, @required this.enrollment})
       : super(key: key);
   @override
   _TuteePaymentProccessingScreenState createState() =>
@@ -31,15 +28,15 @@ class TuteePaymentProccessingScreen extends StatefulWidget {
 
 class _TuteePaymentProccessingScreenState
     extends State<TuteePaymentProccessingScreen> {
-  final tuteeTransactionRepository = TransactionRepository();
+  // final tuteeTransactionRepository = TransactionRepository();
   final enrollmentRepository = EnrollmentRepository();
 
   Future<bool> completePayment(
-      TuteeTransaction tuteeTransaction, Enrollment enrollment) async {
-    //
-    await tuteeTransactionRepository
-        .postTuteeTransaction(widget.tuteeTransaction);
-    //
+       Enrollment enrollment) async {
+    // //
+    // await tuteeTransactionRepository
+    //     .postTuteeTransaction(widget.tuteeTransaction);
+    // //
     
     await enrollmentRepository.postEnrollment(enrollment);
     //
@@ -56,12 +53,13 @@ class _TuteePaymentProccessingScreenState
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: completePayment(widget.tuteeTransaction, widget.enrollment),
+      future: completePayment(widget.enrollment),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return ErrorScreen();
         } else {
           if (snapshot.hasData == true) {
+            //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(

@@ -88,12 +88,14 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
           backgroundColor: mainColor,
           onPressed: () {
             //show policy (how much this system take from tutor by commission rate)
+
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => CreateCourseProcessingScreen(
                   course: extendedCourse,
                   courseDetail: widget.courseDetail,
+
                 ),
               ),
             );
@@ -259,7 +261,7 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
           buildDivider(),
           //price of the course
           buildcourseInformationListTile(
-            '\$' + extendedCourse.studyFee.toString(),
+            extendedCourse.studyFee.toString() + ' vnd',
             'Study Fee',
             Icons.monetization_on,
           ),

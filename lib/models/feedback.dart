@@ -8,6 +8,9 @@ class Feedbacks {
   String tuteeAvatarUrl;
   final String status;
   String createdDate;
+  final int courseId;
+  String className;
+  String subjectName;
 
   Feedbacks({
     this.id,
@@ -19,6 +22,9 @@ class Feedbacks {
     this.rate,
     this.tuteeName,
     this.tuteeAvatarUrl,
+    this.courseId,
+    this.className,
+    this.subjectName,
     // this.confirmedDate,
     // this.confirmedBy,
   });
@@ -30,6 +36,7 @@ class Feedbacks {
     this.status,
     this.tuteeId,
     this.rate,
+    this.courseId,
     // this.confirmedDate,
     // this.confirmedBy,
   );
@@ -45,6 +52,9 @@ class Feedbacks {
       status: json['status'],
       tuteeName: json['tuteeName'],
       tuteeAvatarUrl: json['tuteeAvatarUrl'],
+      courseId: json['courseId'],
+      className: json['className'],
+      subjectName: json['subjectName'],
     );
   }
 

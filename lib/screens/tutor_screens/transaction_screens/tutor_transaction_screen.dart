@@ -175,7 +175,7 @@ class _TutorTransactionScreenState extends State<TutorTransactionScreen> {
             ),
             //
             Text(
-              '\$' + state.tutorTransactions[index].totalAmount.toString(),
+              state.tutorTransactions[index].totalAmount.toString() + 'd',
               style: TextStyle(
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.bold,

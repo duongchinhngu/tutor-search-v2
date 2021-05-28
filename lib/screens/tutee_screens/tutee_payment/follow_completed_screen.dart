@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/screens/tutee_screens/my_courses/my_course_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 
 class FollowCompletedScreen extends StatefulWidget {
@@ -78,6 +79,9 @@ class _FollowCompletedScreenState extends State<FollowCompletedScreen> {
             // navigating to My Course button
             InkWell(
               onTap: () async {
+                //
+                selectedStatus = "Pending";
+                //
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   return Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(

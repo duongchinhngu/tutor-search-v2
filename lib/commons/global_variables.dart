@@ -63,9 +63,9 @@ final dateFormatter = new DateFormat('yyyy-MM-dd');
 //time formatter
 final timeFormatter = new DateFormat('HH:mm');
 //--------------------------------------------------------------------------------------------------------
-const feeRangeContent1 = 'Below \$25';
-const feeRangeContent2 = '\$25 - \$50';
-const feeRangeContent3 = 'Above \$50';
+const feeRangeContent1 = 'Below 50000 vnd';
+const feeRangeContent2 = '50000 vnd - 100000 vnd';
+const feeRangeContent3 = 'Above 100000 vnd';
 //gender constants
 
 const GENDER_MALE = 'Male';

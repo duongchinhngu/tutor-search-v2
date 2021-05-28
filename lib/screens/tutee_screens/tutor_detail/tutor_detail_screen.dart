@@ -22,6 +22,7 @@ import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
+import 'package:tutor_search_system/screens/tutor_screens/feeback/feedback_card.dart';
 import 'package:tutor_search_system/states/enrollment_state.dart';
 import 'package:tutor_search_system/states/feedback_state.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
@@ -686,11 +687,6 @@ class GetFeedback extends StatelessWidget {
               child: Text('No feedback'),
             );
           } else if (state is FeedbackListLoadedState) {
-            // return ListView.builder(
-            //     itemCount: state.feedbacks.length,
-            //     itemBuilder: (context, index) => CardFeedback(
-            //           feedbacks: state.feedbacks[index],
-            //         ));
             return _buildListFeedback(state);
           }
         }));
@@ -702,7 +698,7 @@ Widget _buildListFeedback(FeedbackListLoadedState state) {
       child: Column(
     children: List.generate(
       state.feedbacks.length,
-      (index) => ListFeedback(
+      (index) => FeedbackCard(
         feedbacks: state.feedbacks[index],
       ),
     ),

@@ -142,15 +142,16 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
                   buildCourseInformationListTile(state.tutor.points.toString(),
                       'Available Point(s)', Icons.donut_large_sharp),
                   buildDivider(),
-
                   //certification images
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
                           builder: (context) => MembershipScreen(
-                                currentMembershipId:
-                                    authorizedTutor.membershipId,
-                              )));
+                            currentMembershipId: authorizedTutor.membershipId,
+                          ),
+                        ),
+                      );
                     },
                     child: ListTile(
                       leading: Container(
