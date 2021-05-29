@@ -25,6 +25,7 @@ import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search
 import 'package:tutor_search_system/screens/tutee_screens/tutee_report_screen/report_dialog.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/schedule_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 
 bool canFeedback = false;
@@ -328,6 +329,48 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             'Precondition',
             Icons.description,
           ),
+          buildDivider(),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ScheduleScreen(
+                    courseId: widget.courseId,
+                  ),
+                ),
+              );
+            },
+            child: ListTile(
+              leading: Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                width: 43,
+                height: 43,
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.track_changes,
+                  color: Colors.red,
+                ),
+              ),
+              title: Text(
+                'Schedule',
+                style: TextStyle(
+                  fontSize: titleFontSize,
+                  color: textGreyColor,
+                ),
+              ),
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                color: textGreyColor,
+                size: 18,
+              ),
+            ),
+          ),
+          //
           buildDivider(),
           //description for this course
           buildCourseInformationListTile(

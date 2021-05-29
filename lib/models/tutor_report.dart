@@ -1,5 +1,3 @@
-import 'package:tutor_search_system/commons/global_variables.dart';
-
 class TutorReport {
   final int id;
   final String description;

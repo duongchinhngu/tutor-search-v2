@@ -6,7 +6,6 @@ import 'package:tutor_search_system/models/account.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/account_repository.dart';
 import 'package:tutor_search_system/repositories/image_repository.dart';
-import 'package:tutor_search_system/repositories/notification_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/tutor_register_variables.dart';

@@ -1,4 +1,3 @@
-import 'package:tutor_search_system/models/tutee_transaction.dart';
 
 abstract class TransactionState {}
 

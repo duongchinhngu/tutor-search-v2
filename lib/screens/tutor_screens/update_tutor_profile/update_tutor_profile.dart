@@ -571,9 +571,7 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
                         onTap: () async {
                           //select Photo from camera
                           var img = await getImageFromCamera();
-                          //post lên firebase
-                          String imageUrl =
-                              await uploadFileOnFirebaseStorage(img);
+                          
                           //
                           if (img != null) {
                             setState(() {

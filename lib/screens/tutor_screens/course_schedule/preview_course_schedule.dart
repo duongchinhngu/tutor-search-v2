@@ -5,7 +5,6 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
-import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/schedule_v2.dart';
 
@@ -35,39 +34,7 @@ class _PreviewCourseScheduleState extends State<PreviewCourseSchedule> {
           Container(
               width: double.infinity,
               height: 500,
-              child:
-                  // //
-                  // // TimelineTile(
-                  // //   beforeLineStyle: LineStyle(
-                  // //     color: Colors.green,
-                  // //     thickness: 1,
-                  // //   ),
-                  // //   endChild: Text('this is plan'),
-                  // //   isFirst: true,
-                  // // ),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // WeekElement(),
-                  // // TimelineTile(
-                  // //   beforeLineStyle: LineStyle(
-                  // //     color: Colors.green,
-                  // //     thickness: 1,
-                  // //   ),
-                  // //   endChild: Text('this is plan'),
-                  // //   isLast: true,
-                  // // ),
-                  ListView.builder(
+              child: ListView.builder(
                 itemCount: widget.listweek.length,
                 itemBuilder: (context, index) => Week(
                   week: widget.listweek[index],
@@ -80,68 +47,57 @@ class _PreviewCourseScheduleState extends State<PreviewCourseSchedule> {
     );
   }
 
-  FloatingActionButton buildEditButton(BuildContext context) =>
-      FloatingActionButton.extended(
-          onPressed: () {},
-          label: Text(
-            'Edit',
-            style: TextStyle(
-                fontSize: titleFontSize,
-                color: mainColor,
-                fontWeight: FontWeight.bold),
-          ),
-          isExtended: true,
-          backgroundColor: Colors.white);
-
-  FloatingActionButton buildDoneButton(BuildContext context) =>
-      FloatingActionButton.extended(
-          onPressed: () {
-            setState(() {
-              int check;
-              for (int i = 0; i < widget.listweek.length; i++) {
-                check = 0;
-                for (int j = 0; j < widget.listSchedule.length; j++) {
-                  if (widget.listSchedule[j].period == widget.listweek[i]) {
-                    check = check + 1;
+  Widget buildDoneButton(BuildContext context) => Visibility(
+        visible: true,
+        child: FloatingActionButton.extended(
+            onPressed: () {
+              setState(() {
+                int check;
+                for (int i = 0; i < widget.listweek.length; i++) {
+                  check = 0;
+                  for (int j = 0; j < widget.listSchedule.length; j++) {
+                    if (widget.listSchedule[j].period == widget.listweek[i]) {
+                      check = check + 1;
+                    }
                   }
                 }
-              }
-              if (listWeek.length < widget.numOfWeek) check = 0;
-              if (check == 0) {
-                showDialog(
-                    context: context,
-                    builder: (context) => buildDefaultDialog(
-                            context,
-                            'Cannot Finish',
-                            'All week must be filled the plan!', [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('OK')),
-                        ]));
-              } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreateCourseScreen(
-                            listCourseDetail: widget.listSchedule,
-                            selectedSubject: widget.subject,
-                            listWeek: widget.listweek,
-                          )),
-                );
-              }
-            });
-          },
-          label: Text(
-            'Confirm',
-            style: TextStyle(
-                fontSize: titleFontSize,
-                color: mainColor,
-                fontWeight: FontWeight.bold),
-          ),
-          isExtended: true,
-          backgroundColor: Colors.white);
+                if (listWeek.length < widget.numOfWeek) check = 0;
+                if (check == 0) {
+                  showDialog(
+                      context: context,
+                      builder: (context) => buildDefaultDialog(
+                              context,
+                              'Cannot Finish',
+                              'All week must be filled the plan!', [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('OK')),
+                          ]));
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreateCourseScreen(
+                              listCourseDetail: widget.listSchedule,
+                              selectedSubject: widget.subject,
+                              listWeek: widget.listweek,
+                            )),
+                  );
+                }
+              });
+            },
+            label: Text(
+              'Confirm',
+              style: TextStyle(
+                  fontSize: titleFontSize,
+                  color: mainColor,
+                  fontWeight: FontWeight.bold),
+            ),
+            isExtended: true,
+            backgroundColor: Colors.white),
+      );
 
   AppBar _buildAppBar() {
     return AppBar(
@@ -219,27 +175,86 @@ class _WeekState extends State<Week> {
         endChild: Container(
             margin: EdgeInsets.only(top: 20, left: 15),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(
-                  listPlan.length,
-                  (index) => Column(children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              Text('Plan: '),
-                              Text(listPlan[index].schedule)
-                            ],
+                listPlan.length,
+                (index) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Container(
+                    //   child: Row(
+                    //     children: [
+                    //       Text('Plan: '),
+                    //       Text(listPlan[index].schedule)
+                    //     ],
+                    //   ),
+                    // ),
+                    // Container(
+                    //   child: Row(
+                    //     children: [
+                    //       Text('Outcome: '),
+                    //       Text(listPlan[index].learningOutcome),
+                    //     ],
+                    //   ),
+                    // ),
+                    //
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Text(
+                              'Content',
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                color: Colors.black.withOpacity(.8),
+                              ),
+                            ),
                           ),
-                        ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Text('Outcome: '),
-                              Text(listPlan[index].learningOutcome),
-                            ],
+                          Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(listPlan[index].schedule,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: textFontSize,
+                                  color: textGreyColor,
+                                )),
+                          )
+                        ],
+                      ),
+                    ),
+                    //
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Text(
+                              'Outcome',
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                color: Colors.black.withOpacity(.8),
+                              ),
+                            ),
                           ),
-                        ),
-                        buildDivider(),
-                      ])),
+                          Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(listPlan[index].learningOutcome,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: textFontSize,
+                                  color: textGreyColor,
+                                )),
+                          )
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      endIndent: 30,
+                    ),
+                  ],
+                ),
+              ),
             )
             // ListView.builder(
             //   itemCount: listPlan.length,

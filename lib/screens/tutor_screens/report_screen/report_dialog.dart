@@ -10,7 +10,6 @@ import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/report_type_cubit.dart';
-import 'package:tutor_search_system/cubits/report_type_cubit.dart';
 import 'package:tutor_search_system/models/report_type.dart';
 import 'package:tutor_search_system/models/tutor_report.dart';
 import 'package:tutor_search_system/repositories/notification_repository.dart';

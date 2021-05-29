@@ -11,9 +11,7 @@ import 'package:tutor_search_system/commons/notifications/notification_methods.d
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutee_cubit.dart';
-import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
-import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
@@ -22,12 +20,12 @@ import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
-import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/filter_item.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_variables.dart'
     as course_var;
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/course_tutee_screens/course_tutee_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:tutor_search_system/states/tutee_state.dart';
@@ -358,6 +356,49 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               'Precondition',
               Icons.color_lens_outlined,
             ),
+            //
+            buildDivider(),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ScheduleScreen(
+                      courseId: widget.courseId,
+                    ),
+                  ),
+                );
+              },
+              child: ListTile(
+                leading: Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  width: 43,
+                  height: 43,
+                  decoration: BoxDecoration(
+                    color: backgroundColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.track_changes,
+                    color: Colors.red,
+                  ),
+                ),
+                title: Text(
+                  'Schedule',
+                  style: TextStyle(
+                    fontSize: titleFontSize,
+                    color: textGreyColor,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: textGreyColor,
+                  size: 18,
+                ),
+              ),
+            ),
+            //
             buildDivider(),
             //description for this course
             buildCourseInformationListTile(

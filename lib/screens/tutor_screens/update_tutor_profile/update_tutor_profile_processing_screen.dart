@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
 import 'package:tutor_search_system/models/tutor_update_profile.dart';
-import 'package:tutor_search_system/repositories/notification_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_update_profile_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_variable.dart';

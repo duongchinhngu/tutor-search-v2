@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/cubits/commission_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
-import 'package:tutor_search_system/repositories/commission_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
-import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_processing_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
-import 'package:tutor_search_system/states/commission_state.dart';
 import 'create_course_variables.dart' as vars;
 
 class PreviewCourseScreen extends StatefulWidget {
