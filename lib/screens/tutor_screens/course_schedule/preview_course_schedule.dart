@@ -15,9 +15,17 @@ class PreviewCourseSchedule extends StatefulWidget {
   final List<String> listweek;
   final Subject subject;
   final int numOfWeek;
+  final List<CourseDetail> listPlan;
+  final List<CourseDetail> listOutcome;
 
   const PreviewCourseSchedule(
-      {Key key, this.listSchedule, this.listweek, this.subject, this.numOfWeek})
+      {Key key,
+      this.listSchedule,
+      this.listweek,
+      this.subject,
+      this.numOfWeek,
+      this.listPlan,
+      this.listOutcome})
       : super(key: key);
   @override
   _PreviewCourseScheduleState createState() => _PreviewCourseScheduleState();

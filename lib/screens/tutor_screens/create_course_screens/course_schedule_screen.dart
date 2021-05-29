@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/tutor_screens/course_schedule/preview_course_schedule.dart';
 
 class CourseScheduleScreen extends StatefulWidget {
@@ -169,8 +170,46 @@ class _CourseScheduleScreenState extends State<CourseScheduleScreen> {
             color: textGreyColor,
           ),
           onPressed: () {
+            //reset empty all fields
+            showDialog(
+              context: context,
+              builder: (context) => buildDefaultDialog(
+                context,
+                'Your inputs will be lost!',
+                'Are you sure to continue?',
+                [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: mainColor,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          //
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Continue',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            );
             //
-            Navigator.pop(context);
           },
         )
       ],
