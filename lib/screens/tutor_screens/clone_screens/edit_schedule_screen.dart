@@ -9,6 +9,9 @@ import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/course_schedule/preview_course_schedule.dart';
 
+import 'preview_schedule.dart';
+
+int numberOfWeek = 0;
 List<String> listWeek = [];
 TextEditingController planController = TextEditingController();
 TextEditingController editPlanController = TextEditingController();
@@ -21,25 +24,27 @@ List<CourseDetail> listPlan = [];
 List<CourseDetail> listOutcome = [];
 CourseDetail courseDetail = CourseDetail('', '', '');
 
-class CourseScheduleScreenV2 extends StatefulWidget {
+class EditScheduleScreen extends StatefulWidget {
   final int numberOfWeek;
   final Subject subject;
   final List<CourseDetail> plan;
   final List<CourseDetail> outcome;
+  final List<String> weekList;
 
-  const CourseScheduleScreenV2(
+  const EditScheduleScreen(
       {Key key,
       @required this.numberOfWeek,
-      this.subject,
-      this.plan,
-      this.outcome})
+      @required this.subject,
+      @required this.plan,
+      @required this.outcome,
+      @required this.weekList})
       : super(key: key);
 
   @override
-  _CourseScheduleScreenV2State createState() => _CourseScheduleScreenV2State();
+  _EditScheduleScreenState createState() => _EditScheduleScreenState();
 }
 
-class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
+class _EditScheduleScreenState extends State<EditScheduleScreen>
     with TickerProviderStateMixin {
   int selectedPageIndex = 0;
   TabController _tabController;
@@ -53,6 +58,7 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
       length: widget.numberOfWeek,
       initialIndex: selectedPageIndex,
     );
+
     if (widget.plan.length > 0 && widget.outcome.length > 0) {
       listOutcome = widget.outcome;
       listPlan = widget.plan;
@@ -60,10 +66,14 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
       listOutcome = [];
       listPlan = [];
     }
-
-    listWeek = [];
+    if (widget.weekList.length > 0) {
+      listWeek = widget.weekList;
+    } else {
+      listWeek = [];
+      listWeek.add('Week $weekIndex');
+    }
     listCourseDetail = [];
-    listWeek.add('Week $weekIndex');
+    print(widget.weekList.length);
     super.initState();
   }
 
@@ -111,15 +121,7 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
       splashColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       elevation: 0.0,
-      onPressed: () {
-        //
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => UpdateTuteeProfile(),
-        //   ),
-        // );
-      },
+      onPressed: () {},
       label: Container(
         margin: EdgeInsetsDirectional.only(
           bottom: 30,
@@ -201,7 +203,7 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PreviewCourseSchedule(
+                          builder: (context) => PreviewSchedule(
                             listSchedule: listCourseDetail,
                             listweek: listWeek,
                             subject: widget.subject,
@@ -407,10 +409,11 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                             CourseDetail newCourseDetail =
                                 CourseDetail('Week $weekIndex', plan, outcome);
                             listCourseDetail.add(newCourseDetail);
+                            print('this is subject: ' + widget.subject.name);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PreviewCourseSchedule(
+                                builder: (context) => PreviewSchedule(
                                   listSchedule: listCourseDetail,
                                   listweek: listWeek,
                                   subject: widget.subject,
@@ -619,10 +622,10 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                                     ),
                                     Container(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
                                         children: [
                                           Container(
-                                           
                                               child: buildAddPlan(context)),
                                           Container(
                                               // padding: EdgeInsets.fromLTRB(

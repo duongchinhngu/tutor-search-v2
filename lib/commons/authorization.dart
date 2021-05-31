@@ -15,7 +15,6 @@ class AuthorizationContants {
     String token;
     await getToken().then((value) {
       token = value;
-      print('token ne: $token');
     });
     //
     Map<String, String> authorizeHeader = <String, String>{

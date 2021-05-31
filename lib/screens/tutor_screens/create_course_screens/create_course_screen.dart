@@ -1500,35 +1500,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
             //
           }),
       actions: [
-        // TextButton(
-        //   onPressed: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (context) =>
-        //             CourseScheduleScreenDraft(numberOfWeek: 5),
-        //       ),
-        //     );
-        //   },
-        //   child: Container(
-        //     width: 100,
-        //     alignment: Alignment.center,
-        //     decoration: BoxDecoration(
-        //         borderRadius: BorderRadius.circular(10),
-        //         border: Border.all(
-        //           width: 1,
-        //           color: mainColor,
-        //         )),
-        //     child: Text(
-        //       'Create Shedule',
-        //       style: TextStyle(
-        //         color: mainColor,
-        //         fontSize: 14,
-        //         fontWeight: FontWeight.bold,
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        
         TextButton(
           onPressed: () async {
             //

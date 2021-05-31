@@ -15,28 +15,49 @@ import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
+import 'package:tutor_search_system/cubits/course_detail_cubit.dart';
 import 'package:tutor_search_system/models/class_has_subject.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/coursse_detail.dart';
+import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
+import 'package:tutor_search_system/repositories/course_detail_repository.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/course_schedule_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_variables.dart'
-    as vars;
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_schedule_screen.dart';
+import 'clone_course_variables.dart' as vars;
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/preview_course_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/schedule_v2.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
 import 'package:tutor_search_system/states/class_state.dart';
+import 'package:tutor_search_system/states/course_detail_state.dart';
+
+import 'edit_schedule_screen.dart';
 
 //create course UI;
 //this is main ui
+
+List<String> listWeek = [];
+
 class CloneCourseScreen extends StatefulWidget {
+  final ExtendedCourse course;
+  // final Subject selectedSubject;
+  final List<CourseDetail> listCourseDetail;
+  final List<CourseDetail> listPlan;
+  final List<CourseDetail> listOutcome;
+
+  const CloneCourseScreen(
+      {Key key,
+      // this.selectedSubject,
+      this.listCourseDetail,
+      this.listPlan,
+      this.listOutcome,
+      this.course})
+      : super(key: key);
   @override
   _CloneCourseScreenState createState() => _CloneCourseScreenState();
 }
@@ -44,10 +65,42 @@ class CloneCourseScreen extends StatefulWidget {
 class _CloneCourseScreenState extends State<CloneCourseScreen> {
   @override
   void initState() {
+    initCourse();
     //
     registerOnFirebase();
     getMessage(context);
+    listWeek = [];
     super.initState();
+  }
+
+  void initCourse() {
+    //
+    vars.courseNameController.text = widget.course.name;
+    //
+    vars.course = widget.course;
+    //
+    // vars.course.beginDate = globals.DEFAULT_NO_SELECT;
+    // vars.course.endDate = globals.DEFAULT_NO_SELECT;
+    //
+    vars.selectedClassName = widget.course.className;
+    vars.courseFeeController.text = widget.course.studyFee.toString();
+    vars.courseDescriptionController.text = widget.course.description;
+    vars.selectedSubjectName = widget.course.subjectName;
+    //
+    selectedWeekdays = vars.course.daysInWeek
+        .replaceFirst(']', '')
+        .replaceFirst('[', '')
+        .split(', ');
+    //
+    if (vars.course.extraImages != '[]') {
+      vars.extraImages = vars.course.extraImages
+          .replaceFirst(']', '')
+          .replaceFirst('[', '')
+          .split(', ');
+    }
+    //course precondition
+    vars.preconditions = widget.course.precondition.split('\n');
+    //
   }
 
   //validator for all input field
@@ -407,12 +460,6 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                   }
                   //
                   int diffGap = endTime.difference(startTime).inMinutes;
-                  //
-                  // print('this is 60 and 16: ${60 * 16}');
-                  // print('this is start start: ' + startTime.toString());
-                  // print('this is end endtime: ' + endTime.toString());
-                  // //
-                  // print(" gap is " + diffGap.toString());
                   //
                   if (diffGap >= 30 && diffGap <= 16 * 60) {
                     //
@@ -794,55 +841,13 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                   boxShadow: [boxShadowStyle],
                 ),
                 child: ListTile(
-                  leading: GestureDetector(
-                    onTap: () {
-                      //set plan and calculate number of week if begin and end date were seleted
-                      if (vars.selectedDateRange != null) {
-                        //
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CourseScheduleScreenV2(
-                              numberOfWeek: vars.calculateNumberOfWeek(
-                                  vars.selectedDateRange),
-                            ),
-                          ),
-                        );
-                      } else {
-                        //show alert when datetime is null
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            content:
-                                Text('Please choose begin and end date first!'),
-                            actions: [
-                              TextButton(
-                                onPressed: () async {
-                                  //
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  'Ok',
-                                  style: TextStyle(
-                                    color: mainColor,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      }
-                    },
-                    child: Container(
-                      child: Icon(
-                        Icons.track_changes,
-                        color: Colors.redAccent,
-                      ),
-                    ),
+                  leading: Icon(
+                    Icons.track_changes,
+                    color: Colors.redAccent,
                   ),
                   minLeadingWidth: 15,
                   title: Text(
-                    'What would tutee gain from this course?',
+                    'Please edit schedule for this course',
                     style: titleStyle,
                   ),
                   subtitle: Container(
@@ -874,153 +879,163 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                           height: 20,
                         ),
                         //add target button
-                        GestureDetector(
-                          onTap: () {
-                            TextEditingController targetController =
-                                TextEditingController();
-                            GlobalKey<FormState> _formKey =
-                                GlobalKey<FormState>();
-                            //
-                            showDialog(
-                                context: context,
-                                builder: (context) => Dialog(
-                                    backgroundColor: backgroundColor,
-                                    elevation: 1.0,
-                                    insetAnimationCurve: Curves.ease,
-                                    child: Form(
-                                      key: _formKey,
-                                      child: SingleChildScrollView(
-                                        child: Container(
-                                          height: 350,
-                                          width: 200,
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              //title
-                                              Container(
-                                                alignment: Alignment.centerLeft,
-                                                padding: EdgeInsets.only(
-                                                  left: 20,
-                                                ),
-                                                child: Text(
-                                                  'Target for this course',
-                                                  style: titleStyle,
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                              ),
-                                              //text field
-                                              Container(
-                                                height: 200,
-                                                alignment: Alignment.center,
-                                                padding: EdgeInsets.only(
-                                                    right: 20, bottom: 20),
-                                                margin: EdgeInsets.only(
-                                                    left: 20,
-                                                    top: 20,
-                                                    bottom: 0),
-                                                child: TextFormField(
-                                                  keyboardType:
-                                                      TextInputType.multiline,
-                                                  expands: true,
-                                                  maxLength: 500,
-                                                  maxLines: null,
-                                                  controller: targetController,
-                                                  textAlign: TextAlign.start,
-                                                  onChanged: (context) {},
-                                                  decoration: InputDecoration(
-                                                    filled: true,
-                                                    focusedBorder:
-                                                        InputBorder.none,
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color: Colors
-                                                                  .transparent,
-                                                              width: 0.0),
-                                                    ),
-                                                    hintText:
-                                                        'What you want your tutee gain from this course!?',
-                                                    hintStyle: TextStyle(
-                                                      color: Colors.grey[400],
-                                                      fontSize: textFontSize,
-                                                    ),
-                                                  ),
-                                                  validator: RequiredValidator(
-                                                      errorText: 'is required'),
-                                                ),
-                                              ),
-                                              //actions
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  //Cancel
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text('Cancel',
-                                                        style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontSize:
-                                                              textFontSize + 1,
-                                                        )),
-                                                  ),
-                                                  //ok
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      //
-                                                      if (_formKey.currentState
-                                                          .validate()) {
-                                                        //
-                                                        setState(() {
-                                                          vars.targets.add(
-                                                              targetController
-                                                                  .text);
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }
-                                                    },
-                                                    child: Text(
-                                                      'Ok',
-                                                      style: TextStyle(
-                                                        color: mainColor,
-                                                        fontSize:
-                                                            textFontSize + 1,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
+                        BlocProvider(
+                          create: (context) =>
+                              CourseDetailCubit(CourseDetailRepository()),
+                          child:
+                              BlocBuilder<CourseDetailCubit, CourseDetailState>(
+                            builder: (context, state) {
+                              //
+                              final scheduleCubit =
+                                  context.watch<CourseDetailCubit>();
+                              scheduleCubit.getByCourseId(vars.course.id);
+                              //
+                              if (state is CourseDetailLoadingState) {
+                                return Container(
+                                  height: 40,
+                                  width: 180,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Loading',
+                                    style: TextStyle(
+                                      fontSize: titleFontSize,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1, color: Colors.redAccent),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                );
+                              } else if (state is CourseDetailLoadFailedState) {
+                                return Container(
+                                  height: 40,
+                                  width: 180,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Loading schedule failed..',
+                                    style: TextStyle(
+                                      fontSize: titleFontSize,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1, color: Colors.redAccent),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                );
+                              } else if (state is CourseDetailListLoadedState) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    //number of weel for this course scheduleF
+                                    int numberOfWeek =
+                                        state.listCourseDetail.length;
+                                    //
+                                    if (listPlan.length == 0 ||
+                                        listOutcome.length == 0) {
+                                      //generate 2 list outcomes and plans
+                                      for (var courseDetail
+                                          in state.listCourseDetail) {
+                                        //create plan list
+                                        List<String> planStrings = courseDetail
+                                            .schedule
+                                            .split('\n')
+                                            .toList();
+                                        planStrings.removeLast();
+                                        //
+                                        for (var planString in planStrings) {
+                                          listPlan.add(new CourseDetail(
+                                              courseDetail.period,
+                                              planString,
+                                              ''));
+                                        }
+                                        //create outcomes list
+                                        List<String> outcomeStrings =
+                                            courseDetail.learningOutcome
+                                                .split('\n')
+                                                .toList();
+                                        outcomeStrings.removeLast();
+                                        //
+                                        for (var outcomeString
+                                            in outcomeStrings) {
+                                          listOutcome.add(new CourseDetail(
+                                              courseDetail.period,
+                                              '',
+                                              outcomeString));
+                                        }
+                                      }
+                                    }
+                                    //
+                                    //set plan and calculate number of week if begin and end date were seleted
+                                    if (vars.selectedDateRange != null) {
+                                      //
+                                      for (int i = 1; i <= numberOfWeek; i++) {
+                                        listWeek.add('Week $i');
+                                        print(listWeek[i - 1]);
+                                      }
+                                      //navigator to show and edit schedule
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditScheduleScreen(
+                                            subject: Subject(
+                                              name: vars.selectedSubjectName,
+                                            ),
+                                            numberOfWeek: numberOfWeek,
+                                            outcome: listOutcome,
+                                            plan: listPlan,
+                                            weekList: listWeek,
                                           ),
                                         ),
+                                      );
+                                    } else {
+                                      //show alert when datetime is null
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          content: Text(
+                                              'Please choose begin and end date first!'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () async {
+                                                //
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                'Ok',
+                                                style: TextStyle(
+                                                  color: mainColor,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 180,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Edit Schedule',
+                                      style: TextStyle(
+                                        fontSize: titleFontSize,
+                                        color: Colors.redAccent,
                                       ),
-                                    )));
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 180,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Add target',
-                              style: TextStyle(
-                                fontSize: titleFontSize,
-                                color: Colors.redAccent,
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(width: 1, color: Colors.redAccent),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1, color: Colors.redAccent),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
                           ),
                         ),
                         //
@@ -1305,7 +1320,6 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                   ),
                 ),
               ),
-              //
               ////description
               Container(
                 // height: 200,
@@ -1519,36 +1533,10 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
           }),
       actions: [
         TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CreateCourseSchedule(),
-              ),
-            );
-          },
-          child: Container(
-            width: 100,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  width: 1,
-                  color: mainColor,
-                )),
-            child: Text(
-              'Create Shedule',
-              style: TextStyle(
-                color: mainColor,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        TextButton(
           onPressed: () async {
             //
+            print(vars.course.beginDate);
+            print(vars.course.endDate);
             //check whether or nowt begin/end date and begin/end time cos bi trung khong
             //neu bi trung thi khong cho tao => inavalid
             Course redundantCourse =
@@ -1592,8 +1580,8 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => PreviewCourseScreen(
-                      courseDetail: [],
-                      precondition: "",
+                      courseDetail: widget.listCourseDetail,
+                      precondition: vars.course.precondition,
                       course: vars.course,
                       className: vars.selectedClassName,
                       subjectName: vars.selectedSubjectName,

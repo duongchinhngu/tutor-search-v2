@@ -11,6 +11,7 @@ import 'package:tutor_search_system/commons/notifications/notification_methods.d
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutee_cubit.dart';
+import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
@@ -29,6 +30,7 @@ import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_sc
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:tutor_search_system/states/tutee_state.dart';
+import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 
 class TutorCourseDetailScreen extends StatefulWidget {
   final int courseId;
@@ -84,31 +86,6 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
         } else if (state is CourseLoadFailedState) {
           return ErrorScreen();
         } else if (state is CourseLoadedState) {
-          //
-          course_var.courseNameController.text = state.course.name;
-          course_var.course = state.course;
-          course_var.selectedClassName = state.course.className;
-          course_var.courseFeeController.text =
-              state.course.studyFee.toString();
-          course_var.courseDescriptionController.text =
-              state.course.description;
-          course_var.selectedSubjectName = state.course.subjectName;
-          //
-          selectedWeekdays = course_var.course.daysInWeek
-              .replaceFirst(']', '')
-              .replaceFirst('[', '')
-              .split(', ');
-          //
-          if (course_var.course.extraImages != '[]') {
-            print('this is extra images before: ' +
-                course_var.extraImages.toString());
-            course_var.extraImages = course_var.course.extraImages
-                .replaceFirst(']', '')
-                .replaceFirst('[', '')
-                .split(', ');
-            print('this is extra images: ' + course_var.extraImages.toString());
-          }
-          //
           return buildCourseDetailBody(context, state.course);
         }
       }),
@@ -153,7 +130,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
     //
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: buildCourseDetailAppbar(context),
+      appBar: buildCourseDetailAppbar(context, course),
       floatingActionButton: Visibility(
           visible:
               course != null && course.status == CourseConstants.UNPAID_STATUS,
@@ -581,7 +558,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
 }
 
 //appbar with background image
-PreferredSize buildCourseDetailAppbar(BuildContext context) {
+PreferredSize buildCourseDetailAppbar(BuildContext context, ExtendedCourse course) {
   return PreferredSize(
     preferredSize: Size.fromHeight(70),
     child: AppBar(
@@ -624,7 +601,9 @@ PreferredSize buildCourseDetailAppbar(BuildContext context) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CloneCourseScreen(),
+                builder: (context) => CloneCourseScreen(
+                  course: course,
+                ),
               ),
             );
           },

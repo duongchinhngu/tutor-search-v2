@@ -3,6 +3,7 @@ import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/common_model.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 
@@ -55,12 +56,13 @@ List<String> targets = [];
 //
 List<String> preconditions = [];
 // ----course extra images-------------------
-List<String> extraImages = [''];
+List<String> extraImages = [];
 
 //selectedClassName
 String selectedClassName = globals.DEFAULT_NO_SELECT;
 //selectedSubjectName
 String selectedSubjectName = globals.DEFAULT_NO_SELECT;
+//selected Subject
 
 //this class inorder to check wether or not this field selected;
 class CreateCourseItem extends SelectableObject {
@@ -137,7 +139,7 @@ void resetEmptyCreateCourseScreen() {
   //reset use point input = null
   usePointController.clear();
   //clear list of extra images
-  extraImages = [''];
+  extraImages = [];
   //
   weekdays = [
     new Weekday('Mon', false),
@@ -163,3 +165,4 @@ TimeRange selectedTimeRange;
 int calculateNumberOfWeek(DateTimeRange range) {
   return (range.duration.inDays / 7).ceil();
 }
+

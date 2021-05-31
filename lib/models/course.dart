@@ -21,7 +21,7 @@ class Course {
   int confirmedBy;
   int maxTutee;
   String extraImages;
-  final String precondition;
+  String precondition;
 
   Course.fromJsonConstructor({
     this.id,

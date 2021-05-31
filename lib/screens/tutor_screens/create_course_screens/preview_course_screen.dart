@@ -8,6 +8,7 @@ import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/final_schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_processing_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
 import 'create_course_variables.dart' as vars;
@@ -76,20 +77,18 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: buildCourseDetailAppbar(context),
+      appBar: _buildCourseDetailAppbar(context),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: mainColor,
           onPressed: () {
             //show policy (how much this system take from tutor by commission rate)
-
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => CreateCourseProcessingScreen(
                   course: extendedCourse,
                   courseDetail: widget.courseDetail,
-
                 ),
               ),
             );
@@ -279,6 +278,48 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
             'Precondition',
             Icons.color_lens_outlined,
           ),
+          //schedule
+          buildDivider(),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => FinalScheduleScreen(
+                    listCourseDetail: widget.courseDetail,
+                  ),
+                ),
+              );
+            },
+            child: ListTile(
+              leading: Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                width: 43,
+                height: 43,
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.track_changes,
+                  color: Colors.red,
+                ),
+              ),
+              title: Text(
+                'Schedule',
+                style: TextStyle(
+                  fontSize: titleFontSize,
+                  color: textGreyColor,
+                ),
+              ),
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                color: textGreyColor,
+                size: 18,
+              ),
+            ),
+          ),
           buildDivider(),
           //description for this course
           buildcourseInformationListTile(
@@ -425,6 +466,36 @@ ListTile buildCourseInformationListTile(
               fontSize: titleFontSize,
               color: textGreyColor,
             ),
+    ),
+  );
+}
+
+//appbar with background image
+PreferredSize _buildCourseDetailAppbar(BuildContext context) {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(70),
+    child: AppBar(
+      elevation: 0.0,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/images/top-instructional-design-theories-models-next-elearning-course.jpg',
+              // fit: BoxFit.fitWidth,
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+          size: 20,
+        ),
+        onPressed: () => Navigator.pop(context),
+      ),
     ),
   );
 }

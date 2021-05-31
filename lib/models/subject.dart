@@ -5,6 +5,7 @@ class Subject {
   final String status;
 
   Subject({this.id, this.name, this.description, this.status});
+  Subject.constructor(this.id, this.name, this.description, this.status);
 
   factory Subject.fromJson(Map<String, dynamic> json) {
     return Subject(

@@ -296,7 +296,7 @@ class CourseRepository {
         headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
           <String, dynamic>{
-            'id': course.id,
+            'id': 0,
             'name': course.name,
             'beginTime': globals.defaultDatetime + 'T' + course.beginTime,
             'endTime': globals.defaultDatetime + 'T' + course.endTime,
@@ -311,7 +311,6 @@ class CourseRepository {
             'maxTutee': course.maxTutee,
             'location': course.location,
             'extraImages': course.extraImages,
-            // "learningOutcome": course.learningOutcome,
             "precondition": course.precondition,
           },
         ));
@@ -320,7 +319,7 @@ class CourseRepository {
         response.statusCode == 404) {
       return true;
     } else {
-      print('this is: ' + response.body + response.statusCode.toString());
+      print('this is course repository: ' + response.body + response.statusCode.toString());
       print(response.statusCode);
       throw Exception('Faild to post Course r nè Huy');
     }

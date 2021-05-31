@@ -5,12 +5,12 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/schedule_v2.dart';
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_variables.dart';
 
 List<String> week = [];
 
-class PreviewCourseSchedule extends StatefulWidget {
+class PreviewSchedule extends StatefulWidget {
   final List<CourseDetail> listSchedule;
   final List<String> listweek;
   final Subject subject;
@@ -18,20 +18,20 @@ class PreviewCourseSchedule extends StatefulWidget {
   final List<CourseDetail> listPlan;
   final List<CourseDetail> listOutcome;
 
-  const PreviewCourseSchedule(
+  const PreviewSchedule(
       {Key key,
       this.listSchedule,
       this.listweek,
-      this.subject,
+      @required this.subject,
       this.numOfWeek,
       this.listPlan,
       this.listOutcome})
       : super(key: key);
   @override
-  _PreviewCourseScheduleState createState() => _PreviewCourseScheduleState();
+  _PreviewScheduleState createState() => _PreviewScheduleState();
 }
 
-class _PreviewCourseScheduleState extends State<PreviewCourseSchedule> {
+class _PreviewScheduleState extends State<PreviewSchedule> {
   //
   @override
   Widget build(BuildContext context) {
@@ -69,6 +69,7 @@ class _PreviewCourseScheduleState extends State<PreviewCourseSchedule> {
                     }
                   }
                 }
+                print(widget.listweek.length);
                 if (widget.listweek.length < widget.numOfWeek) check = 0;
                 if (check == 0) {
                   showDialog(
@@ -86,12 +87,20 @@ class _PreviewCourseScheduleState extends State<PreviewCourseSchedule> {
                 } else {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => CreateCourseScreen(
-                              listCourseDetail: widget.listSchedule,
-                              selectedSubject: widget.subject,
-                              listWeek: widget.listweek,
-                            )),
+                    // MaterialPageRoute(
+                    //     builder: (context) => CreateCourseScreen(
+                    //           listCourseDetail: widget.listSchedule,
+                    //           selectedSubject: widget.subject,
+                    //           listWeek: widget.listweek,
+                    //         )),
+                     MaterialPageRoute(
+                        builder: (context) => CloneCourseScreen(
+                          course: course,
+                          listCourseDetail: widget.listSchedule,
+                          // selectedSubject: widget.subject,
+                          listPlan: widget.listPlan,
+                          listOutcome: widget.listOutcome,
+                        )),
                   );
                 }
               });
@@ -179,11 +188,12 @@ class _WeekState extends State<Week> {
           color: Colors.grey.withOpacity(.7),
           thickness: 1,
         ),
-        startChild: Text(widget.week,
-       style: TextStyle(
-                                fontSize: titleFontSize,
-                                color: Colors.black.withOpacity(.8),
-                              ),
+        startChild: Text(
+          widget.week,
+          style: TextStyle(
+            fontSize: titleFontSize,
+            color: Colors.black.withOpacity(.8),
+          ),
         ),
         endChild: Container(
             margin: EdgeInsets.only(top: 20, left: 15),
