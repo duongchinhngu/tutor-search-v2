@@ -41,6 +41,8 @@ class CreateCourseProcessingScreen extends StatelessWidget {
     print('===================');
     print(currentCourse.id);
     for (int i = 0; i < courseDetail.length; i++) {
+      print(courseDetail[i].schedule);
+      print(courseDetail[i].learningOutcome);
       await CourseDetailRepository()
           .postCourseDetail(courseDetail[i], currentCourse.id);
     }

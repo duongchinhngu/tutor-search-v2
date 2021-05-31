@@ -135,7 +135,7 @@ class _WeekState extends State<Week> {
                     Container(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(widget.courseDetail.schedule,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: textFontSize,
                             color: textGreyColor,
@@ -161,7 +161,7 @@ class _WeekState extends State<Week> {
                     Container(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(widget.courseDetail.learningOutcome,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: textFontSize,
                             color: textGreyColor,

@@ -179,7 +179,12 @@ class _WeekState extends State<Week> {
           color: Colors.grey.withOpacity(.7),
           thickness: 1,
         ),
-        startChild: Text(widget.week),
+        startChild: Text(widget.week,
+       style: TextStyle(
+                                fontSize: titleFontSize,
+                                color: Colors.black.withOpacity(.8),
+                              ),
+        ),
         endChild: Container(
             margin: EdgeInsets.only(top: 20, left: 15),
             child: Column(
@@ -189,28 +194,12 @@ class _WeekState extends State<Week> {
                 (index) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Container(
-                    //   child: Row(
-                    //     children: [
-                    //       Text('Plan: '),
-                    //       Text(listPlan[index].schedule)
-                    //     ],
-                    //   ),
-                    // ),
-                    // Container(
-                    //   child: Row(
-                    //     children: [
-                    //       Text('Outcome: '),
-                    //       Text(listPlan[index].learningOutcome),
-                    //     ],
-                    //   ),
-                    // ),
-                    //
                     Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
+                            margin: EdgeInsets.only(bottom: 10),
                             child: Text(
                               'Content',
                               style: TextStyle(
@@ -222,7 +211,7 @@ class _WeekState extends State<Week> {
                           Container(
                             padding: EdgeInsets.only(left: 10),
                             child: Text(listPlan[index].schedule,
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontSize: textFontSize,
                                   color: textGreyColor,
@@ -237,6 +226,7 @@ class _WeekState extends State<Week> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
+                            margin: EdgeInsets.only(bottom: 10),
                             child: Text(
                               'Outcome',
                               style: TextStyle(
@@ -248,7 +238,7 @@ class _WeekState extends State<Week> {
                           Container(
                             padding: EdgeInsets.only(left: 10),
                             child: Text(listPlan[index].learningOutcome,
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontSize: textFontSize,
                                   color: textGreyColor,
