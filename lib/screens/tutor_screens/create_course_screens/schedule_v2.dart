@@ -81,14 +81,18 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
             unselectedColor: Colors.grey.withOpacity(0.7),
           ),
           SingleChildScrollView(
-            child: Container(
-                width: 400,
-                margin: EdgeInsets.fromLTRB(90, 20, 90, 0),
-                child: Text('Study Plan - Week $weekIndex',
-                    style: TextStyle(
-                        color: textGreyColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20))),
+            child: Center(
+              child: Container(
+                  width: 400,
+                  margin: EdgeInsets.fromLTRB(90, 20, 90, 0),
+                  child: Center(
+                    child: Text('Study Plan - Week $weekIndex',
+                        style: TextStyle(
+                            color: textGreyColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20)),
+                  )),
+            ),
           ),
           buildBodyV2(),
         ],
@@ -182,12 +186,14 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                       String outcome = '';
                       for (int i = 0; i < listPlan.length; i++) {
                         if (listPlan[i].period == 'Week $weekIndex')
-                          plan = plan + listPlan[i].schedule + '\n';
+                          plan = plan + '-' + listPlan[i].schedule + '\n';
                       }
                       for (int i = 0; i < listOutcome.length; i++) {
                         if (listOutcome[i].period == 'Week $weekIndex')
-                          outcome =
-                              outcome + listOutcome[i].learningOutcome + '\n';
+                          outcome = outcome +
+                              '-' +
+                              listOutcome[i].learningOutcome +
+                              '\n';
                       }
                       CourseDetail newCourseDetail =
                           CourseDetail('Week $weekIndex', plan, outcome);
@@ -200,6 +206,8 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                             listweek: listWeek,
                             subject: widget.subject,
                             numOfWeek: widget.numberOfWeek,
+                            listPlan: listPlan,
+                            listOutcome: listOutcome,
                           ),
                         ),
                       );
@@ -276,11 +284,13 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                               String outcome = '';
                               for (int i = 0; i < listPlan.length; i++) {
                                 if (listPlan[i].period == 'Week $weekIndex')
-                                  plan = plan + listPlan[i].schedule + '\n';
+                                  plan =
+                                      plan + '-' + listPlan[i].schedule + '\n';
                               }
                               for (int i = 0; i < listOutcome.length; i++) {
                                 if (listOutcome[i].period == 'Week $weekIndex')
                                   outcome = outcome +
+                                      '-' +
                                       listOutcome[i].learningOutcome +
                                       '\n';
                               }
@@ -385,11 +395,12 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                             String outcome = '';
                             for (int i = 0; i < listPlan.length; i++) {
                               if (listPlan[i].period == 'Week $weekIndex')
-                                plan = plan + listPlan[i].schedule + '\n';
+                                plan = plan + '-' + listPlan[i].schedule + '\n';
                             }
                             for (int i = 0; i < listOutcome.length; i++) {
                               if (listOutcome[i].period == 'Week $weekIndex')
                                 outcome = outcome +
+                                    '-' +
                                     listOutcome[i].learningOutcome +
                                     '\n';
                             }
@@ -567,8 +578,9 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                                     //             fontSize: 20))),
                                     Container(
                                       width: 350,
-                                      height: 180,
-                                      padding: EdgeInsets.only(bottom: 10),
+                                      height: 210,
+                                      // padding: EdgeInsets.only(bottom: 10),
+
                                       margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
 
                                       decoration: BoxDecoration(
@@ -585,22 +597,44 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                                       ),
                                       // decoration:
                                       //     BoxDecoration(border: Border.all()),
-                                      child: _buildItemPlan(),
+                                      child: Column(
+                                        children: [
+                                          Center(
+                                            child: Container(
+                                                child: Text(
+                                              'Plan Content',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                color: textGreyColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            )),
+                                          ),
+                                          Container(
+                                              width: 350,
+                                              height: 170,
+                                              child: _buildItemPlan()),
+                                        ],
+                                      ),
                                     ),
                                     Center(
                                       child: Row(
                                         children: [
                                           Container(
                                               padding: EdgeInsets.fromLTRB(
-                                                  20, 0, 20, 0),
+                                                  40, 0, 20, 0),
                                               child: buildAddPlan(context)),
-                                          buildLearningOutcome(context)
+                                          Container(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  20, 0, 20, 0),
+                                              child:
+                                                  buildLearningOutcome(context))
                                         ],
                                       ),
                                     ),
                                     Container(
                                       width: 350,
-                                      height: 150,
+                                      height: 200,
                                       padding: EdgeInsets.only(bottom: 10),
                                       margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
                                       decoration: BoxDecoration(
@@ -615,88 +649,25 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                                           boxShadowStyle,
                                         ],
                                       ),
-                                      child: _buildItemOutcome(),
-                                      // child: Form(
-                                      //   child: SingleChildScrollView(
-                                      //     child: IgnorePointer(
-                                      //       ignoring: false,
-                                      //       ignoringSemantics: false,
-                                      //       child: Column(
-                                      //         children: [
-                                      //           // _buildTitle(),
-                                      //           Center(
-                                      //             child: Container(
-                                      //               margin: EdgeInsets.only(
-                                      //                   left: 0),
-                                      //               width: 310,
-                                      //               // decoration: BoxDecoration(border: Border.all()),
-                                      //               child: Text(
-                                      //                 'Learning Outcome',
-                                      //                 style: TextStyle(
-                                      //                     fontSize: 15,
-                                      //                     fontWeight:
-                                      //                         FontWeight.bold,
-                                      //                     color: mainColor),
-                                      //               ),
-                                      //             ),
-                                      //           ),
-                                      //           Container(
-                                      //             height: 150,
-                                      //             alignment: Alignment.center,
-                                      //             padding: EdgeInsets.only(
-                                      //                 top: 10, bottom: 0),
-                                      //             margin: EdgeInsets.symmetric(
-                                      //               horizontal: 20,
-                                      //             ),
-                                      //             child: TextFormField(
-                                      //               readOnly: isSending,
-                                      //               keyboardType:
-                                      //                   TextInputType.multiline,
-                                      //               expands: true,
-                                      //               maxLength: 500,
-                                      //               maxLines: null,
-                                      //               controller:
-                                      //                   learningOutcomeController,
-                                      //               textAlign: TextAlign.start,
-                                      //               decoration: InputDecoration(
-                                      //                 fillColor:
-                                      //                     Color(0xffF9F2F2),
-                                      //                 filled: true,
-                                      //                 focusedBorder:
-                                      //                     InputBorder.none,
-                                      //                 enabledBorder:
-                                      //                     OutlineInputBorder(
-                                      //                   borderRadius:
-                                      //                       BorderRadius
-                                      //                           .circular(10),
-                                      //                   borderSide:
-                                      //                       const BorderSide(
-                                      //                           color: Colors
-                                      //                               .transparent,
-                                      //                           width: 0.0),
-                                      //                 ),
-                                      //                 counter: Text(''),
-                                      //                 hintText:
-                                      //                     'Write the learning outcome of week $weekIndex...',
-                                      //                 hintStyle: TextStyle(
-                                      //                   color: Colors.grey[400],
-                                      //                   fontSize: textFontSize,
-                                      //                 ),
-                                      //               ),
-                                      //               validator:
-                                      //                   RequiredValidator(
-                                      //                       errorText:
-                                      //                           'is required'),
-                                      //             ),
-                                      //           ),
-                                      //           SizedBox(
-                                      //             height: 20,
-                                      //           ),
-                                      //         ],
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
+                                      child: Column(
+                                        children: [
+                                          Center(
+                                            child: Container(
+                                                child: Text(
+                                              'Outcome Content',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                color: textGreyColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            )),
+                                          ),
+                                          Container(
+                                              width: 350,
+                                              height: 170,
+                                              child: _buildItemOutcome()),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 )),
