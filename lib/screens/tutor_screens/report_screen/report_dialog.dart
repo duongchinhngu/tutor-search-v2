@@ -330,11 +330,11 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
                           Navigator.pop(context);
                           showCompletedDialog(context);
                           //
-                          await NotificationRepository()
-                              .postCreateCourseSuccessNotification(
-                                  'Tutor Report!',
-                                  'Have a new report from Tutor',
-                                  'datndse62825@fpt.edu.vn');
+                          // await NotificationRepository()
+                          //     .postCreateCourseSuccessNotification(
+                          //         'Tutor Report!',
+                          //         'Have a new report from Tutor',
+                          //         'datndse62825@fpt.edu.vn');
                         }
                       }
                     },

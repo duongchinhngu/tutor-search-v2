@@ -334,11 +334,11 @@ class _TuteeReportDialogState extends State<TuteeReportDialog> {
                           showCompletedDialog(context);
                           //
 
-                          await NotificationRepository()
-                              .postCreateCourseSuccessNotification(
-                                  'Tutee Report',
-                                  'Have a new report from Tutee',
-                                  'datndse62825@fpt.edu.vn');
+                          // await NotificationRepository()
+                          //     .postCreateCourseSuccessNotification(
+                          //         'Tutee Report',
+                          //         'Have a new report from Tutee',
+                          //         'datndse62825@fpt.edu.vn');
                         }
                       }
                     },
