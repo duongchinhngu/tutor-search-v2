@@ -12,7 +12,9 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutee_cubit.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
+import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
+import 'package:tutor_search_system/repositories/course_detail_repository.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
@@ -24,6 +26,7 @@ import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_d
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_variables.dart'
     as course_var;
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/edit_schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/course_tutee_screens/course_tutee_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/schedule_screen.dart';
@@ -592,15 +595,48 @@ PreferredSize buildCourseDetailAppbar(
             borderRadius: BorderRadius.circular(70),
           ),
           color: Colors.white.withOpacity(.4),
-          onPressed: () {
+          onPressed: () async {
+            //
             course.beginDate = globals.DEFAULT_NO_SELECT;
             course.endDate = globals.DEFAULT_NO_SELECT;
+            //
+            List<CourseDetail> listCourseDetail = await CourseDetailRepository()
+                .fetchScheduleByCourseId(course.id);
+            //number of weel for this course scheduleF
+            numberOfWeek = listCourseDetail.length;
+            //
+            if (listPlan.length == 0 || listOutcome.length == 0) {
+              //generate 2 list outcomes and plans
+              for (var courseDetail in listCourseDetail) {
+                //create plan list
+                List<String> planStrings =
+                    courseDetail.schedule.split('\n').toList();
+                planStrings.removeLast();
+                //
+                for (var planString in planStrings) {
+                  listPlan.add(
+                      new CourseDetail(courseDetail.period, planString, ''));
+                }
+                //create outcomes list
+                List<String> outcomeStrings =
+                    courseDetail.learningOutcome.split('\n').toList();
+                outcomeStrings.removeLast();
+                //
+                for (var outcomeString in outcomeStrings) {
+                  listOutcome.add(
+                      new CourseDetail(courseDetail.period, '', outcomeString));
+                }
+              }
+            }
             //
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => CloneCourseScreen(
                   course: course,
+                  listCourseDetail: listCourseDetail,
+                  listOutcome: listOutcome,
+                  listPlan: listPlan,
                 ),
               ),
             );

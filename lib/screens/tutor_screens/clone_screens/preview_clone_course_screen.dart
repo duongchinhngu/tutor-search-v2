@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
@@ -10,15 +11,16 @@ import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/final_schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_processing_screen.dart';
-import 'create_course_variables.dart' as vars;
+import 'clone_course_processing_screen.dart';
+import 'clone_course_variables.dart' as vars;
 
-class PreviewCourseScreen extends StatefulWidget {
+class PreviewCloneCourseScreen extends StatefulWidget {
   final Course course;
   final String subjectName;
   final String className;
   final String precondition;
   final List<CourseDetail> courseDetail;
-  const PreviewCourseScreen({
+  const PreviewCloneCourseScreen({
     Key key,
     @required this.course,
     @required this.subjectName,
@@ -28,10 +30,11 @@ class PreviewCourseScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PreviewCourseScreenState createState() => _PreviewCourseScreenState();
+  _PreviewCloneCourseScreenState createState() =>
+      _PreviewCloneCourseScreenState();
 }
 
-class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
+class _PreviewCloneCourseScreenState extends State<PreviewCloneCourseScreen> {
   ExtendedCourse extendedCourse;
   @override
   void initState() {
@@ -67,8 +70,6 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
         authorizedTutor.address,
         false,
         widget.course.maxTutee);
-    //
-    print('this is length: ' + widget.course.extraImages.length.toString());
     super.initState();
   }
 
@@ -85,7 +86,7 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CreateCourseProcessingScreen(
+                builder: (context) => CloneCourseProcessingScreen(
                   course: extendedCourse,
                   courseDetail: widget.courseDetail,
                 ),
@@ -349,41 +350,40 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
                   ),
                 ),
                 //
-                vars.extraImages.length != 1
+                vars.extraImages.length != 0
                     ? Wrap(
                         runAlignment: WrapAlignment.spaceBetween,
                         runSpacing: 5,
                         spacing: 5,
                         children:
                             List.generate(vars.extraImages.length, (index) {
-                          if (index != 0) {
-                            //view photo in fullscreen
-                            return InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FullScreenImage(
-                                      imageWidget: Image.file(
-                                        vars.extraImages[index],
-                                        fit: BoxFit.cover,
-                                      ),
+                          //view photo in fullscreen
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FullScreenImage(
+                                    imageWidget: Image.network(
+                                      vars.extraImages[index],
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                );
-                              },
-                              child: Container(
-                                height: 114,
-                                width: 114,
-                                child: Image.file(
-                                  vars.extraImages[index],
-                                  fit: BoxFit.cover,
                                 ),
+                              );
+                            },
+                            child: Container(
+                              height: 114,
+                              width: 114,
+                              child: CachedNetworkImage(
+                                imageUrl: vars.extraImages[index],
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
-                            );
-                          } else {
-                            return Container();
-                          }
+                            ),
+                          );
                         }),
                       )
                     : Text('No extra images')

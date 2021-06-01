@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/coursse_detail.dart';
@@ -10,32 +9,20 @@ import 'package:tutor_search_system/repositories/course_detail_repository.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/create_course_completed_screen.dart';
-import 'package:http/http.dart' as http;
-import 'create_course_variables.dart';
 
-class CreateCourseProcessingScreen extends StatelessWidget {
+import 'clone_course_variables.dart';
+
+class CloneCourseProcessingScreen extends StatelessWidget {
   final Course course;
   final List<CourseDetail> courseDetail;
 
-  const CreateCourseProcessingScreen({Key key, this.course, this.courseDetail})
+  const CloneCourseProcessingScreen({Key key, this.course, this.courseDetail})
       : super(key: key);
   //
   Future<bool> completeTutorPayment(Course course) async {
-    List<String> extraImagesTmp = [];
-    //post Image to DB
-    if (extraImages.length > 1) {
-      //remove ADD image icon File in default certification image list
-      extraImages.remove(extraImages.first);
-      //
-      for (var certitfication in extraImages) {
-        var imageUrl = await uploadFileOnFirebaseStorage(certitfication);
-        extraImagesTmp.add(imageUrl);
-      }
-    }
-    course.extraImages = extraImagesTmp.toString();
     //post course
     await CourseRepository().postCourse(course);
-
+    //
     ExtendedCourse currentCourse = await CourseRepository()
         .fetchCurrentCourseByTutorId(authorizedTutor.id);
     print('===================');
@@ -47,8 +34,8 @@ class CreateCourseProcessingScreen extends StatelessWidget {
           .postCourseDetail(courseDetail[i], currentCourse.id);
     }
 
-    String managerEmail = await CourseRepository()
-        .getManagerBySubjectId(http.Client(), course.classHasSubjectId);
+    // String managerEmail = await CourseRepository()
+    //     .getManagerBySubjectId(http.Client(), course.classHasSubjectId);
     //
     return Future.value(true);
   }
@@ -63,7 +50,7 @@ class CreateCourseProcessingScreen extends StatelessWidget {
         } else {
           if (snapshot.hasData == true) {
             //reset empty for all field in create course screen
-            resetEmptyCreateCourseScreen();
+            resetEmptyCloneCourseScreen();
             //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushAndRemoveUntil(

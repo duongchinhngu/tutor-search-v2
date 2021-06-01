@@ -15,7 +15,6 @@ import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
-import 'package:tutor_search_system/cubits/course_detail_cubit.dart';
 import 'package:tutor_search_system/models/class_has_subject.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/coursse_detail.dart';
@@ -23,7 +22,6 @@ import 'package:tutor_search_system/models/extended_models/extended_course.dart'
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
-import 'package:tutor_search_system/repositories/course_detail_repository.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
@@ -31,12 +29,10 @@ import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/course_schedule_screen.dart';
 import 'clone_course_variables.dart' as vars;
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/preview_course_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
 import 'package:tutor_search_system/states/class_state.dart';
-import 'package:tutor_search_system/states/course_detail_state.dart';
-
 import 'edit_schedule_screen.dart';
+import 'preview_clone_course_screen.dart';
 
 //create course UI;
 //this is main ui
@@ -79,9 +75,6 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
     //
     vars.course = widget.course;
     //
-    // vars.course.beginDate = globals.DEFAULT_NO_SELECT;
-    // vars.course.endDate = globals.DEFAULT_NO_SELECT;
-    //
     vars.selectedClassName = widget.course.className;
     vars.courseFeeController.text = widget.course.studyFee.toString();
     vars.courseDescriptionController.text = widget.course.description;
@@ -100,7 +93,6 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
     }
     //course precondition
     vars.preconditions = widget.course.precondition.split('\n');
-    vars.preconditions.removeLast();
     //
   }
 
@@ -880,163 +872,71 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                           height: 20,
                         ),
                         //add target button
-                        BlocProvider(
-                          create: (context) =>
-                              CourseDetailCubit(CourseDetailRepository()),
-                          child:
-                              BlocBuilder<CourseDetailCubit, CourseDetailState>(
-                            builder: (context, state) {
+                        GestureDetector(
+                          onTap: () {
+                            //set plan and calculate number of week if begin and end date were seleted
+                            if (vars.selectedDateRange != null) {
                               //
-                              final scheduleCubit =
-                                  context.watch<CourseDetailCubit>();
-                              scheduleCubit.getByCourseId(vars.course.id);
-                              //
-                              if (state is CourseDetailLoadingState) {
-                                return Container(
-                                  height: 40,
-                                  width: 180,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Loading',
-                                    style: TextStyle(
-                                      fontSize: titleFontSize,
-                                      color: Colors.redAccent,
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: Colors.redAccent),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                );
-                              } else if (state is CourseDetailLoadFailedState) {
-                                return Container(
-                                  height: 40,
-                                  width: 180,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Loading schedule failed..',
-                                    style: TextStyle(
-                                      fontSize: titleFontSize,
-                                      color: Colors.redAccent,
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: Colors.redAccent),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                );
-                              } else if (state is CourseDetailListLoadedState) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    //number of weel for this course scheduleF
-                                    int numberOfWeek =
-                                        state.listCourseDetail.length;
-                                    //
-                                    if (listPlan.length == 0 ||
-                                        listOutcome.length == 0) {
-                                      //generate 2 list outcomes and plans
-                                      for (var courseDetail
-                                          in state.listCourseDetail) {
-                                        //create plan list
-                                        List<String> planStrings = courseDetail
-                                            .schedule
-                                            .split('\n')
-                                            .toList();
-                                        planStrings.removeLast();
-                                        //
-                                        for (var planString in planStrings) {
-                                          listPlan.add(new CourseDetail(
-                                              courseDetail.period,
-                                              planString,
-                                              ''));
-                                        }
-                                        //create outcomes list
-                                        List<String> outcomeStrings =
-                                            courseDetail.learningOutcome
-                                                .split('\n')
-                                                .toList();
-                                        outcomeStrings.removeLast();
-                                        //
-                                        for (var outcomeString
-                                            in outcomeStrings) {
-                                          listOutcome.add(new CourseDetail(
-                                              courseDetail.period,
-                                              '',
-                                              outcomeString));
-                                        }
-                                      }
-                                    }
-                                    //
-                                    //set plan and calculate number of week if begin and end date were seleted
-                                    if (vars.selectedDateRange != null) {
-                                      //
-                                      for (int i = 1; i <= numberOfWeek; i++) {
-                                        listWeek.add('Week $i');
-                                        print(listWeek[i - 1]);
-                                      }
-                                      //navigator to show and edit schedule
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditScheduleScreen(
-                                            subject: Subject(
-                                              name: vars.selectedSubjectName,
-                                            ),
-                                            numberOfWeek: numberOfWeek,
-                                            outcome: listOutcome,
-                                            plan: listPlan,
-                                            weekList: listWeek,
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      //show alert when datetime is null
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          content: Text(
-                                              'Please choose begin and end date first!'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () async {
-                                                //
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(
-                                                'Ok',
-                                                style: TextStyle(
-                                                  color: mainColor,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 40,
-                                    width: 180,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Edit Schedule',
-                                      style: TextStyle(
-                                        fontSize: titleFontSize,
-                                        color: Colors.redAccent,
-                                      ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1, color: Colors.redAccent),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
-                                );
+                              for (int i = 1; i <= numberOfWeek; i++) {
+                                listWeek.add('Week $i');
+                                print(listWeek[i - 1]);
                               }
-                            },
+                              //navigator to show and edit schedule
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditScheduleScreen(
+                                    subject: Subject(
+                                      name: vars.selectedSubjectName,
+                                    ),
+                                    numberOfWeek: numberOfWeek,
+                                    outcome: listOutcome,
+                                    plan: listPlan,
+                                    weekList: listWeek,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              //show alert when datetime is null
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  content: Text(
+                                      'Please choose begin and end date first!'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () async {
+                                        //
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        'Ok',
+                                        style: TextStyle(
+                                          color: mainColor,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 180,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Edit Schedule',
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(width: 1, color: Colors.redAccent),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
                           ),
                         ),
                         //
@@ -1060,15 +960,15 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                     onTap: () {
                       //
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CourseScheduleScreen(
-                                    numberOfWeek: 13,
-                                  )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CourseScheduleScreen(
+                            numberOfWeek: 13,
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
-                      // width: 43,
-                      // height: 43,
                       child: Icon(
                         Icons.color_lens_outlined,
                         color: mainColor,
@@ -1661,7 +1561,7 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          vars.resetEmptyCreateCourseScreen();
+                          vars.resetEmptyCloneCourseScreen();
                           //
                           Navigator.pop(context);
                           Navigator.pop(context);
@@ -1707,28 +1607,41 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
               } else if (redundantCourse != null) {
                 //
                 showDialog(
-                    context: context,
-                    builder: (context) => buildDefaultDialog(
-                            context,
-                            "Invalid!",
-                            "Same study time with course named: " +
-                                redundantCourse.name,
-                            [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Ok'),
-                              ),
-                            ]));
+                  context: context,
+                  builder: (context) => buildDefaultDialog(
+                      context,
+                      "Invalid!",
+                      "Same study time with course named: " +
+                          redundantCourse.name,
+                      [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('Ok'),
+                        ),
+                      ]),
+                );
                 //
               } else {
                 //
                 vars.course.name = vars.courseNameController.text.trim();
+                //set extraimages
+                vars.course.extraImages = vars.extraImages.toString();
+                //set preconditions and remove the last \n
+                String precondition = '';
+                for (int i = 0; i < vars.preconditions.length; i++) {
+                  if (i != vars.preconditions.length - 1) {
+                    precondition = precondition + vars.preconditions[i] + '\n';
+                  } else {
+                    precondition = precondition + vars.preconditions[i];
+                  }
+                }
+                vars.course.precondition = precondition;
                 //
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => PreviewCourseScreen(
+                    builder: (context) => PreviewCloneCourseScreen(
                       courseDetail: widget.listCourseDetail,
                       precondition: vars.course.precondition,
                       course: vars.course,

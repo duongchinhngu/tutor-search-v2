@@ -92,7 +92,7 @@ void resetInputFields() {
 }
 
 //reset all field of create course screen; set = empty
-void resetEmptyCreateCourseScreen() {
+void resetEmptyCloneCourseScreen() {
   //reset to default values
   course = Course(
       0,
@@ -143,7 +143,7 @@ void resetEmptyCreateCourseScreen() {
   //
   weekdays = [
     new Weekday('Mon', false),
-    new Weekday('Tues', false),
+    new Weekday('Tue', false),
     new Weekday('Wed', false),
     new Weekday('Thu', false),
     new Weekday('Fri', false),

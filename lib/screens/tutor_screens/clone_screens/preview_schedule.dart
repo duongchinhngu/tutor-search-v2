@@ -49,9 +49,10 @@ class _PreviewScheduleState extends State<PreviewSchedule> {
                   list: widget.listSchedule,
                 ),
               )),
-          buildDoneButton(context),
+          // buildDoneButton(context),
         ],
       ),
+      floatingActionButton: buildDoneButton(context),
     );
   }
 
@@ -69,7 +70,6 @@ class _PreviewScheduleState extends State<PreviewSchedule> {
                     }
                   }
                 }
-                print(widget.listweek.length);
                 if (widget.listweek.length < widget.numOfWeek) check = 0;
                 if (check == 0) {
                   showDialog(
@@ -93,14 +93,14 @@ class _PreviewScheduleState extends State<PreviewSchedule> {
                     //           selectedSubject: widget.subject,
                     //           listWeek: widget.listweek,
                     //         )),
-                     MaterialPageRoute(
+                    MaterialPageRoute(
                         builder: (context) => CloneCourseScreen(
-                          course: course,
-                          listCourseDetail: widget.listSchedule,
-                          // selectedSubject: widget.subject,
-                          listPlan: widget.listPlan,
-                          listOutcome: widget.listOutcome,
-                        )),
+                              course: course,
+                              listCourseDetail: widget.listSchedule,
+                              // selectedSubject: widget.subject,
+                              listPlan: widget.listPlan,
+                              listOutcome: widget.listOutcome,
+                            )),
                   );
                 }
               });

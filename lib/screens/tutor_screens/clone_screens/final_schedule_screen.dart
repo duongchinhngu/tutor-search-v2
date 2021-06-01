@@ -19,6 +19,7 @@ class _FinalScheduleScreenState extends State<FinalScheduleScreen> {
     return Scaffold(
       appBar: _buildAppBar(),
       body: Container(
+        padding: EdgeInsets.only(top: 20),
         child: ListView.builder(
           itemCount: widget.listCourseDetail.length,
           itemBuilder: (context, index) => Week(

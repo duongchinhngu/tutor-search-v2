@@ -142,7 +142,7 @@ void resetEmptyCreateCourseScreen() {
   //
   weekdays = [
     new Weekday('Mon', false),
-    new Weekday('Tues', false),
+    new Weekday('Tue', false),
     new Weekday('Wed', false),
     new Weekday('Thu', false),
     new Weekday('Fri', false),
