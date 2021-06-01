@@ -190,13 +190,13 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                         if (listPlan[i].period == 'Week $weekIndex')
                           plan = plan + listPlan[i].schedule + '\n';
                       }
+                      plan = plan.substring(0, plan.length - 1);
                       for (int i = 0; i < listOutcome.length; i++) {
                         if (listOutcome[i].period == 'Week $weekIndex')
-                          outcome = outcome +
-                   
-                              listOutcome[i].learningOutcome +
-                              '\n';
+                          outcome =
+                              outcome + listOutcome[i].learningOutcome + '\n';
                       }
+                      outcome = outcome.substring(0, outcome.length - 1);
                       CourseDetail newCourseDetail =
                           CourseDetail('Week $weekIndex', plan, outcome);
                       listCourseDetail.add(newCourseDetail);
@@ -286,16 +286,17 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                               String outcome = '';
                               for (int i = 0; i < listPlan.length; i++) {
                                 if (listPlan[i].period == 'Week $weekIndex')
-                                  plan =
-                                      plan + listPlan[i].schedule + '\n';
+                                  plan = plan + listPlan[i].schedule + '\n';
                               }
+                              plan = plan.substring(0, plan.length - 1);
                               for (int i = 0; i < listOutcome.length; i++) {
                                 if (listOutcome[i].period == 'Week $weekIndex')
                                   outcome = outcome +
-                             
                                       listOutcome[i].learningOutcome +
                                       '\n';
                               }
+                              outcome =
+                                  outcome.substring(0, outcome.length - 1);
                               CourseDetail newCourseDetail = CourseDetail(
                                   'Week $weekIndex', plan, outcome);
                               listCourseDetail.add(newCourseDetail);
@@ -399,13 +400,14 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                               if (listPlan[i].period == 'Week $weekIndex')
                                 plan = plan + listPlan[i].schedule + '\n';
                             }
+                            plan = plan.substring(0, plan.length - 1);
                             for (int i = 0; i < listOutcome.length; i++) {
                               if (listOutcome[i].period == 'Week $weekIndex')
                                 outcome = outcome +
-            
                                     listOutcome[i].learningOutcome +
                                     '\n';
                             }
+                            outcome = outcome.substring(0, outcome.length - 1);
                             CourseDetail newCourseDetail =
                                 CourseDetail('Week $weekIndex', plan, outcome);
                             listCourseDetail.add(newCourseDetail);
@@ -813,6 +815,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                   onPressed: () {
                     setState(() {
                       listOutcome.remove(listOutcome[index]);
+                      Navigator.pop(context);
                     });
                   },
                 ),
@@ -1011,6 +1014,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                   onPressed: () {
                     setState(() {
                       listPlan.remove(listPlan[index]);
+                      Navigator.pop(context);
                     });
                   },
                 ),
