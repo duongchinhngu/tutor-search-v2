@@ -307,6 +307,26 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                                   child: Text('Ok'),
                                 ),
                               ]));
+                    } else if ((range.duration.inDays / 7).ceil() !=
+                        numberOfWeek) {
+                      //
+                      showDialog(
+                        context: context,
+                        builder: (context) => buildDefaultDialog(
+                            context,
+                            "Course duration and schedule does not match",
+                            "Course lasts within " +
+                                numberOfWeek.toString() +
+                                " week(s)",
+                            [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Ok'),
+                              ),
+                            ]),
+                      );
                     } else {
                       vars.selectedDateRange = range;
                       //set end and start date
