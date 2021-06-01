@@ -6,7 +6,6 @@ import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/schedule_v2.dart';
 
 List<String> week = [];
 

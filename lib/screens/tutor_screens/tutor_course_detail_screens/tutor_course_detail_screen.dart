@@ -11,7 +11,7 @@ import 'package:tutor_search_system/commons/notifications/notification_methods.d
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutee_cubit.dart';
-import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
@@ -558,7 +558,8 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
 }
 
 //appbar with background image
-PreferredSize buildCourseDetailAppbar(BuildContext context, ExtendedCourse course) {
+PreferredSize buildCourseDetailAppbar(
+    BuildContext context, ExtendedCourse course) {
   return PreferredSize(
     preferredSize: Size.fromHeight(70),
     child: AppBar(
@@ -588,15 +589,12 @@ PreferredSize buildCourseDetailAppbar(BuildContext context, ExtendedCourse cours
           height: 30,
           minWidth: 110,
           shape: RoundedRectangleBorder(
-            // side: BorderSide(
-            //   color: Colors.blue,
-            //   width: 1,
-            //   style: BorderStyle.solid,
-            // ),
             borderRadius: BorderRadius.circular(70),
           ),
           color: Colors.white.withOpacity(.4),
           onPressed: () {
+            course.beginDate = globals.DEFAULT_NO_SELECT;
+            course.endDate = globals.DEFAULT_NO_SELECT;
             //
             Navigator.push(
               context,

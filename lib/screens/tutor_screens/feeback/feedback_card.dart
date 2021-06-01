@@ -52,7 +52,7 @@ class FeedbackCard extends StatelessWidget {
                         Text(
                           feedbacks.subjectName + ' ' + feedbacks.className,
                           style: TextStyle(
-                              fontSize: headerFontSize, color: textGreyColor),
+                              fontSize: headerFontSize-2, color: textGreyColor),
                         ),
                       ],
                     ),

@@ -186,12 +186,11 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                       String outcome = '';
                       for (int i = 0; i < listPlan.length; i++) {
                         if (listPlan[i].period == 'Week $weekIndex')
-                          plan = plan + '-' + listPlan[i].schedule + '\n';
+                          plan = plan + listPlan[i].schedule + '\n';
                       }
                       for (int i = 0; i < listOutcome.length; i++) {
                         if (listOutcome[i].period == 'Week $weekIndex')
                           outcome = outcome +
-                              '-' +
                               listOutcome[i].learningOutcome +
                               '\n';
                       }
@@ -285,12 +284,11 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                               for (int i = 0; i < listPlan.length; i++) {
                                 if (listPlan[i].period == 'Week $weekIndex')
                                   plan =
-                                      plan + '-' + listPlan[i].schedule + '\n';
+                                      plan + listPlan[i].schedule + '\n';
                               }
                               for (int i = 0; i < listOutcome.length; i++) {
                                 if (listOutcome[i].period == 'Week $weekIndex')
                                   outcome = outcome +
-                                      '-' +
                                       listOutcome[i].learningOutcome +
                                       '\n';
                               }
@@ -395,12 +393,11 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                             String outcome = '';
                             for (int i = 0; i < listPlan.length; i++) {
                               if (listPlan[i].period == 'Week $weekIndex')
-                                plan = plan + '-' + listPlan[i].schedule + '\n';
+                                plan = plan + listPlan[i].schedule + '\n';
                             }
                             for (int i = 0; i < listOutcome.length; i++) {
                               if (listOutcome[i].period == 'Week $weekIndex')
                                 outcome = outcome +
-                                    '-' +
                                     listOutcome[i].learningOutcome +
                                     '\n';
                             }

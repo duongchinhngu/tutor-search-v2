@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 class TutorReportRepository {
   //post TutorReport
   Future postTutorReport(TutorReport tutorReport) async {
+    tutorReport.showAttributes(tutorReport);
     final http.Response response = await http.post(TUTOR_REPORT_API,
         headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(
@@ -23,9 +24,14 @@ class TutorReportRepository {
     if (response.statusCode == 201 ||
         response.statusCode == 204 ||
         response.statusCode == 404) {
+      print('this is TutorReport repository post success: ' +
+          response.body +
+          response.statusCode.toString());
       return true;
     } else {
-      print('this is: ' + response.body + response.statusCode.toString());
+      print('this is TutorReport repository post: ' +
+          response.body +
+          response.statusCode.toString());
       print(response.statusCode);
       throw Exception('Faild to post TutorReport');
     }

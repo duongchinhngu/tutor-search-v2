@@ -15,4 +15,11 @@ class TutorReport {
       this.tutorId,
       this.image,
       this.status});
+  void showAttributes(TutorReport t) {
+    print('thí í tutor report: ' + t.description);
+    print('thí í tutor report: ' + t.status);
+    print('thí í tutor report: ' + t.reportTypeId.toString());
+    print('thí í tutor report: ' + t.tutorId.toString());
+    print('thí í tutor report: ' + t.image.toString());
+  }
 }

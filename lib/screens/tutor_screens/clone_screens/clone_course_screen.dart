@@ -100,6 +100,7 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
     }
     //course precondition
     vars.preconditions = widget.course.precondition.split('\n');
+    vars.preconditions.removeLast();
     //
   }
 
@@ -1096,10 +1097,57 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                               title: Text(
                                 vars.preconditions[index],
                               ),
-                              trailing: Icon(
-                                Icons.more_vert_outlined,
-                                size: 25,
-                                color: Colors.red[300],
+                              trailing: PopupMenuButton(
+                                child: Icon(
+                                  Icons.more_vert_outlined,
+                                  size: 25,
+                                  color: Colors.red[300],
+                                ),
+                                itemBuilder: (context) {
+                                  return <PopupMenuItem>[
+                                    PopupMenuItem(
+                                      child: TextButton(
+                                        child: Text('Edit'),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          //
+                                          TextEditingController
+                                              preconditionController =
+                                              TextEditingController(
+                                                  text: vars
+                                                      .preconditions[index]);
+                                          GlobalKey<FormState> _formKey =
+                                              GlobalKey<FormState>();
+                                          //
+                                          _buildEditPreconoditionDialog(
+                                              context,
+                                              _formKey,
+                                              preconditionController,
+                                              index);
+                                        },
+                                      ),
+                                    ),
+                                    PopupMenuItem(
+                                      child: TextButton(
+                                        child: Text(
+                                          'Remove',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            color: Colors.red.withOpacity(.8),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          //
+                                          //remove
+                                          setState(() {
+                                            vars.preconditions.removeAt(index);
+                                          });
+                                        },
+                                      ),
+                                    )
+                                  ];
+                                },
                               ),
                             );
                           }),
@@ -1116,130 +1164,8 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                             GlobalKey<FormState> _formKey =
                                 GlobalKey<FormState>();
                             //
-                            showDialog(
-                                context: context,
-                                builder: (context) => Dialog(
-                                    backgroundColor: backgroundColor,
-                                    elevation: 1.0,
-                                    insetAnimationCurve: Curves.ease,
-                                    child: Form(
-                                      key: _formKey,
-                                      child: SingleChildScrollView(
-                                        child: Container(
-                                          height: 350,
-                                          width: 200,
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              //title
-                                              Container(
-                                                alignment: Alignment.centerLeft,
-                                                padding: EdgeInsets.only(
-                                                  left: 20,
-                                                ),
-                                                child: Text(
-                                                  'Precondition to join this course',
-                                                  style: titleStyle,
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                              ),
-                                              //text field
-                                              Container(
-                                                height: 200,
-                                                alignment: Alignment.center,
-                                                padding: EdgeInsets.only(
-                                                    right: 20, bottom: 20),
-                                                margin: EdgeInsets.only(
-                                                    left: 20,
-                                                    top: 20,
-                                                    bottom: 0),
-                                                child: TextFormField(
-                                                  keyboardType:
-                                                      TextInputType.multiline,
-                                                  expands: true,
-                                                  maxLength: 500,
-                                                  maxLines: null,
-                                                  controller:
-                                                      preconditionController,
-                                                  textAlign: TextAlign.start,
-                                                  onChanged: (context) {},
-                                                  decoration: InputDecoration(
-                                                    filled: true,
-                                                    focusedBorder:
-                                                        InputBorder.none,
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color: Colors
-                                                                  .transparent,
-                                                              width: 0.0),
-                                                    ),
-                                                    hintText:
-                                                        'What do tutee need to join your course!?',
-                                                    hintStyle: TextStyle(
-                                                      color: Colors.grey[400],
-                                                      fontSize: textFontSize,
-                                                    ),
-                                                  ),
-                                                  validator: RequiredValidator(
-                                                      errorText: 'is required'),
-                                                ),
-                                              ),
-                                              //actions
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  //Cancel
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text('Cancel',
-                                                        style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontSize:
-                                                              textFontSize + 1,
-                                                        )),
-                                                  ),
-                                                  //ok
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      //
-                                                      if (_formKey.currentState
-                                                          .validate()) {
-                                                        //
-                                                        setState(() {
-                                                          vars.preconditions.add(
-                                                              preconditionController
-                                                                  .text);
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }
-                                                    },
-                                                    child: Text(
-                                                      'Ok',
-                                                      style: TextStyle(
-                                                        color: mainColor,
-                                                        fontSize:
-                                                            textFontSize + 1,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    )));
+                            _buildAddPreconoditionDialog(
+                                context, _formKey, preconditionController);
                           },
                           child: Container(
                             height: 40,
@@ -1475,6 +1401,229 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
         ),
       ),
     );
+  }
+
+  //edit precondition dialog
+  Future<dynamic> _buildEditPreconoditionDialog(
+      BuildContext context,
+      GlobalKey<FormState> _formKey,
+      TextEditingController preconditionController,
+      int index) {
+    return showDialog(
+        context: context,
+        builder: (context) => Dialog(
+            backgroundColor: backgroundColor,
+            elevation: 1.0,
+            insetAnimationCurve: Curves.ease,
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Container(
+                  height: 350,
+                  width: 200,
+                  padding: EdgeInsets.only(left: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //title
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(
+                          left: 20,
+                        ),
+                        child: Text(
+                          'Precondition to join this course',
+                          style: titleStyle,
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      //text field
+                      Container(
+                        height: 200,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(right: 20, bottom: 20),
+                        margin: EdgeInsets.only(left: 20, top: 20, bottom: 0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          expands: true,
+                          maxLength: 500,
+                          maxLines: null,
+                          controller: preconditionController,
+                          textAlign: TextAlign.start,
+                          onChanged: (context) {},
+                          decoration: InputDecoration(
+                            filled: true,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Colors.transparent, width: 0.0),
+                            ),
+                            hintText:
+                                'What do tutee need to join your course!?',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: textFontSize,
+                            ),
+                          ),
+                          validator:
+                              RequiredValidator(errorText: 'is required'),
+                        ),
+                      ),
+                      //actions
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          //Cancel
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Cancel',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: textFontSize + 1,
+                                )),
+                          ),
+                          //ok
+                          TextButton(
+                            onPressed: () {
+                              //
+                              if (_formKey.currentState.validate()) {
+                                //
+                                setState(() {
+                                  vars.preconditions[index] =
+                                      preconditionController.text;
+                                });
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: Text(
+                              'Ok',
+                              style: TextStyle(
+                                color: mainColor,
+                                fontSize: textFontSize + 1,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )));
+  }
+
+  //add precondition dialog
+  Future<dynamic> _buildAddPreconoditionDialog(
+      BuildContext context,
+      GlobalKey<FormState> _formKey,
+      TextEditingController preconditionController) {
+    return showDialog(
+        context: context,
+        builder: (context) => Dialog(
+            backgroundColor: backgroundColor,
+            elevation: 1.0,
+            insetAnimationCurve: Curves.ease,
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Container(
+                  height: 350,
+                  width: 200,
+                  padding: EdgeInsets.only(left: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //title
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(
+                          left: 20,
+                        ),
+                        child: Text(
+                          'Precondition to join this course',
+                          style: titleStyle,
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      //text field
+                      Container(
+                        height: 200,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(right: 20, bottom: 20),
+                        margin: EdgeInsets.only(left: 20, top: 20, bottom: 0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          expands: true,
+                          maxLength: 500,
+                          maxLines: null,
+                          controller: preconditionController,
+                          textAlign: TextAlign.start,
+                          onChanged: (context) {},
+                          decoration: InputDecoration(
+                            filled: true,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Colors.transparent, width: 0.0),
+                            ),
+                            hintText:
+                                'What do tutee need to join your course!?',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: textFontSize,
+                            ),
+                          ),
+                          validator:
+                              RequiredValidator(errorText: 'is required'),
+                        ),
+                      ),
+                      //actions
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          //Cancel
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Cancel',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: textFontSize + 1,
+                                )),
+                          ),
+                          //ok
+                          TextButton(
+                            onPressed: () {
+                              //
+                              if (_formKey.currentState.validate()) {
+                                //
+                                setState(() {
+                                  vars.preconditions
+                                      .add(preconditionController.text);
+                                });
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: Text(
+                              'Ok',
+                              style: TextStyle(
+                                color: mainColor,
+                                fontSize: textFontSize + 1,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )));
   }
 
 //app bar
