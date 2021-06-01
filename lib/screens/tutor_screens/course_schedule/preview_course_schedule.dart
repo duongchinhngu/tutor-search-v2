@@ -36,21 +36,18 @@ class _PreviewCourseScheduleState extends State<PreviewCourseSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          Container(
-              width: double.infinity,
-              height: 500,
-              child: ListView.builder(
-                itemCount: widget.listweek.length,
-                itemBuilder: (context, index) => Week(
-                  week: widget.listweek[index],
-                  list: widget.listSchedule,
-                ),
-              )),
-          buildDoneButton(context),
-        ],
-      ),
+      body: Container(
+          // width: double.infinity,
+          // height: 500,
+          child: ListView.builder(
+        itemCount: widget.listweek.length,
+        itemBuilder: (context, index) => Week(
+          week: widget.listweek[index],
+          list: widget.listSchedule,
+        ),
+      )),
+      // buildDoneButton(context),
+      floatingActionButton: buildDoneButton(context),
     );
   }
 
@@ -178,11 +175,12 @@ class _WeekState extends State<Week> {
           color: Colors.grey.withOpacity(.7),
           thickness: 1,
         ),
-        startChild: Text(widget.week,
-       style: TextStyle(
-                                fontSize: titleFontSize,
-                                color: Colors.black.withOpacity(.8),
-                              ),
+        startChild: Text(
+          widget.week,
+          style: TextStyle(
+            fontSize: titleFontSize,
+            color: Colors.black.withOpacity(.8),
+          ),
         ),
         endChild: Container(
             margin: EdgeInsets.only(top: 20, left: 15),
