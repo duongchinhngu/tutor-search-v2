@@ -7,6 +7,8 @@ import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 
+import 'edit_schedule_screen.dart';
+
 //this is default course (when tutor does not choose fields for new course)
 //default value of unchosen field is "No Select"
 Course course = Course(
@@ -154,6 +156,11 @@ void resetEmptyCloneCourseScreen() {
   targets = [];
 //
   preconditions = [];
+  //
+  numberOfWeek = 0;
+  listCourseDetail = [];
+  listPlan = [];
+  listOutcome = [];
 }
 
 //default date range ( contains beginDate and endDate)
@@ -165,4 +172,3 @@ TimeRange selectedTimeRange;
 int calculateNumberOfWeek(DateTimeRange range) {
   return (range.duration.inDays / 7).ceil();
 }
-

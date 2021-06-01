@@ -37,21 +37,17 @@ class _PreviewScheduleState extends State<PreviewSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          Container(
-              width: double.infinity,
-              height: 500,
-              child: ListView.builder(
-                itemCount: widget.listweek.length,
-                itemBuilder: (context, index) => Week(
-                  week: widget.listweek[index],
-                  list: widget.listSchedule,
-                ),
-              )),
-          // buildDoneButton(context),
-        ],
-      ),
+      body: Container(
+          // width: double.infinity,
+          // height: 500,
+          child: ListView.builder(
+        itemCount: widget.listweek.length,
+        itemBuilder: (context, index) => Week(
+          week: widget.listweek[index],
+          list: widget.listSchedule,
+        ),
+      )),
+      // buildDoneButton(context),
       floatingActionButton: buildDoneButton(context),
     );
   }
