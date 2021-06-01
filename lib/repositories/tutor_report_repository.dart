@@ -22,8 +22,7 @@ class TutorReportRepository {
           },
         ));
     if (response.statusCode == 201 ||
-        response.statusCode == 204 ||
-        response.statusCode == 404) {
+        response.statusCode == 204 ) {
       print('this is TutorReport repository post success: ' +
           response.body +
           response.statusCode.toString());
