@@ -189,6 +189,9 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                         if (listPlan[i].period == 'Week $weekIndex')
                           plan = plan + listPlan[i].schedule + '\n';
                       }
+
+                      print('===========');
+                      print(plan.length);
                       plan = plan.substring(0, plan.length - 1);
                       for (int i = 0; i < listOutcome.length; i++) {
                         if (listOutcome[i].period == 'Week $weekIndex')
@@ -814,6 +817,7 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                   onPressed: () {
                     setState(() {
                       listOutcome.remove(listOutcome[index]);
+                      Navigator.pop(context);
                     });
                   },
                 ),
@@ -1012,6 +1016,7 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                   onPressed: () {
                     setState(() {
                       listPlan.remove(listPlan[index]);
+                      Navigator.pop(context);
                     });
                   },
                 ),
