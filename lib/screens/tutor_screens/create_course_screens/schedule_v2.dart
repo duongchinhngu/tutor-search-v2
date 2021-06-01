@@ -184,16 +184,18 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                     if (checkEmptyOutcome == false && checkEmptyPlan == false) {
                       String plan = '';
                       String outcome = '';
+
                       for (int i = 0; i < listPlan.length; i++) {
                         if (listPlan[i].period == 'Week $weekIndex')
                           plan = plan + listPlan[i].schedule + '\n';
                       }
+                      plan = plan.substring(0, plan.length - 1);
                       for (int i = 0; i < listOutcome.length; i++) {
                         if (listOutcome[i].period == 'Week $weekIndex')
-                          outcome = outcome +
-                              listOutcome[i].learningOutcome +
-                              '\n';
+                          outcome =
+                              outcome + listOutcome[i].learningOutcome + '\n';
                       }
+                      outcome = outcome.substring(0, outcome.length - 1);
                       CourseDetail newCourseDetail =
                           CourseDetail('Week $weekIndex', plan, outcome);
                       listCourseDetail.add(newCourseDetail);
@@ -283,15 +285,18 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                               String outcome = '';
                               for (int i = 0; i < listPlan.length; i++) {
                                 if (listPlan[i].period == 'Week $weekIndex')
-                                  plan =
-                                      plan + listPlan[i].schedule + '\n';
+                                  plan = plan + listPlan[i].schedule + '\n';
                               }
+                              plan = plan.substring(0, plan.length - 1);
+
                               for (int i = 0; i < listOutcome.length; i++) {
                                 if (listOutcome[i].period == 'Week $weekIndex')
                                   outcome = outcome +
                                       listOutcome[i].learningOutcome +
                                       '\n';
                               }
+                              outcome =
+                                  outcome.substring(0, outcome.length - 1);
                               CourseDetail newCourseDetail = CourseDetail(
                                   'Week $weekIndex', plan, outcome);
                               listCourseDetail.add(newCourseDetail);
@@ -395,12 +400,14 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                               if (listPlan[i].period == 'Week $weekIndex')
                                 plan = plan + listPlan[i].schedule + '\n';
                             }
+                            plan = plan.substring(0, plan.length - 1);
                             for (int i = 0; i < listOutcome.length; i++) {
                               if (listOutcome[i].period == 'Week $weekIndex')
                                 outcome = outcome +
                                     listOutcome[i].learningOutcome +
                                     '\n';
                             }
+                            outcome = outcome.substring(0, outcome.length - 1);
                             CourseDetail newCourseDetail =
                                 CourseDetail('Week $weekIndex', plan, outcome);
                             listCourseDetail.add(newCourseDetail);
@@ -616,10 +623,10 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                                     ),
                                     Container(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
                                         children: [
                                           Container(
-                                           
                                               child: buildAddPlan(context)),
                                           Container(
                                               // padding: EdgeInsets.fromLTRB(

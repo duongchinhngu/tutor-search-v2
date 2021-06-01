@@ -178,11 +178,12 @@ class _WeekState extends State<Week> {
           color: Colors.grey.withOpacity(.7),
           thickness: 1,
         ),
-        startChild: Text(widget.week,
-       style: TextStyle(
-                                fontSize: titleFontSize,
-                                color: Colors.black.withOpacity(.8),
-                              ),
+        startChild: Text(
+          widget.week,
+          style: TextStyle(
+            fontSize: titleFontSize,
+            color: Colors.black.withOpacity(.8),
+          ),
         ),
         endChild: Container(
             margin: EdgeInsets.only(top: 20, left: 15),

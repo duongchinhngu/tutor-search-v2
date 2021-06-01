@@ -1704,6 +1704,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 course.name = courseNameController.text.trim();
                 precondition = '';
                 for (int i = 0; i < preconditions.length; i++) {
+                  if (i == (preconditions.length - 1)) {
+                    precondition = precondition + preconditions[i];
+                  }
                   precondition = precondition + preconditions[i] + '\n';
                 }
                 //
