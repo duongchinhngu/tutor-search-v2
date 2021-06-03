@@ -24,16 +24,18 @@ import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_variables.dart'
-    as course_var;
+// import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_variables.dart'
+//     as course_var;
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/edit_schedule_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
+import 'package:tutor_search_system/screens/tutor_screens/update_course/edit_schedule_screen.dart'
+    as update_edit_schedule;
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/course_tutee_screens/course_tutee_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/schedule_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/update_course/update_course_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:tutor_search_system/states/tutee_state.dart';
-import 'package:tutor_search_system/commons/global_variables.dart' as globals;
+// import 'package:tutor_search_system/commons/global_variables.dart' as globals;
+    // as update_vars;
 
 class TutorCourseDetailScreen extends StatefulWidget {
   final int courseId;
@@ -95,6 +97,65 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
     );
   }
 
+  //floating action button for update course
+  FloatingActionButton buildUpdateButton(
+          BuildContext context, ExtendedCourse course) =>
+      FloatingActionButton.extended(
+        onPressed: () async {
+          //
+          List<CourseDetail> listCourseDetail =
+              await CourseDetailRepository().fetchScheduleByCourseId(course.id);
+          //number of weel for this course scheduleF
+          update_edit_schedule.numberOfWeek = listCourseDetail.length;
+          //
+          if (update_edit_schedule.listPlan.length == 0 ||
+              update_edit_schedule.listOutcome.length == 0) {
+            //generate 2 list outcomes and plans
+            for (var courseDetail in listCourseDetail) {
+              //create plan list
+              List<String> planStrings =
+                  courseDetail.schedule.split('\n').toList();
+              planStrings.removeLast();
+              //
+              for (var planString in planStrings) {
+                update_edit_schedule.listPlan
+                    .add(new CourseDetail(courseDetail.period, planString, ''));
+              }
+              //create outcomes list
+              List<String> outcomeStrings =
+                  courseDetail.learningOutcome.split('\n').toList();
+              outcomeStrings.removeLast();
+              //
+              for (var outcomeString in outcomeStrings) {
+                update_edit_schedule.listOutcome.add(
+                    new CourseDetail(courseDetail.period, '', outcomeString));
+              }
+            }
+          }
+          //
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UpdateCourseScreen(
+                course: course,
+                listCourseDetail: listCourseDetail,
+                listOutcome: update_edit_schedule.listOutcome,
+                listPlan: update_edit_schedule.listPlan,
+              ),
+            ),
+          );
+        },
+        label: Text(
+          'Update',
+          style: TextStyle(
+            fontSize: titleFontSize,
+            color: textWhiteColor,
+          ),
+        ),
+        isExtended: true,
+        backgroundColor: mainColor,
+      );
+
   // FloatingActionButton buildPayNowButton(
   //         BuildContext context, ExtendedCourse course) =>
   //     FloatingActionButton.extended(
@@ -134,10 +195,10 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: buildCourseDetailAppbar(context, course),
-      // floatingActionButton: Visibility(
-      //     visible:
-      //         course != null && course.status == CourseConstants.UNPAID_STATUS,
-      //     child: buildPayNowButton(context, course)),
+      floatingActionButton: Visibility(
+          visible:
+              course != null && course.status == CourseConstants.DENIED_STATUS,
+          child: buildUpdateButton(context, course)),
       body: Container(
         width: MediaQuery.of(context).size.width,
         child: ListView(
