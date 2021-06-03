@@ -1592,8 +1592,8 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
             print(vars.course.endDate);
             //check whether or nowt begin/end date and begin/end time cos bi trung khong
             //neu bi trung thi khong cho tao => inavalid
-            Course redundantCourse =
-                await CourseRepository().checkValidate(vars.course);
+            // Course redundantCourse =
+            //     await CourseRepository().checkValidate(vars.course);
             //
             if (formkey.currentState.validate()) {
               formkey.currentState.save();
@@ -1608,25 +1608,6 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                     context: context,
                     builder: (context) => buildAlertDialog(
                         context, 'There is an empty required field!'));
-              } else if (redundantCourse != null) {
-                //
-                showDialog(
-                  context: context,
-                  builder: (context) => buildDefaultDialog(
-                      context,
-                      "Invalid!",
-                      "Same study time with course named: " +
-                          redundantCourse.name,
-                      [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('Ok'),
-                        ),
-                      ]),
-                );
-                //
               } else if (widget.listCourseDetail.length <= 0) {
                 showDialog(
                     context: context,

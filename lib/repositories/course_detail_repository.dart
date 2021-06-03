@@ -66,4 +66,19 @@ class CourseDetailRepository {
       throw Exception('Failed to fetch schdeule by course Id');
     }
   }
+
+  //delete tutor update profile by id
+  Future<bool> deleteCourseDetail(int courseId) async {
+    final http.Response response = await http.delete(
+      Uri.parse('$COURSE_DETAIL_API/delete-by-course/$courseId'),
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+    );
+
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      print('Error body delte deleteCourseDetail: ' + response.body);
+      return false;
+    }
+  }
 }

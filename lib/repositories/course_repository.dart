@@ -349,7 +349,8 @@ class CourseRepository {
         'status': course.status,
         'maxTutee': course.maxTutee,
         'location': course.location,
-        'extraImages': course.extraImages
+        'extraImages': course.extraImages,
+        "precondition": course.precondition,
       }),
     );
     if (response.statusCode == 204) {

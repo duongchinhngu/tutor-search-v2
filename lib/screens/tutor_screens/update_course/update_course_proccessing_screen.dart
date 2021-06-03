@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/repositories/course_detail_repository.dart';
@@ -19,11 +20,14 @@ class UpdateCourseProcessingScreen extends StatelessWidget {
   Future<bool> updateCouse(
       Course course, List<CourseDetail> courseDetail) async {
     //put courses
+    course.status = StatusConstants.PENDING_STATUS;
     await CourseRepository().putCourse(course);
-    //put course details
+    //delete previous course detail
+    CourseDetailRepository().deleteCourseDetail(course.id);
+    //insert course details
     for (var d in courseDetail) {
       //
-      await CourseDetailRepository().putCourseDetail(d);
+      await CourseDetailRepository().postCourseDetail(d, course.id);
     }
     return Future.value(true);
   }
