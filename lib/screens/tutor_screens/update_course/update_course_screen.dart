@@ -1627,21 +1627,20 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                       ]),
                 );
                 //
-              } else if (listCourseDetail.length <= 0) {
+              } else if (widget.listCourseDetail.length <= 0) {
                 showDialog(
                     context: context,
                     builder: (context) => buildDefaultDialog(
                             context,
                             "Cannot Preview!",
-                            "Course must have the schedule and the preconditions for tutee",
-                            [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Ok'),
-                              ),
-                            ]));
+                            "Course must have the schedule", [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Ok'),
+                          ),
+                        ]));
               } else {
                 //
                 vars.course.name = vars.courseNameController.text.trim();

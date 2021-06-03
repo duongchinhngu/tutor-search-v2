@@ -4,6 +4,7 @@ import 'package:tutor_search_system/commons/notifications/notification_methods.d
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/tutor_transaction.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
 
 class TutorTransactonDetailScreen extends StatefulWidget {
   final TutorTransaction tuteeTransaction;
@@ -122,12 +123,35 @@ class _TutorTransactonDetailScreenState
                       color: textGreyColor,
                     ),
                   ),
-                  Text(
-                    widget.tuteeTransaction.courseName,
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: titleFontSize,
-                      decoration: TextDecoration.underline,
+                  // Text(
+                  //   widget.tuteeTransaction.courseName,
+                  //   style: TextStyle(
+                  //     color: Colors.blue,
+                  //     fontSize: titleFontSize,
+                  //     decoration: TextDecoration.underline,
+                  //   ),
+                  // ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TutorCourseDetailScreen(
+                            courseId: widget.tuteeTransaction.courseId,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      widget.tuteeTransaction.courseName,
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: titleFontSize,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ],
