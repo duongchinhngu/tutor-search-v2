@@ -26,13 +26,15 @@ class CourseScheduleScreenV2 extends StatefulWidget {
   final Subject subject;
   final List<CourseDetail> plan;
   final List<CourseDetail> outcome;
+  final List<CourseDetail> listSchedule;
 
   const CourseScheduleScreenV2(
       {Key key,
       @required this.numberOfWeek,
       this.subject,
       this.plan,
-      this.outcome})
+      this.outcome,
+      this.listSchedule})
       : super(key: key);
 
   @override
@@ -60,9 +62,12 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
       listOutcome = [];
       listPlan = [];
     }
-
+    if (widget.listSchedule != null || widget.listSchedule.length > 0) {
+      listCourseDetail = widget.listSchedule;
+    } else {
+      listCourseDetail = [];
+    }
     listWeek = [];
-    listCourseDetail = [];
     listWeek.add('Week $weekIndex');
     super.initState();
   }
@@ -414,6 +419,10 @@ class _CourseScheduleScreenV2State extends State<CourseScheduleScreenV2>
                             CourseDetail newCourseDetail =
                                 CourseDetail('Week $weekIndex', plan, outcome);
                             listCourseDetail.add(newCourseDetail);
+                            print('in ra lúc ở trang schedule V2 nè: ');
+                            print(listPlan.length);
+                            print('================================');
+                            print(listOutcome.length);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
