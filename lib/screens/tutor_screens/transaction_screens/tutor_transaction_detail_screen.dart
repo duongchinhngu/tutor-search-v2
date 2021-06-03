@@ -12,16 +12,19 @@ class TutorTransactonDetailScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _TutorTransactonDetailScreenState createState() => _TutorTransactonDetailScreenState();
+  _TutorTransactonDetailScreenState createState() =>
+      _TutorTransactonDetailScreenState();
 }
 
-class _TutorTransactonDetailScreenState extends State<TutorTransactonDetailScreen> {
+class _TutorTransactonDetailScreenState
+    extends State<TutorTransactonDetailScreen> {
   @override
   void initState() {
     registerOnFirebase();
     getMessage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     //
@@ -103,8 +106,33 @@ class _TutorTransactonDetailScreenState extends State<TutorTransactonDetailScree
               endIndent: 20,
             ),
             //transfer to tutor
-            buildInfoElement('Transaction Id', widget.tuteeTransaction.id.toString(),
-                defaultNormalStyle),
+            buildInfoElement('Transaction Id',
+                widget.tuteeTransaction.id.toString(), defaultNormalStyle),
+            //
+            Container(
+              height: 40,
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Course',
+                    style: TextStyle(
+                      fontSize: titleFontSize,
+                      color: textGreyColor,
+                    ),
+                  ),
+                  Text(
+                    widget.tuteeTransaction.courseName,
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: titleFontSize,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             //
             buildInfoElement(
               'Total Amount',
@@ -114,23 +142,33 @@ class _TutorTransactonDetailScreenState extends State<TutorTransactonDetailScree
             //amount
             buildInfoElement(
               'Amount',
-              widget.tuteeTransaction.amount.toString()+ ' vnd',
+              widget.tuteeTransaction.amount.toString() + ' vnd',
               defaultNormalStyle,
             ),
             //fee
-            buildInfoElement('Fee', widget.tuteeTransaction.feePrice.toString()+ ' vnd',
+            buildInfoElement(
+                'Fee',
+                widget.tuteeTransaction.feePrice.toString() + ' vnd',
                 defaultNormalStyle),
             //datetime
             buildInfoElement(
-                'Datetime', widget.tuteeTransaction.dateTime.substring(0,19).replaceFirst('T', ' '), defaultNormalStyle),
+                'Datetime',
+                widget.tuteeTransaction.dateTime
+                    .substring(0, 19)
+                    .replaceFirst('T', ' '),
+                defaultNormalStyle),
             //
             //// used point
             buildInfoElement(
-                'Used point(s)', widget.tuteeTransaction.usedPoints.toString(), defaultNormalStyle),
+                'Used point(s)',
+                widget.tuteeTransaction.usedPoints.toString(),
+                defaultNormalStyle),
             //
             // saved point
             buildInfoElement(
-                'Save point(s)', widget.tuteeTransaction.archievedPoints.toString(), defaultNormalStyle),
+                'Save point(s)',
+                widget.tuteeTransaction.archievedPoints.toString(),
+                defaultNormalStyle),
             //
             Divider(
               indent: 20,
