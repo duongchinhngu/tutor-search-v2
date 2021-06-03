@@ -906,6 +906,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                             subject: widget.selectedSubject,
                                             plan: [],
                                             outcome: [],
+                                            listSchedule: listCourseDetail,
                                           ),
                                         ),
                                       );
@@ -960,9 +961,17 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                     print(
                                         '=============================================');
                                     print(widget.listWeek.length);
+                                    print(widget.listPlan.length);
+                                    print(widget.listOutcome.length);
                                     //set plan and calculate number of week if begin and end date were seleted
                                     if (selectedDateRange != null) {
                                       //
+
+                                      List<CourseDetail> tmpListDetail = [];
+                                      if (widget.listCourseDetail != null) {
+                                        tmpListDetail = widget.listCourseDetail;
+                                      }
+
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -975,6 +984,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                                       widget.selectedSubject,
                                                   plan: widget.listPlan,
                                                   outcome: widget.listOutcome,
+                                                  listSchedule: tmpListDetail,
                                                 )),
                                       );
                                     } else {
@@ -1027,226 +1037,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                 ),
               ),
-              //condition to join this course
-              // Container(
-              //   // height: 200,
-              //   alignment: Alignment.center,
-              //   padding: EdgeInsets.only(right: 0, top: 20, bottom: 20),
-              //   margin: EdgeInsets.only(left: 0, top: 20, bottom: 0),
-              //   decoration: BoxDecoration(
-              //     color: backgroundColor,
-              //     boxShadow: [boxShadowStyle],
-              //   ),
-              //   child: ListTile(
-              //     leading: GestureDetector(
-              //       onTap: () {
-              //         //
-              //         Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //                 builder: (context) => CourseScheduleScreen(
-              //                       numberOfWeek: 13,
-              //                     )));
-              //       },
-              //       child: Container(
-              //         // width: 43,
-              //         // height: 43,
-              //         child: Icon(
-              //           Icons.color_lens_outlined,
-              //           color: mainColor,
-              //         ),
-              //       ),
-              //     ),
-              //     minLeadingWidth: 15,
-              //     title: Text(
-              //       'Precondition to learn this course',
-              //       style: titleStyle,
-              //     ),
-              //     subtitle: Container(
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           //
-              //           Column(
-              //             children:
-              //                 List.generate(preconditions.length, (index) {
-              //               return ListTile(
-              //                 leading: Icon(
-              //                   Icons.drag_handle,
-              //                   size: 25,
-              //                   color: Colors.red[300],
-              //                 ),
-              //                 title: Text(
-              //                   preconditions[index],
-              //                 ),
-              //                 trailing: Icon(
-              //                   Icons.more_vert_outlined,
-              //                   size: 25,
-              //                   color: Colors.red[300],
-              //                 ),
-              //               );
-              //             }),
-              //           ),
-              //           //
-              //           SizedBox(
-              //             height: 20,
-              //           ),
-              //           //add condition button
-              //           GestureDetector(
-              //             onTap: () {
-              //               TextEditingController preconditionController =
-              //                   TextEditingController();
-              //               GlobalKey<FormState> _formKey =
-              //                   GlobalKey<FormState>();
-              //               //
-              //               showDialog(
-              //                   context: context,
-              //                   builder: (context) => Dialog(
-              //                       backgroundColor: backgroundColor,
-              //                       elevation: 1.0,
-              //                       insetAnimationCurve: Curves.ease,
-              //                       child: Form(
-              //                         key: _formKey,
-              //                         child: SingleChildScrollView(
-              //                           child: Container(
-              //                             height: 350,
-              //                             width: 200,
-              //                             padding: EdgeInsets.only(left: 10),
-              //                             child: Column(
-              //                               mainAxisAlignment:
-              //                                   MainAxisAlignment.center,
-              //                               children: [
-              //                                 //title
-              //                                 Container(
-              //                                   alignment: Alignment.centerLeft,
-              //                                   padding: EdgeInsets.only(
-              //                                     left: 20,
-              //                                   ),
-              //                                   child: Text(
-              //                                     'Precondition to join this course',
-              //                                     style: titleStyle,
-              //                                     textAlign: TextAlign.left,
-              //                                   ),
-              //                                 ),
-              //                                 //text field
-              //                                 Container(
-              //                                   height: 200,
-              //                                   alignment: Alignment.center,
-              //                                   padding: EdgeInsets.only(
-              //                                       right: 20, bottom: 20),
-              //                                   margin: EdgeInsets.only(
-              //                                       left: 20,
-              //                                       top: 20,
-              //                                       bottom: 0),
-              //                                   child: TextFormField(
-              //                                     keyboardType:
-              //                                         TextInputType.multiline,
-              //                                     expands: true,
-              //                                     maxLength: 500,
-              //                                     maxLines: null,
-              //                                     controller:
-              //                                         preconditionController,
-              //                                     textAlign: TextAlign.start,
-              //                                     onChanged: (context) {},
-              //                                     decoration: InputDecoration(
-              //                                       filled: true,
-              //                                       focusedBorder:
-              //                                           InputBorder.none,
-              //                                       enabledBorder:
-              //                                           OutlineInputBorder(
-              //                                         borderRadius:
-              //                                             BorderRadius.circular(
-              //                                                 10),
-              //                                         borderSide:
-              //                                             const BorderSide(
-              //                                                 color: Colors
-              //                                                     .transparent,
-              //                                                 width: 0.0),
-              //                                       ),
-              //                                       hintText:
-              //                                           'What do tutee need to join your course!?',
-              //                                       hintStyle: TextStyle(
-              //                                         color: Colors.grey[400],
-              //                                         fontSize: textFontSize,
-              //                                       ),
-              //                                     ),
-              //                                     validator: RequiredValidator(
-              //                                         errorText: 'is required'),
-              //                                   ),
-              //                                 ),
-              //                                 //actions
-              //                                 Row(
-              //                                   mainAxisAlignment:
-              //                                       MainAxisAlignment
-              //                                           .spaceEvenly,
-              //                                   children: [
-              //                                     //Cancel
-              //                                     TextButton(
-              //                                       onPressed: () {
-              //                                         Navigator.pop(context);
-              //                                       },
-              //                                       child: Text('Cancel',
-              //                                           style: TextStyle(
-              //                                             color: Colors.red,
-              //                                             fontSize:
-              //                                                 textFontSize + 1,
-              //                                           )),
-              //                                     ),
-              //                                     //ok
-              //                                     TextButton(
-              //                                       onPressed: () {
-              //                                         //
-              //                                         if (_formKey.currentState
-              //                                             .validate()) {
-              //                                           //
-              //                                           setState(() {
-              //                                             preconditions.add(
-              //                                                 preconditionController
-              //                                                     .text);
-              //                                           });
-              //                                           Navigator.pop(context);
-              //                                         }
-              //                                       },
-              //                                       child: Text(
-              //                                         'Ok',
-              //                                         style: TextStyle(
-              //                                           color: mainColor,
-              //                                           fontSize:
-              //                                               textFontSize + 1,
-              //                                         ),
-              //                                       ),
-              //                                     )
-              //                                   ],
-              //                                 ),
-              //                               ],
-              //                             ),
-              //                           ),
-              //                         ),
-              //                       )));
-              //             },
-              //             child: Container(
-              //               height: 40,
-              //               width: 180,
-              //               alignment: Alignment.center,
-              //               child: Text(
-              //                 'Add condition',
-              //                 style: TextStyle(
-              //                   fontSize: titleFontSize,
-              //                   color: mainColor,
-              //                 ),
-              //               ),
-              //               decoration: BoxDecoration(
-              //                 border: Border.all(width: 1, color: mainColor),
-              //                 borderRadius: BorderRadius.circular(5),
-              //               ),
-              //             ),
-              //           ),
-              //           //
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
               //condition to join this course
               Container(
                 // height: 200,
@@ -1703,12 +1493,16 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 //
                 course.name = courseNameController.text.trim();
                 precondition = '';
+                print(preconditions.length);
                 for (int i = 0; i < preconditions.length; i++) {
                   if (i == (preconditions.length - 1)) {
                     precondition = precondition + preconditions[i];
+                  } else {
+                    precondition = precondition + preconditions[i] + '\n';
                   }
-                  precondition = precondition + preconditions[i] + '\n';
                 }
+                print('test precondition here=============');
+                print(precondition);
                 //
                 Navigator.of(context).push(
                   MaterialPageRoute(

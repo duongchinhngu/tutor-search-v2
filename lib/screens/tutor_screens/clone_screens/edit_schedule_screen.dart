@@ -30,6 +30,7 @@ class EditScheduleScreen extends StatefulWidget {
   final List<CourseDetail> plan;
   final List<CourseDetail> outcome;
   final List<String> weekList;
+  final List<CourseDetail> listSchedule;
 
   const EditScheduleScreen(
       {Key key,
@@ -37,7 +38,8 @@ class EditScheduleScreen extends StatefulWidget {
       @required this.subject,
       @required this.plan,
       @required this.outcome,
-      @required this.weekList})
+      @required this.weekList,
+      this.listSchedule})
       : super(key: key);
 
   @override
@@ -72,7 +74,11 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
       listWeek = [];
       listWeek.add('Week $weekIndex');
     }
-    listCourseDetail = [];
+    if (widget.listSchedule != null || widget.listSchedule.length > 0) {
+      listCourseDetail = widget.listSchedule;
+    } else {
+      listCourseDetail = [];
+    }
     print(widget.weekList.length);
     super.initState();
   }
