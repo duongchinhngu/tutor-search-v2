@@ -35,7 +35,7 @@ import 'package:tutor_search_system/screens/tutor_screens/update_course/update_c
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:tutor_search_system/states/tutee_state.dart';
 // import 'package:tutor_search_system/commons/global_variables.dart' as globals;
-    // as update_vars;
+// as update_vars;
 
 class TutorCourseDetailScreen extends StatefulWidget {
   final int courseId;
@@ -115,7 +115,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               //create plan list
               List<String> planStrings =
                   courseDetail.schedule.split('\n').toList();
-              planStrings.removeLast();
+              // planStrings.removeLast();
               //
               for (var planString in planStrings) {
                 update_edit_schedule.listPlan
@@ -124,7 +124,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               //create outcomes list
               List<String> outcomeStrings =
                   courseDetail.learningOutcome.split('\n').toList();
-              outcomeStrings.removeLast();
+              // outcomeStrings.removeLast();
               //
               for (var outcomeString in outcomeStrings) {
                 update_edit_schedule.listOutcome.add(
@@ -666,22 +666,37 @@ PreferredSize buildCourseDetailAppbar(
             //number of weel for this course scheduleF
             numberOfWeek = listCourseDetail.length;
             //
+            print("======= Test clone course screen ========");
+            print(listCourseDetail.length);
+            print('=========== plan');
+            print(listPlan.length);
+            print('=========== outcome');
+            print(listOutcome.length);
+            // for (var test in listCourseDetail) {
+            //   print(test.period);
+            //   print(test.schedule);
+            //   print(test.learningOutcome);
+            //   print('=============');
+            // }
+
             if (listPlan.length == 0 || listOutcome.length == 0) {
               //generate 2 list outcomes and plans
               for (var courseDetail in listCourseDetail) {
                 //create plan list
                 List<String> planStrings =
                     courseDetail.schedule.split('\n').toList();
-                planStrings.removeLast();
+                // planStrings.removeLast();
+
                 //
                 for (var planString in planStrings) {
                   listPlan.add(
                       new CourseDetail(courseDetail.period, planString, ''));
                 }
+
                 //create outcomes list
                 List<String> outcomeStrings =
                     courseDetail.learningOutcome.split('\n').toList();
-                outcomeStrings.removeLast();
+                // outcomeStrings.removeLast();
                 //
                 for (var outcomeString in outcomeStrings) {
                   listOutcome.add(
@@ -689,7 +704,9 @@ PreferredSize buildCourseDetailAppbar(
                 }
               }
             }
+
             //
+
             Navigator.push(
               context,
               MaterialPageRoute(
