@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/tutor_transaction.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/transaction_repository.dart';
@@ -14,9 +15,13 @@ import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_pa
 class TutorPaymentProccessingScreen extends StatefulWidget {
   final TutorTransaction tutorTransaction;
   final Course course;
+  final List<CourseDetail> courseDetails;
 
   const TutorPaymentProccessingScreen(
-      {Key key, @required this.tutorTransaction, @required this.course})
+      {Key key,
+      @required this.tutorTransaction,
+      @required this.course,
+      @required this.courseDetails})
       : super(key: key);
 
   @override

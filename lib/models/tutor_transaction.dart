@@ -7,6 +7,7 @@ class TutorTransaction extends Transaction {
   final int tutorId;
   final double feePrice;
   String feeName;
+  int courseId;
 
   TutorTransaction.modelConstructor(
       int id,
@@ -19,7 +20,8 @@ class TutorTransaction extends Transaction {
       this.archievedPoints,
       this.usedPoints,
       this.tutorId,
-      this.feePrice)
+      this.feePrice,
+      this.courseId)
       : super(id, dateTime, amount, totalAmount, description, status);
 
   TutorTransaction({
@@ -35,6 +37,7 @@ class TutorTransaction extends Transaction {
     this.feeId,
     this.feePrice,
     this.feeName,
+    this.courseId,
   }) : super(id, dateTime, amount, totalAmount, description, status);
 
   factory TutorTransaction.fromJson(Map<String, dynamic> json) {
@@ -51,6 +54,7 @@ class TutorTransaction extends Transaction {
       usedPoints: json['usedPoints'],
       feePrice: json['feePrice'].toDouble(),
       feeName: json['feeName'],
+      courseId: json['courseId'],
     );
   }
 }

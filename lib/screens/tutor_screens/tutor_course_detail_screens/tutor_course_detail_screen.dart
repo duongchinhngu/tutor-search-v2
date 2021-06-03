@@ -95,28 +95,28 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
     );
   }
 
-  FloatingActionButton buildPayNowButton(
-          BuildContext context, ExtendedCourse course) =>
-      FloatingActionButton.extended(
-        onPressed: () {
-          //
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TutorPaymentScreen(course: course),
-            ),
-          );
-        },
-        label: Text(
-          'Pay now',
-          style: TextStyle(
-            fontSize: titleFontSize,
-            color: textWhiteColor,
-          ),
-        ),
-        isExtended: true,
-        backgroundColor: mainColor,
-      );
+  // FloatingActionButton buildPayNowButton(
+  //         BuildContext context, ExtendedCourse course) =>
+  //     FloatingActionButton.extended(
+  //       onPressed: () {
+  //         //
+  //         Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //             builder: (context) => TutorPaymentScreen(course: course),
+  //           ),
+  //         );
+  //       },
+  //       label: Text(
+  //         'Pay now',
+  //         style: TextStyle(
+  //           fontSize: titleFontSize,
+  //           color: textWhiteColor,
+  //         ),
+  //       ),
+  //       isExtended: true,
+  //       backgroundColor: mainColor,
+  //     );
 
   //course detail body
   Widget buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
@@ -134,10 +134,10 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: buildCourseDetailAppbar(context, course),
-      floatingActionButton: Visibility(
-          visible:
-              course != null && course.status == CourseConstants.UNPAID_STATUS,
-          child: buildPayNowButton(context, course)),
+      // floatingActionButton: Visibility(
+      //     visible:
+      //         course != null && course.status == CourseConstants.UNPAID_STATUS,
+      //     child: buildPayNowButton(context, course)),
       body: Container(
         width: MediaQuery.of(context).size.width,
         child: ListView(

@@ -10,6 +10,7 @@ import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/final_schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_processing_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'create_course_variables.dart' as vars;
 
 class PreviewCourseScreen extends StatefulWidget {
@@ -81,11 +82,21 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: mainColor,
           onPressed: () {
-            //show policy (how much this system take from tutor by commission rate)
+            // //show policy (how much this system take from tutor by commission rate)
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => CreateCourseProcessingScreen(
+            //       course: extendedCourse,
+            //       courseDetail: widget.courseDetail,
+            //     ),
+            //   ),
+            // );
+            //pay fee to create course
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CreateCourseProcessingScreen(
+                builder: (context) => TutorPaymentScreen(
                   course: extendedCourse,
                   courseDetail: widget.courseDetail,
                 ),

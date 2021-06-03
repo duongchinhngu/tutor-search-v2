@@ -56,6 +56,7 @@ class TransactionRepository {
             'archievedPoints': tutorTransaction.archievedPoints,
             'usedPoints': tutorTransaction.usedPoints,
             'feePrice': tutorTransaction.feePrice,
+            'courseId': tutorTransaction.courseId
           },
         ));
     if (response.statusCode == 201 ||

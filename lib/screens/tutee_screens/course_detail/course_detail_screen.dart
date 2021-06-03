@@ -850,28 +850,28 @@ FloatingActionButton buildReportButton(
         isExtended: true,
         backgroundColor: Colors.red);
 
-FloatingActionButton buildPayNowButton(
-        BuildContext context, ExtendedCourse course) =>
-    FloatingActionButton.extended(
-      onPressed: () {
-        //
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => TuteePaymentScreen(course: course, enrollment: widg,),
-        //   ),
-        // );
-      },
-      label: Text(
-        'Pay now',
-        style: TextStyle(
-          fontSize: titleFontSize,
-          color: textWhiteColor,
-        ),
-      ),
-      isExtended: true,
-      backgroundColor: mainColor,
-    );
+// FloatingActionButton buildPayNowButton(
+//         BuildContext context, ExtendedCourse course) =>
+//     FloatingActionButton.extended(
+//       onPressed: () {
+//         //
+//         // Navigator.push(
+//         //   context,
+//         //   MaterialPageRoute(
+//         //     builder: (context) => TuteePaymentScreen(course: course, enrollment: widg,),
+//         //   ),
+//         // );
+//       },
+//       label: Text(
+//         'Pay now',
+//         style: TextStyle(
+//           fontSize: titleFontSize,
+//           color: textWhiteColor,
+//         ),
+//       ),
+//       isExtended: true,
+//       backgroundColor: mainColor,
+//     );
 
 //course infortion listtitle
 ListTile buildCourseInformationListTile(

@@ -7,6 +7,7 @@ import 'package:tutor_search_system/commons/notifications/notification_methods.d
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/fee_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_method.dart'
     as payment_methods;
@@ -19,8 +20,9 @@ TextEditingController usePointController = TextEditingController();
 //
 class TutorPaymentScreen extends StatefulWidget {
   final Course course;
+  final List<CourseDetail>  courseDetail;
 
-  const TutorPaymentScreen({Key key, @required this.course}) : super(key: key);
+  const TutorPaymentScreen({Key key, @required this.course, @required this.courseDetail}) : super(key: key);
   @override
   _TutorPaymentScreenState createState() => _TutorPaymentScreenState();
 }
@@ -159,7 +161,7 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
                                   ),
                                   trailing: Text(
                                     state is FeeLoadedState
-                                        ? '\$' + state.fee.price.toString()
+                                        ? state.fee.price.toString() + " vnd"
                                         : 'Loading..',
                                     style: textStyle,
                                   ),
@@ -259,7 +261,7 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
           style: TextStyle(color: Colors.grey[400]),
         ),
         trailing: Text(
-          '\$$totalAmount',
+          '$totalAmount vnd',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black87,
@@ -282,7 +284,7 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
           if (validatePoint(totalAmount, usedPoint)) {
             //post Tutor Transaction
             payment_methods.checkOutTutorPayment(
-                context, widget.course, totalAmount, usedPoint, state.fee);
+                context, widget.course, widget.courseDetail, totalAmount, usedPoint, state.fee);
           }
         }
       },
@@ -323,7 +325,7 @@ class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '\$$totalAmount',
+                  '$totalAmount vnd',
                   style: TextStyle(
                     fontSize: headerFontSize,
                     fontWeight: FontWeight.bold,
