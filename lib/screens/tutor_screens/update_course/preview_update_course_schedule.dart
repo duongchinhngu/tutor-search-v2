@@ -5,8 +5,9 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
-import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_variables.dart';
+import 'package:tutor_search_system/screens/tutor_screens/update_course/update_course_variables.dart'
+    as vars;
+import 'package:tutor_search_system/screens/tutor_screens/update_course/update_course_screen.dart';
 
 List<String> week = [];
 
@@ -92,8 +93,8 @@ class _PreviewUpdateCourseScheduleState
                     //           listWeek: widget.listweek,
                     //         )),
                     MaterialPageRoute(
-                        builder: (context) => CloneCourseScreen(
-                              course: course,
+                        builder: (context) => UpdateCourseScreen(
+                              course: vars.course,
                               listCourseDetail: widget.listSchedule,
                               // selectedSubject: widget.subject,
                               listPlan: widget.listPlan,

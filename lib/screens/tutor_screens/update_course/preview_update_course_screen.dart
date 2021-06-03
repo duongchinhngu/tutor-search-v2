@@ -11,6 +11,7 @@ import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/final_schedule_screen.dart';
 import 'update_course_variables.dart' as vars;
+import 'update_course_proccessing_screen.dart';
 
 class PreviewUpdateCourseScreen extends StatefulWidget {
   final Course course;
@@ -36,6 +37,7 @@ class _PreviewUpdateCourseScreenState extends State<PreviewUpdateCourseScreen> {
   ExtendedCourse extendedCourse;
   @override
   void initState() {
+    
     //
     extendedCourse = ExtendedCourse(
         widget.course.id,
@@ -80,11 +82,16 @@ class _PreviewUpdateCourseScreenState extends State<PreviewUpdateCourseScreen> {
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: mainColor,
           onPressed: () {
+            print('thí is precondition: ' +  widget.precondition);
             //show policy (how much this system take from tutor by commission rate)
+            print('this is course pre: ' + extendedCourse.precondition);
+            for (var i in widget.courseDetail) {
+              i.showAttributes(i);
+            }
             // Navigator.push(
             //   context,
             //   MaterialPageRoute(
-            //     builder: (context) => CloneCourseProcessingScreen(
+            //     builder: (context) => UpdateCourseProcessingScreen(
             //       course: extendedCourse,
             //       courseDetail: widget.courseDetail,
             //     ),

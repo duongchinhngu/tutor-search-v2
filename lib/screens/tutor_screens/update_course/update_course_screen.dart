@@ -1565,7 +1565,7 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          vars.resetEmptyCloneCourseScreen();
+                          vars.resetEmptyUpdateCourseScreen();
                           //
                           Navigator.pop(context);
                           Navigator.pop(context);

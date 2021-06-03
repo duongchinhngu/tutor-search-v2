@@ -94,7 +94,7 @@ void resetInputFields() {
 }
 
 //reset all field of create course screen; set = empty
-void resetEmptyCloneCourseScreen() {
+void resetEmptyUpdateCourseScreen() {
   //reset to default values
   course = Course(
       0,

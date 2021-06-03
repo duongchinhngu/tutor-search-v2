@@ -22,7 +22,7 @@ GlobalKey<FormState> formKey = GlobalKey<FormState>();
 List<CourseDetail> listCourseDetail = [];
 List<CourseDetail> listPlan = [];
 List<CourseDetail> listOutcome = [];
-CourseDetail courseDetail = CourseDetail('', '', '');
+CourseDetail courseDetail = CourseDetail('', '', '', 0, 0);
 
 class EditScheduleScreen extends StatefulWidget {
   final int numberOfWeek;
@@ -204,7 +204,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                       }
                       outcome = outcome.substring(0, outcome.length - 1);
                       CourseDetail newCourseDetail =
-                          CourseDetail('Week $weekIndex', plan, outcome);
+                          CourseDetail('Week $weekIndex', plan, outcome, 0, 0);
                       listCourseDetail.add(newCourseDetail);
                       Navigator.push(
                         context,
@@ -304,7 +304,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                               outcome =
                                   outcome.substring(0, outcome.length - 1);
                               CourseDetail newCourseDetail = CourseDetail(
-                                  'Week $weekIndex', plan, outcome);
+                                  'Week $weekIndex', plan, outcome, 0, 0);
                               listCourseDetail.add(newCourseDetail);
                               weekIndex += 1;
                               //set for page view index
@@ -414,8 +414,8 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                                     '\n';
                             }
                             outcome = outcome.substring(0, outcome.length - 1);
-                            CourseDetail newCourseDetail =
-                                CourseDetail('Week $weekIndex', plan, outcome);
+                            CourseDetail newCourseDetail = CourseDetail(
+                                'Week $weekIndex', plan, outcome, 0, 0);
                             listCourseDetail.add(newCourseDetail);
                             print('this is subject: ' + widget.subject.name);
                             Navigator.push(

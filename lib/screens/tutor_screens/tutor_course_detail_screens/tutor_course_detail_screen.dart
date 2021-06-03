@@ -118,8 +118,8 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               // planStrings.removeLast();
               //
               for (var planString in planStrings) {
-                update_edit_schedule.listPlan
-                    .add(new CourseDetail(courseDetail.period, planString, ''));
+                update_edit_schedule.listPlan.add(new CourseDetail(
+                    courseDetail.period, planString, '', 0, 0));
               }
               //create outcomes list
               List<String> outcomeStrings =
@@ -127,8 +127,8 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
               // outcomeStrings.removeLast();
               //
               for (var outcomeString in outcomeStrings) {
-                update_edit_schedule.listOutcome.add(
-                    new CourseDetail(courseDetail.period, '', outcomeString));
+                update_edit_schedule.listOutcome.add(new CourseDetail(
+                    courseDetail.period, '', outcomeString, 0, 0));
               }
             }
           }
@@ -689,8 +689,8 @@ PreferredSize buildCourseDetailAppbar(
 
                 //
                 for (var planString in planStrings) {
-                  listPlan.add(
-                      new CourseDetail(courseDetail.period, planString, ''));
+                  listPlan.add(new CourseDetail(
+                      courseDetail.period, planString, '', 0, 0));
                 }
 
                 //create outcomes list
@@ -699,8 +699,8 @@ PreferredSize buildCourseDetailAppbar(
                 // outcomeStrings.removeLast();
                 //
                 for (var outcomeString in outcomeStrings) {
-                  listOutcome.add(
-                      new CourseDetail(courseDetail.period, '', outcomeString));
+                  listOutcome.add(new CourseDetail(
+                      courseDetail.period, '', outcomeString, 0, 0));
                 }
               }
             }
