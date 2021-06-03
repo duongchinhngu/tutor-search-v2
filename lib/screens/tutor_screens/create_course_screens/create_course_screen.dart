@@ -57,7 +57,15 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   @override
   void initState() {
     //
-    courseNameController.text = widget.selectedSubject.name;
+    print(widget.selectedSubject.name);
+    print(selectedClassName);
+    courseNameController.text = '';
+    if (selectedClassName != 'No select') {
+      courseNameController.text =
+          widget.selectedSubject.name + ' ' + selectedClassName;
+    } else {
+      courseNameController.text = widget.selectedSubject.name;
+    }
     //
     registerOnFirebase();
     getMessage(context);
