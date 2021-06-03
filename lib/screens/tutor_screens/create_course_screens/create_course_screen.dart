@@ -1481,8 +1481,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                               ),
                             ]));
                 //
-              } else if (listCourseDetail.length <= 0 ||
-                  preconditions.length <= 0) {
+              } else if (listCourseDetail.length <= 0) {
                 showDialog(
                     context: context,
                     builder: (context) => buildDefaultDialog(
