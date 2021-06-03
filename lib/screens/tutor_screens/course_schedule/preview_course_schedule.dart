@@ -87,6 +87,8 @@ class _PreviewCourseScheduleState extends State<PreviewCourseSchedule> {
                               listCourseDetail: widget.listSchedule,
                               selectedSubject: widget.subject,
                               listWeek: widget.listweek,
+                              listPlan: widget.listPlan,
+                              listOutcome: widget.listOutcome,
                             )),
                   );
                 }

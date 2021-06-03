@@ -901,6 +901,11 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                                 listWeek.add('Week $i');
                                 print(listWeek[i - 1]);
                               }
+
+                              List<CourseDetail> tmpListDetail = [];
+                              if (widget.listCourseDetail != null) {
+                                tmpListDetail = widget.listCourseDetail;
+                              }
                               //navigator to show and edit schedule
                               Navigator.push(
                                 context,
@@ -913,6 +918,7 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                                     outcome: listOutcome,
                                     plan: listPlan,
                                     weekList: listWeek,
+                                    listSchedule: tmpListDetail,
                                   ),
                                 ),
                               );
