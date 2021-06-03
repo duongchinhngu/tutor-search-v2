@@ -24,6 +24,7 @@ class _TutorTransactionScreenState extends State<TutorTransactionScreen> {
     getMessage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +143,8 @@ class _TutorTransactionScreenState extends State<TutorTransactionScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    state.tutorTransactions[index].feeName,
+                    // state.tutorTransactions[index].feeName,
+                    state.tutorTransactions[index].courseName,
                     style: TextStyle(
                         fontSize: titleFontSize,
                         color: Color(0xff04046D),
