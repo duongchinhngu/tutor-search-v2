@@ -3,10 +3,8 @@ import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/common_model.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:tutor_search_system/models/course.dart';
-import 'package:tutor_search_system/models/coursse_detail.dart';
+import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_payment_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_days_ui.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
-
 import 'edit_schedule_screen.dart';
 
 //this is default course (when tutor does not choose fields for new course)
@@ -161,6 +159,7 @@ void resetEmptyCloneCourseScreen() {
   listCourseDetail = [];
   listPlan = [];
   listOutcome = [];
+  //
 }
 
 //default date range ( contains beginDate and endDate)

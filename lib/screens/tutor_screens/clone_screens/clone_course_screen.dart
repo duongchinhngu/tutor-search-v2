@@ -224,11 +224,11 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                                   color: textGreyColor,
                                 ),
                               ),
-                              Icon(
-                                Icons.edit,
-                                size: 20,
-                                color: mainColor,
-                              )
+                              // Icon(
+                              //   Icons.edit,
+                              //   size: 20,
+                              //   color: mainColor,
+                              // )
                             ],
                           ),
                         ),

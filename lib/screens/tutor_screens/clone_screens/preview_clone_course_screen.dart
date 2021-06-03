@@ -11,7 +11,7 @@ import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/final_schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_processing_screen.dart';
-import 'clone_course_processing_screen.dart';
+import 'clone_payment_screen.dart';
 import 'clone_course_variables.dart' as vars;
 
 class PreviewCloneCourseScreen extends StatefulWidget {
@@ -86,7 +86,7 @@ class _PreviewCloneCourseScreenState extends State<PreviewCloneCourseScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CloneCourseProcessingScreen(
+                builder: (context) => CloneCoursePaymentScreen(
                   course: extendedCourse,
                   courseDetail: widget.courseDetail,
                 ),
