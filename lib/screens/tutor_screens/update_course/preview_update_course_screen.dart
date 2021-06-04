@@ -81,7 +81,7 @@ class _PreviewUpdateCourseScreenState extends State<PreviewUpdateCourseScreen> {
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: mainColor,
           onPressed: () {
-            // print('thí is precondition: ' +  widget.precondition);
+            // print('thí is precondition: ' + widget.precondition);
             // //show policy (how much this system take from tutor by commission rate)
             // print('this is course pre: ' + extendedCourse.precondition);
             // for (var i in widget.courseDetail) {

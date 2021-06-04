@@ -357,6 +357,7 @@ class TuteeInformation extends StatelessWidget {
                                                         .putEnrollment(
                                                             state.enrollment);
                                                 if (result) {
+                                                  Navigator.pop(context);
                                                   //show done message after done update course
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(

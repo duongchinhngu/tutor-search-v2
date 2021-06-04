@@ -7,8 +7,9 @@ import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/repositories/course_detail_repository.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/create_course_completed_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_course/update_course_variables.dart';
+
+import 'course_updated_screen.dart';
 
 class UpdateCourseProcessingScreen extends StatelessWidget {
   final Course course;
@@ -23,7 +24,7 @@ class UpdateCourseProcessingScreen extends StatelessWidget {
     course.status = StatusConstants.PENDING_STATUS;
     await CourseRepository().putCourse(course);
     //delete previous course detail
-    CourseDetailRepository().deleteCourseDetail(course.id);
+    await CourseDetailRepository().deleteCourseDetail(course.id);
     //insert course details
     for (var d in courseDetail) {
       //
@@ -47,7 +48,7 @@ class UpdateCourseProcessingScreen extends StatelessWidget {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                    builder: (context) => CreateCourseCompletedScreen()),
+                    builder: (context) => CourseUpdatedScreen()),
                 ModalRoute.withName('/Home'),
               );
             });
