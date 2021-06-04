@@ -66,9 +66,12 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
     //
     registerOnFirebase();
     getMessage(context);
+
     listWeek = [];
     print(widget.listCourseDetail.length);
-    if (widget.listCourseDetail.length > 0) {
+    if (widget.listCourseDetail.length > 0 &&
+        (quantitySessionController.text == '' ||
+            quantitySessionController.text == null)) {
       quantitySessionController.text =
           widget.listCourseDetail.length.toString();
     }
@@ -932,13 +935,17 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                                 //set plan and calculate number of week if begin and end date were seleted
                                 // if (vars.selectedDateRange != null) {
                                 //
-                                for (int i = 1;
-                                    i <= widget.listCourseDetail.length;
-                                    i++) {
-                                  listWeek.add('Session $i');
-                                  print(listWeek[i - 1]);
+                                listWeek = [];
+                                if (listWeek.length == 0) {
+                                  for (int i = 1;
+                                      i <=
+                                          int.parse(
+                                              quantitySessionController.text);
+                                      i++) {
+                                    listWeek.add('Session $i');
+                                    print(listWeek[i - 1]);
+                                  }
                                 }
-
                                 List<CourseDetail> tmpListDetail = [];
                                 if (widget.listCourseDetail != null) {
                                   tmpListDetail = widget.listCourseDetail;
