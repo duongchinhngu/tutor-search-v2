@@ -38,9 +38,9 @@ TextEditingController quantitySessionController = TextEditingController();
 //this is main ui
 // ignore: must_be_immutable
 class CreateCourseScreen extends StatefulWidget {
-  final Subject selectedSubject;
+  Subject selectedSubject;
   List<CourseDetail> listCourseDetail;
-  final List<String> listWeek;
+  List<String> listWeek;
   List<CourseDetail> listPlan;
   List<CourseDetail> listOutcome;
 
@@ -946,13 +946,19 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              //set plan and calculate number of week if begin and end date were seleted
-                                              // if (selectedDateRange != null) {
+                                          onTap: () async {
+                                            //set plan and calculate number of week if begin and end date were seleted
+                                            if (quantitySessionController
+                                                        .text !=
+                                                    '' &&
+                                                int.parse(
+                                                        quantitySessionController
+                                                            .text) !=
+                                                    0) {
                                               listCourseDetail = [];
                                               //
-                                              Navigator.push(
+                                              bool isFromConfirmSchedule =
+                                                  await Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
@@ -972,33 +978,56 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                                   ),
                                                 ),
                                               );
-                                              // } else {
-                                              //   //show alert when datetime is null
-                                              //   showDialog(
-                                              //     context: context,
-                                              //     builder: (context) =>
-                                              //         AlertDialog(
-                                              //       content: Text(
-                                              //           'Please choose begin and end date first!'),
-                                              //       actions: [
-                                              //         TextButton(
-                                              //           onPressed: () async {
-                                              //             //
-                                              //             Navigator.pop(
-                                              //                 context);
-                                              //           },
-                                              //           child: Text(
-                                              //             'Ok',
-                                              //             style: TextStyle(
-                                              //               color: mainColor,
-                                              //             ),
-                                              //           ),
-                                              //         )
-                                              //       ],
-                                              //     ),
-                                              //   );
-                                              // }
-                                            });
+                                              //
+                                              if (isFromConfirmSchedule) {
+                                                setState(() {
+                                                  // widget.course =
+                                                  //     tmp_variables.course;
+                                                  widget.listCourseDetail =
+                                                      tmp_variables
+                                                          .listSchedule;
+                                                  widget.listOutcome =
+                                                      tmp_variables.listOutcome;
+                                                  widget.listPlan =
+                                                      tmp_variables.listPlan;
+                                                  widget.listWeek =
+                                                      tmp_variables.listweek;
+                                                  widget.selectedSubject =
+                                                      tmp_variables
+                                                          .selectedSubject;
+                                                });
+                                                for (var i in widget
+                                                    .listCourseDetail) {
+                                                  print(
+                                                      'thhis is lít schedule');
+                                                  i.showAttributes(i);
+                                                }
+                                              }
+                                            } else {
+                                              //show alert when datetime is null
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                  content: Text(
+                                                      'Quantity of session must be greater than 0'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        //
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                        'Ok',
+                                                        style: TextStyle(
+                                                          color: mainColor,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              );
+                                            }
                                           },
                                           child: Container(
                                             margin: const EdgeInsets.fromLTRB(
@@ -1092,6 +1121,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                                   listSchedule: tmpListDetail,
                                                 )),
                                       );
+                                      //
+                                      print('this is is confim schedule: ' +
+                                          isFromConfirmSchedule.toString());
                                       if (isFromConfirmSchedule) {
                                         setState(() {
                                           // widget.course =
@@ -1102,32 +1134,16 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                               tmp_variables.listOutcome;
                                           widget.listPlan =
                                               tmp_variables.listPlan;
+                                          widget.listWeek =
+                                              tmp_variables.listweek;
+                                          widget.selectedSubject =
+                                              tmp_variables.selectedSubject;
                                         });
+                                        for (var i in widget.listCourseDetail) {
+                                          print('thhis is lít schedule');
+                                          i.showAttributes(i);
+                                        }
                                       }
-                                      // } else {
-                                      //   //show alert when datetime is null
-                                      //   showDialog(
-                                      //     context: context,
-                                      //     builder: (context) => AlertDialog(
-                                      //       content: Text(
-                                      //           'Please choose begin and end date first!'),
-                                      //       actions: [
-                                      //         TextButton(
-                                      //           onPressed: () async {
-                                      //             //
-                                      //             Navigator.pop(context);
-                                      //           },
-                                      //           child: Text(
-                                      //             'Ok',
-                                      //             style: TextStyle(
-                                      //               color: mainColor,
-                                      //             ),
-                                      //           ),
-                                      //         )
-                                      //       ],
-                                      //     ),
-                                      //   );
-                                      // }
                                     },
                                     child: Container(
                                       height: 40,

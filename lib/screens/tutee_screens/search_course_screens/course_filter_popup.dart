@@ -28,6 +28,7 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
     getMessage(context);
     super.initState();
   }
+
   //set end and begin time ui
   void setBeginAndEndTime(TimeRange timeRange) {
     //set start time if not null
@@ -126,8 +127,9 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                     filter.filterDistance = FilterDistance(3.0, 6.0);
                   } else if (selectedValue == distanceRange3.content) {
                     filter.filterDistance = FilterDistance(6.0, 10.0);
-                  }else if (selectedValue == distanceRange4.content) {
-                    filter.filterDistance = FilterDistance(10.0, double.infinity);
+                  } else if (selectedValue == distanceRange4.content) {
+                    filter.filterDistance =
+                        FilterDistance(10.0, double.infinity);
                   }
                 });
               },
@@ -139,11 +141,11 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
               filter.filterStudyFee != null,
               'Study Fee',
               filter.filterStudyFee != null
-                  ? 
-                      filter.filterStudyFee.from.toString() + ' vnd' +
+                  ? filter.filterStudyFee.from.toString() +
+                      ' vnd' +
                       ' - ' +
-                      
-                      filter.filterStudyFee.to.toString() + ' vnd'
+                      filter.filterStudyFee.to.toString() +
+                      ' vnd'
                   : '',
               () async {
                 //navigator to new page from right to left
@@ -163,7 +165,8 @@ class _CourseFilterPopupState extends State<CourseFilterPopup> {
                   } else if (selectedValue == feeRangeContent2) {
                     filter.filterStudyFee = FilterStudyFee(50000, 100000);
                   } else if (selectedValue == feeRangeContent3) {
-                    filter.filterStudyFee = FilterStudyFee(100000, double.infinity);
+                    filter.filterStudyFee =
+                        FilterStudyFee(100000, double.infinity);
                   }
                 });
               },
