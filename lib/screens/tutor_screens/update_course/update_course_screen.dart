@@ -67,7 +67,10 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
     registerOnFirebase();
     getMessage(context);
     listWeek = [];
-    if (widget.listCourseDetail.length > 0) {
+    print(widget.listCourseDetail.length);
+    if (widget.listCourseDetail.length > 0 &&
+        (quantitySessionController.text == '' ||
+            quantitySessionController.text == null)) {
       quantitySessionController.text =
           widget.listCourseDetail.length.toString();
     }
@@ -907,7 +910,7 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                                 controller: quantitySessionController,
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.start,
-                                readOnly: true,
+                                // readOnly: true,
                                 decoration: InputDecoration(
                                   labelText: 'Quantity of session',
                                   labelStyle: textStyle,
@@ -931,9 +934,18 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                             GestureDetector(
                               onTap: () {
                                 //set plan and calculate number of week if begin and end date were seleted
-                                for (int i = 1; i <= numberOfWeek; i++) {
-                                  listWeek.add('Session $i');
-                                  print(listWeek[i - 1]);
+                                listWeek = [];
+                                print('test list week');
+                                print(listWeek.length);
+                                if (listWeek.length == 0) {
+                                  for (int i = 1;
+                                      i <=
+                                          int.parse(
+                                              quantitySessionController.text);
+                                      i++) {
+                                    listWeek.add('Session $i');
+                                    print(listWeek[i - 1]);
+                                  }
                                 }
 
                                 List<CourseDetail> tmpListDetail = [];

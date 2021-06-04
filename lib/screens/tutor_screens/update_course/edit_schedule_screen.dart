@@ -77,7 +77,9 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
     } else {
       listCourseDetail = [];
     }
+
     print(widget.weekList.length);
+    print('====================');
     super.initState();
   }
 
