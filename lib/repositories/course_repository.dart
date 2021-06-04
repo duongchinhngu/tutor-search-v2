@@ -19,6 +19,7 @@ class CourseRepository {
       http.Client client, String currentAddress) async {
     final tuteeId = globals.authorizedTutee.id;
     final String currentLocation = currentAddress;
+    print('thisis tutee home url: $TUTEE_HOME_COURSES/$tuteeId');
     final response = await http.get(
       '$TUTEE_HOME_COURSES/$tuteeId',
       headers: await AuthorizationContants().getAuthorizeHeader(),
@@ -319,7 +320,9 @@ class CourseRepository {
         response.statusCode == 404) {
       return true;
     } else {
-      print('this is course repository: ' + response.body + response.statusCode.toString());
+      print('this is course repository: ' +
+          response.body +
+          response.statusCode.toString());
       print(response.statusCode);
       throw Exception('Faild to post Course r nè Huy');
     }
