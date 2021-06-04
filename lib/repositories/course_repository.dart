@@ -20,7 +20,7 @@ class CourseRepository {
     final tuteeId = globals.authorizedTutee.id;
     final String currentLocation = currentAddress;
     final response = await http.get(
-      '$TUTEE_HOME_COURSES/$tuteeId/$currentLocation',
+      '$TUTEE_HOME_COURSES/$tuteeId',
       headers: await AuthorizationContants().getAuthorizeHeader(),
     );
     if (response.statusCode == 200) {
@@ -52,7 +52,7 @@ class CourseRepository {
     // final String currentLocation = await getCurrentLocation();
     final String currentLocation = currentAddress;
     //host url
-    String url = '$FILTER_COURSE_API/$currentLocation/filter?';
+    String url = '$COURSE_API/tutor/filter?';
     //query parameters
     Map<String, String> queryParams = {
       'subjectId': filter.filterSubject.id.toString(),
