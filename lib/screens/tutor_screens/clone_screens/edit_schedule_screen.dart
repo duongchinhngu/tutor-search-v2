@@ -72,7 +72,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
       listWeek = widget.weekList;
     } else {
       listWeek = [];
-      listWeek.add('Week $weekIndex');
+      listWeek.add('Session $weekIndex');
     }
     if (widget.listSchedule != null || widget.listSchedule.length > 0) {
       listCourseDetail = widget.listSchedule;
@@ -102,7 +102,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                   width: 400,
                   margin: EdgeInsets.fromLTRB(90, 20, 90, 0),
                   child: Center(
-                    child: Text('Study Plan - Week $weekIndex',
+                    child: Text('Study Plan - Session $weekIndex',
                         style: TextStyle(
                             color: textGreyColor,
                             fontWeight: FontWeight.bold,
@@ -158,7 +158,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
               child: FlatButton.icon(
                 onPressed: () {
                   for (int i = 0; i < listCourseDetail.length; i++) {
-                    if (listCourseDetail[i].period == 'Week $weekIndex') {
+                    if (listCourseDetail[i].period == 'Session $weekIndex') {
                       listCourseDetail.remove(listCourseDetail[i]);
                     }
                   }
@@ -168,7 +168,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                         builder: (context) => buildDefaultDialog(
                                 context,
                                 'Cannot Preview',
-                                'All week must be filled the plan and the learning outcome!',
+                                'All session must be filled the plan and the learning outcome!',
                                 [
                                   ElevatedButton(
                                       onPressed: () {
@@ -180,12 +180,12 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                     bool checkEmptyPlan = true;
                     bool checkEmptyOutcome = true;
                     for (int i = 0; i < listPlan.length; i++) {
-                      if (listPlan[i].period == 'Week $weekIndex') {
+                      if (listPlan[i].period == 'Session $weekIndex') {
                         checkEmptyPlan = false;
                       }
                     }
                     for (int i = 0; i < listOutcome.length; i++) {
-                      if (listOutcome[i].period == 'Week $weekIndex') {
+                      if (listOutcome[i].period == 'Session $weekIndex') {
                         checkEmptyOutcome = false;
                       }
                     }
@@ -193,18 +193,18 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                       String plan = '';
                       String outcome = '';
                       for (int i = 0; i < listPlan.length; i++) {
-                        if (listPlan[i].period == 'Week $weekIndex')
+                        if (listPlan[i].period == 'Session $weekIndex')
                           plan = plan + listPlan[i].schedule + '\n';
                       }
                       plan = plan.substring(0, plan.length - 1);
                       for (int i = 0; i < listOutcome.length; i++) {
-                        if (listOutcome[i].period == 'Week $weekIndex')
+                        if (listOutcome[i].period == 'Session $weekIndex')
                           outcome =
                               outcome + listOutcome[i].learningOutcome + '\n';
                       }
                       outcome = outcome.substring(0, outcome.length - 1);
-                      CourseDetail newCourseDetail =
-                          CourseDetail('Week $weekIndex', plan, outcome, 0, 0);
+                      CourseDetail newCourseDetail = CourseDetail(
+                          'Session $weekIndex', plan, outcome, 0, 0);
                       listCourseDetail.add(newCourseDetail);
                       Navigator.push(
                         context,
@@ -225,7 +225,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                           builder: (context) => buildDefaultDialog(
                                   context,
                                   'Cannot Preview',
-                                  'All week must be filled the plan and the learning outcome!',
+                                  'All session must be filled the plan and the learning outcome!',
                                   [
                                     ElevatedButton(
                                         onPressed: () {
@@ -270,19 +270,20 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                             //set for progress indicator
                             for (int i = 0; i < listCourseDetail.length; i++) {
                               if (listCourseDetail[i].period ==
-                                  'Week $weekIndex') {
+                                  'Session $weekIndex') {
                                 listCourseDetail.remove(listCourseDetail[i]);
                               }
                             }
                             bool checkEmptyPlan = true;
                             bool checkEmptyOutcome = true;
                             for (int i = 0; i < listPlan.length; i++) {
-                              if (listPlan[i].period == 'Week $weekIndex') {
+                              if (listPlan[i].period == 'Session $weekIndex') {
                                 checkEmptyPlan = false;
                               }
                             }
                             for (int i = 0; i < listOutcome.length; i++) {
-                              if (listOutcome[i].period == 'Week $weekIndex') {
+                              if (listOutcome[i].period ==
+                                  'Session $weekIndex') {
                                 checkEmptyOutcome = false;
                               }
                             }
@@ -291,12 +292,13 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                               String plan = '';
                               String outcome = '';
                               for (int i = 0; i < listPlan.length; i++) {
-                                if (listPlan[i].period == 'Week $weekIndex')
+                                if (listPlan[i].period == 'Session $weekIndex')
                                   plan = plan + listPlan[i].schedule + '\n';
                               }
                               plan = plan.substring(0, plan.length - 1);
                               for (int i = 0; i < listOutcome.length; i++) {
-                                if (listOutcome[i].period == 'Week $weekIndex')
+                                if (listOutcome[i].period ==
+                                    'Session $weekIndex')
                                   outcome = outcome +
                                       listOutcome[i].learningOutcome +
                                       '\n';
@@ -304,18 +306,18 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                               outcome =
                                   outcome.substring(0, outcome.length - 1);
                               CourseDetail newCourseDetail = CourseDetail(
-                                  'Week $weekIndex', plan, outcome, 0, 0);
+                                  'Session $weekIndex', plan, outcome, 0, 0);
                               listCourseDetail.add(newCourseDetail);
                               weekIndex += 1;
                               //set for page view index
                               bool dup = false;
                               for (int i = 0; i < listWeek.length; i++) {
-                                if (listWeek[i] == 'Week $weekIndex') {
+                                if (listWeek[i] == 'Session $weekIndex') {
                                   dup = true;
                                 }
                               }
                               if (dup == false) {
-                                listWeek.add('Week $weekIndex');
+                                listWeek.add('Session $weekIndex');
                               }
                               selectedPageIndex += 1;
                             } else {
@@ -324,7 +326,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                                   builder: (context) => buildDefaultDialog(
                                           context,
                                           'Cannot Next',
-                                          'All week must be filled the plan and the learning outcome!',
+                                          'All session must be filled the plan and the learning outcome!',
                                           [
                                             ElevatedButton(
                                                 onPressed: () {
@@ -367,7 +369,8 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                     child: FlatButton.icon(
                       onPressed: () {
                         for (int i = 0; i < listCourseDetail.length; i++) {
-                          if (listCourseDetail[i].period == 'Week $weekIndex') {
+                          if (listCourseDetail[i].period ==
+                              'Session $weekIndex') {
                             listCourseDetail.remove(listCourseDetail[i]);
                           }
                         }
@@ -377,7 +380,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                               builder: (context) => buildDefaultDialog(
                                       context,
                                       'Cannot Preview',
-                                      'All week must be filled the plan and the learning outcome!',
+                                      'All session must be filled the plan and the learning outcome!',
                                       [
                                         ElevatedButton(
                                             onPressed: () {
@@ -389,12 +392,12 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                           bool checkEmptyPlan = true;
                           bool checkEmptyOutcome = true;
                           for (int i = 0; i < listPlan.length; i++) {
-                            if (listPlan[i].period == 'Week $weekIndex') {
+                            if (listPlan[i].period == 'Session $weekIndex') {
                               checkEmptyPlan = false;
                             }
                           }
                           for (int i = 0; i < listOutcome.length; i++) {
-                            if (listOutcome[i].period == 'Week $weekIndex') {
+                            if (listOutcome[i].period == 'Session $weekIndex') {
                               checkEmptyOutcome = false;
                             }
                           }
@@ -403,19 +406,19 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                             String plan = '';
                             String outcome = '';
                             for (int i = 0; i < listPlan.length; i++) {
-                              if (listPlan[i].period == 'Week $weekIndex')
+                              if (listPlan[i].period == 'Session $weekIndex')
                                 plan = plan + listPlan[i].schedule + '\n';
                             }
                             plan = plan.substring(0, plan.length - 1);
                             for (int i = 0; i < listOutcome.length; i++) {
-                              if (listOutcome[i].period == 'Week $weekIndex')
+                              if (listOutcome[i].period == 'Session $weekIndex')
                                 outcome = outcome +
                                     listOutcome[i].learningOutcome +
                                     '\n';
                             }
                             outcome = outcome.substring(0, outcome.length - 1);
                             CourseDetail newCourseDetail = CourseDetail(
-                                'Week $weekIndex', plan, outcome, 0, 0);
+                                'Session $weekIndex', plan, outcome, 0, 0);
                             listCourseDetail.add(newCourseDetail);
                             print('this is subject: ' + widget.subject.name);
                             Navigator.push(
@@ -437,7 +440,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                                 builder: (context) => buildDefaultDialog(
                                         context,
                                         'Cannot Preview',
-                                        'All week must be filled the plan and the learning outcome!',
+                                        'All session must be filled the plan and the learning outcome!',
                                         [
                                           ElevatedButton(
                                               onPressed: () {
@@ -471,7 +474,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       title: Text(
-        'Schedule in ' + widget.numberOfWeek.toString() + ' week(s)',
+        'Schedule in ' + widget.numberOfWeek.toString() + ' session(s)',
         style: TextStyle(color: textGreyColor),
       ),
       backgroundColor: backgroundColor,
@@ -697,12 +700,12 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
           itemBuilder: (context, index) => Column(
                 children: [
                   listPlan.length > 0
-                      ? listPlan[index].period == 'Week $weekIndex'
+                      ? listPlan[index].period == 'Session $weekIndex'
                           ? Column(
                               children: [
                                 buildWeekPlanItem(
                                     listPlan[index].schedule,
-                                    'Plan ' + '${index + 1}',
+                                    'Plan ',
                                     Icons.check_outlined,
                                     Icons.more_vert,
                                     index),
@@ -724,12 +727,12 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
           itemBuilder: (context, index) => Column(
                 children: [
                   listOutcome.length > 0
-                      ? listOutcome[index].period == 'Week $weekIndex'
+                      ? listOutcome[index].period == 'Session $weekIndex'
                           ? Column(
                               children: [
                                 buildWeekOutcomeItem(
                                     listOutcome[index].learningOutcome,
-                                    'Outcome ' + '${index + 1}',
+                                    'Outcome ',
                                     Icons.check_outlined,
                                     Icons.more_vert,
                                     index),
@@ -891,7 +894,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                           color: Colors.transparent, width: 0.0),
                     ),
                     counter: Text(''),
-                    hintText: 'Write the learning outcome of week...',
+                    hintText: 'Write the learning outcome of session...',
                     hintStyle: TextStyle(
                       color: Colors.grey[400],
                       fontSize: textFontSize,
@@ -1224,7 +1227,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                           color: Colors.transparent, width: 0.0),
                     ),
                     counter: Text(''),
-                    hintText: 'Write the learning outcome of week...',
+                    hintText: 'Write the learning outcome of session...',
                     hintStyle: TextStyle(
                       color: Colors.grey[400],
                       fontSize: textFontSize,
@@ -1244,7 +1247,8 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                       if (formKey.currentState.validate()) {
                         formKey.currentState.save();
                         CourseDetail newCourseDetail = CourseDetail.weekOutcome(
-                            'Week $weekIndex', learningOutcomeController.text);
+                            'Session $weekIndex',
+                            learningOutcomeController.text);
                         listOutcome.add(newCourseDetail);
                         learningOutcomeController.text = '';
                         Navigator.pop(context);
@@ -1402,7 +1406,7 @@ class _EditScheduleScreenState extends State<EditScheduleScreen>
                       if (formKey.currentState.validate()) {
                         formKey.currentState.save();
                         CourseDetail newCourseDetail = CourseDetail.weekPlan(
-                            'Week $weekIndex', planController.text);
+                            'Session $weekIndex', planController.text);
                         listPlan.add(newCourseDetail);
                         planController.text = '';
 

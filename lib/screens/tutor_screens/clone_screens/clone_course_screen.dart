@@ -38,6 +38,7 @@ import 'preview_clone_course_screen.dart';
 //this is main ui
 
 List<String> listWeek = [];
+TextEditingController quantitySessionController = TextEditingController();
 
 class CloneCourseScreen extends StatefulWidget {
   final ExtendedCourse course;
@@ -66,6 +67,11 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
     registerOnFirebase();
     getMessage(context);
     listWeek = [];
+    print(widget.listCourseDetail.length);
+    if (widget.listCourseDetail.length > 0) {
+      quantitySessionController.text =
+          widget.listCourseDetail.length.toString();
+    }
     super.initState();
   }
 
@@ -307,27 +313,29 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                                   child: Text('Ok'),
                                 ),
                               ]));
-                    } else if ((range.duration.inDays / 7).ceil() !=
-                        numberOfWeek) {
-                      //
-                      showDialog(
-                        context: context,
-                        builder: (context) => buildDefaultDialog(
-                            context,
-                            "Course duration and schedule does not match",
-                            "Course lasts within " +
-                                numberOfWeek.toString() +
-                                " week(s)",
-                            [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Ok'),
-                              ),
-                            ]),
-                      );
-                    } else {
+                    }
+                    // else if ((range.duration.inDays / 7).ceil() !=
+                    //     numberOfWeek) {
+                    //   //
+                    //   showDialog(
+                    //     context: context,
+                    //     builder: (context) => buildDefaultDialog(
+                    //         context,
+                    //         "Course duration and schedule does not match",
+                    //         "Course lasts within " +
+                    //             numberOfWeek.toString() +
+                    //             " week(s)",
+                    //         [
+                    //           ElevatedButton(
+                    //             onPressed: () {
+                    //               Navigator.pop(context);
+                    //             },
+                    //             child: Text('Ok'),
+                    //           ),
+                    //         ]),
+                    //   );
+                    // }
+                    else {
                       vars.selectedDateRange = range;
                       //set end and start date
                       setEndAndBeginDate(vars.selectedDateRange);
@@ -892,78 +900,110 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                           height: 20,
                         ),
                         //add target button
-                        GestureDetector(
-                          onTap: () {
-                            //set plan and calculate number of week if begin and end date were seleted
-                            if (vars.selectedDateRange != null) {
-                              //
-                              for (int i = 1; i <= numberOfWeek; i++) {
-                                listWeek.add('Week $i');
-                                print(listWeek[i - 1]);
-                              }
-
-                              List<CourseDetail> tmpListDetail = [];
-                              if (widget.listCourseDetail != null) {
-                                tmpListDetail = widget.listCourseDetail;
-                              }
-                              //navigator to show and edit schedule
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditScheduleScreen(
-                                    subject: Subject(
-                                      name: vars.selectedSubjectName,
-                                    ),
-                                    numberOfWeek: numberOfWeek,
-                                    outcome: listOutcome,
-                                    plan: listPlan,
-                                    weekList: listWeek,
-                                    listSchedule: tmpListDetail,
+                        Column(
+                          children: [
+                            ListTile(
+                              title: TextFormField(
+                                controller: quantitySessionController,
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.start,
+                                decoration: InputDecoration(
+                                  labelText: 'Quantity of session',
+                                  labelStyle: textStyle,
+                                  fillColor: Color(0xffF9F2F2),
+                                  filled: true,
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                        color: Colors.transparent, width: 0.0),
+                                  ),
+                                  hintText:
+                                      'Number of session in your study plan',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: textFontSize,
                                   ),
                                 ),
-                              );
-                            } else {
-                              //show alert when datetime is null
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  content: Text(
-                                      'Please choose begin and end date first!'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () async {
-                                        //
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        'Ok',
-                                        style: TextStyle(
-                                          color: mainColor,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            }
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 180,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Edit Schedule',
-                              style: TextStyle(
-                                fontSize: titleFontSize,
-                                color: Colors.redAccent,
                               ),
                             ),
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(width: 1, color: Colors.redAccent),
-                              borderRadius: BorderRadius.circular(5),
+                            GestureDetector(
+                              onTap: () {
+                                //set plan and calculate number of week if begin and end date were seleted
+                                // if (vars.selectedDateRange != null) {
+                                //
+                                for (int i = 1;
+                                    i <= widget.listCourseDetail.length;
+                                    i++) {
+                                  listWeek.add('Session $i');
+                                  print(listWeek[i - 1]);
+                                }
+
+                                List<CourseDetail> tmpListDetail = [];
+                                if (widget.listCourseDetail != null) {
+                                  tmpListDetail = widget.listCourseDetail;
+                                }
+                                //navigator to show and edit schedule
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditScheduleScreen(
+                                      subject: Subject(
+                                        name: vars.selectedSubjectName,
+                                      ),
+                                      numberOfWeek: int.parse(
+                                          quantitySessionController.text),
+                                      outcome: listOutcome,
+                                      plan: listPlan,
+                                      weekList: listWeek,
+                                      listSchedule: tmpListDetail,
+                                    ),
+                                  ),
+                                );
+                                // } else {
+                                //   //show alert when datetime is null
+                                //   showDialog(
+                                //     context: context,
+                                //     builder: (context) => AlertDialog(
+                                //       content: Text(
+                                //           'Please choose begin and end date first!'),
+                                //       actions: [
+                                //         TextButton(
+                                //           onPressed: () async {
+                                //             //
+                                //             Navigator.pop(context);
+                                //           },
+                                //           child: Text(
+                                //             'Ok',
+                                //             style: TextStyle(
+                                //               color: mainColor,
+                                //             ),
+                                //           ),
+                                //         )
+                                //       ],
+                                //     ),
+                                //   );
+                                // }
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 245,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Edit Schedule',
+                                  style: TextStyle(
+                                    fontSize: titleFontSize,
+                                    color: Colors.redAccent,
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1, color: Colors.redAccent),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                         //
                       ],
