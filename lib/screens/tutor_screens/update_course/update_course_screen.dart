@@ -16,15 +16,13 @@ import 'package:tutor_search_system/commons/notifications/notification_methods.d
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
 import 'package:tutor_search_system/models/class_has_subject.dart';
-import 'package:tutor_search_system/models/course.dart';
+import 'tmp_variables.dart' as tmp_variables;
 import 'package:tutor_search_system/models/coursse_detail.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/repositories/class_has_subject_repository.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
-import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
-import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/course_schedule_screen.dart';
@@ -40,14 +38,15 @@ import 'preview_update_course_screen.dart';
 List<String> listWeek = [];
 TextEditingController quantitySessionController = TextEditingController();
 
+// ignore: must_be_immutable
 class UpdateCourseScreen extends StatefulWidget {
-  final ExtendedCourse course;
+  ExtendedCourse course;
   // final Subject selectedSubject;
-  final List<CourseDetail> listCourseDetail;
-  final List<CourseDetail> listPlan;
-  final List<CourseDetail> listOutcome;
+  List<CourseDetail> listCourseDetail;
+  List<CourseDetail> listPlan;
+  List<CourseDetail> listOutcome;
 
-  const UpdateCourseScreen(
+  UpdateCourseScreen(
       {Key key,
       // this.selectedSubject,
       this.listCourseDetail,
@@ -910,7 +909,7 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                                 controller: quantitySessionController,
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.start,
-                                // readOnly: true,
+                                readOnly: true,
                                 decoration: InputDecoration(
                                   labelText: 'Quantity of session',
                                   labelStyle: textStyle,
@@ -932,7 +931,7 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 //set plan and calculate number of week if begin and end date were seleted
                                 listWeek = [];
                                 print('test list week');
@@ -953,7 +952,8 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                                   tmpListDetail = widget.listCourseDetail;
                                 }
                                 //navigator to show and edit schedule
-                                Navigator.push(
+                                bool isFromConfirmSchedule =
+                                    await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => EditScheduleScreen(
@@ -970,6 +970,16 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                                   ),
                                 );
                                 //
+                                if (isFromConfirmSchedule) {
+                                  setState(() {
+                                    widget.course = tmp_variables.course;
+                                    widget.listCourseDetail =
+                                        tmp_variables.listSchedule;
+                                    widget.listOutcome =
+                                        tmp_variables.listOutcome;
+                                    widget.listPlan = tmp_variables.listPlan;
+                                  });
+                                }
                               },
                               child: Container(
                                 height: 40,

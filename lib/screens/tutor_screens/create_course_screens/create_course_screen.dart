@@ -24,7 +24,7 @@ import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'package:tutor_search_system/screens/tutor_screens/course_schedule/preview_course_schedule.dart';
+import 'tmp_variables.dart' as tmp_variables;
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/course_schedule_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/schedule_v2.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
@@ -36,14 +36,15 @@ TextEditingController quantitySessionController = TextEditingController();
 
 //create course UI;
 //this is main ui
+// ignore: must_be_immutable
 class CreateCourseScreen extends StatefulWidget {
   final Subject selectedSubject;
-  final List<CourseDetail> listCourseDetail;
+  List<CourseDetail> listCourseDetail;
   final List<String> listWeek;
-  final List<CourseDetail> listPlan;
-  final List<CourseDetail> listOutcome;
+  List<CourseDetail> listPlan;
+  List<CourseDetail> listOutcome;
 
-  const CreateCourseScreen(
+  CreateCourseScreen(
       {Key key,
       this.selectedSubject,
       this.listCourseDetail,
@@ -1056,67 +1057,77 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        print(widget.listCourseDetail.length);
-                                        print(
-                                            '=============================================');
-                                        print(widget.listWeek.length);
-                                        print(widget.listPlan.length);
-                                        print(widget.listOutcome.length);
-                                        //set plan and calculate number of week if begin and end date were seleted
-                                        // if (selectedDateRange != null) {
-                                        //
+                                    onTap: () async {
+                                      print(widget.listCourseDetail.length);
+                                      print(
+                                          '=============================================');
+                                      print(widget.listWeek.length);
+                                      print(widget.listPlan.length);
+                                      print(widget.listOutcome.length);
+                                      //set plan and calculate number of week if begin and end date were seleted
+                                      // if (selectedDateRange != null) {
+                                      //
 
-                                        List<CourseDetail> tmpListDetail = [];
-                                        if (widget.listCourseDetail != null) {
-                                          tmpListDetail =
-                                              widget.listCourseDetail;
-                                        }
+                                      List<CourseDetail> tmpListDetail = [];
+                                      if (widget.listCourseDetail != null) {
+                                        tmpListDetail = widget.listCourseDetail;
+                                      }
 
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CourseScheduleScreenV2(
-                                                    numberOfWeek:
-                                                        // calculateNumberOfWeek(
-                                                        //     selectedDateRange),
-                                                        int.parse(
-                                                            quantitySessionController
-                                                                .text),
-                                                    subject:
-                                                        widget.selectedSubject,
-                                                    plan: widget.listPlan,
-                                                    outcome: widget.listOutcome,
-                                                    listSchedule: tmpListDetail,
-                                                  )),
-                                        );
-                                        // } else {
-                                        //   //show alert when datetime is null
-                                        //   showDialog(
-                                        //     context: context,
-                                        //     builder: (context) => AlertDialog(
-                                        //       content: Text(
-                                        //           'Please choose begin and end date first!'),
-                                        //       actions: [
-                                        //         TextButton(
-                                        //           onPressed: () async {
-                                        //             //
-                                        //             Navigator.pop(context);
-                                        //           },
-                                        //           child: Text(
-                                        //             'Ok',
-                                        //             style: TextStyle(
-                                        //               color: mainColor,
-                                        //             ),
-                                        //           ),
-                                        //         )
-                                        //       ],
-                                        //     ),
-                                        //   );
-                                        // }
-                                      });
+                                      bool isFromConfirmSchedule =
+                                          await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CourseScheduleScreenV2(
+                                                  numberOfWeek:
+                                                      // calculateNumberOfWeek(
+                                                      //     selectedDateRange),
+                                                      int.parse(
+                                                          quantitySessionController
+                                                              .text),
+                                                  subject:
+                                                      widget.selectedSubject,
+                                                  plan: widget.listPlan,
+                                                  outcome: widget.listOutcome,
+                                                  listSchedule: tmpListDetail,
+                                                )),
+                                      );
+                                      if (isFromConfirmSchedule) {
+                                        setState(() {
+                                          // widget.course =
+                                          //     tmp_variables.course;
+                                          widget.listCourseDetail =
+                                              tmp_variables.listSchedule;
+                                          widget.listOutcome =
+                                              tmp_variables.listOutcome;
+                                          widget.listPlan =
+                                              tmp_variables.listPlan;
+                                        });
+                                      }
+                                      // } else {
+                                      //   //show alert when datetime is null
+                                      //   showDialog(
+                                      //     context: context,
+                                      //     builder: (context) => AlertDialog(
+                                      //       content: Text(
+                                      //           'Please choose begin and end date first!'),
+                                      //       actions: [
+                                      //         TextButton(
+                                      //           onPressed: () async {
+                                      //             //
+                                      //             Navigator.pop(context);
+                                      //           },
+                                      //           child: Text(
+                                      //             'Ok',
+                                      //             style: TextStyle(
+                                      //               color: mainColor,
+                                      //             ),
+                                      //           ),
+                                      //         )
+                                      //       ],
+                                      //     ),
+                                      //   );
+                                      // }
                                     },
                                     child: Container(
                                       height: 40,
