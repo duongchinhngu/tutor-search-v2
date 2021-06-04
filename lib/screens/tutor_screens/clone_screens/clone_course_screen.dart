@@ -33,6 +33,7 @@ import 'package:tutor_search_system/screens/tutor_screens/clone_screens/week_day
 import 'package:tutor_search_system/states/class_state.dart';
 import 'edit_schedule_screen.dart';
 import 'preview_clone_course_screen.dart';
+import 'tmp_variables.dart' as tmp_variables;
 
 //create course UI;
 //this is main ui
@@ -40,14 +41,15 @@ import 'preview_clone_course_screen.dart';
 List<String> listWeek = [];
 TextEditingController quantitySessionController = TextEditingController();
 
+// ignore: must_be_immutable
 class CloneCourseScreen extends StatefulWidget {
-  final ExtendedCourse course;
+  ExtendedCourse course;
   // final Subject selectedSubject;
-  final List<CourseDetail> listCourseDetail;
-  final List<CourseDetail> listPlan;
-  final List<CourseDetail> listOutcome;
+  List<CourseDetail> listCourseDetail;
+  List<CourseDetail> listPlan;
+  List<CourseDetail> listOutcome;
 
-  const CloneCourseScreen(
+  CloneCourseScreen(
       {Key key,
       // this.selectedSubject,
       this.listCourseDetail,
@@ -907,6 +909,7 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                                 controller: quantitySessionController,
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.start,
+                                readOnly: true,
                                 decoration: InputDecoration(
                                   labelText: 'Quantity of session',
                                   labelStyle: textStyle,
@@ -928,7 +931,7 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 //set plan and calculate number of week if begin and end date were seleted
                                 // if (vars.selectedDateRange != null) {
                                 //
@@ -944,7 +947,8 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                                   tmpListDetail = widget.listCourseDetail;
                                 }
                                 //navigator to show and edit schedule
-                                Navigator.push(
+                                bool isFromConfirmSchedule =
+                                    await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => EditScheduleScreen(
@@ -960,6 +964,17 @@ class _CloneCourseScreenState extends State<CloneCourseScreen> {
                                     ),
                                   ),
                                 );
+                                //
+                                if (isFromConfirmSchedule) {
+                                  setState(() {
+                                    widget.course = tmp_variables.course;
+                                    widget.listCourseDetail =
+                                        tmp_variables.listSchedule;
+                                    widget.listOutcome =
+                                        tmp_variables.listOutcome;
+                                    widget.listPlan = tmp_variables.listPlan;
+                                  });
+                                }
                                 // } else {
                                 //   //show alert when datetime is null
                                 //   showDialog(

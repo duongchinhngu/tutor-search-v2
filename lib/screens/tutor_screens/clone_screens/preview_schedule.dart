@@ -7,6 +7,7 @@ import 'package:tutor_search_system/models/subject.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/clone_screens/clone_course_variables.dart';
+import 'tmp_variables.dart' as tmp;
 
 List<String> week = [];
 
@@ -81,23 +82,26 @@ class _PreviewScheduleState extends State<PreviewSchedule> {
                                 child: Text('OK')),
                           ]));
                 } else {
-                  Navigator.push(
-                    context,
-                    // MaterialPageRoute(
-                    //     builder: (context) => CreateCourseScreen(
-                    //           listCourseDetail: widget.listSchedule,
-                    //           selectedSubject: widget.subject,
-                    //           listWeek: widget.listweek,
-                    //         )),
-                    MaterialPageRoute(
-                        builder: (context) => CloneCourseScreen(
-                              course: course,
-                              listCourseDetail: widget.listSchedule,
-                              // selectedSubject: widget.subject,
-                              listPlan: widget.listPlan,
-                              listOutcome: widget.listOutcome,
-                            )),
-                  );
+                  //
+                  tmp.course = course;
+                  tmp.listSchedule = widget.listSchedule;
+                  tmp.listOutcome = widget.listOutcome;
+                  tmp.listPlan = widget.listPlan;
+                  //
+                  Navigator.pop(context);
+                  Navigator.pop(context, true);
+                  //
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => CloneCourseScreen(
+                  //             course: course,
+                  //             listCourseDetail: widget.listSchedule,
+                  //             // selectedSubject: widget.subject,
+                  //             listPlan: widget.listPlan,
+                  //             listOutcome: widget.listOutcome,
+                  //           )),
+                  // );
                 }
               });
             },
