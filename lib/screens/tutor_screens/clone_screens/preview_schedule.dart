@@ -186,6 +186,7 @@ class _WeekState extends State<Week> {
         ),
         startChild: Text(
           widget.week,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: titleFontSize,
             color: Colors.black.withOpacity(.8),
