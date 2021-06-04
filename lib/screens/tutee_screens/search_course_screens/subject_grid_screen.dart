@@ -243,26 +243,26 @@ class SubjectGridCard extends StatelessWidget {
       onTap: () {
         //if current user is Tutor => navigate to CreateCOurse screen
         // if (globals.authorizedTutor != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CreateCourseScreen(
-                selectedSubject: subject,
-                listCourseDetail: [],
-                listWeek: [],
-              ),
-            ),
-          );
-        // } else if (globals.authorizedTutee != null) {
-        //   //set filter_variables subject
-        //   filter_variables.filter.filterSubject = subject;
-        //   //navigate to search and filter screen
         //   Navigator.push(
         //     context,
         //     MaterialPageRoute(
-        //       builder: (context) => SearchCourseScreen(),
+        //       builder: (context) => CreateCourseScreen(
+        //         selectedSubject: subject,
+        //         listCourseDetail: [],
+        //         listWeek: [],
+        //       ),
         //     ),
         //   );
+        // } else if (globals.authorizedTutee != null) {
+        //set filter_variables subject
+        filter_variables.filter.filterSubject = subject;
+        //navigate to search and filter screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SearchCourseScreen(),
+          ),
+        );
         // }
       },
       child: Container(
