@@ -38,6 +38,7 @@ import 'preview_update_course_screen.dart';
 //this is main ui
 
 List<String> listWeek = [];
+TextEditingController quantitySessionController = TextEditingController();
 
 class UpdateCourseScreen extends StatefulWidget {
   final ExtendedCourse course;
@@ -66,6 +67,10 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
     registerOnFirebase();
     getMessage(context);
     listWeek = [];
+    if (widget.listCourseDetail.length > 0) {
+      quantitySessionController.text =
+          widget.listCourseDetail.length.toString();
+    }
     super.initState();
   }
 
@@ -895,53 +900,84 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                           height: 20,
                         ),
                         //add target button
-                        GestureDetector(
-                          onTap: () {
-                            //set plan and calculate number of week if begin and end date were seleted
-                            for (int i = 1; i <= numberOfWeek; i++) {
-                              listWeek.add('Week $i');
-                              print(listWeek[i - 1]);
-                            }
-
-                            List<CourseDetail> tmpListDetail = [];
-                            if (widget.listCourseDetail != null) {
-                              tmpListDetail = widget.listCourseDetail;
-                            }
-                            //navigator to show and edit schedule
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditScheduleScreen(
-                                  subject: Subject(
-                                    name: vars.selectedSubjectName,
+                        Column(
+                          children: [
+                            ListTile(
+                              title: TextFormField(
+                                controller: quantitySessionController,
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.start,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  labelText: 'Quantity of session',
+                                  labelStyle: textStyle,
+                                  fillColor: Color(0xffF9F2F2),
+                                  filled: true,
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                        color: Colors.transparent, width: 0.0),
                                   ),
-                                  numberOfWeek: numberOfWeek,
-                                  outcome: listOutcome,
-                                  plan: listPlan,
-                                  weekList: listWeek,
-                                  listSchedule: tmpListDetail,
+                                  hintText:
+                                      'Number of session in your study plan',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: textFontSize,
+                                  ),
                                 ),
                               ),
-                            );
-                            //
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 180,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Edit Schedule',
-                              style: TextStyle(
-                                fontSize: titleFontSize,
-                                color: Colors.redAccent,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                //set plan and calculate number of week if begin and end date were seleted
+                                for (int i = 1; i <= numberOfWeek; i++) {
+                                  listWeek.add('Session $i');
+                                  print(listWeek[i - 1]);
+                                }
+
+                                List<CourseDetail> tmpListDetail = [];
+                                if (widget.listCourseDetail != null) {
+                                  tmpListDetail = widget.listCourseDetail;
+                                }
+                                //navigator to show and edit schedule
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditScheduleScreen(
+                                      subject: Subject(
+                                        name: vars.selectedSubjectName,
+                                      ),
+                                      numberOfWeek: int.parse(
+                                          quantitySessionController.text),
+                                      outcome: listOutcome,
+                                      plan: listPlan,
+                                      weekList: listWeek,
+                                      listSchedule: tmpListDetail,
+                                    ),
+                                  ),
+                                );
+                                //
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 245,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Edit Schedule',
+                                  style: TextStyle(
+                                    fontSize: titleFontSize,
+                                    color: Colors.redAccent,
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1, color: Colors.redAccent),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
                               ),
                             ),
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(width: 1, color: Colors.redAccent),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
+                          ],
                         ),
                         //
                       ],
